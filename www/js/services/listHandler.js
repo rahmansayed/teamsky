@@ -60,9 +60,10 @@ angular.module('starter.services.listHandler', [])
 
       },
 
-      addUser: function (listId, contact) {
+      addUser: function (listServerId, invitedUserServerId) {
         data = {
-          shareWith: contact
+          invitedUserServerId: invitedUserServerId,
+          listServerId:listServerId
         };
 
         $http.post('http://' + global.serverIP + "/api/list/invite/" , data)
