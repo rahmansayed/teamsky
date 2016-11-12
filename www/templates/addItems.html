@@ -1,0 +1,30 @@
+<ion-view view-title="Add Items" ng-controller="addItem">
+
+    <ion-content >
+ 
+      <ion-list>
+        <div ng-repeat="group in groups">
+          <ion-item class="item-stable"
+                    ng-click="toggleGroup(group)"
+                    ng-class="{active: isGroupShown(group)}">
+              <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+            &nbsp;
+            {{group.name}}
+          </ion-item>
+          <ion-item class="item-accordion"  
+                    ng-class="{ active: item.selected }"
+                    ng-repeat="item in group.items"
+                    ng-show="isGroupShown(group)"
+                    ng-click="selectItems(item)">
+            {{item.name}}
+          </ion-item>
+        </div>
+      </ion-list>
+
+    </ion-content>
+    
+    <div class="bar bar-footer bar-stable ">
+      <button class="button button-positive" ng-click="AddMasterItemSTOP()">Add Master Item</button>
+    
+    </div>
+</ion-view>

@@ -1,0 +1,36 @@
+<ion-view view-title={{dynamicListTitle}} ng-controller = "listItem">
+
+    <ion-content >
+        <div>
+        <ion-list show-reorder="reorderFlag">     
+            <ion-item class="item-remove-animate item-icon-right " ng-repeat = "listItem in listItems" ng-click = itemChecked(listItem)>
+              
+                <h2>{{listItem.itemName}}</h2>
+                <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
+            </ion-item>
+        </ion-list>
+        </div>
+        
+        <hr>
+    
+        <div>
+
+            <div>
+            <ion-list show-reorder="reorderFlag">     
+                <ion-item class="item-remove-animate item-icon-right " ng-repeat = "checkedItem in checkedItems">
+
+                    <h2><s>{{checkedItem.itemName}}</s></h2>
+                    <ion-option-button class="button-assertive icon-left ion-trash-a"></ion-option-button>
+                </ion-item>
+            </ion-list>
+            </div>
+        
+        </div>
+        </ion-content>
+        
+  
+    <div class="bar bar-footer bar-stable ">
+        <button class="button button-positive" ng-click="AddListItem()">Add item</button>
+      
+    </div>
+</ion-view>

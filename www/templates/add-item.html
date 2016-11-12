@@ -1,0 +1,25 @@
+<ion-view view-title="Add Item" ng-controller="AddItemCtrl">
+  <ion-content>
+    <label class="item item-input">
+      <input type="text" ng-model="item.desc" placeholder="Item Description">
+    </label>
+
+    <label class="item item-input">
+      <input type="number" ng-model="item.qty" placeholder="Quantity">
+    </label>
+
+    <label class="item item-input">
+      <button class="button button-full button-positive" ng-click="addItem()">
+        Submit
+      </button>
+    </label>
+
+    <!--<ion-input ng-model="settings.mobileNo">Mobile Number</ion-input>
+    <!--<ion-list>
+    <ion-toggle  ng-model="settings.enableFriends">
+        Enable Friends
+    </ion-toggle>
+    </ion-list>
+    -->
+  </ion-content>
+</ion-view>

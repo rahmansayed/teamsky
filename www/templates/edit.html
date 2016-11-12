@@ -1,0 +1,23 @@
+<ion-view view-title="{{dynamicTitle}}" >
+    <ion-content >
+        <div class="list card">
+            <div class="item item-input">
+                <input type="text" ng-model="list.title">
+            </div>
+            <div class="item item-input">
+                <textarea rows="5" ng-model="list.description"></textarea> 
+            </div>
+             <ion-toggle toggle-class="toggle-assertive"
+                    ng-model="sync"
+                    ng-true-value="'Synced'"
+                    ng-false-value="'nonSynced'">
+          Synchronize
+        </ion-toggle>
+        </div>
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="saveList()">Save
+            </button>
+        
+        </div>
+    </ion-content>
+</ion-view>

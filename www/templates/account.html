@@ -1,0 +1,36 @@
+<ion-view view-title="Account" ng-controller="AccountCtrl">
+  <ion-content>
+    <label class="item item-input">
+      <i class="icon ion-android-call"></i>
+      <input type="tel" ng-model="settings.mobile" placeholder="Mobile Number">
+    </label>
+
+    <label class="item item-input">
+      <button class="button button-full button-positive" ng-click="subscribe()" ion-track-swipe-left="swiped()">
+        Submit
+      </button>
+    </label>
+
+    <!--<ion-input ng-model="settings.mobileNo">Mobile Number</ion-input>
+    <!--<ion-list>
+    <ion-toggle  ng-model="settings.enableFriends">
+        Enable Friends
+    </ion-toggle>
+    </ion-list>
+    -->
+    <label class="item item-input">
+      <button class="button button-full button-balanced" ng-click="pickContact()" ion-track-swipe-left="swiped()">
+        Pick Contact
+      </button>
+    </label>
+
+    <label class="item item-input">
+      <button class="button button-full button-balanced" ng-click="capture()" ion-track-swipe-left="swiped()">
+        Capture Image
+      </button>
+    </label>
+
+
+  <img id="myImage"/>
+  </ion-content>
+</ion-view>

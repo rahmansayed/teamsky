@@ -1,0 +1,27 @@
+<ion-view view-title="My Lists" ng-controller="listCtrl">
+    <ion-content >
+      
+       <ion-list show-reorder="reorderFlag">     
+
+       <ion-item class="item-remove-animate item-icon-right "
+              ng-repeat = "list in lists track by list.id" ng-click = "addItem(list.id)">
+              <h2>{{list.title}}</h2>
+              <p>{{list.description}}</p>
+              <i class="icon ion-chevron-right"></i>
+              
+           <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">
+              </ion-reorder-button>
+              
+              <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeList(list.id)"></ion-option-button>
+              <ion-option-button class="button-calm icon-left ion-edit" ng-click="editList(list.id)"></ion-option-button>
+            </ion-item>
+
+        </ion-list>
+        
+      
+    </ion-content>
+    <div class="bar bar-footer bar-stable ">
+        <a href="#/add" class="button button-positive icon ion-plus-round">Add List</a>
+        <button class="button button-positive icon-left ion-shuffle" ng-click="toggleReorder()">Order</button>
+    </div>
+</ion-view>
