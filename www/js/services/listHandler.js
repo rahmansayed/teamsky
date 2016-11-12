@@ -65,7 +65,7 @@ angular.module('starter.services.listHandler', [])
           shareWith: contact
         };
 
-        $http.post('http://' + global.serverIP + "/api/user/" + global.userName + '/' + listId, data)
+        $http.post('http://' + global.serverIP + "/api/list/invite/" , data)
 
           .then(function (response) {
             console.log('listhandler.addUser ' + response);
