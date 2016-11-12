@@ -65,8 +65,8 @@ angular.module('starter.services.listHandler', [])
           invitedUserServerId: invitedUserServerId,
           listServerId:listServerId
         };
-
-        $http.post('http://' + global.serverIP + "/api/list/invite/" , data)
+        console.log("data = "+data);
+        $http.post('http://' + global.serverIP + "/api/list/invite" , data)
 
           .then(function (response) {
             console.log('listhandler.addUser ' + response);
