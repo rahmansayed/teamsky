@@ -8,6 +8,16 @@ angular.module('starter.controllers.listCtrl', [])
       $state.go('edit', {'listId': listId});
     };
 
+    
+    $scope.addUserToList = function () {
+
+     
+          listHandler.addUser("58218e52c670eb1c2a0ce602","57cae83fff54d7ec31ced250");
+          console.log("User Add Requested!!");
+    };
+    
+    
+    
     $scope.removeList = function (listId) {
 
       var confirmPopup = $ionicPopup.confirm({
