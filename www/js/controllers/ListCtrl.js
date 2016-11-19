@@ -1,5 +1,5 @@
 angular.module('starter.controllers.listCtrl', [])
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts) {
+  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler) {
 
     $scope.lists = listHandler.list();
     
@@ -53,7 +53,7 @@ angular.module('starter.controllers.listCtrl', [])
           options.multiple = true;
           $cordovaContacts.find(options).then(onSuccess, onError);
         };
-    console.log($scope.phoneContacts);
+    
     
     
     $scope.addUserToList = function(){

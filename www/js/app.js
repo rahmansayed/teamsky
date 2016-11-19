@@ -23,6 +23,7 @@ angular.module('starter', ['ionic',
                           'starter.services.listHandler',
                           'starter.services.local',
                           'starter.services.userMgmt',
+                          'starter.services.serverListHandler',
                           'ngCordova',
                           'ion-floating-menu',
                           'angular.filter'])

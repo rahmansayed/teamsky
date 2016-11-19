@@ -32,7 +32,10 @@ angular.module('starter.controllers.listItem', [])
                       itemId: item.id,
                       itemName: item.name,
                       itemCategory: itemHandler.itemCategory(item.name),
-                      itemCrossed: false
+                      itemCrossed: false,
+                      itemQuatity:0,
+                      itemUom:"",
+                      itemRetailer:""
                     };
           itemHandler.addItemToList($scope.selecteditem);
            $state.reload();

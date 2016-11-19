@@ -1,12 +1,26 @@
 angular.module('starter.services.listHandler', [])
 
-  .factory('listHandler', function ($http, global) {
+  .factory('listHandler', function ($http, global,serverListHandler) {
 
     var lists = angular.fromJson(window.localStorage['lists'] || []);
 
     function saveToLocalStorage() {
 
       window.localStorage['lists'] = angular.toJson(lists);
+    };
+    
+    function update (list) {
+        for (var i = 0; i < lists.length; i++) {
+
+          if (lists[i].id === list.id) {
+            lists[i] = list;
+            saveToLocalStorage();
+            console.log('Update List Called!!'+JSON.stringify(list));
+            return;
+          }
+        }
+        ;
+        
     };
 
     return {
@@ -28,6 +42,16 @@ angular.module('starter.services.listHandler', [])
       create: function (list) {
         lists.push(list);
         saveToLocalStorage();
+        //ToDO : Check if Local Success then save to send to server:
+        serverListHandler.createList(list.id,list.title,list.description,"RED","1").then(function(listServerId){
+         
+           
+          list.serverListId =listServerId||"0";
+        console.log('listServerId' + listServerId);        
+        console.log('update server list id'+ JSON.stringify(list) );
+            update(list);
+       });
+        //End To Do  
       },
 
       move: function (list, fromIndex, toIndex) {
@@ -35,18 +59,8 @@ angular.module('starter.services.listHandler', [])
         lists.splice(toIndex, 0, list);
         saveToLocalStorage();
       },
-      update: function (list) {
-
-        for (var i = 0; i < lists.length; i++) {
-
-          if (lists[i].id === list.id) {
-            lists[i] = list;
-            saveToLocalStorage();
-            return;
-          }
-        }
-        ;
-      },
+      update: update,
+        
       remove: function (listId) {
         for (var i = 0; i < lists.length; i++) {
 

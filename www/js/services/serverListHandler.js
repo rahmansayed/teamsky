@@ -7,7 +7,7 @@ angular.module('starter.services.serverListHandler', [])
 
 
 
-  .factory('serverListHandler', function ($http, global) {
+  .factory('serverListHandler', function ($http, global,$q) {
 
     var lists = angular.fromJson(window.localStorage['lists'] || []);
 
@@ -56,7 +56,7 @@ angular.module('starter.services.serverListHandler', [])
         //userServerId=getUserServerId();
 
         console.log(serviceName + "Start createList");
-
+        var defer = $q.defer();
 
         userServerId="582c3f6d30126504007c6bdf";
         deviceServerId="582c3f6d30126504007c6be0";
@@ -73,12 +73,19 @@ angular.module('starter.services.serverListHandler', [])
         console.log(serviceName + "data = "+ JSON.stringify(data));
 
         $http.post("http://"+global.serverIP + "/api/list/create" , data)
+        
+        
 
           .then(function (response) {
+            
             console.log(serviceName+" Response " + JSON.stringify(response));
+            defer.resolve(response.data.listServerId);
+
           });
 
         //TODO update local DB with ServerID
+          
+          return defer.promise;
 
       },
 //------------------------updateList
