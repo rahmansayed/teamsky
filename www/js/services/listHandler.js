@@ -16,9 +16,9 @@ angular.module('starter.services.listHandler', [])
             lists[i] = list;
             saveToLocalStorage();
             console.log('Update List Called!!'+JSON.stringify(list));
-            return;
           }
         }
+        serverListHandler.updateList(list);
         ;
         
     };

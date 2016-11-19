@@ -89,24 +89,22 @@ angular.module('starter.services.serverListHandler', [])
 
       },
 //------------------------updateList
-      updateList: function (listLocalId,ListName,listColour,listOrder,listSynch) {
+      updateList: function (list) {
 
         listServerId=123;
         deviceServerId=123;
 
         data = {
-          listServerId: listServerId,
-          ListName:ListName,
-          deviceServerId:deviceServerId,
-          listColour:listColour,
-          listOrder:listOrder,
-          listSynch:listSynch
+          listServerId: list.serverListId,
+          listName:list.title,
+          listColour:"Red",
+          listOrder:"1"
         };
 
         console.log("data = "+data);
 
 
-        $http.post(global.serverIP + "/api/list/update" , data)
+        $http.post("http://" + global.serverIP + "/api/list/update" , data)
 
           .then(function (response) {
             console.log('serverListHandler' + response);
@@ -124,7 +122,7 @@ angular.module('starter.services.serverListHandler', [])
         };
         console.log("data = "+data);
 
-        $http.post(global.serverIP + "/api/list/delete" , data)
+        $http.post("http://" + global.serverIP + "/api/list/delete" , data)
 
           .then(function (response) {
             console.log('serverListHandler' + response);
