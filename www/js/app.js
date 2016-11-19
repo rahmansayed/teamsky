@@ -16,6 +16,7 @@ angular.module('starter', ['ionic',
                           'starter.controllers.listItem',
                           'starter.controllers.verifyCtrl',
                           'starter.controllers.listDtlsCtrl',
+                          'starter.controllers.editListItemCtrl',
                           'starter.services.cloud',
                           'starter.services.global',
                           'starter.services.itemHandler',
@@ -23,7 +24,8 @@ angular.module('starter', ['ionic',
                           'starter.services.local',
                           'starter.services.userMgmt',
                           'ngCordova',
-                          'ion-floating-menu'])
+                          'ion-floating-menu',
+                          'angular.filter'])
 
   .run(function ($ionicPlatform, global, local, $cordovaPreferences) {
     $ionicPlatform.ready(function () {

@@ -98,6 +98,13 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+  
+    .state('edit-list-item', {
+      cache: false,
+      url: '/edit-list-item/{:listItemId,:listId}',
+      templateUrl: 'templates/edit-list-item.html',
+      controller: 'editListItemCtrl'
+    })
 
     .state('listDtls', {
       url: '/listDtls',

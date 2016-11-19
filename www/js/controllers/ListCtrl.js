@@ -1,50 +1,63 @@
 angular.module('starter.controllers.listCtrl', [])
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup) {
+  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts) {
 
     $scope.lists = listHandler.list();
-
-    $scope.editList = function (listId) {
-
-      $state.go('edit', {'listId': listId});
-    };
-
     
-    $scope.addUserToList = function () {
+    $scope.editList=function(listId){
 
-     
-          listHandler.addUser("58218e52c670eb1c2a0ce602","57cae83fff54d7ec31ced250");
-          console.log("User Add Requested!!");
+        $state.go('edit',{'listId':listId});
     };
     
-    
-    
-    $scope.removeList = function (listId) {
+    $scope.removeList=function(listId){
+       
+       var confirmPopup = $ionicPopup.confirm({
+         title: 'Delete List',
+         template: 'Are you sure you want to delete this list'
+       });
 
-      var confirmPopup = $ionicPopup.confirm({
-        title: 'Delete List',
-        template: 'Are you sure you want to delete this list'
-      });
+       confirmPopup.then(function(res) {
+         if(res) {
+                  listHandler.remove(listId);
+         } 
+       });
+     };
+          
+    $scope.move = function (list,fromIndex,toIndex){
 
-      confirmPopup.then(function (res) {
-        if (res) {
-          listHandler.remove(listId);
-        }
-      });
-    };
-
-    $scope.move = function (list, fromIndex, toIndex) {
-
-      listHandler.move(list, fromIndex, toIndex);
-
+            listHandler.move(list,fromIndex,toIndex);
+        
     };
     $scope.reorderFlag = false;
-    $scope.toggleReorder = function () {
-      $scope.reorderFlag = !$scope.reorderFlag;
+    $scope.toggleReorder = function(){
+        $scope.reorderFlag = !$scope.reorderFlag;
+    };
+    
+    
+    $scope.addItem = function(listId){
+        
+        $state.go('item',{'listId':listId});
     };
 
-
-    $scope.addItem = function (listId) {
-
-      $state.go('item', {'listId': listId});
+    $scope.getContacts = function() {
+          $scope.phoneContacts = [];
+          function onSuccess(contacts) {
+            for (var i = 0; i < contacts.length; i++) {
+              var contact = contacts[i];
+              $scope.phoneContacts.push(contact);
+            }
+          };
+          function onError(contactError) {
+            alert(contactError);
+          };
+          var options = {};
+          options.multiple = true;
+          $cordovaContacts.find(options).then(onSuccess, onError);
+        };
+    console.log($scope.phoneContacts);
+    
+    
+    $scope.addUserToList = function(){
+        
+        
     };
   });

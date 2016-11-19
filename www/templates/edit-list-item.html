@@ -1,0 +1,30 @@
+<ion-view view-title={{dynamicEditTitle}} ng-controller = "editListItemCtrl">
+    <ion-content >
+        <h2>Edit Item</h2>
+        {{ listItem.itemName}}
+        <div class="list card">
+            <div class="item item-input">
+                <input type="text"  ng-model="listItem.itemName">
+               
+            </div>
+            <div class="item item-input">
+                <input type="text"  ng-model="listItem.itemCategory">
+            </div>
+            <div class="item item-input">
+                <input type="text"   placeholder="Enter Quantity">
+               
+            </div>
+            <div class="item item-input">
+                <input type="text"  placeholder="Choose UOM">
+            </div>
+            <div class="item item-input">
+                <input type="text" placeholder="Pick Retailer">
+            </div>
+
+        </div>
+        <div class="padding">
+            
+        
+        </div>
+    </ion-content>
+</ion-view>
