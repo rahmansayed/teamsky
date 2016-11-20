@@ -5,6 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+
 angular.module('starter', ['ionic',
   'ionic.service.core',
   'starter.controllers.accountCtrl',
@@ -16,22 +17,23 @@ angular.module('starter', ['ionic',
   'starter.controllers.listItem',
   'starter.controllers.verifyCtrl',
   'starter.controllers.listDtlsCtrl',
-  'starter.controllers.editListItemCtrl',
+  'starter.services.serverListHandler',
   'starter.services.cloud',
   'starter.services.global',
   'starter.services.itemHandler',
   'starter.services.listHandler',
   'starter.services.local',
   'starter.services.userMgmt',
-  'starter.services.serverListHandler',
   'ngCordova',
-  'ion-floating-menu',
-  'angular.filter'])
+  'ion-floating-menu'])
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences) {
+.run(function ($ionicPlatform, global, local, $cordovaPreferences, serverListHandler,$location) {
+  //.run(function ($ionicPlatform, global, local, $cordovaPreferences,$location) {
+
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
+
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
@@ -50,52 +52,87 @@ angular.module('starter', ['ionic',
         .error(function (error) {
           alert("Error: " + error);
           $location.path('/account');
+
         });
 
-  /*    var push = PushNotification.init({
-        "android": {"senderID": "842803018154"},
-        "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
-      });
-*/
- /*
-      push.on('registration', function (data) {
-        console.log(data.registrationId);
-        global.dataKey = data.registrationId;
-//                callAjax(data.registrationId);
-      });
-*/
-//      push.setMultiNotificationMode(); // pushNotification - Pushnotification Plugin Object
+      /*var push = PushNotification.init({
+       "android": {"senderID": "842803018154"},
+       "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
+       });
+
+       push.on('registration', function (data) {
+       console.log(data.registrationId);
+       global.dataKey = data.registrationId;
+       //                callAjax(data.registrationId);
+       });
+
+       //      push.setMultiNotificationMode(); // pushNotification - Pushnotification Plugin Object
 
 
- /*     push.on('notification', function (msg) {
-        //alert(data.message);
-        alert("From " + msg.additionalData.username + "." + msg.additionalData.listname +
-          "\n" + msg.additionalData.item + "\n" +
-          msg.additionalData.uom +
-          " \n" + msg.additionalData.qty + "\n" +
-          "with server_id = " + msg.additionalData._id);
-        //local.addFromCloud(JSON.parse(msg.data), "testing", msg.title);
-        console.log('Message ');
-        console.log(JSON.stringify(msg));
-        //syncDB($http, 'testing', $cordovaSQLite, global);
+       push.on('notification', function (msg) {
+       //alert(data.message);
+       alert("From " + msg.additionalData.username + "." + msg.additionalData.listname +
+       "\n" + msg.additionalData.item + "\n" +
+       msg.additionalData.uom +
+       " \n" + msg.additionalData.qty + "\n" +
+       "with server_id = " + msg.additionalData._id);
+       //local.addFromCloud(JSON.parse(msg.data), "testing", msg.title);
+       console.log('Message ');
+       console.log(JSON.stringify(msg));
+       //syncDB($http, 'testing', $cordovaSQLite, global);
 
-// data.title,
-// data.count,
-// data.sound,
-// data.image,
-// data.additionalData
-      });
-*/
-  /*    push.on('error', function (e) {
-        alert(e.message);
-      });
-*/
-      //local.init();
-      //local.addMasterData('items', {name: "milk"});
+       // data.title,
+       // data.count,
+       // data.sound,
+       // data.image,
+       // data.additionalData
+       });
+
+       push.on('error', function (e) {
+       alert(e.message);
+       });
+       */
+      /*local.init();
+
+       local.addMasterData('items', {name: "milk"});
+       */
       //local.addPlusSync({item: "AX", qty: 1}, "testing");
       //local.addPlusSync({item: "BX", qty: 2}, "testing");
       //local.addPlusSync({item: "CX", qty: 3}, "testing");
       //local.addPlusSync({item: "DX", qty: 4}, "testing");
+
+      // Test Create
+      var timestamp = new Date() / 1000;
+/*
+      var list1 = {
+        listLocalId: "1",
+        listName:"osamatest"+timestamp,
+        title:"osamatest"+timestamp,
+        listColour:"Red",
+        listOrder:"1"
+      };
+      serverListHandler.createList(list1);
+*/
+
+      // Test Update
+    /*  var list2= {
+        listServerId: "5830afe375bd580400edbbcd",
+        listName:"osamatest"+timestamp,
+        title:"osamatest"+timestamp,
+        listColour:"Red",
+        listOrder:"1"
+      };
+      serverListHandler.updateList(list2);
+
+*/
+
+   // Test Delete
+      var list3 = {
+        listServerId: "5830afe375bd580400edbbcd"};
+      serverListHandler.deleteList(list3);
+
+
+
 
 
     });

@@ -9,9 +9,18 @@ angular.module('starter.services.serverListHandler', [])
 
   .factory('serverListHandler', function ($http, global,$q) {
 
+    var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
+    var serviceName ="serverItemHandler";
+    var userServerId="582c3f6d30126504007c6bdf";
+    var deviceServerId="582c3f6d30126504007c6be0";
 
-    var serviceName ="serverItemHandler=> ";
+    //------------------------consoleLog
+
+    function consoleLog(text){
+    //return;
+     console.log(serviceName+"  =>  "+text);
+    }
 
     function saveToLocalStorage() {
 
@@ -52,101 +61,115 @@ angular.module('starter.services.serverListHandler', [])
       },
 
 //------------------------createList
-      createList: function (listLocalId,listName,listDescription,listColour,listOrder) {
-        //userServerId=getUserServerId();
+      createList: function (list) {
 
-        console.log(serviceName + "Start createList");
-        var defer = $q.defer();
-
-        userServerId="582c3f6d30126504007c6bdf";
-        deviceServerId="582c3f6d30126504007c6be0";
+        consoleLog( "Start createList");
 
         data = {
-          listLocalId:listLocalId,
-          listName: listName,
-          listColour:listColour,
-          listOrder:listOrder,
+          listLocalId:list.listLocalId,
+          listName: list.listName,
+          listDesc:list.listDesc,
+          listColour:list.listColour,
+          listOrder:list.listOrder,
           userServerId:userServerId,
           deviceServerId:deviceServerId
         };
 
-        console.log(serviceName + "data = "+ JSON.stringify(data));
+        consoleLog( " List to Be Created = "+ JSON.stringify(data));
 
-        $http.post("http://"+global.serverIP + "/api/list/create" , data)
-        
-        
+        $http.post(global.serverIP + "/api/list/create" , data)
+
+
 
           .then(function (response) {
-            
-            console.log(serviceName+" Response " + JSON.stringify(response));
+
+            consoleLog(" createList Response Result => " + JSON.stringify(response));
             defer.resolve(response.data.listServerId);
+            consoleLog(" createList Response Done" );
 
           });
 
-        //TODO update local DB with ServerID
-          
           return defer.promise;
-
       },
 //------------------------updateList
       updateList: function (list) {
 
-        listServerId=123;
-        deviceServerId=123;
+        consoleLog("Start updateList");
+
 
         data = {
-          listServerId: list.serverListId,
-          listName:list.title,
-          listColour:"Red",
-          listOrder:"1"
+          listServerId: list.listServerId,
+          listName:list.listName,
+          listDesc:list.listDesc,
+          listColour:list.listColour,
+          listOrder:list.listOrder,
         };
 
-        console.log("data = "+data);
+        consoleLog(" List to Be Updated => "+ JSON.stringify(data));
 
 
-        $http.post("http://" + global.serverIP + "/api/list/update" , data)
+        $http.post( global.serverIP + "/api/list/update" , data)
 
           .then(function (response) {
-            console.log('serverListHandler' + response);
+            consoleLog( " updateList Response Result => "+ response);
+            defer.resolve(response.data.listServerId);
+            consoleLog(" updateList Response Done" );
+
           });
+
+        return defer.promise;
+
 
       },
 //------------------------deleteList
-      deleteList: function (listLocalId) {
-        listServerId=getListId(listLocalId);
-        deviceServerId=123;
+      deleteList: function (list) {
+
+        consoleLog("Start deleteList");
 
         data = {
-          listServerId: listServerId,
+          listServerId:list.listServerId,
           deviceServerId:deviceServerId
         };
-        console.log("data = "+data);
 
-        $http.post("http://" + global.serverIP + "/api/list/delete" , data)
+        consoleLog( " List to Be Deleted => "+ JSON.stringify(data));
+
+        $http.post( global.serverIP + "/api/list/deactivate" , data)
 
           .then(function (response) {
-            console.log('serverListHandler' + response);
-          });
+            consoleLog( " deleteList Response Result => "+ JSON.stringify(response));
+            defer.resolve(response.data.listServerId);
+            consoleLog(" deleteList Response Done" );
+         });
+
+        return defer.promise;
 
       },
 //------------------------shareList
 
-      shareList: function (listLocalId,invitedUserServerId) {
+      inviteToList: function (listLocalId,invitedUserServerId) {
+
+        consoleLog( "Start inviteToList");
 
         listServerId=getListId(listLocalId);
-        deviceServerId=123;
+
+
         data = {
           invitedUserServerId: invitedUserServerId,
           listServerId:listServerId,
           deviceServerId:deviceServerId
         };
-        console.log("data = "+data);
+        consoleLog(serviceName+ " List to Be inviteToList => "+ JSON.stringify(data));
 
-        $http.post(global.serverIP + "/api/list/share" , data)
+        $http.post(global.serverIP + "/api/list/invite" , data)
 
           .then(function (response) {
-            console.log('serverListHandler ' + response);
+            consoleLog(" inviteToList Response Result => "+ response);
+            defer.resolve(response.data.listServerId);
+            consoleLog(" inviteToList Response Done" );
           });
+
+        return defer.promise;
+
       }
 
     };
