@@ -10,11 +10,15 @@ angular.module('starter.controllers.editListItemCtrl', [])
     $scope.dynamicEditTitle = $scope.listItem.itemName;
     
     
-    /*$scope.saveItem=function(listItem){
-
+    $scope.saveItem=function(listItem){
+        
+        /*
+        listItem.itemQuatity= ;
+        listItem.itemUom= ;
+        listItem.itemRetailer= ;*/
         itemHandler.updateListItem(listItem);
-        $state.go('list');
-    };*/
+        $state.go('item',{'listId':listItem.listId});
+    };
     
 //
 //    $scope.data = { "items" : [], "search" : '' };

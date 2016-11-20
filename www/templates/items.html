@@ -30,11 +30,24 @@
         <div class="item item-divider"
             ng-repeat="item in listItems |orderBy:'itemCategory' | unique: 'itemCategory'" ng-show="!allListItemCategoryCrossed(item.itemCategory)">
                         {{item.itemCategory}}
-            <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{itemCategory: item.itemCategory }" ng-click = itemChecked(listItem) ng-show="!listItem.itemCrossed">
+            <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{itemCategory: item.itemCategory }" ng-click = "showDetails = ! showDetails" ng-show="!listItem.itemCrossed">
                 <h2>{{listItem.itemName}}</h2>
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
-
+                <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
+               
+                 <div class="item-details" ng-show="showDetails">
+                    <div class="item item-input">Quantity &emsp;
+                    <input type="text"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
+               
+                    </div>
+                    <div class="item item-input">UOM  &emsp;
+                        <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">
+                    </div>
+                    <div class="item item-input">Retailer  &emsp;
+                        <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
+                    </div>
+                 </div>
           </ion-item>  
         </div>
         </ion-list>
