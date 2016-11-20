@@ -253,10 +253,10 @@ angular.module('starter.services.itemHandler',[])
 
         for (var i = 0; i < selectedItems.length; i++) {
 
-          if (selectedItems[i].id === listItem.id) {
+          if (selectedItems[i].itemId === listItem.itemId) {
             selectedItems[i] = listItem;
             saveToLocalStorage();
-            console.log('Update List item Call');
+            console.log('Update List item Call'+JSON.stringify(selectedItems[i]));
             return;
           }
         }
