@@ -12,10 +12,11 @@ angular.module('starter', ['ionic',
                           'proton.multi-list-picker',
                           'ngCordova',
                           'ion-floating-menu',
-                          'angular.filter'])
+                          'angular.filter'
+])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location,serverHandler) {
     $ionicPlatform.ready(function () {
 
         dbHandler.initDB();
@@ -40,6 +41,8 @@ angular.module('starter', ['ionic',
           alert("Error: " + error);
           $location.path('/account');
         });
+
+      serverHandler.SynchInitTest();
 
   /*    var push = PushNotification.init({
         "android": {"senderID": "842803018154"},
