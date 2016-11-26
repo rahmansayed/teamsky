@@ -1,9 +1,37 @@
 angular.module('starter.services.listHandler', [])
 
-  .factory('listHandler', function ($http, global,serverListHandler) {
+  .factory('listHandler', function ($http, global,serverListHandler,dbHandler) {
 
-    var lists = angular.fromJson(window.localStorage['lists'] || []);
+    var lists =[]; //angular.fromJson(window.localStorage['lists'] || []);
+    
+     var x = dbHandler.getAllLists()      //listHandler.list();
+    .then(getListSuccessCB,getListErrorCB);
+    
+    function getListSuccessCB(response)
+		{
+			var loadingLists = false;
+			if(response && response.rows && response.rows.length > 0)
+			{
+				
+				for(var i=0;i<response.rows.length;i++)
+				{
+                lists.push({listLocalId:response.rows.item(i).listLocalId,
+                                   listName:response.rows.item(i).listName,
+                                   listDescription:response.rows.item(i).listDescription});
+				}
+			}else
+			{
+				var message = "No lists created till now.";
+			}
+		}
 
+		function getListErrorCB(error)
+		{
+			var loadingLists = false;
+			var message = "Some error occurred in fetching Trackers List";
+		}
+
+    
     function saveToLocalStorage() {
 
       window.localStorage['lists'] = angular.toJson(lists);
@@ -12,14 +40,14 @@ angular.module('starter.services.listHandler', [])
     function update (list) {
         for (var i = 0; i < lists.length; i++) {
 
-          if (lists[i].id === list.id) {
+          if (lists[i].listLocalId === list.listLocalId) {
             lists[i] = list;
             saveToLocalStorage();
             console.log('Update List Called!!'+JSON.stringify(list));
           }
         }
         serverListHandler.updateList(list);
-        ;
+        dbHandler.updateList(list);
         
     };
 
@@ -32,7 +60,7 @@ angular.module('starter.services.listHandler', [])
       get: function (listId) {
         for (var i = 0; i < lists.length; i++) {
 
-          if (lists[i].id === listId) {
+          if (lists[i].listLocalId == listId) {
             return lists[i];
           }
         }
@@ -43,7 +71,7 @@ angular.module('starter.services.listHandler', [])
         lists.push(list);
         saveToLocalStorage();
         //ToDO : Check if Local Success then save to send to server:
-        serverListHandler.createList(list.id,list.title,list.description,"RED","1").then(function(listServerId){
+        serverListHandler.createList(list.listLocalId,list.listName,list.listDescription,"RED","1").then(function(listServerId){
          
            
           list.serverListId =listServerId||"0";
@@ -62,16 +90,20 @@ angular.module('starter.services.listHandler', [])
       update: update,
         
       remove: function (listId) {
+         console.log( 'list length'+lists.length);
         for (var i = 0; i < lists.length; i++) {
-
-          if (lists[i].id === listId) {
+          console.log('list local Deleted ' + lists[i].listLocalId + 'Passed Id:'+listId);
+          if (lists[i].listLocalId == listId) {
+            console.log( 'Local list delete entered!!');
             lists.splice(i, 1);
             saveToLocalStorage();
-            return;
+            //return;
           }
         }
         ;
-
+          dbHandler.deleteList(listId);
+           console.log('list Deleted ' + listId);
+          //return;
       },
 
       addUser: function (listServerId, invitedUserServerId) {

@@ -95,7 +95,7 @@ angular.module('starter.controllers.listItem', [])
     };
 
     $scope.list=angular.copy( listHandler.get($state.params.listId));
-    $scope.dynamicListTitle = $scope.list.title;
+    $scope.dynamicListTitle = $scope.list.listName;
     
     $scope.itemChecked = function(listItem){
         

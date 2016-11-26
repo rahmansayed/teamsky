@@ -8,7 +8,7 @@
 angular.module('starter', ['ionic',
                           'ionic.service.core',
                           'starter.controllers.accountCtrl',
-                          'starter.controllers.addCtrl',
+                          'starter.controllers.addListCtrl',
                           'starter.controllers.addItem',
                           'starter.controllers.addItemCtrl',
                           'starter.controllers.editCtrl',
@@ -17,19 +17,26 @@ angular.module('starter', ['ionic',
                           'starter.controllers.verifyCtrl',
                           'starter.controllers.listDtlsCtrl',
                           'starter.controllers.editListItemCtrl',
+                          'starter.controllers.dbConfigCtrl',
                           'starter.services.cloud',
                           'starter.services.global',
                           'starter.services.itemHandler',
                           'starter.services.listHandler',
                           'starter.services.local',
                           'starter.services.userMgmt',
+                          'starter.services.dbHandler',
                           'starter.services.serverListHandler',
+                          'proton.multi-list-picker',
                           'ngCordova',
                           'ion-floating-menu',
                           'angular.filter'])
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences) {
+/*var db = null;*/
+
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler) {
     $ionicPlatform.ready(function () {
+        
+        dbHandler.initDB();
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

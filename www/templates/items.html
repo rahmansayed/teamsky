@@ -37,12 +37,23 @@
                 <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
                
                  <div class="item-details" ng-show="showDetails">
-                    <div class="item item-input">Quantity &emsp;
+                    <div class="item item-input" autofocus="autofocus">Quantity &emsp;
                     <input type="text"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
                
                     </div>
                     <div class="item item-input">UOM  &emsp;
                         <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">
+                        <!--
+                        <proton:multi-list-picker>
+                          <proton:multi-list-picker-list>
+                            <proton:multi-list-picker-list-item>iPhone 5</proton:multi-list-picker-list-item>
+                            <proton:multi-list-picker-list-item>iPhone 6</proton:multi-list-picker-list-item>
+                            <proton:multi-list-picker-list-item>iPhone 6 Plus</proton:multi-list-picker-list-item>
+                            <proton:multi-list-picker-list-item>iPhone 6s</proton:multi-list-picker-list-item>
+                            <proton:multi-list-picker-list-item>iPhone 6s Plus</proton:multi-list-picker-list-item>
+                            <proton:multi-list-picker-list-item>iPhone 5se</proton:multi-list-picker-list-item>
+                          </proton:multi-list-picker-list>
+                        </proton:multi-list-picker>-->
                     </div>
                     <div class="item item-input">Retailer  &emsp;
                         <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">

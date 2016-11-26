@@ -1,14 +1,20 @@
 angular.module('starter.controllers.listCtrl', [])
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler) {
-
-    $scope.lists = listHandler.list();
+  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler) {
     
-    $scope.editList=function(listId){
+    
+    //dbHandler.initDB() ;
+    
+    $scope.lists = listHandler.list();
+   
+    console.log($scope.message);
+    console.log('Returned list from DB = ')+JSON.stringify($scope.lists);
+    
+    $scope.editList=function(listLocalId){
 
-        $state.go('edit',{'listId':listId});
+        $state.go('edit',{'listId':listLocalId});
     };
     
-    $scope.removeList=function(listId){
+    $scope.removeList=function(listLocalId){
        
        var confirmPopup = $ionicPopup.confirm({
          title: 'Delete List',
@@ -17,7 +23,8 @@ angular.module('starter.controllers.listCtrl', [])
 
        confirmPopup.then(function(res) {
          if(res) {
-                  listHandler.remove(listId);
+                  listHandler.remove(listLocalId);
+                  $state.reload();
          } 
        });
      };

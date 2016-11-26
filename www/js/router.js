@@ -2,7 +2,12 @@ myapp = angular.module('starter');
 myapp.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-
+    
+    .state('config', {
+      cache: false,
+      url: '/config',
+      templateUrl: 'templates/config.html'
+    })
     .state('lists', {
       cache: false,
       url: '/lists',
@@ -19,7 +24,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
       cache: false,
       url: '/add',
       templateUrl: 'templates/edit.html',
-      controller: 'addCtrl'
+      controller: 'addListCtrl'
     })
 
     .state('masterItem', {
@@ -115,7 +120,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
   ;
 
 // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/lists');
+  $urlRouterProvider.otherwise('/config');
   //$urlRouterProvider.otherwise('/account');
 })
 ;

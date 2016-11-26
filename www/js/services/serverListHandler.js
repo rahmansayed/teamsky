@@ -95,8 +95,8 @@ angular.module('starter.services.serverListHandler', [])
         deviceServerId=123;
 
         data = {
-          listServerId: list.serverListId,
-          listName:list.title,
+          listServerId: list.listServerId,
+          listName:list.listName,
           listColour:"Red",
           listOrder:"1"
         };
