@@ -1,4 +1,4 @@
-angular.module('starter.controllers.addListCtrl', [])
+angular.module('starter.controllers')
   .controller('addListCtrl', function ($scope, $state, listHandler,serverListHandler,dbHandler) {
         $scope.dynamicTitle = 'New List';
         $scope.list= {
@@ -13,7 +13,7 @@ angular.module('starter.controllers.addListCtrl', [])
 
             listHandler.create($scope.list);
             dbHandler.addNewList($scope.list);
-            
+
             $state.go('lists');
         };
   });

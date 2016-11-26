@@ -1,4 +1,4 @@
-angular.module('starter.services.cloud', [])
+angular.module('starter.services')
   .factory('cloud', function ($http, global, $q) {
 
     var getServerReply = function (tableName, entry, insertId) {

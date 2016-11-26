@@ -1,4 +1,4 @@
-angular.module('starter.controllers.verifyCtrl', [])
+angular.module('starter.controllers')
   .controller('VerifyCtrl', function ($scope, global, $http, $state) {
     $scope.settings = {};
 

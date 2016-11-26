@@ -1,4 +1,4 @@
-angular.module('starter.services.local', [])
+angular.module('starter.services')
   .factory('local', function ($cordovaSQLite, global, cloud) {
 
     var dropAllTables = function () {

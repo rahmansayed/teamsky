@@ -1,4 +1,4 @@
-angular.module('starter.services.global',[])
+angular.module('starter.services')
   .factory('global', function () {
     var db = {};
     var settings = new Array();

@@ -1,4 +1,4 @@
-angular.module('starter.controllers.listDtlsCtrl', [])
+angular.module('starter.controllers')
   .controller('listDtlsCtrl', function ($scope, global, $http, $state, $cordovaContacts, listHandler) {
     $scope.settings = {};
 

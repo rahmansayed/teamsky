@@ -1,21 +1,21 @@
-angular.module('starter.controllers.listCtrl', [])
+angular.module('starter.controllers')
   .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler) {
-    
-    
+
+
     //dbHandler.initDB() ;
-    
+
     $scope.lists = listHandler.list();
-   
+
     console.log($scope.message);
     console.log('Returned list from DB = ')+JSON.stringify($scope.lists);
-    
+
     $scope.editList=function(listLocalId){
 
         $state.go('edit',{'listId':listLocalId});
     };
-    
+
     $scope.removeList=function(listLocalId){
-       
+
        var confirmPopup = $ionicPopup.confirm({
          title: 'Delete List',
          template: 'Are you sure you want to delete this list'
@@ -25,23 +25,23 @@ angular.module('starter.controllers.listCtrl', [])
          if(res) {
                   listHandler.remove(listLocalId);
                   $state.reload();
-         } 
+         }
        });
      };
-          
+
     $scope.move = function (list,fromIndex,toIndex){
 
             listHandler.move(list,fromIndex,toIndex);
-        
+
     };
     $scope.reorderFlag = false;
     $scope.toggleReorder = function(){
         $scope.reorderFlag = !$scope.reorderFlag;
     };
-    
-    
+
+
     $scope.addItem = function(listId){
-        
+
         $state.go('item',{'listId':listId});
     };
 
@@ -60,11 +60,11 @@ angular.module('starter.controllers.listCtrl', [])
           options.multiple = true;
           $cordovaContacts.find(options).then(onSuccess, onError);
         };
-    
-    
-    
+
+
+
     $scope.addUserToList = function(){
-        
-        
+
+
     };
   });

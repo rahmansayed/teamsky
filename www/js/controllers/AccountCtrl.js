@@ -1,4 +1,4 @@
-angular.module('starter.controllers.accountCtrl', [])
+angular.module('starter.controllers')
   .controller('AccountCtrl', function ($scope, global, $cordovaPreferences, $http, $location,
                                        $cordovaContacts, userMgmt, $cordovaCamera, $cordovaFileTransfer, $cordovaProgress) {
     $scope.settings = {

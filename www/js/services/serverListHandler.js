@@ -1,4 +1,4 @@
-angular.module('starter.services.serverListHandler', [])
+angular.module('starter.services')
 
 //TODO Move some code to Global area
 //TODO SYNCh List

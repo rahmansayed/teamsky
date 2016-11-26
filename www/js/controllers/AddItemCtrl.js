@@ -1,4 +1,4 @@
-angular.module('starter.controllers.addItemCtrl', [])
+angular.module('starter.controllers')
   .controller('AddItemCtrl', function ($scope, global, $cordovaSQLite) {
     console.log("AddItemCtrl");
     $scope.addItem = function () {

@@ -1,4 +1,4 @@
-angular.module('starter.controllers.editCtrl', [])
+angular.module('starter.controllers')
   .controller('editCtrl', function ($scope, $state, listHandler,dbHandler) {
 
     $scope.dynamicTitle = 'Edit List';
@@ -8,9 +8,9 @@ angular.module('starter.controllers.editCtrl', [])
     $scope.saveList=function(){
 
         listHandler.update($scope.list);
-        
+
         $state.go('lists');
     };
-    
+
 
   });

@@ -1,4 +1,4 @@
-angular.module('starter.services.userMgmt',[])
+angular.module('starter.services')
   .factory('userMgmt', function ($http, $cordovaPreferences, global, $state) {
     return {
       subscribe: function (data) {
