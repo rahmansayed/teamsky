@@ -15,7 +15,7 @@ angular.module('starter', ['ionic',
                           'angular.filter'])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location) {
     $ionicPlatform.ready(function () {
 
         dbHandler.initDB();
