@@ -6,32 +6,6 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic',
-<<<<<<< HEAD
-                          'ionic.service.core',
-                          'starter.controllers.accountCtrl',
-                          'starter.controllers.addListCtrl',
-                          'starter.controllers.addItem',
-                          'starter.controllers.addItemCtrl',
-                          'starter.controllers.editCtrl',
-                          'starter.controllers.listCtrl',
-                          'starter.controllers.listItem',
-                          'starter.controllers.verifyCtrl',
-                          'starter.controllers.listDtlsCtrl',
-                          'starter.controllers.editListItemCtrl',
-                          'starter.controllers.dbConfigCtrl',
-                          'starter.services.cloud',
-                          'starter.services.global',
-                          'starter.services.itemHandler',
-                          'starter.services.listHandler',
-                          'starter.services.local',
-                          'starter.services.userMgmt',
-                          'starter.services.dbHandler',
-                          'starter.services.serverListHandler',
-                          'proton.multi-list-picker',
-                          'ngCordova',
-                          'ion-floating-menu',
-                          'angular.filter'])
-=======
   'ionic.service.core',
   'starter.controllers.accountCtrl',
   'starter.controllers.addCtrl',
@@ -53,14 +27,9 @@ angular.module('starter', ['ionic',
   'ngCordova',
   'ion-floating-menu',
   'angular.filter'])
->>>>>>> e9b829a4ef2e9500492df7b37055f89d32c0eed0
 
-/*var db = null;*/
-
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences) {
     $ionicPlatform.ready(function () {
-        
-        dbHandler.initDB();
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
