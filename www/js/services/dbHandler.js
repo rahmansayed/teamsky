@@ -37,10 +37,10 @@ angular.module('starter.services')
         });    */
 
        var query = [ 
-        /*"drop table entry",
+        "drop table entry",
            
         "drop table masterItem",
-        */   
+           
        
         
         "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,lastUpdateDate integer )",
