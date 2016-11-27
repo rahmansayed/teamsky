@@ -1,10 +1,10 @@
 angular.module('starter.services')
 
-  .factory('listHandler', function ($http, global,serverListHandler,dbHandler) {
+  .factory('listHandler', function ($http, global,serverListHandler,dbHandler,$q) {
 
     var lists =[]; //angular.fromJson(window.localStorage['lists'] || []);
 
-     var x = dbHandler.getAllLists()      //listHandler.list();
+     var x = getAllLists()      //listHandler.list();
     .then(getListSuccessCB,getListErrorCB);
 
     function getListSuccessCB(response)
@@ -47,8 +47,74 @@ angular.module('starter.services')
           }
         }
         serverListHandler.updateList(list);
-        dbHandler.updateList(list);
+        updateList(list);
 
+    };
+    
+    function addNewList(list) {
+
+		var deferred = $q.defer();
+		var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
+		dbHandler.runQuery(query,[list.listLocalId,list.listName,list.listDescription,list.listServerId,'','',new Date().getTime()],function(response){
+			//Success Callback
+			console.log(response);
+			deferred.resolve(response);
+		},function(error){
+			//Error Callback
+			console.log(error);
+			deferred.reject(error);
+		});
+
+		return deferred.promise;
+	};
+
+    function getAllLists(){
+        var deferred = $q.defer();
+        var query = "SELECT * from list";
+        dbHandler.runQuery(query,[],function(response){
+            //Success Callback
+            console.log(response);
+            list = response.rows;
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log(error);
+            deferred.reject(error);
+        });
+
+        return deferred.promise;
+    };
+
+    function deleteList(id) {
+        var deferred = $q.defer();
+        var query = "DELETE FROM list WHERE listLocalId = ?";
+        dbHandler.runQuery(query,[id],function(response){
+            //Success Callback
+            console.log(response);
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log(error);
+            deferred.reject(error);
+        });
+
+        return deferred.promise;
+    };
+
+    function updateList(list) {
+    var deferred = $q.defer();
+    var query = "Update list set listName =? , listDescription= ? WHERE listLocalId = ?";
+    dbHandler.runQuery(query,[list.listName,list.listDescription,list.listLocalId],function(response){
+        //Success Callback
+        console.log(response);
+        deferred.resolve(response);
+    },function(error){
+        //Error Callback
+        console.log(error);
+        deferred.reject(error);
+    });
+
+    return deferred.promise;
     };
 
     return {
@@ -56,6 +122,8 @@ angular.module('starter.services')
 
         return lists;
       },
+        
+      
 
       get: function (listId) {
         for (var i = 0; i < lists.length; i++) {
@@ -101,7 +169,7 @@ angular.module('starter.services')
           }
         }
         ;
-          dbHandler.deleteList(listId);
+           deleteList(listId);
            console.log('list Deleted ' + listId);
           //return;
       },
@@ -117,7 +185,12 @@ angular.module('starter.services')
           .then(function (response) {
             console.log('listhandler.addUser ' + response);
           });
-      }
+      },
+    
+      addNewList:addNewList,
+      getAllLists:getAllLists,
+      deleteList:deleteList,
+      updateList:updateList
 
     };
   });

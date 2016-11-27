@@ -14,7 +14,7 @@ angular.module('starter.controllers')
 
 
     $scope.editListItem=function(listItem){
-      $scope.selectedForEdit = listItem;
+    $scope.selectedForEdit = listItem;
     console.log($scope.selectedForEdit.itemId);
     console.log($scope.selectedForEdit.listId);
     $state.go('edit-list-item',{'listItemId':listItem.itemId,'listId':listItem.listId});
@@ -94,7 +94,7 @@ angular.module('starter.controllers')
 
     };
 
-    $scope.list=angular.copy( listHandler.get($state.params.listId));
+    $scope.list=  listHandler.list(); //angular.copy( listHandler.get($state.params.listId));
     $scope.dynamicListTitle = $scope.list.listName;
 
     $scope.itemChecked = function(listItem){

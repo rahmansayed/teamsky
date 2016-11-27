@@ -12,7 +12,7 @@ angular.module('starter.controllers')
         $scope.saveList=function(){
 
             listHandler.create($scope.list);
-            dbHandler.addNewList($scope.list);
+            listHandler.addNewList($scope.list);
 
             $state.go('lists');
         };

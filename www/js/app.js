@@ -39,7 +39,7 @@ angular.module('starter', ['ionic',
         })
         .error(function (error) {
           alert("Error: " + error);
-          $location.path('/account');
+          $location.path('/config');
         });
 
       serverHandler.SynchInitTest();
