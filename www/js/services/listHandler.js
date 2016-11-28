@@ -103,8 +103,8 @@ angular.module('starter.services')
 
     function updateList(list) {
     var deferred = $q.defer();
-    var query = "Update list set listName =? , listDescription= ? WHERE listLocalId = ?";
-    dbHandler.runQuery(query,[list.listName,list.listDescription,list.listLocalId],function(response){
+    var query = "Update list set listName =? , listDescription= ? ,lastUpdateDate = ? WHERE listLocalId = ?";
+    dbHandler.runQuery(query,[list.listName,list.listDescription,new Date().getTime(),list.listLocalId],function(response){
         //Success Callback
         console.log(response);
         deferred.resolve(response);

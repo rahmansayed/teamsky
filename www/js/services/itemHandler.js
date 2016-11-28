@@ -24,19 +24,11 @@ angular.module('starter.services')
         window.localStorage['selectedItems'] = angular.toJson(selectedItems) ;
       };
 
-      function itemExitInList(selectedItem){
-        for  (var j=0;j<selectedItems.length;j++){
-            if (selectedItems[j].listId === selectedItem.listId && selectedItems[j].itemName.toLowerCase() === selectedItem.itemName.toLowerCase()){
-               return true;
-             }
-        };
-     return false;
-      };
 
     function masterItemExist(Item){
         //localStorage
         for  (var i=0;i<items.length;i++){
-            if (items[i].name.toLowerCase() === Item.name.toLowerCase()){
+            if (items[i].itemName.toLowerCase() === Item.itemName.toLowerCase()){
                return true;
              }
         };
@@ -63,12 +55,10 @@ angular.module('starter.services')
     var searchItems = function(searchFilter) {
 
         /*console.log('Searching items for ' + searchFilter);*/
-
         var deferred = $q.defer();
-
 	    var matches = items.filter( function(item) {
             /*console.log(item.name.toLowerCase());*/
-	    	if(item.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ) return true;
+	    	if(item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ) return true;
 	    })
 
         $timeout( function(){
@@ -78,7 +68,6 @@ angular.module('starter.services')
         }, 100);
 
         return deferred.promise;
-
     };
     
     function getAllEntry(listId){
@@ -144,8 +133,8 @@ angular.module('starter.services')
     
     items = items.sort(function(a, b) {
 
-            var itemA = a.name.toLowerCase();
-            var itemB = b.name.toLowerCase();
+            var itemA = a.itemName.toLowerCase();
+            var itemB = b.itemName.toLowerCase();
 
             if(itemA > itemB) return 1;
             if(itemA < itemB) return -1;
@@ -186,6 +175,15 @@ angular.module('starter.services')
 			var message = "Some error occurred in fetching entry";
 		}
     ;
+      
+    function itemExitInList(selectedItem){
+        for  (var j=0;j<selectedItems.length;j++){
+            if (selectedItems[j].listLocalId === selectedItem.listLocalId && selectedItems[j].itemName.toLowerCase() === selectedItem.itemName.toLowerCase()){
+               return true;
+             }
+        };
+     return false;
+      };
 
     
 
@@ -195,12 +193,11 @@ angular.module('starter.services')
             items.push(item);
             window.localStorage['item'] = angular.toJson(items) ;
              console.log('item created');
-         }
-        console.log('item exist');
+         
         //Sqlite
 		var deferred = $q.defer();
-		var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
-		dbHandler.runQuery(query,[list.listLocalId,list.listName,list.listDescription,list.listServerId,'','',new Date().getTime()],function(response){
+		var query = "INSERT INTO masterItem (itemLocalId,itemName,CategoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
+		dbHandler.runQuery(query,[new Date().getTime(),item.itemName,'','','','',new Date().getTime()],function(response){
 			//Success Callback
 			console.log(response);
 			deferred.resolve(response);
@@ -211,9 +208,33 @@ angular.module('starter.services')
 		});
 
 		return deferred.promise;
+        }
+        console.log('Master item exist');     
 	};
 
+    function addItemToist(selectedItem){
+                 if (!itemExitInList(selectedItem)){
+                    selectedItems.push(selectedItem);
+                    saveToLocalStorage();
+                    console.log('item added in list '||selectedItem.itemCategory);
+                  
+                //Sqlite
+                var deferred = $q.defer();
+                var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate) VALUES (?,?,?,?,?,?,?,?,?)";
+                dbHandler.runQuery(query,[new Date().getTime(),selectedItem.listLocalId,selectedItem.itemId,'',1,'','','0',new Date().getTime()],function(response){
+                    //Success Callback
+                    console.log(response);
+                    deferred.resolve(response);
+                },function(error){
+                    //Error Callback
+                    console.log(error);
+                    deferred.reject(error);
+                });
 
+                return deferred.promise;
+             }
+                console.log('item exist in list');
+            };
 
 
     return {
@@ -313,14 +334,7 @@ angular.module('starter.services')
 
             },
 
-            AddMasterItem:function(item){
-                 if (!masterItemExist(item)){
-                    items.push(item);
-                    window.localStorage['item'] = angular.toJson(items) ;
-                     console.log('item created');
-                 }
-                console.log('item exist');
-            },
+            AddMasterItem:addMaserItem,
 
             deleteAll: function(){
 
@@ -335,7 +349,7 @@ angular.module('starter.services')
             /*console.log(itemName);*/
             for (var i=0;i<items.length;i++){
 
-                if (items[i].name===itemName) {
+                if (items[i].itemName===itemName) {
                        return items[i].category;
                     }
                 }

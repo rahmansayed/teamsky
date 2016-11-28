@@ -34,12 +34,29 @@ angular.module('starter.services')
           console.log("table dropped ");
         }, function (err) {
           console.log(err);
-        });    */
-
+        });    */   
+        
+        /*
+        var dropQuery1 = ["select entryCrossedFlag from entry" ];
+        
+        runQuery(dropQuery1,[],function(response){
+            //Success Callback
+            console.log('Table not to be dropped:' + response);
+            runQuery("drop table entry",[],x,y);
+            //deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log('Table to be dropped: '+error);
+            
+            //deferred.reject(error);
+        });
+        */
+        
+        
        var query = [ 
-        "drop table entry",
+        /*"drop table entry",
            
-        "drop table masterItem",
+        "drop table masterItem",*/
            
        
         
@@ -64,6 +81,7 @@ angular.module('starter.services')
         
 
         ];
+        
 
         for  (var j=0;j<query.length;j++){
           runQuery(query[j],[],function(res) {
@@ -72,7 +90,17 @@ angular.module('starter.services')
           console.log(err);
         });
         };
-
+        
+        
+        //var query1 = "insert into category (categoryLocalId,categoryName) values (?,?)"
+       /* var query1 = "delete from masterItem";
+        runQuery(query1,[],function(res) {
+          console.log("Statement Run: " + query1);
+        }, function (err) {
+          console.log(err);
+        });
+        */
+        
         /*runQuery(query,[],function(res) {
           console.log("table created ");
         }, function (err) {

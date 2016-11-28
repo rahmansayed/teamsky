@@ -29,9 +29,9 @@ angular.module('starter.controllers')
 
           $scope.selecteditem =
                     { listId: $state.params.listId,
-                      itemId: item.id,
-                      itemName: item.name,
-                      itemCategory: itemHandler.itemCategory(item.name),
+                      itemId: item.localItemId,
+                      itemName: item.itemName,
+                      itemCategory: itemHandler.itemCategory(item.itemName),
                       itemCrossed: false,
                       itemQuatity:0,
                       itemUom:"",
@@ -131,15 +131,15 @@ angular.module('starter.controllers')
 
          console.log('Add Master Item Case: ' + itemName);
          $scope.enteredItem =
-                    { id: new Date().getTime().toString(),
-                      name: itemHandler.initcap(itemName),
-                      category: 'Uncategorized'
+                    { itemLocalid: new Date().getTime().toString(),
+                      itemName: itemHandler.initcap(itemName),
+                      itemcategory: 'Uncategorized'
                     };
           itemHandler.AddMasterItem($scope.enteredItem);
 
         $scope.selecteditem =
-                        { listId: $state.params.listId,
-                          itemId: $scope.enteredItem.id,
+                        { listlocalId: $state.params.listId,
+                          itemlocalId: $scope.enteredItem.id,
                           itemName: $scope.enteredItem.name,
                           itemCategory:itemHandler.itemCategory($scope.enteredItem.name),
                           itemCrossed: false
