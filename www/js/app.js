@@ -12,7 +12,8 @@ angular.module('starter', ['ionic',
                           'proton.multi-list-picker',
                           'ngCordova',
                           'ion-floating-menu',
-                          'angular.filter'
+                          'angular.filter',
+                          'ngRoute'
 ])
 /*var db = null;*/
 

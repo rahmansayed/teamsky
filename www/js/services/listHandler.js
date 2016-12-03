@@ -3,6 +3,8 @@ angular.module('starter.services')
   .factory('listHandler', function ($http, global,serverListHandler,dbHandler,$q) {
 
     var lists =[]; //angular.fromJson(window.localStorage['lists'] || []);
+    
+    var specificList;
 
      var x = getAllLists()      //listHandler.list();
     .then(getListSuccessCB,getListErrorCB);
@@ -23,13 +25,13 @@ angular.module('starter.services')
 			{
 				var message = "No lists created till now.";
 			}
-		}
+		};
 
 		function getListErrorCB(error)
 		{
 			var loadingLists = false;
 			var message = "Some error occurred in fetching Trackers List";
-		}
+		};
 
 
     function saveToLocalStorage() {
@@ -84,7 +86,24 @@ angular.module('starter.services')
 
         return deferred.promise;
     };
+    
+     function getSpecificList(listId){         
+        var deferred = $q.defer();
+        var query = "SELECT * from list where listLocalId=?";
+        dbHandler.runQuery(query,[listId],function(response){
+            //Success Callback
+            console.log(response);
+            returnedList = response.rows;
+            console.log('returnedList: '+JSON.stringify(returnedList));
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log(error);
+            deferred.reject(error);
+        });
 
+        return deferred.promise;
+     };
     function deleteList(id) {
         var deferred = $q.defer();
         var query = "DELETE FROM list WHERE listLocalId = ?";
@@ -116,6 +135,9 @@ angular.module('starter.services')
 
     return deferred.promise;
     };
+     
+    
+
 
     return {
       list: function () {
@@ -126,13 +148,38 @@ angular.module('starter.services')
       
 
       get: function (listId) {
-        for (var i = 0; i < lists.length; i++) {
 
-          if (lists[i].listLocalId == listId) {
-            return lists[i];
-          }
-        }
-        return undefined;
+ 
+        var deferred = $q.defer();
+          
+         var z = getSpecificList(listId)
+         .success(function (response) {
+
+           if(response && response.rows && response.rows.length > 0)
+			{
+
+				for(var i=0;i<response.rows.length;i++)
+				{   
+                  specificList={listLocalId:response.rows.item(i).listLocalId,
+                                   listName:response.rows.item(i).listName,
+                                   listDescription:response.rows.item(i).listDescription} ;
+				}
+			    console.log('specificList' + JSON.stringify(specificList));
+            }else
+			{
+				var message = "No lists selected till now.";
+			}
+          })
+          .error(function (data, status) {
+             var message = "Some error occurred in fetching List";
+            deferred.reject(data);
+          });
+     
+       
+          console.log('specificList' + JSON.stringify(specificList) + 'z: ' + JSON.stringify(z));
+           return deferred.promise;
+          
+        
       },
 
       create: function (list) {
@@ -190,7 +237,8 @@ angular.module('starter.services')
       addNewList:addNewList,
       getAllLists:getAllLists,
       deleteList:deleteList,
-      updateList:updateList
+      updateList:updateList,
+      getSpecificList:getSpecificList
 
     };
   });

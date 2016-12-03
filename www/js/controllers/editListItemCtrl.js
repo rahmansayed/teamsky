@@ -6,7 +6,7 @@ angular.module('starter.controllers')
 
 
 
-    $scope.listItem=angular.copy( itemHandler.getItemById($state.params.listItemId));
+    $scope.listItem=itemHandler.selectedItem();
     $scope.dynamicEditTitle = $scope.listItem.itemName;
 
 

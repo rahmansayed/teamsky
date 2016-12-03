@@ -1,4 +1,4 @@
-<ion-view view-title={{dynamicListTitle}} ng-controller = "listItem">
+<ion-nav-view  view-title={{dynamicListTitle}} >
 
     <ion-header-bar class="bar-subheader item-input-inset">
               <label class="item-input-wrapper">
@@ -13,14 +13,27 @@
     
     </ion-header-bar>
    
-    <ion-content >
+    <ion-content>
+        <!--   
+        <ion-list>
+            <ion-item ng-repeat = "list in listItems">
+                My List: {{list.categoryName}}
+               
+            </ion-item>
+           </ion-list>   
+        -->
         <div>
           <ion-list>
             <ion-item  class="item" ng-repeat="item in data.items" ng-click="selectItems(item)">{{item.itemName}} </ion-item >
+               <div>
+        </div>   
           </ion-list>
         </div>
 
         <div>
+
+            
+            
         <ion-list show-reorder="reorderFlag"> 
 
             
@@ -28,10 +41,11 @@
         <ion-list show-reorder="reorderFlag"> 
             
         <div class="item item-divider"
-            ng-repeat="item in listItems |orderBy:'itemCategory' | unique: 'itemCategory'" ng-show="!allListItemCategoryCrossed(item.itemCategory)">
-                        {{item.itemCategory}}
-            <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{itemCategory: item.itemCategory }" ng-click = "showDetails = ! showDetails" ng-show="!listItem.itemCrossed">
+            ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" ng-show="!allListItemCategoryCrossed(item.categoryName)">
+                        {{item.categoryName}}
+            <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = ! showDetails" ng-show="listItem.entryCrossedFlag == '0'">
                 <h2>{{listItem.itemName}}</h2>
+                 {{listItem.entryCrossedFlag}}
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
                 <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
@@ -65,14 +79,13 @@
       </div>
         <div class="list">
             <ion-list show-reorder="reorderFlag">   
-
                 <button class="button button-block button-balanced" ng-show="checkedItems.length !== 0">
                   Crossed Items
                 </button>
 
                 <div>
-                <ion-item class="item-remove-animate item-icon-right " ng-repeat = "checkedItem in checkedItems" ng-click = unCheckItem(checkedItem)>
-
+                <ion-item class="item-remove-animate item-icon-right" ng-repeat = "checkedItem in checkedItems" ng-click = unCheckItem(checkedItem)>
+                  
                     <h2><s>{{checkedItem.itemName}}</s></h2>
                 </ion-item>
                 </div>
@@ -89,4 +102,4 @@
         
       
     </div>
-</ion-view>
+</ion-nav-view>

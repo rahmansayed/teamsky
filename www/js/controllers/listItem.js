@@ -1,13 +1,23 @@
 angular.module('starter.controllers')
   .controller('listItem', function ($scope, $state, listHandler, itemHandler, $ionicPopup) {
-
+    
+    $scope.items = itemHandler.item();
+    console.log('items master list: ' + $scope.items);
+    $scope.selectedItems =  itemHandler.selectedItem();
+    console.log('items entry list: ' + $scope.selectedItems);
+/*    $scope.checkedItems = itemHandler.checkedItem();
+    console.log('items Checked list: ' + $scope.checkedItems);*/
+    
+    
     $scope.data = { "items" : [], "search" : '' };
 
     $scope.search = function() {
-
+        console.log('Search pressed : ' + $scope.data.search);
     	itemHandler.searchItems($scope.data.search).then(
     		function(matches) {
+                
     			$scope.data.items = matches;
+                console.log('Search Result after promise: '+$scope.data.items);
     		}
     	)
     };
@@ -27,17 +37,19 @@ angular.module('starter.controllers')
     var selected = [itemHandler.selected];
       $scope.selectItems = function (item) {
 
-          $scope.selecteditem =
-                    { listId: $state.params.listId,
-                      itemId: item.localItemId,
+          $scope.selectedItem =
+                    { listLocalId: $state.params.listId,
+                      itemLocalId: item.itemLocalId,
                       itemName: item.itemName,
-                      itemCategory: itemHandler.itemCategory(item.itemName),
-                      itemCrossed: false,
+                      categoryName: itemHandler.categoryName(item.itemName),
                       itemQuatity:0,
                       itemUom:"",
-                      itemRetailer:""
+                      itemRetailer:"",
+                      entryCrossedFlag:item.entryCrossedFlag
                     };
-          itemHandler.addItemToList($scope.selecteditem);
+          console.log('Master Item Searched: '+ JSON.stringify($scope.selectedItem));
+          itemHandler.addItemToList($scope.selectedItem);
+          
            $state.reload();
 
       };
@@ -46,9 +58,38 @@ angular.module('starter.controllers')
 
 
     $scope.checkedItems = itemHandler.checkedItem();
-    $scope.listItems = itemHandler.selectedItemByListId($state.params.listId);
+    console.log('itemHandler.checkedItem()'+itemHandler.checkedItem());
+    
+    /*
+    itemHandler.getAllEntry($state.params.listId).then( 
+    
+    function(response)
+		{
+			
+			if(response && response.rows && response.rows.length > 0)
+			{
 
-    $scope.itemCategory = itemHandler.itemCategory;
+				for(var i=0;i<response.rows.length;i++)
+				{
+                $scope.selectedItems.push({listLocalId:response.rows.item(i).listLocalId,
+                                   itemName:response.rows.item(i).itemName,
+                                   categoryName:response.rows.item(i).categoryName,
+                                   retailerName:response.rows.item(i).retailerName,
+                                   vendorName:response.rows.item(i).vendorName,
+                                   quantity:response.rows.item(i).quantity,
+                                   uom:response.rows.item(i).uom,
+                                   entryCrossedFlag:response.rows.item(i).entryCrossedFlag
+                                   });
+				}
+			}else
+			{
+				var message = "No entry created till now.";
+			}
+		};
+    );*/
+     $scope.listItems=itemHandler.selectedItem();
+     console.log('!!!!list items: '+JSON.stringify($scope.listItems));
+    //$scope.itemCategory = itemHandler.itemCategory($scope.listItems.itemName);
 
     /*Group items by category-- Not Neede now, I used different way*/
    /*
@@ -93,17 +134,50 @@ angular.module('starter.controllers')
        });
 
     };
+    
+    var getSpecificSuccess = function (response)
+		{
+			//var loadingLists = false;
+			if(response && response.rows && response.rows.length > 0)
+			{
 
-    $scope.list=  listHandler.list(); //angular.copy( listHandler.get($state.params.listId));
-    $scope.dynamicListTitle = $scope.list.listName;
+				for(var i=0;i<response.rows.length;i++)
+				{   
+                   $scope.list={listLocalId:response.rows.item(i).listLocalId,
+                                   listName:response.rows.item(i).listName,
+                                   listDescription:response.rows.item(i).listDescription} ;
+                    $scope.dynamicListTitle = response.rows.item(i).listName;
+                    console.log('$scope.dynamicListTitle: '+ $scope.dynamicListTitle);
+				}
+			    console.log('specificList' + JSON.stringify( $scope.list));
+            }else
+			{
+				var message = "No lists selected till now.";
+			}
+
+        };
+    
+    		var getSpecificError = function (error)
+		{
+			//var loadingLists = false;
+			var message = "Some error occurred in fetching List";
+		};
+   
+    $scope.z = listHandler.getSpecificList($state.params.listId) .then(getSpecificSuccess,getSpecificError);
+
+    //$scope.list= listHandler.getSpecificList($state.params.listId); // listHandler.list();   angular.copy( 
+    
+    //$scope.dynamicListTitle = $scope.list.listName;
+
 
     $scope.itemChecked = function(listItem){
 
         $scope.checkeditem =
-                    { listId: $state.params.listId,
-                      itemId: listItem.itemId,
+                    { listLocalId: $state.params.listId,
+                      itemLocalId: listItem.itemLocalId,
                       itemName:listItem.itemName
                     };
+        console.log('checked item: '+JSON.stringify($scope.checkeditem)+listItem.itemLocalId);
         itemHandler.checkItem($scope.checkeditem);
     };
 
@@ -112,6 +186,7 @@ angular.module('starter.controllers')
     $scope.unCheckItem = function(checkedItem){
 
      itemHandler.unCheckItem(checkedItem);
+     $state.reload();
 };
 
 
@@ -131,22 +206,26 @@ angular.module('starter.controllers')
 
          console.log('Add Master Item Case: ' + itemName);
          $scope.enteredItem =
-                    { itemLocalid: new Date().getTime().toString(),
+                    { itemLocalId: new Date().getTime().toString(),
                       itemName: itemHandler.initcap(itemName),
-                      itemcategory: 'Uncategorized'
+                      categoryName: 'Uncategorized'
                     };
           itemHandler.AddMasterItem($scope.enteredItem);
-
-        $scope.selecteditem =
-                        { listlocalId: $state.params.listId,
-                          itemlocalId: $scope.enteredItem.id,
-                          itemName: $scope.enteredItem.name,
-                          itemCategory:itemHandler.itemCategory($scope.enteredItem.name),
-                          itemCrossed: false
-                        };
-              itemHandler.addItemToList($scope.selecteditem);
-           $state.reload();
-
+        
+        
+         $scope.selectedItem =
+                    { listLocalId: $state.params.listId,
+                      itemLocalId: $scope.enteredItem.itemLocalId,
+                      itemName: $scope.enteredItem.itemName,
+                      categoryName: itemHandler.categoryName(item.itemName),
+                      itemCrossed: false,
+                      itemQuatity:0,
+                      itemUom:"",
+                      itemRetailer:""/*,
+                      entryCrossedFlag:"0"*/
+                    };
+          itemHandler.addItemToList($scope.selectedItem);
+         $state.reload();
         };
 
     $scope.isItemChecked = function (listItem){

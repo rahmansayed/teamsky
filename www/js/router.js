@@ -36,7 +36,9 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
     .state('item', {
       cache: false,
       url: '/item/:listId',
-      templateUrl: 'templates/items.html'
+      templateUrl: 'templates/items.html',
+      controller:'listItem'
+      
     })
 
     .state('addItem', {

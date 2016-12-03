@@ -41,7 +41,7 @@ angular.module('starter.controllers')
 
 
     $scope.addItem = function(listId){
-
+        console.log('list id sent : ' + listId);
         $state.go('item',{'listId':listId});
     };
 

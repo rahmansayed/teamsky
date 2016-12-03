@@ -4,7 +4,7 @@
        <ion-list show-reorder="reorderFlag">     
 
        <ion-item class="item-remove-animate item-icon-right "
-              ng-repeat = "list in lists track by $index" ng-click = "addItem(list.localListId)">
+              ng-repeat = "list in lists track by $index" ng-click = "addItem(list.listLocalId)">
               <h2>{{list.listName}}</h2>
               <p>{{list.listDescription}}</p>
               <i class="icon ion-chevron-right"></i>

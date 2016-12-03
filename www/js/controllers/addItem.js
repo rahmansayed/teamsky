@@ -186,13 +186,14 @@ angular.module('starter.controllers')
       var selected = [itemHandler.selected];
       $scope.selectItems = function (item) {
 
-          $scope.selecteditem =
+          $scope.selectedItem =
                     { listId: $state.params.listId,
-                      itemId: item.id,
-                      itemName: item.name,
-                      ItemCrossed: false
+                      itemId: item.itemlocalId,
+                      itemName: item.itemName,
+                      ItemCrossed: 0
                     };
-          itemHandler.addItemToList($scope.selecteditem);
+          console.log('select item: '+$scope.selectedItem)
+          itemHandler.addItemToList($scope.selectedItem);
 
           /*Multiple Mark of selected*/
           var index = selected.indexOf(item);
