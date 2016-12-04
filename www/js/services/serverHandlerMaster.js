@@ -5,6 +5,9 @@ angular.module('starter.services')
   .factory('serverHandlerMaster', function ($http, global,$q,dbHandler) {
 
     var defer = $q.defer();
+    var deferred = $q.defer();
+
+
     var serviceName ="serverHandlerMaster";
 
 
@@ -21,19 +24,22 @@ angular.module('starter.services')
 
       consoleLog( "Start synchCategory");
 
-      var query = "select * from category ";
+      var query = "SELECT  * FROM category ";
       consoleLog("Query => " + query);
 
       dbHandler.runQuery(query,[],
-        function(res) {
+        function(response) {
           consoleLog("Statement True");
-          consoleLog("Result => " + JSON.stringify(res));
+          consoleLog("Result => " + response);
+          consoleLog("Result JSON=> " + JSON.stringify(response));
+          deferred.resolve(response);
 
-        }, function (err) {
-          console.log(err);
+        }, function (error) {
+          consoleLog(error);
+          deferred.resolve(error);
         });
       //////////////////////////////
-      consoleLog("Call Server");
+      consoleLog("Start Call Server");
 
       $http.post( global.serverIP + "/api/categories" , "")
 
@@ -44,26 +50,56 @@ angular.module('starter.services')
 
         });
 
-      consoleLog("After Call Server");
+      consoleLog("End Call Server");
+      //////////////////////////////
+      var query = "UPDATE category  SET categoryName=?";
+      consoleLog("Query => " + query);
+
+      dbHandler.runQuery(query,["categoryName"+10],
+        function(response) {
+          consoleLog("Statement True");
+          consoleLog("Result => " + response);
+          consoleLog("Result JSON=> " + JSON.stringify(response));
+          deferred.resolve(response);
+
+        }, function (error) {
+          consoleLog(error);
+          deferred.resolve(error);
+        });
+
+
+
+
+
+
 
 
       return defer.promise;
 
+
+
+
+
+
       consoleLog( "End synchCategory");
     };
+
+
+
+
     //-----------------------------------------
    //------------------------synchMasterItem
     function synchMasterItem () {
 
       consoleLog( "Start synchMasterItem");
 
-      var query = "select * from masterItem ";
+      var query = "SELECT  * FROM masterItem ";
       consoleLog("Query => " + query);
 
       dbHandler.runQuery(query,[],
-        function(res) {
+        function(response) {
           consoleLog("Statement True");
-          consoleLog("Result => " + JSON.stringify(res));
+          consoleLog("Result => " + JSON.stringify(response));
 
         }, function (err) {
           console.log(err);

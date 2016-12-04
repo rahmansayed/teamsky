@@ -66,10 +66,10 @@ angular.module('starter.services')
       SynchInitTest:function () {
         consoleLog( "Start SynchInitTest");
 
-        serverHandlerTemp.tempDataMasterItem();
-        serverHandlerTemp.tempDataCategory();
-        serverHandlerMaster.synchCategory();
-        serverHandlerMaster.synchMasterItem();
+        //serverHandlerTemp.tempDataMasterItem();
+        //serverHandlerTemp.tempDataCategory();
+        //serverHandlerMaster.synchCategory();
+        //serverHandlerMaster.synchMasterItem();
 
 
 
