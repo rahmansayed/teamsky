@@ -7,13 +7,15 @@ angular.module('starter.services')
 
 
 
-  .factory('serverHandler', function ($http, global,$q,dbHandler) {
+  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerMaster,serverHandlerTemp) {
 
     var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
     var serviceName ="serverHandler";
     var userServerId="582c3f6d30126504007c6bdf";
     var deviceServerId="582c3f6d30126504007c6be0";
+
+
 
     //------------------------consoleLog
 
@@ -60,16 +62,18 @@ angular.module('starter.services')
           });
       },
       //------------------------SynchInitTest
+      // Osama Init Function Launched by The App Start
       SynchInitTest:function () {
-
         consoleLog( "Start SynchInitTest");
 
+        serverHandlerTemp.tempDataMasterItem();
+        serverHandlerTemp.tempDataCategory();
+        serverHandlerMaster.synchCategory();
+        serverHandlerMaster.synchMasterItem();
 
 
 
         consoleLog( "End SynchInitTest");
-
-
          },
 //------------------------Synch
       SynchTable:function (tableName) {
