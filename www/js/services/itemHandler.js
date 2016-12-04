@@ -7,16 +7,20 @@ angular.module('starter.services')
       var selectedItems =[];
       var checkedItems = [];
       var listId;
+    var y;
+    var x ;
+    var z ;
       //items = angular.fromJson(window.localStorage['item']||[]);
-      var y = getAllMasterItem()      
+       y = getAllMasterItem()      
        .then(getMasterSuccessCB,getMasterErrorCB);
        console.log('Y: ' + JSON.stringify(y));
        console.log('master Items: ' + JSON.stringify(items));
-     var x = getAllEntry($state.params.listId)      
+     
+    /* x = getAllEntry($state.params.listId)      
       .then(getEntrySuccessCB,getEntryErrorCB);
-      console.log('Entry Items: ' + JSON.stringify(selectedItems));
+      console.log('Entry Items: ' + JSON.stringify(selectedItems));*/
       
-    var z = getCheckedItem()      
+     z = getCheckedItem()      
       .then(getCheckedSuccessCB,getCheckedErrorCB);
       console.log('!!!Checked Items: ' + JSON.stringify(checkedItems));
       
@@ -427,7 +431,11 @@ angular.module('starter.services')
               },
         
             selectedItem: function(){
+                  selectedItems = [];
 
+                  x = getAllEntry($state.params.listId)      
+                .then(getEntrySuccessCB,getEntryErrorCB);
+                    console.log('Entry Items from selectedItem function: ' + JSON.stringify(selectedItems));
                   return selectedItems;
               },
             
@@ -435,10 +443,12 @@ angular.module('starter.services')
             getAllMasterItem:getAllMasterItem,
             searchItems : searchItems ,
 
+/*
             selectedItem: function(){
 
                   return selectedItems;
               },
+*/
 
             initcap: function(name){
 
