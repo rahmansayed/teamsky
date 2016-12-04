@@ -1,12 +1,10 @@
 angular.module('starter.controllers')
   .controller('listItem', function ($scope, $state, listHandler, itemHandler, $ionicPopup) {
-    
-    $scope.items = itemHandler.item();
-    console.log('items master list: ' + $scope.items);
-    $scope.selectedItems =  itemHandler.selectedItem();
-    console.log('items entry list: ' + $scope.selectedItems);
-/*    $scope.checkedItems = itemHandler.checkedItem();
-    console.log('items Checked list: ' + $scope.checkedItems);*/
+
+    $scope.items = [];
+    $scope.selectedItems =  [];
+    $scope.checkedItems = [];
+
     
     
     $scope.data = { "items" : [], "search" : '' };
@@ -87,7 +85,8 @@ angular.module('starter.controllers')
 			}
 		};
     );*/
-     $scope.listItems=itemHandler.selectedItem();
+
+     $scope.listItems=itemHandler.selectedItem($state.params.listId);
      console.log('!!!!list items: '+JSON.stringify($scope.listItems));
     //$scope.itemCategory = itemHandler.itemCategory($scope.listItems.itemName);
 
@@ -147,9 +146,9 @@ angular.module('starter.controllers')
                                    listName:response.rows.item(i).listName,
                                    listDescription:response.rows.item(i).listDescription} ;
                     $scope.dynamicListTitle = response.rows.item(i).listName;
-                    console.log('$scope.dynamicListTitle: '+ $scope.dynamicListTitle);
+                    
 				}
-			    console.log('specificList' + JSON.stringify( $scope.list));
+			    
             }else
 			{
 				var message = "No lists selected till now.";
@@ -163,12 +162,12 @@ angular.module('starter.controllers')
 			var message = "Some error occurred in fetching List";
 		};
    
-    $scope.z = listHandler.getSpecificList($state.params.listId) .then(getSpecificSuccess,getSpecificError);
-
+    var z = listHandler.getSpecificList($state.params.listId) .then(getSpecificSuccess,getSpecificError);
+console.log('$scope.list=: '+ JSON.stringify($scope.list));
     //$scope.list= listHandler.getSpecificList($state.params.listId); // listHandler.list();   angular.copy( 
     
     //$scope.dynamicListTitle = $scope.list.listName;
-
+     console.log('specificList' + JSON.stringify( $scope.list));
 
     $scope.itemChecked = function(listItem){
 
