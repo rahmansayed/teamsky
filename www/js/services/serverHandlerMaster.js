@@ -1,15 +1,10 @@
 angular.module('starter.services')
 
-
-
   .factory('serverHandlerMaster', function ($http, global,$q,dbHandler) {
 
+    //------------------------Global Variable
     var defer = $q.defer();
-    var deferred = $q.defer();
-
-
     var serviceName ="serverHandlerMaster";
-
 
     //------------------------consoleLog
 
@@ -32,14 +27,14 @@ angular.module('starter.services')
           consoleLog("Statement True");
           consoleLog("Result => " + response);
           consoleLog("Result JSON=> " + JSON.stringify(response));
-          deferred.resolve(response);
+          defer.resolve(response);
 
         }, function (error) {
           consoleLog(error);
-          deferred.resolve(error);
+          defer.resolve(error);
         });
       //////////////////////////////
-      consoleLog("Start Call Server");
+  /*    consoleLog("Start Call Server");
 
       $http.post( global.serverIP + "/api/categories" , "")
 
@@ -60,26 +55,15 @@ angular.module('starter.services')
           consoleLog("Statement True");
           consoleLog("Result => " + response);
           consoleLog("Result JSON=> " + JSON.stringify(response));
-          deferred.resolve(response);
+          defer.resolve(response);
 
         }, function (error) {
           consoleLog(error);
-          deferred.resolve(error);
+          defer.resolve(error);
         });
-
-
-
-
-
-
-
+*/
 
       return defer.promise;
-
-
-
-
-
 
       consoleLog( "End synchCategory");
     };

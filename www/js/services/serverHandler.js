@@ -66,11 +66,15 @@ angular.module('starter.services')
       SynchInitTest:function () {
         consoleLog( "Start SynchInitTest");
 
-        //serverHandlerTemp.tempDataMasterItem();
-        //serverHandlerTemp.tempDataCategory();
-        //serverHandlerMaster.synchCategory();
+
+        serverHandlerMaster.synchCategory();
         //serverHandlerMaster.synchMasterItem();
 
+
+
+        // Temp Function to be removed later
+        //serverHandlerTemp.tempDataMasterItem();
+        //serverHandlerTemp.tempDataCategory();
 
 
         consoleLog( "End SynchInitTest");
