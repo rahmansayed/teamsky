@@ -19,19 +19,22 @@ angular.module('starter.services')
     function tempDataCategory(){
 
       var query = "delete from category "
+      consoleLog("Statement Run: " + query);
+
 
       dbHandler.runQuery(query, [], function (res) {
-        consoleLog("Statement Run: " + query);
+        consoleLog("Delete Done");
+
       }, function (err) {
         consoleLog(err);
       });
 
       var query = "insert into category (categoryLocalId,categoryName) values (?,?)"
+      consoleLog("Statement Run: " + query);
 
        for  (var j=1;j<20;j++) {
 
          dbHandler.runQuery(query, [10+j, 'category => '+j], function (res) {
-           consoleLog("Statement Run: " + query);
          }, function (err) {
            consoleLog(err);
          });
@@ -45,14 +48,16 @@ angular.module('starter.services')
 
 
       var query = "delete from masterItem "
+      consoleLog("Statement Run: " + query);
 
       dbHandler.runQuery(query, [], function (res) {
-        consoleLog("Statement Run: " + query);
+        consoleLog("Delete Done");
       }, function (err) {
         consoleLog(err);
       });
 
       var query = "insert into masterItem (itemLocalId,itemName) values (?,?)"
+      consoleLog("Statement Run: " + query);
 
       for  (var j=1;j<20;j++) {
 
