@@ -3,7 +3,7 @@ angular.module('starter.services')
   .factory('listHandler', function ($http, global,serverListHandler,dbHandler,$q) {
 
     var lists =[]; //angular.fromJson(window.localStorage['lists'] || []);
-
+    
     var specificList;
 
      var x = getAllLists()      //listHandler.list();
@@ -52,7 +52,7 @@ angular.module('starter.services')
         updateList(list);
 
     };
-
+    
     function addNewList(list) {
 
 		var deferred = $q.defer();
@@ -73,8 +73,6 @@ angular.module('starter.services')
     function getAllLists(){
         var deferred = $q.defer();
         var query = "SELECT * from list";
-
-
         dbHandler.runQuery(query,[],function(response){
             //Success Callback
             console.log(response);
@@ -88,8 +86,8 @@ angular.module('starter.services')
 
         return deferred.promise;
     };
-
-     function getSpecificList(listId){
+    
+     function getSpecificList(listId){         
         var deferred = $q.defer();
         var query = "SELECT * from list where listLocalId=?";
         dbHandler.runQuery(query,[listId],function(response){
@@ -137,8 +135,8 @@ angular.module('starter.services')
 
     return deferred.promise;
     };
-
-
+     
+    
 
 
     return {
@@ -146,14 +144,14 @@ angular.module('starter.services')
 
         return lists;
       },
-
-
+        
+      
 
       get: function (listId) {
 
-
+ 
         var deferred = $q.defer();
-
+          
          var z = getSpecificList(listId)
          .success(function (response) {
 
@@ -161,7 +159,7 @@ angular.module('starter.services')
 			{
 
 				for(var i=0;i<response.rows.length;i++)
-				{
+				{   
                   specificList={listLocalId:response.rows.item(i).listLocalId,
                                    listName:response.rows.item(i).listName,
                                    listDescription:response.rows.item(i).listDescription} ;
@@ -176,12 +174,12 @@ angular.module('starter.services')
              var message = "Some error occurred in fetching List";
             deferred.reject(data);
           });
-
-
+     
+       
           console.log('specificList' + JSON.stringify(specificList) + 'z: ' + JSON.stringify(z));
            return deferred.promise;
-
-
+          
+        
       },
 
       create: function (list) {
@@ -235,7 +233,7 @@ angular.module('starter.services')
             console.log('listhandler.addUser ' + response);
           });
       },
-
+    
       addNewList:addNewList,
       getAllLists:getAllLists,
       deleteList:deleteList,
