@@ -1,0 +1,24 @@
+<ion-view view-title="Register User" ng-controller="subscribeCtrl">
+    <ion-content >
+        <div class="list card">
+       <div class="item item-input item-select">
+        <div class="input-label">
+          Select Country
+        </div>
+        <select ng-model="country" ng-init="country=countries[0]" ng-options="country.name for country in countries"></select>
+        </div>
+      
+        <div class="item item-input item-input">
+        <span class="input-label">Number</span>
+        <input type="text" ng-model="country.dial_code">
+      </div>
+ 
+     <!-- <p> {{ country | json}} </p>-->
+    </div>      
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="subscribeUser(country.dial_code)">Subscribe
+            </button>
+        
+        </div>
+    </ion-content>
+</ion-view>

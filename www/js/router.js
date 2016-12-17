@@ -92,8 +92,8 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
 
     .state('verify', {
       url: '/verify',
-      templateUrl: 'templates/account-verify.html',
-      controller: 'VerifyCtrl'
+      templateUrl: 'templates/verify.html',
+      controller: 'verifyCtrl'
     })
 
     .state('tab.list.add', {
@@ -117,8 +117,15 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
       url: '/listDtls',
           templateUrl: 'templates/list-details.html',
           controller: 'listDtlsCtrl'
+      })
+           
+   .state('subscribe', {
+      url: '/subscribe',
+          templateUrl: 'templates/subscribe.html'
       }
     )
+  
+
   ;
 
 // if none of the above states are matched, use this as the fallback
