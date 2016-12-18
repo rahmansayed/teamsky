@@ -123,7 +123,7 @@ angular.module('starter.services')
     //------------------------synchCategory
     function synchMasterItem() {
 
-      deleteMasterItem();
+      //deleteMasterItem();
       consoleLog( "Start synchMasterItem");
       // Start Read Local DB from table category
       consoleLog("Start Read Local DB from table masterItem");

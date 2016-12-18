@@ -124,7 +124,7 @@ angular.module('starter.services')
     //------------------------synchCategory
     function synchCategory() {
 
-      deleteCategoryLocal();
+      //deleteCategoryLocal();
       consoleLog( "Start synchCategory");
       // Start Read Local DB from table category
       consoleLog("Start Read Local DB from table category");
