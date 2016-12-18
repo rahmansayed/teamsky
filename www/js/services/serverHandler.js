@@ -7,7 +7,7 @@ angular.module('starter.services')
 
 
 
-  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerMaster,serverHandlerTemp) {
+  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerCategory,serverHandlerMasterItem) {
 
     var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
@@ -67,7 +67,9 @@ angular.module('starter.services')
         consoleLog( "Start SynchInitTest");
 
 
-        serverHandlerMaster.synchCategory();
+        //serverHandlerCategory.synchCategory();
+
+        serverHandlerMasterItem.synchMasterItem();
         //serverHandlerMaster.synchMasterItem();
 
 

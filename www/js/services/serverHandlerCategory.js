@@ -1,17 +1,15 @@
 angular.module('starter.services')
 
-  .factory('serverHandlerMaster', function ($http, global,$q,dbHandler) {
+  .factory('serverHandlerCategory', function ($http, global,$q,dbHandler) {
 
     //------------------------Global Variable
     var defer = $q.defer();
-    var serviceName ="serverHandlerMaster";
-    var categoryList =[];
-    var categoryList2 =[];
+    var serviceName ="serverHandlerCategory";
+    var categoryListLocal =[];
+    var categoryListServer =[];
     var categoryServerId = [];
 
-
     //------------------------consoleLog
-
     function consoleLog(text){
       //return;
       console.log(serviceName+"  =>  "+text);
@@ -26,7 +24,7 @@ angular.module('starter.services')
 
 
       dbHandler.runQuery(query, [], function (res) {
-        consoleLog("Delete Done");
+        consoleLog("Delete category Done");
 
       }, function (err) {
         consoleLog(err);
@@ -39,7 +37,7 @@ angular.module('starter.services')
 
 
       dbHandler.runQuery(query, [], function (res) {
-        consoleLog("Delete Done");
+        consoleLog("Delete category_tl Done");
 
       }, function (err) {
         consoleLog(err);
@@ -59,12 +57,12 @@ angular.module('starter.services')
 
 
 
-      for (var i = 0; i < categoryList2.data.length; i++) {
+      for (var i = 0; i < categoryListServer.data.length; i++) {
 
         var   categoryLocalId   =100+i;
-        var   categoryServerId  =categoryList2.data[i]._id;
-        var   categoryName      =categoryList2.data[i].categoryName;
-        var   translationLength = categoryList2.data[1].translation.length;
+        var   categoryServerId  =categoryListServer.data[i]._id;
+        var   categoryName      =categoryListServer.data[i].categoryName;
+        var   translationLength = categoryListServer.data[1].translation.length;
 
 
 
@@ -89,8 +87,8 @@ angular.module('starter.services')
 
         for (var j = 0; j < translationLength; j++) {
 
-          var   transCategoryName =categoryList2.data[i].translation[j].categoryName;
-          var   transLang         =categoryList2.data[i].translation[j].lang;
+          var   transCategoryName =categoryListServer.data[i].translation[j].categoryName;
+          var   transLang         =categoryListServer.data[i].translation[j].lang;
 
 
           dbHandler.runQuery(query2,[categoryLocalId,transLang,transCategoryName],
@@ -126,7 +124,7 @@ angular.module('starter.services')
     //------------------------synchCategory
     function synchCategory() {
 
-      //deleteCategoryLocal();
+      deleteCategoryLocal();
       consoleLog( "Start synchCategory");
       // Start Read Local DB from table category
       consoleLog("Start Read Local DB from table category");
@@ -137,12 +135,12 @@ angular.module('starter.services')
         function(localResponse) {
 
           consoleLog("Statement True");
-          categoryList = localResponse.rows;
-          consoleLog("Result JSON=> categoryServerId " + JSON.stringify(categoryList));
+          categoryListLocal = localResponse.rows;
+          consoleLog("Result JSON=> categoryServerId " + JSON.stringify(categoryListLocal));
 
 
-          for(i=0; i<categoryList.length; i++){
-            categoryServerId.push(categoryList[i].categoryServerId);
+          for(i=0; i<categoryListLocal.length; i++){
+            categoryServerId.push(categoryListLocal[i].categoryServerId);
           }
 
 
@@ -156,9 +154,9 @@ angular.module('starter.services')
             .then(function (serverResponse) {
               consoleLog(" Server List Back Correctly" );
               consoleLog("true" );
-              categoryList2 = serverResponse;
+              categoryListServer = serverResponse;
 
-              consoleLog( " updateList Response Result => categoryList2 "+ JSON.stringify(categoryList2));
+              consoleLog( " updateList Response Result => categoryListServer "+ JSON.stringify(categoryListServer));
 
               consoleLog(" End updateList Response Done" );
 
@@ -189,54 +187,10 @@ angular.module('starter.services')
     };
 
 
-
-
-    //-----------------------------------------
-    //------------------------synchMasterItem
-    function synchMasterItem () {
-
-      consoleLog( "Start synchMasterItem");
-
-      var query = "SELECT  * FROM masterItem ";
-      consoleLog("Query => " + query);
-
-      dbHandler.runQuery(query,[],
-        function(response) {
-          consoleLog("Statement True");
-          consoleLog("Result => " + JSON.stringify(response));
-
-        }, function (err) {
-          console.log(err);
-        });
-      ///////////// /////////////////
-      consoleLog("Call Server");
-
-      $http.post( global.serverIP + "/api/items" , "")
-
-        .then(function (response) {
-          consoleLog( " updateList Response Result => "+ response);
-          //defer.resolve(response.data.listServerId);
-          consoleLog(" updateList Response Done" );
-
-        });
-
-      consoleLog("After Call Server");
-
-
-      return defer.promise;
-
-
-      consoleLog( "End synchMasterItem");
-    }
-
-
     return {
 //-----------------------------------------
 //------------------------synchCategory
       synchCategory: synchCategory,
-      synchMasterItem:synchMasterItem
-
-
 
 
     };
