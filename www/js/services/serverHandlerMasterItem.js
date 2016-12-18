@@ -11,7 +11,7 @@ angular.module('starter.services')
 
     //------------------------consoleLog
     function consoleLog(text){
-      //return;
+      return;
       console.log(serviceName+"  =>  "+text);
     };
 
