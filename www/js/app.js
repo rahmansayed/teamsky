@@ -13,8 +13,8 @@ angular.module('starter', ['ionic',
                           'ngCordova',
                           'ion-floating-menu',
                           'angular.filter',
-                          'ngRoute',
-                          'countrySelect'
+                          'ngRoute'/*,
+                          'countrySelect'*/
 ])
 /*var db = null;*/
 
