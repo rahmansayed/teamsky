@@ -73,8 +73,8 @@ angular.module('starter.services')
 
 
         // Temp Function to be removed later
-        serverHandlerTemp.tempDataMasterItem();
-        serverHandlerTemp.tempDataCategory();
+        //serverHandlerTemp.tempDataMasterItem();
+        //serverHandlerTemp.tempDataCategory();
 
 
         consoleLog( "End SynchInitTest");
