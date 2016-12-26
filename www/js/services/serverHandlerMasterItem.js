@@ -6,14 +6,35 @@ angular.module('starter.services')
     var defer = $q.defer();
     var serviceName ="serverHandlerMasterItem";
     var masterItemLocal =[];
+    var masterItemLocal1 ={maxItemServerId:"583eb44e7ca6c8d0712a47d5"};
+
     var masterItemServer =[];
     var masterItemServerId = [];
+    var categoryLocalId=0;
 
     //------------------------consoleLog
     function consoleLog(text){
-      return;
+      //return;
       console.log(serviceName+"  =>  "+text);
     };
+
+    //------------------------getcategoryLocalId
+    // not used
+    function getcategoryLocalId(pCategoryName){
+
+      consoleLog("pCategoryName " + pCategoryName);
+
+      var query = "select categoryLocalId from category where categoryName=?"
+
+      dbHandler.runQuery(query,[pCategoryName],function(response) {
+          console.log("Statement Run: " + query);
+        consoleLog("categoryLocalId=>" + JSON.stringify(response.rows[0].categoryLocalId));
+        categoryLocalId=response.rows[0].categoryLocalId;
+     }, function (error) {
+         console.log(error);
+       });
+    };
+
 
     //------------------------deleteMasterItem
     function deleteMasterItem(){
@@ -52,63 +73,103 @@ angular.module('starter.services')
     function addMasterItemLocal(){
       consoleLog("Start addMasterItemLocal");
 
-      var query = "insert into masterItem (itemLocalId,itemServerId,itemName,categoryLocalId) values (?,?,?,?)"
-      consoleLog("Query => " + query);
 
 
 
       for (var i = 0; i < masterItemServer.data.length; i++) {
 
-        var   itemLocalId   =100+i;
-        var   itemServerId  =masterItemServer.data[i]._id;
-        var   itemName      =masterItemServer.data[i].itemName;
-        //var   categoryName      =masterItemServer.data[i].categoryName;
-        var   translationLength = masterItemServer.data[1].translation.length;
+        consoleLog("-------------------------" + i);
+
+        var   itemLocalId       =100+i;
+        var   itemServerId      =masterItemServer.data[i]._id;
+        var   itemName          =masterItemServer.data[i].itemName;
+        var   categoryName      =masterItemServer.data[i].categoryName;
+        var   translationLength =masterItemServer.data[1].translation.length;
+        var   ii=i;
+
+        // Get Category ID
+        consoleLog("pCategoryName " + categoryName);
+
+        var queryc = "select categoryLocalId from category where categoryName=?"
 
 
+        dbHandler.runQuery(queryc,[categoryName],function(response)
+        {
+            console.log("Category Statement true");
+            categoryLocalId=response.rows[0].categoryLocalId;
+            consoleLog("categoryLocalId =>"+categoryName+"," + categoryLocalId);
 
-        dbHandler.runQuery(query,[itemLocalId,itemServerId,itemName,100],
-
-          function(response) {
-            consoleLog("MasterItem Added =>");
-            defer.resolve(response);
-          }, function (error) {
-            consoleLog("Statement Error");
-
-            consoleLog(error);
-            defer.resolve(error);
-          });
+          // Insert masterItem
+          var query = "insert into masterItem (itemLocalId,itemServerId,itemName,categoryLocalId) values (?,?,?,?)"
+          consoleLog("Query => " + query);
+          consoleLog(itemLocalId+","+itemServerId+","+itemName+","+categoryLocalId);
 
 
+          dbHandler.runQuery(query,[itemLocalId,itemServerId,itemName,categoryLocalId],
 
-        var query2 = "insert into masterItem_tl (itemLocalId,language,itemName) values (?,?,?)"
-        consoleLog("Query => " + query2);
-
-        for (var j = 0; j < translationLength; j++) {
-
-          var   transItemName =masterItemServer.data[i].translation[j].itemName;
-          var   transLang         =masterItemServer.data[i].translation[j].lang;
-
-
-          dbHandler.runQuery(query2,[itemLocalId,transLang,transItemName],
-
-            function(response) {
-              consoleLog("MasterItem Transaltion Added =>");
+            function(response)
+            {
+              consoleLog("MasterItem Added =>");
               defer.resolve(response);
-
-            }, function (error) {
-              consoleLog("Statement Error");
+            },
+            function (error)
+            {
+              consoleLog("Statement Erroryyyyyyyyyyyyyyyyyyyyyyyyy");
+              consoleLog("Error" + JSON.stringify(error));
 
               consoleLog(error);
               defer.resolve(error);
+
             });
 
-        }
+          var query2 = "insert into masterItem_tl (itemLocalId,language,itemName) values (?,?,?)"
+          consoleLog("Query => " + query2);
+
+          for (var j = 0; j < translationLength; j++) {
+
+            var transItemName = masterItemServer.data[ii].translation[j].itemName;
+            var transLang = masterItemServer.data[ii].translation[j].lang;
+
+
+            dbHandler.runQuery(query2, [itemLocalId, transLang, transItemName],
+
+              function (response)
+              {
+                consoleLog("MasterItem Transaltion Added =>");
+                defer.resolve(response);
+
+              }, function (error)
+              {
+                consoleLog("Statement Error");
+                consoleLog(error);
+                defer.resolve(error);
+              });
+          }
+
+          deferred.resolve(response);
+        },
+          function (error)
+        {
+          console.log("Get Category Statement Error");
+          return deferred.promise;
+        });
+
+
+
+
+
+
+
+
+
+
 
 
 
 
       }
+
+      return deferred.promise;
 
       consoleLog("End addMasterItemLocal");
 
@@ -123,11 +184,11 @@ angular.module('starter.services')
     //------------------------synchCategory
     function synchMasterItem() {
 
-      //deleteMasterItem();
+      deleteMasterItem();
       consoleLog( "Start synchMasterItem");
       // Start Read Local DB from table category
       consoleLog("Start Read Local DB from table masterItem");
-      var query = "SELECT  *  FROM masterItem ";
+      var query = "SELECT  max(itemServerId)  maxItemServerId   FROM masterItem ";
       consoleLog("Query => " + query);
 
       dbHandler.runQuery(query,[],
@@ -137,24 +198,39 @@ angular.module('starter.services')
           masterItemLocal = localResponse.rows;
           consoleLog("Result JSON=> masterItemLocal " + JSON.stringify(masterItemLocal));
 
-
-          for(i=0; i<masterItemLocal.length; i++){
-            masterItemServerId.push(masterItemLocal[i].itemServerId);
+        if (masterItemLocal[0].maxItemServerId == null)
+          {
+            consoleLog("Comparison True ");
+            //masterItemLocal1[0].maxItemServerId="000";
           }
+          else
+          {
+            consoleLog("Comparison False ");
+            masterItemLocal1.maxItemServerId=masterItemLocal[0].maxItemServerId;
+
+          }
+          consoleLog("Array.isArray => "+Array.isArray(masterItemLocal1));
+          consoleLog("masterItemLocal1  => "+JSON.stringify(masterItemLocal1));
+
+
+          /*
+                    for(i=0; i<masterItemLocal.length; i++){
+                      masterItemServerId.push(masterItemLocal[i].itemServerId);
+                    }
 
          consoleLog("Result JSON=> masterItemServerId " + JSON.stringify(masterItemServerId));
-
+*/
           //////////////////////////////
           // Send The local list to server and get the difference
           consoleLog("Start Call Server");
 
-          $http.post( global.serverIP + "/api/items" ,masterItemServerId)
+          $http.post( global.serverIP + "/api/items/get" ,masterItemLocal1)
             .then(function (serverResponse) {
               consoleLog(" Server List Back Correctly" );
               consoleLog("true" );
               masterItemServer = serverResponse;
 
-              consoleLog( " updateList Response Result => categoryListServer "+ JSON.stringify(masterItemServer));
+              consoleLog( " updateList Response Result => masterItemServer "+ JSON.stringify(masterItemServer));
 
               consoleLog(" End updateList Response Done" );
 

@@ -69,8 +69,11 @@ angular.module('starter.services')
 
         //serverHandlerCategory.synchCategory();
 
+
         serverHandlerMasterItem.synchMasterItem();
-        //serverHandlerMaster.synchMasterItem();
+
+
+
 
 
 

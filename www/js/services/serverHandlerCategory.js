@@ -11,7 +11,7 @@ angular.module('starter.services')
 
     //------------------------consoleLog
     function consoleLog(text){
-      return;
+      //return;
       console.log(serviceName+"  =>  "+text);
     };
 
@@ -127,8 +127,25 @@ angular.module('starter.services')
       //deleteCategoryLocal();
       consoleLog( "Start synchCategory");
       // Start Read Local DB from table category
+
       consoleLog("Start Read Local DB from table category");
-      var query = "SELECT  *  FROM category ";
+      /*var query = "SELECT  max(categoryServerId) maxItemServerId  FROM category ";
+      consoleLog("Query => " + query);
+
+      dbHandler.runQuery(query,[],function(res) {
+        consoleLog("Statement true");
+        consoleLog("Result JSON=> categoryServerId " + JSON.stringify(res.rows));
+        categoryListLocal = res.rows;
+        consoleLog("Result JSON=> nnnnnnnnn " + JSON.stringify(categoryListLocal));
+
+      }, function (err) {
+        consoleLog(err);
+         });
+*/
+
+
+
+      var query = "SELECT  max(categoryServerId) maxItemServerId  FROM category ";
       consoleLog("Query => " + query);
 
       dbHandler.runQuery(query,[],
