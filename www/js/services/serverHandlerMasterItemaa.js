@@ -87,32 +87,27 @@ angular.module('starter.services')
 
       for (var i = 0; i < masterItemServer.data.length; i++) {
 
-         consoleLog("-------------------------" + i);
+        consoleLog("-------------------------" + i);
+        consoleLog("-------------------------" + JSON.stringify(masterItemServer.data[i]));
 
 
-        //consoleLog("-------------------------" + JSON.stringify(masterItemServer.data[i]));
+        itemLocalId       =100+i;
+        itemServerId      =JSON.stringify(masterItemServer.data[i]._id);
+        itemName          =JSON.stringify(masterItemServer.data[i].itemName);
+        categoryName      =JSON.stringify(masterItemServer.data[i].categoryName);
+        translationLength =JSON.stringify(masterItemServer.data[1].translation.length);
+        ii=i;
+        categoryLocalId=0;
 
-
-        // itemLocalId       =100+i;
-        // itemServerId      =JSON.stringify(masterItemServer.data[i]._id);
-         itemName          =JSON.stringify(masterItemServer.data[i].itemName);
-         categoryName      =JSON.stringify(masterItemServer.data[i].categoryName);
-        // translationLength =JSON.stringify(masterItemServer.data[1].translation.length);
-        // ii=i;
-        // categoryLocalId=0;
-        //
-        // // Get Category ID
-
-
-
+        // Get Category ID
         consoleLog("itemName,CategoryName =>" +itemName+","+categoryName);
 
-
         var queryc = "select * from category where categoryName=?";
-         dbHandler.runQuery(queryc,[categoryName],function(response)
+
+        dbHandler.runQuery(queryc,[categoryName],function(response)
         {
-           consoleLog("Category Statement true"+categoryName);
-          consoleLog("Category =>"+JSON.stringify(response.rows));
+          consoleLog("Category Statement true"+categoryName);
+          consoleLog("ccccccccccccc =>"+JSON.stringify(response.rows));
 
           //categoryLocalId=response.rows[0].categoryLocalId;
           //consoleLog("categoryLocalId =>"+categoryName+"," + categoryLocalId);
@@ -164,11 +159,11 @@ angular.module('starter.services')
           //     });
           // }
 
-        //   defer.resolve(response);
+          defer.resolve(response);
         },
-           function (error)
-         {
-           console.log("Get Category Statement Error");
+          function (error)
+        {
+          console.log("Get Category Statement Error");
           return defer.promise;
         });
 
