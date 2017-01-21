@@ -107,9 +107,10 @@ angular.module('starter.services')
 
         consoleLog("itemName,CategoryName =>" +itemName+","+categoryName);
 
-
-        var queryc = "select * from category where categoryName=?";
-         dbHandler.runQuery(queryc,[categoryName],function(response)
+        categoryName = "category => 1";
+        var queryc = "select * from category where categoryName='"+categoryName+"'";
+        consoleLog("queryc "+queryc);
+         dbHandler.runQuery(queryc,[],function(response)
         {
            consoleLog("Category Statement true"+categoryName);
           consoleLog("Category =>"+JSON.stringify(response.rows));
