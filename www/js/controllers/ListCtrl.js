@@ -2,7 +2,7 @@ angular.module('starter.controllers')
   .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler) {
 
 
-    //dbHandler.initDB() ;
+    dbHandler.runQuery() ;
 
     $scope.lists = listHandler.list();
 

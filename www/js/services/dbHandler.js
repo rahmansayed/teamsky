@@ -12,21 +12,28 @@ angular.module('starter.services')
 			    $cordovaSQLite.execute(db, query,dataParams).then(function(res) {
 			      successCb(res);
 			    }, function (err) {
-			      errorCb(err);
+			      //errorCb(err);
+                console.log('Error Query Run!!'+JSON.stringify (err))  ;  
 			    });
 		  }.bind(this));
-		};
+        // console.log('Init Query Run!!');
+		 
+        
+        };
 
     function initDB() {
+        
+            console.log('init db called!!');
            if(window.cordova)
 		  	 {
-			  	db = $cordovaSQLite.openDB("teamSky1_2.db");
-                $location.path("/subscribe/");
+			  	db = $cordovaSQLite.openDB("teamSky1_3.db");
+                /*$location.path("/subscribe");*/
+
 			 }
             else
 			 {
-                db = window.openDatabase("teamSky1_2.db", '1.0', 'Team Sky DB',  2 * 1024 * 1024);
-                $location.path("/subscribe");
+                db = window.openDatabase("teamSky1_3.db", '1.0', 'Team Sky DB',  2 * 1024 * 1024);
+                /*$location.path("/subscribe");*/
             }
       /*db = $cordovaSQLite.openDB("teamSky.db");*/
        /*var query = "DROP TABLE IF EXISTS tsList";
@@ -60,6 +67,8 @@ angular.module('starter.services')
 
       /* "DROP TABLE IF EXISTS category",*/
            /*"DROP TABLE IF EXISTS tsList"*/
+           
+        /*"drop table userInfo",  */ 
 
         "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,lastUpdateDate integer,lastUpdateBy text )",
 
@@ -89,6 +98,9 @@ angular.module('starter.services')
 
 
         "CREATE TABLE IF NOT EXISTS sync (tableName text primary key,lastSyncDate integer)",
+           
+           
+        "CREATE TABLE IF NOT EXISTS userInfo (deviceLocalId integer,dialCode text,userServerId text,deviceServerId text,status text,lastUpdateDate integer,lastUpdateBy text)"        
 
 
 
@@ -98,15 +110,14 @@ angular.module('starter.services')
         ];
 
 
-       //  for  (var j=0;j<query.length;j++){
-       //    runQuery(query[j],[],function(res) {
-       //    console.log("Statement Run: " + query[j]);
-       //  }, function (err) {
-       //    console.log(err);
-       //  });
-       //  };
-       //  */
-       //
+         for  (var j=0;j<query.length;j++){
+           runQuery(query[j],[],function(res) {
+           console.log("Statement Run: " + query[j]);
+         }, function (err) {
+           console.log(err);
+         });
+        };
+              //
        //  var query1 = "insert into category (categoryLocalId,categoryName) values (?,?)"
        // /* var query1 = "delete from masterItem"; */
        //  runQuery(query1,[10,'Uncategorized'],function(res) {

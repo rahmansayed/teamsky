@@ -1,9 +1,52 @@
 angular.module('starter.controllers')
-  .controller('dbConfigCtrl', function ($scope,$ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite,dbHandler) {
+  .controller('dbConfigCtrl', function ($scope,$ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite,dbHandler,userVerify,$ionicLoading,$timeout,$q) {
 
 
     console.log ('db Config Fired!!');
-    dbHandler.initDB();
+    var deviceLocalId = '966530572215';
+    dbHandler.initDB(deviceLocalId);
+    dbHandler.runQuery();
+    
+    
+    $ionicLoading.show({
+    template: '<ion-spinner icon="spiral" class="spinner-positive"></ion-spinner> <br>Loading...',
+    noBackdrop: true,
+    animation: 'fade-in'
+  });
+    
+  
+       
+     userVerify.getUserInfo()
+      
+      .then(function(result){
+      $scope.users = userVerify.selectedUser();
+      console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
+      
+         if (userVerify.isUserVerified(deviceLocalId)){
+        $ionicLoading.hide();
+        $location.path("/lists");
+      }
+         else
+             {
+                $ionicLoading.hide();
+                 $location.path("/subscribe");
+                 
+             }
+              
+  }, function(error) {
+    // error handling here
+    $ionicLoading.hide()
+    console.log('aalatief: Ionic Load Fail:'+JSON.stringify(error));;
+    $ionicLoading.show({
+      template: "unable to connect",
+      noBackdrop: true
+    });
+    $timeout(function() {
+       $ionicLoading.hide();
+    }, 2000);
+  });
+                       
+    
     /*
     $ionicPlatform.ready(function() {
         $ionicLoading.show({ template: 'Loading...' });
