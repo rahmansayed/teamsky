@@ -36,7 +36,7 @@ angular.module('starter.controllers')
                datekey:'ZXCV'};
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
             
-            console.log (JSON.stringify (response));
+        console.log (JSON.stringify (response));
             
 /*            $ionicPlatform.ready(function() {
 
@@ -67,6 +67,8 @@ angular.module('starter.controllers')
             
             
             userVerify.addUserInfo(userInfo);
+            
+            
             userVerify.updateVerificationData(userData);
             $location.path("/verify");
         },function(error){

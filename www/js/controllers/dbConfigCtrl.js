@@ -3,7 +3,7 @@ angular.module('starter.controllers')
 
 
     console.log ('db Config Fired!!');
-    var deviceLocalId = '966530572215';
+    var deviceLocalId = '966531572215';
     dbHandler.initDB(deviceLocalId);
     dbHandler.runQuery();
     
@@ -16,7 +16,7 @@ angular.module('starter.controllers')
     
   
        
-     userVerify.getUserInfo()
+/*     userVerify.getUserInfo()
       
       .then(function(result){
       $scope.users = userVerify.selectedUser();
@@ -33,7 +33,27 @@ angular.module('starter.controllers')
                  
              }
               
-  }, function(error) {
+  }*/
+         userVerify.getUserSetting()
+      
+      .then(function(result){
+      $scope.users = userVerify.userSetting();
+      console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
+      
+         if (userVerify.isVerified()){
+        $ionicLoading.hide();
+        $location.path("/lists");
+      }
+         else
+             {
+                $ionicLoading.hide();
+                 $location.path("/subscribe");
+                 
+             }
+              
+  }
+    
+    , function(error) {
     // error handling here
     $ionicLoading.hide()
     console.log('aalatief: Ionic Load Fail:'+JSON.stringify(error));;

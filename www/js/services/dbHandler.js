@@ -68,7 +68,7 @@ angular.module('starter.services')
       /* "DROP TABLE IF EXISTS category",*/
            /*"DROP TABLE IF EXISTS tsList"*/
            
-        /*"drop table userInfo",  */ 
+        /*"drop table userSetting",*/   
 
         "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,lastUpdateDate integer,lastUpdateBy text )",
 
@@ -100,7 +100,9 @@ angular.module('starter.services')
         "CREATE TABLE IF NOT EXISTS sync (tableName text primary key,lastSyncDate integer)",
            
            
-        "CREATE TABLE IF NOT EXISTS userInfo (deviceLocalId integer,dialCode text,userServerId text,deviceServerId text,status text,lastUpdateDate integer,lastUpdateBy text)"        
+        "CREATE TABLE IF NOT EXISTS userInfo (deviceLocalId integer,dialCode text,userServerId text,deviceServerId text,status text,lastUpdateDate integer,lastUpdateBy text)"  ,
+           
+         "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text)"   
 
 
 
