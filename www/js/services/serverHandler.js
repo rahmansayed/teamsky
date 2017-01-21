@@ -7,7 +7,7 @@ angular.module('starter.services')
 
 
 
-  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerCategoryV2,serverHandlerMasterItem) {
+  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerCategoryV2,serverHandlerItemsV2) {
 
     var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
@@ -68,7 +68,12 @@ angular.module('starter.services')
 
         //serverHandlerCategoryV2.deleteCategories();
         serverHandlerCategoryV2.deleteCategories().then(function(){
-          serverHandlerCategoryV2.syncCategories();
+          serverHandlerCategoryV2.syncCategories().then(function(){
+            serverHandlerItemsV2.deleteItemsLocal().then(function () {
+              serverHandlerItemsV2.syncMasterItems();
+            })
+
+          });
         });
 
 

@@ -5,10 +5,6 @@ angular.module('starter.services')
       //------------------------Global Variable
 
       var serviceName = "serverHandlerCategoryV2";
-      var categoryListLocal = [];
-      var categoryListServer = [];
-      var categoryServerId = [];
-
       //------------------------consoleLog
       function consoleLog(text) {
         //return;
@@ -48,9 +44,9 @@ angular.module('starter.services')
         return defer.promise;
       };
 
-      //------------------------addCategoryLocal
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addCategoriesLocal(categoriesList) {
-        consoleLog("categoriesList = " + JSON.stringify(categoriesList));
+        //consoleLog("categoriesList = " + JSON.stringify(categoriesList));
 
         var defer = $q.defer();
 
@@ -66,9 +62,11 @@ angular.module('starter.services')
               var categoryServerId = categoriesList[i]._id;
               var categoryName = categoriesList[i].categoryName;
 
-              consoleLog("categoryLocalId = " + categoryLocalId);
+/*
               consoleLog("categoryServerId = " + categoryServerId);
               consoleLog("categoryName = " + categoryName);
+              consoleLog("categoryLocalId = " + categoryLocalId);
+*/
 
               tx.executeSql(query_insert, [categoryLocalId, categoryServerId, categoryName]);
 
@@ -152,23 +150,24 @@ angular.module('starter.services')
                 consoleLog("true");
                 categoryListServer = serverResponse;
 
-                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
+//                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
 
                 consoleLog(" End updateList Response Done");
 
 
-                addCategoriesLocal(serverResponse.data);
+                addCategoriesLocal(serverResponse.data).then(function(string){
+                  defer.resolve(string);
+                }, function(error){
+                  defer.reject(error);
+                });
 
               });
             consoleLog("End Call Server");
             consoleLog("///////////////////////////////////////");
             consoleLog("///////////////////////////////////////");
 
-
-            defer.resolve(localResponse);
           }, function (error) {
             consoleLog(error);
-            defer.resolve(error);
           });
 
         consoleLog("End Read Local DB from table category");
@@ -182,12 +181,8 @@ angular.module('starter.services')
 
 
       return {
-//-----------------------------------------
-//------------------------synchCategory
         syncCategories: syncCategories,
         deleteCategories: deleteCategoryLocal
-
-
       };
     }
   );
