@@ -18,9 +18,9 @@ angular.module('starter.controllers')
             console.log('All Users: ' + JSON.stringify($scope.users)) ;
         });
     */
-    console.log('All Users: ' + JSON.stringify($scope.users)) ;
+/*    console.log('All Users: ' + JSON.stringify($scope.users)) ;
     console.log('Is user Verified?: '+userVerify.isUserVerified($scope.deviceLocalId));
-    
+    */
     
 /*    if (userVerify.isUserVerified($scope.deviceLocalId)) {
         
@@ -55,7 +55,7 @@ angular.module('starter.controllers')
                        deviceServerId:response.data.deviceServerId,
                        vcode:response.data.vcode};
             
-            console.log('aalatief Subscribe, User Data:'+JSON.stringify(userData));
+         /*   console.log('aalatief Subscribe, User Data:'+JSON.stringify(userData));*/
 
                         
            // $state.go("/verify")

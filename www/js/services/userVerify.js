@@ -49,12 +49,12 @@ angular.module('starter.services')
 
         for  (var j=0;j<userSetting.length;j++){
             if (userSetting[j].setting == 'verified' && userSetting[j].value == 'Y'){
-                console.log('aalatief: user already verified!! -> ' + ' '+ userSetting.length);
+               /* console.log('aalatief: user already verified!! -> ' + ' '+ userSetting.length);*/
                return true;
              }
         };
         }
-        console.log('aalatief: User Array Still Not Loaded-> ' + ' ' + userSetting.length);
+        /*console.log('aalatief: User Array Still Not Loaded-> ' + ' ' + userSetting.length);*/
    
      return false;
       };
@@ -119,7 +119,7 @@ angular.module('starter.services')
     ;
 
     function addUserInfo(userInfo){
-                console.log('User Info Added to Table'+userInfo);
+               /* console.log('User Info Added to Table'+userInfo);*/
                  /*console.log('Add Item to List Case: '+ JSON.stringify(mySelectedItem));*/
      /*            if (!itemExitInList(mySelectedItem)){
                     selectedItems.push(mySelectedItem);
@@ -145,7 +145,7 @@ angular.module('starter.services')
             };
     
         function addUserSetting(userInfo,setting,value){
-                console.log('User Setting Added to Table'+userInfo);
+             /*   console.log('User Setting Added to Table'+userInfo);*/
 
                 //Sqlite
                 var deferred = $q.defer();
@@ -184,7 +184,7 @@ angular.module('starter.services')
                         console.log('aalatief: Update user staus '+userInfo.deviceLocalId)  ;
                         dbHandler.runQuery(query,[status,new Date().getTime(),'S',userInfo.deviceLocalId],function(response){
                             //Success Callback
-                            console.log('Update user status');
+                           /* console.log('Update user status');*/
                             console.log(response);
                             deferred.resolve(response);
                         },function(error){

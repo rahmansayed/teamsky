@@ -1,15 +1,15 @@
 angular.module('starter.services')
 
-  .factory('dbHandler', function ($ionicPlatform, $cordovaSQLite,$q,$ionicLoading, $location) {
+  .factory('dbHandler', function ($ionicPlatform, $cordovaSQLite,$q,$ionicLoading, $location,global) {
 
   /*var lists = angular.fromJson(window.localStorage['lists'] || []);*/
-        var db = null;
+        
         var list;
 
     function runQuery(query,dataParams,successCb,errorCb)
 		{
 		  $ionicPlatform.ready(function() {
-			    $cordovaSQLite.execute(db, query,dataParams).then(function(res) {
+			    $cordovaSQLite.execute(global.db , query,dataParams).then(function(res) {
 			      successCb(res);
 			    }, function (err) {
 			      //errorCb(err);
@@ -26,13 +26,13 @@ angular.module('starter.services')
             console.log('init db called!!');
            if(window.cordova)
 		  	 {
-			  	db = $cordovaSQLite.openDB("teamSky1_3.db");
+			  	global.db = $cordovaSQLite.openDB("teamSky1_3.db");
                 /*$location.path("/subscribe");*/
 
 			 }
             else
 			 {
-                db = window.openDatabase("teamSky1_3.db", '1.0', 'Team Sky DB',  2 * 1024 * 1024);
+                global.db = window.openDatabase("teamSky1_3.db", '1.0', 'Team Sky DB',  2 * 1024 * 1024);
                 /*$location.path("/subscribe");*/
             }
       /*db = $cordovaSQLite.openDB("teamSky.db");*/
@@ -102,7 +102,7 @@ angular.module('starter.services')
            
         "CREATE TABLE IF NOT EXISTS userInfo (deviceLocalId integer,dialCode text,userServerId text,deviceServerId text,status text,lastUpdateDate integer,lastUpdateBy text)"  ,
            
-         "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text)"   
+        "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text)"   
 
 
 

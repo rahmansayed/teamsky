@@ -16,17 +16,17 @@ angular.module('starter.controllers')
         deviceServerId:user.deviceServerId,  
         vCode: vCode
       };
-     console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    
-        console.log('date: '+JSON.stringify(data));
+   /*  console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    
+        console.log('date: '+JSON.stringify(data));*/
       //$scope.settings.mobile = '999';
       $http.post(global.serverIP+ "/api/user/activate" , data)
         .then(function (response) {
           alert(response.data);
           
-          console.log('aaaltief: user to be updated:'+JSON.stringify(data)); 
+          /*console.log('aaaltief: user to be updated:'+JSON.stringify(data)); */
           userVerify.updateUserInfo(data,'V');
           userVerify.addUserSetting(userInfo,'verified','Y');
-          console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); 
+          /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification
           $state.go('lists');
         });
