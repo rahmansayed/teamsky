@@ -7,7 +7,7 @@ angular.module('starter.services')
 
 
 
-  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerCategoryV2,serverHandlerItemsV2) {
+  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerCategoryV2,serverHandlerItemsV2, serverHandlerListV2) {
 
     var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
@@ -75,6 +75,15 @@ angular.module('starter.services')
 
           });
         });
+
+        var list = {
+            listLocalId : 1485085399062,
+          listName : 'testlist3',
+          listDesc : 'testlist3',
+          listColour: 'red',
+          listOrder: 3
+        };
+        serverHandlerListV2.createList(list);
 
 
 
