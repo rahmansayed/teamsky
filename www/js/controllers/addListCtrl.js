@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, listHandler,serverListHandler,dbHandler) {
+  .controller('addListCtrl', function ($scope, $state, listHandler,serverListHandler,dbHandler,serverHandlerListV2) {
         $scope.dynamicTitle = 'New List';
         $scope.list= {
 
@@ -13,6 +13,15 @@ angular.module('starter.controllers')
 
             listHandler.create($scope.list);
             listHandler.addNewList($scope.list);
+            //Server Call for Create List in Server DB
+            serverHandlerListV2.createList($scope.list)
+            .then(function(result){
+                console.log('aalatief: List Server create success:'+JSON.stringify(result));
+            },
+            function(error){
+                console.log('aalatief: List Server create fail:'+JSON.stringify(error));
+            }      
+        );
 
             $state.go('lists');
         };

@@ -26,6 +26,9 @@ angular.module('starter.controllers')
           /*console.log('aaaltief: user to be updated:'+JSON.stringify(data)); */
           userVerify.updateUserInfo(data,'V');
           userVerify.addUserSetting(userInfo,'verified','Y');
+          userVerify.addUserSetting(userInfo,'userServerId',response.data.userServerId);
+          userVerify.addUserSetting(userInfo,'deviceServerId',response.data.deviceServerId);                    
+
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification
           $state.go('lists');

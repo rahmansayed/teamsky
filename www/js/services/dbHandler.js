@@ -68,7 +68,7 @@ angular.module('starter.services')
       /* "DROP TABLE IF EXISTS category",*/
            /*"DROP TABLE IF EXISTS tsList"*/
            
-        /*"drop table userSetting",*/   
+       /* "drop table userSetting",  */ 
 
         "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,lastUpdateDate integer,lastUpdateBy text )",
 

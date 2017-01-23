@@ -66,13 +66,17 @@ angular.module('starter.services')
         consoleLog( "Start createList");
 
         data = {
-          listLocalId:list.listLocalId,
-          listName: list.listName,
+        
+          userServerId:userServerId,
+          deviceServerId:deviceServerId,
+           listDetails: {
+               listLocalId:list.listLocalId,
+                listName: list.listName,
           listDesc:list.listDesc,
           listColour:list.listColour,
-          listOrder:list.listOrder,
-          userServerId:userServerId,
-          deviceServerId:deviceServerId
+          listOrder:list.listOrder
+            
+            }
         };
 
         consoleLog( " List to Be Created = "+ JSON.stringify(data));

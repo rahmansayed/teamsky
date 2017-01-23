@@ -85,9 +85,20 @@ angular.module('starter.controllers')
 			}
 		};
     );*/
+     itemHandler.getAllEntry($state.params.listId)      
+    .then(function(result){
+       $scope.listItems=itemHandler.selectedItem();
+       console.log('aalatief: list items: '+JSON.stringify(result));
+      }
+    , function(error) {
+    // error handling here
+    
+    console.log('aalatief: List Item Load Fail:'+JSON.stringify(error));;
 
-     $scope.listItems=itemHandler.selectedItem($state.params.listId);
-     console.log('!!!!list items: '+JSON.stringify($scope.listItems));
+  });
+    
+   /*  $scope.listItems=itemHandler.selectedItem($state.params.listId);
+     console.log('!!!!list items: '+JSON.stringify($scope.listItems));*/
     //$scope.itemCategory = itemHandler.itemCategory($scope.listItems.itemName);
 
     /*Group items by category-- Not Neede now, I used different way*/
@@ -162,7 +173,7 @@ angular.module('starter.controllers')
 			var message = "Some error occurred in fetching List";
 		};
    
-    var z = listHandler.getSpecificList($state.params.listId) .then(getSpecificSuccess,getSpecificError);
+   // var z = listHandler.getSpecificList($state.params.listId) .then(getSpecificSuccess,getSpecificError);
 console.log('$scope.list=: '+ JSON.stringify($scope.list));
     //$scope.list= listHandler.getSpecificList($state.params.listId); // listHandler.list();   angular.copy( 
     

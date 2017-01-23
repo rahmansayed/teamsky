@@ -267,9 +267,9 @@ angular.module('starter.services')
         //Sqlite
 		var deferred = $q.defer();
 		var query = "INSERT INTO masterItem (itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
-		dbHandler.runQuery(query,[item.itemLocalId,item.itemName,10,'','','',new Date().getTime()],function(response){
+		dbHandler.runQuery(query,[item.itemLocalId,item.itemName,100,'','','',new Date().getTime()],function(response){
 			//Success Callback
-			console.log(response);
+			console.log('aaaltief: Master Item Added: '+response);
 			deferred.resolve(response);
 		},function(error){
 			//Error Callback

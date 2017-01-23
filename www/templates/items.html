@@ -43,9 +43,8 @@
         <div class="item item-divider"
             ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" ng-show="!allListItemCategoryCrossed(item.categoryName)">
                         {{item.categoryName}}
-            <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = ! showDetails" ng-show="listItem.entryCrossedFlag == '0'">
+         <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = ! showDetails" ng-show="listItem.entryCrossedFlag == '0'">
                 <h2>{{listItem.itemName}}</h2>
-                 {{listItem.entryCrossedFlag}}
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
                 <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>

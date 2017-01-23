@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('listHandler', function ($http, global,serverListHandler,dbHandler,$q) {
+  .factory('listHandler', function ($http, global,serverListHandler,dbHandler,$q,serverHandlerListV2) {
 
     var lists =[]; //angular.fromJson(window.localStorage['lists'] || []);
     
@@ -49,6 +49,8 @@ angular.module('starter.services')
           }
         }
         serverListHandler.updateList(list);
+        
+       /* serverHandlerListV2.updateList(list);*/
         updateList(list);
 
     };
@@ -150,10 +152,10 @@ angular.module('starter.services')
       get: function (listId) {
 
  
-        var deferred = $q.defer();
+          var deferred = $q.defer();
           
-         var z = getSpecificList(listId)
-         .success(function (response) {
+        getSpecificList(listId)
+         .then(function (response) {
 
            if(response && response.rows && response.rows.length > 0)
 			{
@@ -165,20 +167,18 @@ angular.module('starter.services')
                                    listDescription:response.rows.item(i).listDescription} ;
 				}
 			    console.log('specificList' + JSON.stringify(specificList));
+                 deferred.resolve(response);
             }else
 			{
 				var message = "No lists selected till now.";
 			}
-          })
-          .error(function (data, status) {
+          return specificList;
+        },function (data, status) {
              var message = "Some error occurred in fetching List";
             deferred.reject(data);
           });
-     
        
-          console.log('specificList' + JSON.stringify(specificList) + 'z: ' + JSON.stringify(z));
-           return deferred.promise;
-          
+        return deferred.promise;
         
       },
 
