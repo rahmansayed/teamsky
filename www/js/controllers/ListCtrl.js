@@ -10,16 +10,16 @@ angular.module('starter.controllers')
     console.log('Returned list from DB = ')+JSON.stringify($scope.lists);
 
     $scope.editList=function(listLocalId){
-        listHandler.get(listLocalId)
+/*        listHandler.get(listLocalId)
         .then(function(result){
-            
+            */
              $state.go('edit',{'listId':listLocalId});
-        },
+        }/*,
         function(error){
             console.log('aalatief: List Load Error')
         });
        
-    };
+    };*/
 
     $scope.removeList=function(listLocalId){
 

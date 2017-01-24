@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('dbConfigCtrl', function ($scope,$ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite,dbHandler,userVerify,$ionicLoading,$timeout,$q) {
+  .controller('dbConfigCtrl', function ($scope,$ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite,dbHandler,userVerify,$ionicLoading,$timeout,$q,global) {
 
 
     console.log ('db Config Fired!!');
@@ -34,12 +34,15 @@ angular.module('starter.controllers')
              }
               
   }*/
-         userVerify.getUserSetting()
+     userVerify.getUserSetting()
       
       .then(function(result){
       $scope.users = userVerify.userSetting();
+      global.userServerId = userVerify.getUserServerId(); 
+      global.deviceServerId = userVerify.getDeviceServerId(); 
       console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
-      
+      console.log('aalatief: User Server ID:'+global.userServerId);   
+      console.log('aalatief: Device Server ID:'+global.deviceServerId); 
          if (userVerify.isVerified()){
         $ionicLoading.hide();
         $location.path("/lists");

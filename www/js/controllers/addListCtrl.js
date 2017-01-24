@@ -11,7 +11,7 @@ angular.module('starter.controllers')
 
         $scope.saveList=function(){
 
-            listHandler.create($scope.list);
+           /* listHandler.create($scope.list); -- Old Create Local Storage*/
             listHandler.addNewList($scope.list);
             //Server Call for Create List in Server DB
             serverHandlerListV2.createList($scope.list)

@@ -59,6 +59,36 @@ angular.module('starter.services')
      return false;
       };
     
+     function getUserServerId(){
+        if (userSetting.length>0){
+
+        for  (var j=0;j<userSetting.length;j++){
+            if (userSetting[j].setting == 'userServerId'){
+               /* console.log('aalatief: user already verified!! -> ' + ' '+ userSetting.length);*/
+               return userSetting[j].value;
+             }
+        };
+        }
+        /*console.log('aalatief: User Array Still Not Loaded-> ' + ' ' + userSetting.length);*/
+   
+     return 'Not Found';
+      };
+    
+         function getDeviceServerId(){
+        if (userSetting.length>0){
+
+        for  (var j=0;j<userSetting.length;j++){
+            if (userSetting[j].setting == 'deviceServerId'){
+               /* console.log('aalatief: user already verified!! -> ' + ' '+ userSetting.length);*/
+               return userSetting[j].value;
+             }
+        };
+        }
+        /*console.log('aalatief: User Array Still Not Loaded-> ' + ' ' + userSetting.length);*/
+   
+     return 'Not Found';
+      };
+    
         function getUserSuccessCB(response)
 		{
 			 selectedUsers=[];
@@ -290,7 +320,9 @@ angular.module('starter.services')
       updateUserInfo:updateUserInfo,
       isUserVerified:isUserVerified,
       isVerified:isVerified,    
-      addUserSetting:addUserSetting
+      addUserSetting:addUserSetting,
+      getUserServerId:getUserServerId,
+      getDeviceServerId:getDeviceServerId
     };
 });
 
