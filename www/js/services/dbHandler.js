@@ -26,13 +26,17 @@ angular.module('starter.services')
             console.log('init db called!!');
            if(window.cordova)
 		  	 {
-			  	global.db = $cordovaSQLite.openDB("teamSky1_3.db");
+                console.log('02/02/2017 - aalatief - initDb from Device');
+			  	global.db = $cordovaSQLite.openDB({name:"teamSky1_3.db",location:1,createFromLocation: 1});
+                
                 /*$location.path("/subscribe");*/
 
 			 }
             else
 			 {
+                 console.log('02/02/2017 - aalatief - initDb from Browser');
                 global.db = window.openDatabase("teamSky1_3.db", '1.0', 'Team Sky DB',  2 * 1024 * 1024);
+                
                 /*$location.path("/subscribe");*/
             }
       /*db = $cordovaSQLite.openDB("teamSky.db");*/

@@ -4,8 +4,8 @@ angular.module('starter.controllers')
 
     console.log ('db Config Fired!!');
     var deviceLocalId = '966531572215';
-    dbHandler.initDB(deviceLocalId);
-    dbHandler.runQuery();
+/*    dbHandler.initDB(deviceLocalId);
+    dbHandler.runQuery();*/
     
     
     $ionicLoading.show({

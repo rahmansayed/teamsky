@@ -21,7 +21,23 @@ angular.module('starter', ['ionic',
   .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location,serverHandler,userVerify,$ionicLoading,$location,$timeout) {
     $ionicPlatform.ready(function () {
 
-       dbHandler.initDB()
+
+       
+        
+        
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+        
+               dbHandler.initDB()
       .then(function(result){
            userVerify.getUserSetting()
       
@@ -42,20 +58,6 @@ angular.module('starter', ['ionic',
         console.log('02/02/2017 - app.run - aalatief: initDB Fail'+JSON.stringify(error));;
 
        });
-       
-        
-        
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        cordova.plugins.Keyboard.disableScroll(true);
-
-      }
-      if (window.StatusBar) {
-        // org.apache.cordova.statusbar required
-        StatusBar.styleDefault();
-      }
 
       $cordovaPreferences.fetch('userName')
         .success(function (value) {
