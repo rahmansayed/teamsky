@@ -62,11 +62,11 @@ angular.module('starter.services')
               var categoryServerId = categoriesList[i]._id;
               var categoryName = categoriesList[i].categoryName;
 
-/*
-              consoleLog("categoryServerId = " + categoryServerId);
-              consoleLog("categoryName = " + categoryName);
-              consoleLog("categoryLocalId = " + categoryLocalId);
-*/
+              /*
+               consoleLog("categoryServerId = " + categoryServerId);
+               consoleLog("categoryName = " + categoryName);
+               consoleLog("categoryLocalId = " + categoryLocalId);
+               */
 
               tx.executeSql(query_insert, [categoryLocalId, categoryServerId, categoryName]);
 
@@ -123,22 +123,20 @@ angular.module('starter.services')
         var query = "SELECT  max(categoryServerId) maxCategoryServerId  FROM category ";
         consoleLog("Query => " + query);
 
-        dbHandler.runQuery(query, [],
-          function (localResponse) {
-
-            consoleLog("Statement True");
-            consoleLog("localResponse.rows = " + JSON.stringify(localResponse.rows));
+        global.db.transaction(function (tx) {
+          tx.executeSql(query, [], function (tx, result) {
+            console.log("Statement True");
+            console.log("maxCategoryServerId result.rows = " + JSON.stringify(result.rows));
+            console.log("maxCategoryServerId result.rows.item = " + JSON.stringify(result.rows.item));
+            console.log("maxCategoryServerId result.rows[0] = " + JSON.stringify(result.rows[0]));
             var maxCategoryServerId;
-            if (!localResponse.rows[0].maxCategoryServerId) {
-              maxCategoryServerId = 0;
-            } else {
-              maxCategoryServerId = localResponse.rows[0].maxCategoryServerId;
-            }
-            ;
+            console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
+            
+            maxCategoryServerId = result.rows[0].maxCategoryServerId || 0;
 
-            consoleLog("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
+            console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
 
-            consoleLog("Start Call Server");
+            console.log("Start Call Server");
 
             var data = {
               maxCategoryServerId: maxCategoryServerId
@@ -155,9 +153,9 @@ angular.module('starter.services')
                 consoleLog(" End updateList Response Done");
 
 
-                addCategoriesLocal(serverResponse.data).then(function(string){
+                addCategoriesLocal(serverResponse.data).then(function (string) {
                   defer.resolve(string);
-                }, function(error){
+                }, function (error) {
                   defer.reject(error);
                 });
 
@@ -166,10 +164,11 @@ angular.module('starter.services')
             consoleLog("///////////////////////////////////////");
             consoleLog("///////////////////////////////////////");
 
-          }, function (error) {
-            consoleLog(error);
+          }, function (err) {
+            consoleLog("syncCtegories error " + JSON.stringify(err));
           });
 
+        });
         consoleLog("End Read Local DB from table category");
 
 
