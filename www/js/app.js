@@ -18,10 +18,33 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location,serverHandler) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location,serverHandler,userVerify,$ionicLoading,$location,$timeout) {
     $ionicPlatform.ready(function () {
 
-        dbHandler.initDB();
+       dbHandler.initDB()
+      .then(function(result){
+           userVerify.getUserSetting()
+      
+          .then(function(result){
+          users = userVerify.userSetting();
+          global.userServerId = userVerify.getUserServerId(); 
+          global.deviceServerId = userVerify.getDeviceServerId(); 
+          console.log('01/02/2017 - app.run - aalatief: Users:'+JSON.stringify(users));
+          console.log('01/02/2017 - app.run - aalatief: User Server ID:'+global.userServerId);   
+          console.log('01/02/2017 - app.run - aalatief: Device Server ID:'+global.deviceServerId);         
+      }
+        , function(error) {
+            console.log('02/02/2017 - app.run - aalatief: userSetting Fail:'+JSON.stringify(error));;
+        });
+           
+       },
+    function(error){
+        console.log('02/02/2017 - app.run - aalatief: initDB Fail'+JSON.stringify(error));;
+
+       });
+       
+        
+        
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

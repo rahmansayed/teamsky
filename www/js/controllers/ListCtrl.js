@@ -67,11 +67,17 @@ angular.module('starter.controllers')
           options.multiple = true;
           $cordovaContacts.find(options).then(onSuccess, onError);
         };
-
+ 
+    $scope.getAllContacts = function() {
+    $cordovaContacts.find({filter: '',multiple:true}).then(function(allContacts) {
+      $scope.contacts = allContacts;
+      console.log($scope.contacts);
+    });
+  };
 
 
     $scope.addUserToList = function(){
-
+       /* $scope.getAllContacts();*/
 
     };
   });

@@ -22,7 +22,7 @@ angular.module('starter.services')
         };
 
     function initDB() {
-        
+            var deferred = $q.defer();
             console.log('init db called!!');
            if(window.cordova)
 		  	 {
@@ -115,10 +115,14 @@ angular.module('starter.services')
          for  (var j=0;j<query.length;j++){
            runQuery(query[j],[],function(res) {
            console.log("Statement Run: " + query[j]);
+            deferred.resolve(res);
          }, function (err) {
            console.log(err);
          });
+
         };
+        
+        return deferred.promise;
               //
        //  var query1 = "insert into category (categoryLocalId,categoryName) values (?,?)"
        // /* var query1 = "delete from masterItem"; */
