@@ -39,7 +39,6 @@ angular.module('starter.services')
       $http.post(global.serverIP + "/api/list/create", data)
         .then(function (response) {
             consoleLog(" createList Response Result => " + JSON.stringify(response));
-            defer.resolve(response.data.listServerId);
             consoleLog(" createList Response Done");
             global.db.transaction(function (tx) {
               var query = "update list set listServerId = ? where listLocalId = ?";
@@ -55,6 +54,7 @@ angular.module('starter.services')
             });
           },
           function (error) {
+            consoleLog("createList error " + JSON.stringify(error));
             defer.reject(error);
           });
 
@@ -99,6 +99,8 @@ angular.module('starter.services')
       // this function is used to synchronize all the un-sync'd lists
       syncLists: function () {
         consoleLog("In syncLists")
+        var defer = $q.defer();
+        var promises = []
         global.db.transaction(function (tx) {
           var query = "select * from list where listServerId = ''";
           tx.executeSql(query, [], function (tx, result) {
@@ -119,12 +121,14 @@ angular.module('starter.services')
                 ;
 
               consoleLog("calling createlist for " + listDetails);
-              createList(listDetails);
+              promises.push(createList(listDetails));
             }
+            defer = $q.all(promises);
           }, function (error) {
             consoleLog("error = " + JSON.stringify(error));
           });
         });
+        return defer;
       },
 //------------------------updateList
       updateList: function (list) {
