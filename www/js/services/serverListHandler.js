@@ -6,20 +6,19 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-
-  .factory('serverListHandler', function ($http, global,$q) {
+  .factory('serverListHandler', function ($http, global, $q) {
 
     var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
-    var serviceName ="serverItemHandler";
-    var userServerId="582c3f6d30126504007c6bdf";
-    var deviceServerId="582c3f6d30126504007c6be0";
+    var serviceName = "serverItemHandler";
+    //var userServerId = "582c3f6d30126504007c6bdf";
+    //var deviceServerId = "582c3f6d30126504007c6be0";
 
     //------------------------consoleLog
 
-    function consoleLog(text){
-    //return;
-     console.log(serviceName+"  =>  "+text);
+    function consoleLog(text) {
+      //return;
+      console.log(serviceName + "  =>  " + text);
     }
 
     function saveToLocalStorage() {
@@ -52,8 +51,8 @@ angular.module('starter.services')
         data = {
           contact: contact
         };
-        console.log("data = "+data);
-        $http.post(global.serverIP + "/api/list/checkInvitedUser" , data)
+        console.log("data = " + data);
+        $http.post(global.serverIP + "/api/list/checkInvitedUser", data)
 
           .then(function (response) {
             console.log('serverListHandler' + response);
@@ -63,37 +62,36 @@ angular.module('starter.services')
 //------------------------createList
       createList: function (list) {
 
-        consoleLog( "Start createList");
+        consoleLog("Start createList");
 
         data = {
-        
-          userServerId:userServerId,
-          deviceServerId:deviceServerId,
-           listDetails: {
-               listLocalId:list.listLocalId,
-                listName: list.listName,
-          listDesc:list.listDesc,
-          listColour:list.listColour,
-          listOrder:list.listOrder
-            
-            }
+
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId,
+          listDetails: {
+            listLocalId: list.listLocalId,
+            listName: list.listName,
+            listDesc: list.listDesc,
+            listColour: list.listColour,
+            listOrder: list.listOrder
+
+          }
         };
 
-        consoleLog( " List to Be Created = "+ JSON.stringify(data));
+        consoleLog(" List to Be Created = " + JSON.stringify(data));
 
-        $http.post(global.serverIP + "/api/list/create" , data)
-
+        $http.post(global.serverIP + "/api/list/create", data)
 
 
           .then(function (response) {
 
             consoleLog(" createList Response Result => " + JSON.stringify(response));
             defer.resolve(response.data.listServerId);
-            consoleLog(" createList Response Done" );
+            consoleLog(" createList Response Done");
 
           });
 
-          return defer.promise;
+        return defer.promise;
       },
 //------------------------updateList
       updateList: function (list) {
@@ -103,22 +101,22 @@ angular.module('starter.services')
 
         data = {
           listServerId: list.listServerId,
-          listName:list.listName,
-          listDescription:list.listDescription,
-          listColour:"Red",
-          listOrder:"1"
+          listName: list.listName,
+          listDescription: list.listDescription,
+          listColour: "Red",
+          listOrder: "1"
 
         };
 
-        consoleLog(" List to Be Updated => "+ JSON.stringify(data));
+        consoleLog(" List to Be Updated => " + JSON.stringify(data));
 
 
-        $http.post( global.serverIP + "/api/list/update" , data)
+        $http.post(global.serverIP + "/api/list/update", data)
 
           .then(function (response) {
-            consoleLog( " updateList Response Result => "+ response);
+            consoleLog(" updateList Response Result => " + response);
             defer.resolve(response.data.listServerId);
-            consoleLog(" updateList Response Done" );
+            consoleLog(" updateList Response Done");
 
           });
 
@@ -132,45 +130,45 @@ angular.module('starter.services')
         consoleLog("Start deleteList");
 
         data = {
-          listServerId:list.listServerId,
-          deviceServerId:deviceServerId
+          listServerId: list.listServerId,
+          deviceServerId: deviceServerId
         };
 
-        consoleLog( " List to Be Deleted => "+ JSON.stringify(data));
+        consoleLog(" List to Be Deleted => " + JSON.stringify(data));
 
-        $http.post( global.serverIP + "/api/list/deactivate" , data)
+        $http.post(global.serverIP + "/api/list/deactivate", data)
 
           .then(function (response) {
-            consoleLog( " deleteList Response Result => "+ JSON.stringify(response));
+            consoleLog(" deleteList Response Result => " + JSON.stringify(response));
             defer.resolve(response.data.listServerId);
-            consoleLog(" deleteList Response Done" );
-         });
+            consoleLog(" deleteList Response Done");
+          });
 
         return defer.promise;
 
       },
 //------------------------shareList
 
-      inviteToList: function (listLocalId,invitedUserServerId) {
+      inviteToList: function (listLocalId, invitedUserServerId) {
 
-        consoleLog( "Start inviteToList");
+        consoleLog("Start inviteToList");
 
-        listServerId=getListId(listLocalId);
+        listServerId = getListId(listLocalId);
 
 
         data = {
           invitedUserServerId: invitedUserServerId,
-          listServerId:listServerId,
-          deviceServerId:deviceServerId
+          listServerId: listServerId,
+          deviceServerId: deviceServerId
         };
-        consoleLog(serviceName+ " List to Be inviteToList => "+ JSON.stringify(data));
+        consoleLog(serviceName + " List to Be inviteToList => " + JSON.stringify(data));
 
-        $http.post(global.serverIP + "/api/list/invite" , data)
+        $http.post(global.serverIP + "/api/list/invite", data)
 
           .then(function (response) {
-            consoleLog(" inviteToList Response Result => "+ response);
+            consoleLog(" inviteToList Response Result => " + response);
             defer.resolve(response.data.listServerId);
-            consoleLog(" inviteToList Response Done" );
+            consoleLog(" inviteToList Response Done");
           });
 
         return defer.promise;

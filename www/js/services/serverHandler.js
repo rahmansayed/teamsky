@@ -6,22 +6,21 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-
-  .factory('serverHandler', function ($http, global,$q,dbHandler,serverHandlerCategoryV2,serverHandlerItemsV2, serverHandlerListV2) {
+  .factory('serverHandler', function ($http, global, $q, dbHandler, serverHandlerCategoryV2,
+                                      serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2) {
 
     var defer = $q.defer();
     var lists = angular.fromJson(window.localStorage['lists'] || []);
-    var serviceName ="serverHandler";
-    var userServerId="582c3f6d30126504007c6bdf";
-    var deviceServerId="582c3f6d30126504007c6be0";
-
+    var serviceName = "serverHandler";
+    var userServerId = "582c3f6d30126504007c6bdf";
+    var deviceServerId = "582c3f6d30126504007c6be0";
 
 
     //------------------------consoleLog
 
-    function consoleLog(text){
-    //return;
-     console.log(serviceName+"  =>  "+text);
+    function consoleLog(text) {
+      //return;
+      console.log(serviceName + "  =>  " + text);
     }
 
     function saveToLocalStorage() {
@@ -54,8 +53,8 @@ angular.module('starter.services')
         data = {
           contact: contact
         };
-        console.log("data = "+data);
-        $http.post(global.serverIP + "/api/list/checkInvitedUser" , data)
+        console.log("data = " + data);
+        $http.post(global.serverIP + "/api/list/checkInvitedUser", data)
 
           .then(function (response) {
             console.log('serverListHandler' + response);
@@ -63,35 +62,48 @@ angular.module('starter.services')
       },
       //------------------------SynchInitTest
       // Osama Init Function Launched by The App Start
-      SynchInitTest:function () {
-        consoleLog( "Start SynchInitTest");
-
+      SynchInitTest: function () {
+        consoleLog("Start SynchInitTest");
+        /*global.db.transaction(function (tx) {
+          var query = "delete from userInfo";
+          tx.executeSql(query);
+          query = "delete from userSetting";
+          tx.executeSql(query);
+        }, function (error) {
+          consoleLog("Error = " + JSON.stringify(error));
+        }, function (res) {
+          consoleLog("Response = " + JSON.stringify(res));
+        });*/
         //serverHandlerCategoryV2.deleteCategories();
-        serverHandlerCategoryV2.deleteCategories().then(function(){
-          serverHandlerCategoryV2.syncCategories().then(function(){
+ /*       serverHandlerCategoryV2.deleteCategories().then(function () {
+          serverHandlerCategoryV2.syncCategories().then(function () {
             serverHandlerItemsV2.deleteItemsLocal().then(function () {
               serverHandlerItemsV2.syncMasterItems();
             })
-
           });
-        });
+        });*/
 
+        serverHandlerCategoryV2.syncCategories().then(function(){
+          serverHandlerItemsV2.syncMasterItems();
+        });
+        serverHandlerListV2.syncLists();
+
+        serverHandlerItemsV2.syncLocalItems();
+
+        serverHandlerEntryV2.syncEntries();
+/*
         var list = {
-            listLocalId : 1485085399062,
-          listName : 'testlist3',
-          listDesc : 'testlist3',
+          listLocalId: 1485085399062,
+          listName: 'testlist3',
+          listDesc: 'testlist3',
           listColour: 'red',
           listOrder: 3
         };
         serverHandlerListV2.createList(list);
 
-
+*/
 
         //serverHandlerMasterItem.synchMasterItem();
-
-
-
-
 
 
         // Temp Function to be removed later
@@ -99,17 +111,17 @@ angular.module('starter.services')
         //serverHandlerTemp.tempDataCategory();
 
 
-        consoleLog( "End SynchInitTest");
-         },
+        consoleLog("End SynchInitTest");
+      },
 //------------------------Synch
-      SynchTable:function (tableName) {
+      SynchTable: function (tableName) {
 
-        consoleLog( "Start SynchTable");
+        consoleLog("Start SynchTable");
 
 
         var query = "SELECT * from tsList WHERE listServerId is null";
-        dbHandler.runQuery(query,[],
-          function(res) {
+        dbHandler.runQuery(query, [],
+          function (res) {
 
 
             console.log("Statement Run: " + query[j]);
@@ -120,42 +132,38 @@ angular.module('starter.services')
           });
 
 
-
-
-
-        consoleLog( "End SynchTable");
+        consoleLog("End SynchTable");
 
       },
 //------------------------createList
       createList: function (list) {
 
-        consoleLog( "Start createList");
+        consoleLog("Start createList");
 
         data = {
-          listLocalId:list.listLocalId,
+          listLocalId: list.listLocalId,
           listName: list.listName,
-          listDesc:list.listDesc,
-          listColour:list.listColour,
-          listOrder:list.listOrder,
-          userServerId:userServerId,
-          deviceServerId:deviceServerId
+          listDesc: list.listDesc,
+          listColour: list.listColour,
+          listOrder: list.listOrder,
+          userServerId: userServerId,
+          deviceServerId: deviceServerId
         };
 
-        consoleLog( " List to Be Created = "+ JSON.stringify(data));
+        consoleLog(" List to Be Created = " + JSON.stringify(data));
 
-        $http.post(global.serverIP + "/api/list/create" , data)
-
+        $http.post(global.serverIP + "/api/list/create", data)
 
 
           .then(function (response) {
 
             consoleLog(" createList Response Result => " + JSON.stringify(response));
             defer.resolve(response.data.listServerId);
-            consoleLog(" createList Response Done" );
+            consoleLog(" createList Response Done");
 
           });
 
-          return defer.promise;
+        return defer.promise;
       },
 //------------------------updateList
       updateList: function (list) {
@@ -165,22 +173,22 @@ angular.module('starter.services')
 
         data = {
           listServerId: list.listServerId,
-          listName:list.listName,
-          listDescription:list.listDescription,
-          listColour:"Red",
-          listOrder:"1"
+          listName: list.listName,
+          listDescription: list.listDescription,
+          listColour: "Red",
+          listOrder: "1"
 
         };
 
-        consoleLog(" List to Be Updated => "+ JSON.stringify(data));
+        consoleLog(" List to Be Updated => " + JSON.stringify(data));
 
 
-        $http.post( global.serverIP + "/api/list/update" , data)
+        $http.post(global.serverIP + "/api/list/update", data)
 
           .then(function (response) {
-            consoleLog( " updateList Response Result => "+ response);
+            consoleLog(" updateList Response Result => " + response);
             defer.resolve(response.data.listServerId);
-            consoleLog(" updateList Response Done" );
+            consoleLog(" updateList Response Done");
 
           });
 
@@ -194,45 +202,45 @@ angular.module('starter.services')
         consoleLog("Start deleteList");
 
         data = {
-          listServerId:list.listServerId,
-          deviceServerId:deviceServerId
+          listServerId: list.listServerId,
+          deviceServerId: deviceServerId
         };
 
-        consoleLog( " List to Be Deleted => "+ JSON.stringify(data));
+        consoleLog(" List to Be Deleted => " + JSON.stringify(data));
 
-        $http.post( global.serverIP + "/api/list/deactivate" , data)
+        $http.post(global.serverIP + "/api/list/deactivate", data)
 
           .then(function (response) {
-            consoleLog( " deleteList Response Result => "+ JSON.stringify(response));
+            consoleLog(" deleteList Response Result => " + JSON.stringify(response));
             defer.resolve(response.data.listServerId);
-            consoleLog(" deleteList Response Done" );
-         });
+            consoleLog(" deleteList Response Done");
+          });
 
         return defer.promise;
 
       },
 //------------------------shareList
 
-      inviteToList: function (listLocalId,invitedUserServerId) {
+      inviteToList: function (listLocalId, invitedUserServerId) {
 
-        consoleLog( "Start inviteToList");
+        consoleLog("Start inviteToList");
 
-        listServerId=getListId(listLocalId);
+        listServerId = getListId(listLocalId);
 
 
         data = {
           invitedUserServerId: invitedUserServerId,
-          listServerId:listServerId,
-          deviceServerId:deviceServerId
+          listServerId: listServerId,
+          deviceServerId: deviceServerId
         };
-        consoleLog(serviceName+ " List to Be inviteToList => "+ JSON.stringify(data));
+        consoleLog(serviceName + " List to Be inviteToList => " + JSON.stringify(data));
 
-        $http.post(global.serverIP + "/api/list/invite" , data)
+        $http.post(global.serverIP + "/api/list/invite", data)
 
           .then(function (response) {
-            consoleLog(" inviteToList Response Result => "+ response);
+            consoleLog(" inviteToList Response Result => " + response);
             defer.resolve(response.data.listServerId);
-            consoleLog(" inviteToList Response Done" );
+            consoleLog(" inviteToList Response Done");
           });
 
         return defer.promise;

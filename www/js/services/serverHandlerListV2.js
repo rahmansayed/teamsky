@@ -9,19 +9,56 @@ angular.module('starter.services')
   .factory('serverHandlerListV2', function ($http, global, $q) {
 
     var serviceName = "serverHandlerListV2";
-    var userServerId = "588493ba56ff95000461a30d";
-    var deviceServerId = "588493ba56ff95000461a30e";
 
     //------------------------consoleLog
 
     function consoleLog(text) {
       //return;
       console.log(serviceName + "  =>  " + text);
-    }
+    };
 
-    function saveToLocalStorage() {
+    function createList(list) {
 
-      window.localStorage['lists'] = angular.toJson(lists);
+      consoleLog("Start createList");
+      var defer = $q.defer();
+
+      data = {
+        userServerId: global.userServerId,
+        deviceServerId: global.deviceServerId,
+        listDetails: {
+          listLocalId: list.listLocalId,
+          listName: list.listName,
+          listDesc: list.listDesc,
+          listColour: list.listColour,
+          listOrder: list.listOrder
+        }
+      };
+
+      consoleLog(" List to Be Created = " + JSON.stringify(data));
+
+      $http.post(global.serverIP + "/api/list/create", data)
+        .then(function (response) {
+            consoleLog(" createList Response Result => " + JSON.stringify(response));
+            defer.resolve(response.data.listServerId);
+            consoleLog(" createList Response Done");
+            global.db.transaction(function (tx) {
+              var query = "update list set listServerId = ? where listLocalId = ?";
+              tx.executeSql(query, [response.data.listServerId, list.listLocalId], function (tx, result) {
+                defer.resolve(response.data.listServerId);
+                consoleLog('Rows affected = ' + result.rowsAffected)
+              }, function (error) {
+                defer.reject(error);
+                consoleLog('error = ' + JSON.stringify(error));
+
+              });
+              consoleLog(" updateList Response Done");
+            });
+          },
+          function (error) {
+            defer.reject(error);
+          });
+
+      return defer.promise;
     };
 
     return {
@@ -58,48 +95,36 @@ angular.module('starter.services')
       },
 
 //------------------------createList
-      createList: function (list) {
+      createList: createList,
+      // this function is used to synchronize all the un-sync'd lists
+      syncLists: function () {
+        consoleLog("In syncLists")
+        global.db.transaction(function (tx) {
+          var query = "select * from list where listServerId = ''";
+          tx.executeSql(query, [], function (tx, result) {
+            consoleLog("result = " + JSON.stringify(result));
+            consoleLog("result.rows = " + JSON.stringify(result.rows));
+            consoleLog("result.rows[0] = " + JSON.stringify(result.rows[0]));
+            consoleLog("result.rows.length = " + JSON.stringify(result.rows.length));
+            for (i = 0; i < result.rows.length; i++) {
+              var list = result.rows[i];
+              var listDetails =
+                  {
+                    listLocalId: list.listLocalId,
+                    listName: list.listName,
+                    listDesc: list.listDesc,
+                    listColour: list.listColour,
+                    listOrder: list.listOrder
+                  }
+                ;
 
-        consoleLog("Start createList");
-        var defer = $q.defer();
-
-        data = {
-          userServerId: userServerId,
-          deviceServerId: deviceServerId,
-          listDetails: {
-            listLocalId: list.listLocalId,
-            listName: list.listName,
-            listDesc: list.listDesc,
-            listColour: list.listColour,
-            listOrder: list.listOrder
-          }
-        };
-
-        consoleLog(" List to Be Created = " + JSON.stringify(data));
-
-        $http.post(global.serverIP + "/api/list/create", data)
-          .then(function (response) {
-              consoleLog(" createList Response Result => " + JSON.stringify(response));
-              defer.resolve(response.data.listServerId);
-              consoleLog(" createList Response Done");
-              global.db.transaction(function (tx) {
-                var query = "update list set listServerId = ? where listLocalId = ?";
-                tx.executeSql(query, [response.data.listServerId, list.listLocalId], function(tx, result){
-                  defer.resolve(response.data.listServerId);
-                  consoleLog('Rows affected = '+result.rowsAffected)
-                }, function(error){
-                  defer.reject(error);
-                  consoleLog('error = '+JSON.stringify(error));
-
-                });
-                consoleLog(" updateList Response Done");
-              });
-            },
-            function (error) {
-              defer.reject(error);
-            });
-
-        return defer.promise;
+              consoleLog("calling createlist for " + listDetails);
+              createList(listDetails);
+            }
+          }, function (error) {
+            consoleLog("error = " + JSON.stringify(error));
+          });
+        });
       },
 //------------------------updateList
       updateList: function (list) {

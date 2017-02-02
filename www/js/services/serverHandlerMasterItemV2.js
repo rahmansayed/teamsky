@@ -17,7 +17,7 @@ angular.module('starter.services')
         consoleLog("Start deleteCategoryLocal");
 
         var defer = $q.defer();
-        var query = "delete from masterItem "
+        var query = "delete from masterItem ";
         consoleLog("Statement Run: " + query);
 
 
@@ -52,12 +52,12 @@ angular.module('starter.services')
             itemsList.forEach(function (item) {
               var itemServerId = item._id;
               var itemName = item.itemName;
-              console.log("SyncItemsV2 categoryName = "+item.categoryName);
+              console.log("SyncItemsV2 categoryName = " + item.categoryName);
               if (item.categoryName) {
                 tx.executeSql("select categoryLocalId from category where categoryName = ?", [item.categoryName], function (tx, res) {
                   console.log("SyncItemsV2 categoryLocalId xx= " + JSON.stringify(res.rows[0]));
                   categoryLocalId = res.rows[0].categoryLocalId;
-                  consoleLog("categoryLocalId = "+ categoryLocalId);
+                  consoleLog("categoryLocalId = " + categoryLocalId);
                   tx.executeSql(query_insert_c, [itemLocalId, itemServerId, itemName, categoryLocalId]);
                   for (var j = 0; j < item.translation.length; j++) {
 
@@ -72,8 +72,7 @@ angular.module('starter.services')
                   console.log("SyncItemsV2 error " + error);
                 });
               }
-              else
-              {
+              else {
                 consoleLog("NO cat");
                 tx.executeSql(query_insert_wc, [itemLocalId, itemServerId, itemName]);
                 for (var j = 0; j < item.translation.length; j++) {
@@ -89,17 +88,17 @@ angular.module('starter.services')
             });
           }
           , function (error) {
-            consoleLog("Statement Error addCategoriesLocal " + error.message);
+            consoleLog("Statement Error additemsLocal " + error.message);
 
-            consoleLog("ERROR = "+JSON.stringify(error));
+            consoleLog("ERROR = " + JSON.stringify(error));
             defer.resolve(error);
           },
           function (response) {
-            consoleLog("category Added =>");
+            consoleLog("items Added =>");
             defer.resolve(response);
           });
 
-        consoleLog("End addCategoryLocal");
+        consoleLog("End additemLocal");
         return defer.promise;
 
       }
@@ -151,12 +150,14 @@ angular.module('starter.services')
             consoleLog("Start Call Server");
 
             var data = {
-              maxItemServerId: maxItemServerId
+              maxItemServerId: maxItemServerId,
+              userServerId: global.userServerId,
+              deviceServerId: global.deviceServerId
             };
 
             $http.post(global.serverIP + "/api/items/get", data)
               .then(function (serverResponse) {
-                consoleLog(" Items Server List Back Correctly");
+                consoleLog(" syncMasterItems Items Server List Back Correctly");
                 itemsListServer = serverResponse;
 
 //                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
@@ -188,7 +189,41 @@ angular.module('starter.services')
       };
 
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // this function sends the locally created items to the server
+      function syncLocalItem(item) {
+        var defer = $q.defer();
+        var data = {
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId,
+          itemName: item.itemName
+        };
+
+        $http.post(global.serverIP + "/api/items/add", data)
+          .then(function (serverResponse) {
+            consoleLog(" syncLocalItem Items Server List Back Correctly");
+            itemServerId = serverResponse.userItemServerId;
+
+//                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
+
+            consoleLog(" End updateList Response Done");
+
+            global.db.transaction(function (tx) {
+              var query = "update masterItem set itemServerId = ? where itemLocalId = ?";
+              tx.executeSql(query, [itemServerId, item.itemLocalId], function (tx, res) {
+                consoleLog("Item updated successfully");
+                defer.resolve(string);
+              }, function (tx, error) {
+                consoleLog("Error = " + JSON.stringify(error));
+                defer.reject(error);
+              });
+            });
+
+          });
+
+        return defer.promise;
+      }
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      // this function sends the locally created items to the server
       function syncLocalItems() {
 
         //deleteCategoryLocal();
@@ -197,65 +232,40 @@ angular.module('starter.services')
         // Start Read Local DB from table category
 
         consoleLog("Start Read Local DB from table items");
-        /*var query = "SELECT  max(categoryServerId) maxItemServerId  FROM category ";
-         consoleLog("Query => " + query);
 
-         dbHandler.runQuery(query,[],function(res) {
-         consoleLog("Statement true");
-         consoleLog("Result JSON=> categoryServerId " + JSON.stringify(res.rows));
-         categoryListLocal = res.rows;
-         consoleLog("Result JSON=> nnnnnnnnn " + JSON.stringify(categoryListLocal));
-
-         }, function (err) {
-         consoleLog(err);
-         });
-         */
-
-
-        var query = "SELECT  * FROM masterItem where itemServerId is null";
+        var query = "SELECT  * FROM masterItem where itemServerId = ''";
         consoleLog("Query => " + query);
 
         dbHandler.runQuery(query, [],
-          function (localResponse) {
+          function (result) {
 
             consoleLog("Statement True");
-            consoleLog("localResponse.rows = " + JSON.stringify(localResponse.rows));
-            var maxItemServerId;
-            if (!localResponse.rows[0].maxItemServerId) {
-              maxItemServerId = 0;
-            } else {
-              maxItemServerId = localResponse.rows[0].maxItemServerId;
-            }
-            ;
-
-            consoleLog("Result JSON=> maxImteServerId " + maxItemServerId);
-
-            consoleLog("Start Call Server");
+            consoleLog("localResponse.rows = " + JSON.stringify(result.rows));
 
             var data = {
-              maxItemServerId: maxItemServerId
+              userServerId: global.userServerId,
+              deviceServerId: global.deviceServerId,
+              items: result.rows
             };
 
-            $http.post(global.serverIP + "/api/items/get", data)
+            $http.post(global.serverIP + "/api/items/addmany", data)
               .then(function (serverResponse) {
-                consoleLog(" Items Server List Back Correctly");
-                itemsListServer = serverResponse;
+                consoleLog(" syncLocalItems Items Server List Back Correctly " + JSON.stringify(serverResponse));
+                global.db.transaction(function (tx) {
 
-//                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
-
-                consoleLog(" End updateList Response Done");
-
-
-                addItemsLocal(serverResponse.data).then(function (string) {
-                  defer.resolve(string);
+                  var query = "update masterItem set itemServerId = ? where itemLocalId = ?";
+                  for (i = 0; i < serverResponse.data.length; i++) {
+                    var item = serverResponse.data[i];
+                    consoleLog("syncLocalItems item = "+item);
+                    tx.executeSql(query, [item.userItemServerId, item.itemLocalId])
+                  }
                 }, function (error) {
+                  consoleLog("synclocalItems Error = " + error);
                   defer.reject(error);
+                }, function (result) {
+                  defer.resolve(result);
                 });
-
               });
-            consoleLog("End Call Server");
-            consoleLog("///////////////////////////////////////");
-            consoleLog("///////////////////////////////////////");
 
           }, function (error) {
             consoleLog(error);
@@ -265,12 +275,12 @@ angular.module('starter.services')
 
         return defer.promise;
 
-        consoleLog("End synchCategory");
-
       };
       return {
         syncMasterItems: syncMasterItems,
-        deleteItemsLocal: deleteItemsLocal
+        deleteItemsLocal: deleteItemsLocal,
+        syncLocalItem: syncLocalItem,
+        syncLocalItems: syncLocalItems
       };
     }
   );

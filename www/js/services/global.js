@@ -3,18 +3,28 @@ angular.module('starter.services')
     var db = {};
     var settings = new Array();
     var dataKey;
-    var serverIP = 'https://secret-savannah-80432.herokuapp.com';
-    //var serverIP = 'http://192.168.100.7:3000';
+    //var serverIP = 'https://secret-savannah-80432.herokuapp.com';
+    //var serverIP = 'http://129.0.89.201:3000';
+    var serverIP = 'http://localhost:3000';
     var userName;
-    var userServerId="582c3f6d30126504007c6bdf";
-    var deviceServerId="582c3f6d30126504007c6be0";
+    var userServerId="";
+    var deviceServerId="";
+
+    function initialize(){
+      global.db.transaction(function(tx){
+
+      });
+    };
 
     return {
       db: db,
       settings: settings,
       dataKey: dataKey,
       serverIP: serverIP,
-      userName: userName
+      userName: userName,
+      userServerId: userServerId,
+      deviceServerId: deviceServerId,
+      initialize : initialize
     };
   });
 

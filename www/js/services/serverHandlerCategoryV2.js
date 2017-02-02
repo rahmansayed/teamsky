@@ -82,7 +82,7 @@ angular.module('starter.services')
             consoleLog("Statement Error addCategoriesLocal " + error);
 
             consoleLog(error);
-            defer.resolve(error);
+            defer.reject(error);
           },
           function (response) {
             consoleLog("category Added =>");
