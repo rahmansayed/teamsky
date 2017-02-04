@@ -36,16 +36,16 @@ angular.module('starter.controllers')
   }*/
     
     $ionicPlatform.ready(function () {
-     userVerify.getUserSetting()
+/*     userVerify.getUserSetting()
       
-      .then(function(result){
-      $scope.users = userVerify.userSetting();
+      .then(function(result){*/
+/*      $scope.users = userVerify.userSetting();
       global.userServerId = userVerify.getUserServerId(); 
       global.deviceServerId = userVerify.getDeviceServerId(); 
       console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
       console.log('aalatief: User Server ID:'+global.userServerId);   
-      console.log('aalatief: Device Server ID:'+global.deviceServerId); 
-         if (userVerify.isVerified()){
+      console.log('aalatief: Device Server ID:'+global.deviceServerId); */
+/*         if (userVerify.isVerified()){
         $ionicLoading.hide();
         $location.path("/lists");
       }
@@ -54,11 +54,10 @@ angular.module('starter.controllers')
                 $ionicLoading.hide();
                  $location.path("/subscribe");
                  
-             }
+             }*/
               
-  }
-    
-    , function(error) {
+ 
+/*    , function(error) {
     // error handling here
     $ionicLoading.hide()
     console.log('aalatief: Ionic Load Fail:'+JSON.stringify(error));;
@@ -69,7 +68,7 @@ angular.module('starter.controllers')
     $timeout(function() {
        $ionicLoading.hide();
     }, 2000);
-  });
+  });*/
                        
     
     /*

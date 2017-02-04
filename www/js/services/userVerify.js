@@ -122,7 +122,7 @@ angular.module('starter.services')
 
 
     function getUserSetSuccessCB(response) {
-      selectedUsers = [];
+      /*userSetting = [];*/
       if (response && response.rows && response.rows.length > 0) {
 
         for (var i = 0; i < response.rows.length; i++) {
@@ -132,8 +132,9 @@ angular.module('starter.services')
             lastUpdateDate: response.rows.item(i).lastUpdateDate,
             lastUpdateBy: response.rows.item(i).lastUpdateBy
           });
-          //console.log('aalatief: Pushed User '+JSON.stringfy(selectedUsers))  ;
+         
         }
+           console.log('04/02/2017 - aalatief : Pushed User '+JSON.stringify(userSetting))  ;
       } else {
         var message = "No entry created till now.";
       }
@@ -250,6 +251,8 @@ angular.module('starter.services')
       return deferred.promise;
     };
 
+    
+    
     function getUserSetting() {
       var deferred = $q.defer();
       var query = "SELECT *  FROM userSetting u";
@@ -257,8 +260,8 @@ angular.module('starter.services')
       dbHandler.runQuery(query, [], function (response) {
         //Success Callback
         console.log(response);
-        userSetting = response.rows;
-        console.log('User Setting: ' + JSON.stringify(userSetting));
+        userSet = response.rows;
+        console.log('04/02/2017 - aalatief - User Setting: ' + JSON.stringify(userSet));
 
         deferred.resolve(response);
       }, function (error) {
@@ -294,17 +297,17 @@ angular.module('starter.services')
       selectedUser: function () {
         /*selectedUsers = [];
 
-         m = getUserInfo()
+         m = getUserSetting()
          .then(getUserSuccessCB,getUserErrorCB);
          console.log('aalatief: Users Are: ' + JSON.stringify(selectedUsers));*/
         return selectedUsers;
       },
       userSetting: function () {
-        /*selectedUsers = [];
+        
 
-         m = getUserInfo()
-         .then(getUserSuccessCB,getUserErrorCB);
-         console.log('aalatief: Users Are: ' + JSON.stringify(selectedUsers));*/
+/*        m= getUserSetting()
+         .then(getUserSetSuccessCB,getUserSetErrorCB);
+         console.log('04/02/2017 - aalatief - Users Settings: ' + JSON.stringify(userSetting));*/
         return userSetting;
       },
       updateVerificationData: updateVerificationData,
@@ -316,7 +319,9 @@ angular.module('starter.services')
       isVerified: isVerified,
       addUserSetting: addUserSetting,
       getUserServerId: getUserServerId,
-      getDeviceServerId: getDeviceServerId
+      getDeviceServerId: getDeviceServerId,
+      getUserSetSuccessCB:getUserSetSuccessCB,
+      getUserSetErrorCB:getUserSetErrorCB
     };
   });
 

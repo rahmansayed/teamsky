@@ -41,18 +41,34 @@ angular.module('starter', ['ionic',
         .then(function (result) {
             userVerify.getUserSetting()
               .then(function (result) {
+                  userVerify.getUserSetSuccessCB(result);
                   users = userVerify.userSetting();
                   global.userServerId = userVerify.getUserServerId();
                   global.deviceServerId = userVerify.getDeviceServerId();
+                
+                if (userVerify.isVerified()){
+                    $ionicLoading.hide();
+                    $location.path("/lists");
+                  }
+                     else
+                         {
+                            $ionicLoading.hide();
+                             $location.path("/subscribe");
+                 
+                        }
                   console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                   console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                   console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
                   serverHandler.SynchInitTest();
-                }
+            
+            
+            }
                 , function (error) {
+                  userVerify.getUserSetErrorCB();
                   console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
                   ;
                 });
+
           },
           function (error) {
             console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
