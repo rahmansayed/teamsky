@@ -6,8 +6,8 @@ angular.module('starter.services')
     
     var specificList;
 
-     var x = getAllLists()      //listHandler.list();
-    .then(getListSuccessCB,getListErrorCB);
+/*     var x = getAllLists()      //listHandler.list();
+    .then(getListSuccessCB,getListErrorCB);*/
 
     function getListSuccessCB(response)
 		{
@@ -143,7 +143,12 @@ angular.module('starter.services')
 
     return {
       list: function () {
+        lists = [];
 
+          x = getAllLists()      
+        .then(getListSuccessCB,getListSuccessCB);
+            console.log('04/02/2017 - aalatief - Lists ' + JSON.stringify(lists));
+     
         return lists;
       },
         
