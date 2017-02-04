@@ -120,7 +120,7 @@ angular.module('starter.services')
          */
 
 
-        var query = "SELECT  max(categoryServerId) maxCategoryServerId  FROM category ";
+        var query = "SELECT  max(categoryServerId) as maxCategoryServerId  FROM category ";
         consoleLog("Query => " + query);
 
         global.db.transaction(function (tx) {
@@ -128,13 +128,13 @@ angular.module('starter.services')
             console.log("Statement True");
             console.log("maxCategoryServerId result.rows = " + JSON.stringify(result.rows));
             console.log("maxCategoryServerId result.rows.item = " + JSON.stringify(result.rows.item));
-            console.log("maxCategoryServerId result.rows[0] = " + JSON.stringify(result.rows[0]));
+            console.log("maxCategoryServerId result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
             var maxCategoryServerId;
             console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
-            
-            maxCategoryServerId = result.rows[0].maxCategoryServerId || 0;
 
-            console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
+            maxCategoryServerId = result.rows.item(0).maxCategoryServerId || '000000000000000000000000';
+
+            console.log("Result JSON=> maxCategoryServerId 2 " + maxCategoryServerId);
 
             console.log("Start Call Server");
 

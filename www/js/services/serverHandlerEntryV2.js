@@ -73,7 +73,7 @@ angular.module('starter.services')
           tx.executeSql(query, [listServerId], function (tx, result) {
               consoleLog("syncListEntries result = " + JSON.stringify(result));
               consoleLog("syncListEntries result.rows = " + JSON.stringify(result.rows));
-              consoleLog("syncListEntries result.rows[0] = " + JSON.stringify(result.rows[0]));
+              consoleLog("syncListEntries result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
               consoleLog("syncListEntries result.rows.length = " + JSON.stringify(result.rows.length));
               if (result.rows.length > 0) {
                 var entries = {
@@ -83,11 +83,11 @@ angular.module('starter.services')
                 };
                 for (i = 0; i < result.rows.length; i++) {
                   entries.entries.push({
-                    entryLocalId: result.rows[i].entryLocalId,
-                    itemServerId: result.rows[i].itemServerId,
-                    qty: result.rows[i].qty,
-                    uom: result.rows[i].uom,
-                    retailerServerId: result.rows[i].retailerServerId
+                    entryLocalId: result.rows.item(i).entryLocalId,
+                    itemServerId: result.rows.item(i).itemServerId,
+                    qty: result.rows.item(i).qty,
+                    uom: result.rows.item(i).uom,
+                    retailerServerId: result.rows.item(i).retailerServerId
                   });
                 }
 
@@ -134,10 +134,10 @@ angular.module('starter.services')
           tx.executeSql(query, [], function (tx, result) {
             consoleLog("synEntries result = " + JSON.stringify(result));
             consoleLog("synEntries result.rows = " + JSON.stringify(result.rows));
-            consoleLog("synEntries result.rows[0] = " + JSON.stringify(result.rows[0]));
+            consoleLog("synEntries result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
             consoleLog("synEntries result.rows.length = " + JSON.stringify(result.rows.length));
             for (i = 0; i < result.rows.length; i++) {
-              promises.push(syncListEntries(result.rows[i].listServerId));
+              promises.push(syncListEntries(result.rows.item(i).listServerId));
             }
             defer.promise = $q.all(promises);
           }, function(err){

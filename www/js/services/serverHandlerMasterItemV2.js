@@ -55,8 +55,8 @@ angular.module('starter.services')
               console.log("SyncItemsV2 categoryName = " + item.categoryName);
               if (item.categoryName) {
                 tx.executeSql("select categoryLocalId from category where categoryName = ?", [item.categoryName], function (tx, res) {
-                  console.log("SyncItemsV2 categoryLocalId xx= " + JSON.stringify(res.rows[0]));
-                  categoryLocalId = res.rows[0].categoryLocalId;
+                  console.log("SyncItemsV2 categoryLocalId xx= " + JSON.stringify(res.rows.item(0)));
+                  categoryLocalId = res.rows.item(0).categoryLocalId;
                   consoleLog("categoryLocalId = " + categoryLocalId);
                   tx.executeSql(query_insert_c, [itemLocalId, itemServerId, itemName, categoryLocalId]);
                   for (var j = 0; j < item.translation.length; j++) {
@@ -138,12 +138,8 @@ angular.module('starter.services')
             consoleLog("Statement True");
             consoleLog("localResponse.rows = " + JSON.stringify(localResponse.rows));
             var maxItemServerId;
-            if (!localResponse.rows[0].maxItemServerId) {
-              maxItemServerId = 0;
-            } else {
-              maxItemServerId = localResponse.rows[0].maxItemServerId;
-            }
-            ;
+
+            maxItemServerId = localResponse.rows.item(0).maxItemServerId || '000000000000000000000000';
 
             consoleLog("Result JSON=> maxImteServerId " + maxItemServerId);
 

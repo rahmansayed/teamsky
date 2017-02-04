@@ -106,10 +106,10 @@ angular.module('starter.services')
           tx.executeSql(query, [], function (tx, result) {
             consoleLog("result = " + JSON.stringify(result));
             consoleLog("result.rows = " + JSON.stringify(result.rows));
-            consoleLog("result.rows[0] = " + JSON.stringify(result.rows[0]));
+            consoleLog("result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
             consoleLog("result.rows.length = " + JSON.stringify(result.rows.length));
             for (i = 0; i < result.rows.length; i++) {
-              var list = result.rows[i];
+              var list = result.rows.item(i);
               var listDetails =
                   {
                     listLocalId: list.listLocalId,
