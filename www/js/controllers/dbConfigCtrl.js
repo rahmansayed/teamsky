@@ -34,6 +34,8 @@ angular.module('starter.controllers')
              }
               
   }*/
+    
+    $ionicPlatform.ready(function () {
      userVerify.getUserSetting()
       
       .then(function(result){
@@ -106,5 +108,5 @@ angular.module('starter.controllers')
             $ionicLoading.hide();
         }
     });*/
-
+    });
 });
