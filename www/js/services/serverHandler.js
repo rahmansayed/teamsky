@@ -86,11 +86,11 @@ angular.module('starter.services')
         serverHandlerCategoryV2.syncCategories().then(function(){
           serverHandlerItemsV2.syncMasterItems();
         });
-        serverHandlerListV2.syncLists();
+        serverHandlerListV2.syncListsUpstream();
 
         serverHandlerItemsV2.syncLocalItems();
 
-        serverHandlerEntryV2.syncEntries();
+        serverHandlerEntryV2.syncEntriesUpsteam();
 /*
         var list = {
           listLocalId: 1485085399062,

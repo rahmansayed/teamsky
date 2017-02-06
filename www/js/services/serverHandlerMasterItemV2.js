@@ -238,31 +238,36 @@ angular.module('starter.services')
             consoleLog("Statement True");
             consoleLog("localResponse.rows = " + JSON.stringify(result.rows));
 
-            var data = {
-              userServerId: global.userServerId,
-              deviceServerId: global.deviceServerId,
-              items: result.rows
-            };
+            if (result.rows.length > 0) {
+              var data = {
+                userServerId: global.userServerId,
+                deviceServerId: global.deviceServerId,
+                items: result.rows
+              };
 
-            $http.post(global.serverIP + "/api/items/addmany", data)
-              .then(function (serverResponse) {
-                consoleLog(" syncLocalItems Items Server List Back Correctly " + JSON.stringify(serverResponse));
-                global.db.transaction(function (tx) {
+              $http.post(global.serverIP + "/api/items/addmany", data)
+                .then(function (serverResponse) {
+                  consoleLog(" syncLocalItems Items Server List Back Correctly " + JSON.stringify(serverResponse));
+                  global.db.transaction(function (tx) {
 
-                  var query = "update masterItem set itemServerId = ? where itemLocalId = ?";
-                  for (i = 0; i < serverResponse.data.length; i++) {
-                    var item = serverResponse.data[i];
-                    consoleLog("syncLocalItems item = "+item);
-                    tx.executeSql(query, [item.userItemServerId, item.itemLocalId])
-                  }
-                }, function (error) {
-                  consoleLog("synclocalItems Error = " + error);
-                  defer.reject(error);
-                }, function (result) {
-                  defer.resolve(result);
+                    var query = "update masterItem set itemServerId = ? where itemLocalId = ?";
+                    for (i = 0; i < serverResponse.data.length; i++) {
+                      var item = serverResponse.data[i];
+                      consoleLog("syncLocalItems item = " + item);
+                      tx.executeSql(query, [item.userItemServerId, item.itemLocalId])
+                    }
+                  }, function (error) {
+                    consoleLog("synclocalItems Error = " + error);
+                    defer.reject(error);
+                  }, function (result) {
+                    defer.resolve(result);
+                  });
                 });
-              });
-
+            }
+            else
+            {
+              defer.resolve();
+            }
           }, function (error) {
             consoleLog(error);
           });
