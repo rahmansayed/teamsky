@@ -13,6 +13,26 @@ angular.module('starter.services')
             };
 
         };
+    
+        
+        var reorderContact = function(contacts){
+            
+            var arrangedContact= [];
+            
+            for (var i = 0; i < contacts.length; i++) {
+  /*              
+                console.log('06/02/2017 - contactHandler - aalatief:test phone no. array'+' length: '+ (contacts[i].phoneNumbers|| []).length+' Array: ' +JSON.stringify(contacts[i].phoneNumbers));*/
+                for (var j = 0; j < (contacts[i].phoneNumbers|| []).length; j++) {
+                    arrangedContact.push({displayName:contacts[i].displayName,
+                                          phoneNumbersValue:contacts[i].phoneNumbers[j].value,
+                                          phoneNumbersType:contacts[i].phoneNumbers[j].type,
+                                        });    
+
+                  }
+            }
+        return arrangedContact;
+        };
+      
 
         var pickContact = function() {
 
@@ -33,7 +53,10 @@ angular.module('starter.services')
         };
 
         return {
-            pickContact : pickContact
+            pickContact : pickContact,
+            formatContact:formatContact,
+            reorderContact:reorderContact
+            
         };
 
 

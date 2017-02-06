@@ -1,0 +1,58 @@
+<div id="app-container" ng-app="contactsApp" ng-controller="athletesController as athletesList" ng-class="{ 'modal' : formShow }">
+		<header>
+				<div class="main-contact">
+						<img src="http://joinem-staging-media-public.s3.amazonaws.com/thumbnails/avatars/0akcfz1e949at1nxxo7k72b6.jpeg.50x50_q85_crop.jpg">
+				</div>
+				<div class="heading-user">
+						<strong>Cindy Juarez <i class="fa fa-caret-down"></i></strong>
+						<br/>
+						<small>@sceendy</small>
+				</div>
+				<div class="icons">
+						<i class="fa fa-comments"></i>
+						<i class="fa fa-globe notify-bubble"></i>
+						<i class="fa fa-cog"></i>
+				</div>
+		</header>
+		<nav>
+				<ul>
+						<li>All</li>
+						<li>Athletes ({{ athletesList.athletes.length }})<span class="selected"></span></li>
+						<li>Fans</li>
+						<li>Teams</li>
+				</ul>
+		</nav>
+		<div style="clear:both"></div>
+		<div class="panel">
+				<form class="form-search">
+						<i class="material-icons search-icon">search</i>
+						<input class="form-input" placeholder="Search for friends ny name..." ng-model="athlete.name"/>
+						<i class="material-icons refresh-icon" ng-click="clear()">refresh</i>
+				</form>
+		</div>
+		<ul class="contact-list">
+				<li ng-repeat="athlete in athletesList.athletes | filter: athlete.name">
+						<img ng-src="{{ athlete.image }}">
+						<div class="contact-info">
+								<h3 class="heading--name">{{ athlete.name }}</h3>
+								<div class="contact-item"><i class="fa fa-map-marker"></i> {{ athlete.hometown }}</div>
+								<div class="contact-item"><i class="fa fa-briefcase"></i> {{ athlete.position }}</div>
+						</div>
+					<i class="fa fa-pencil fa-2x text-pink" ng-click="edit()"></i>
+				</li>
+		</ul>
+
+		<form name="addAthlete" ng-submit="athletesList.addAthlete()" ng-if="formShow" class="form-add">
+				<div ng-click="close()"><i class="fa fa-times close-modal"></i></div>
+				<img src="http://dallasposttrib.com/wordpress/wp-content/uploads/2015/01/Dallas-Mavericks-Logo.gif" class="center" />
+				<label>Athlete Name:</label>
+				<input type="text" ng-model="athletesList.athleteName" size="30" placeholder="add new athlete here" required/>
+				<br/>
+				<label>Athletes Hometown:</label>
+				<input type="text" ng-model="athletesList.athleteHometown" size="30" placeholder="add athlete hometown" required/>
+				<label>Athletes Position:</label>
+				<input type="text" ng-model="athletesList.athletePosition" size="30" placeholder="add athlete hometown" required/>
+				<button ng-disabled="addAthlete.$invalid && addAthlete.$pristine" class="btn-primary" type="submit">Add New Athlete</button>
+		</form>
+	  <custom-checkbox ng-model="formShow" text="Add a new Athlete" name="input-formShow"></custom-checkbox>
+</div>
