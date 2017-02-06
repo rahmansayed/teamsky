@@ -1,10 +1,12 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler) {
+  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler) {
 
 
     dbHandler.runQuery() ;
 
     $scope.lists = listHandler.list();
+    
+    $scope.data = {selectedContacts : []};
 
     console.log($scope.message);
     console.log('Returned list from DB = ')+JSON.stringify($scope.lists);
@@ -69,12 +71,25 @@ angular.module('starter.controllers')
         };
  
     $scope.getAllContacts = function() {
-    $cordovaContacts.find({filter: '',multiple:true}).then(function(allContacts) {
-      $scope.contacts = allContacts;
-      console.log($scope.contacts);
-    });
-  };
+         $state.go('contact');
 
+  
+  };
+    
+/*    $scope.getAllContacts = function() {
+
+    contactHandler.pickContact().then(
+        function(contact) {
+            $scope.data.selectedContacts.push(contact);
+            console.log("Selected contacts=");
+            console.log($scope.data.selectedContacts);
+
+        },
+        function(failure) {
+            console.log("Bummer.  Failed to pick a contact"+JSON.stringify(failure));
+        }
+    )
+    };*/
 
     $scope.addUserToList = function(){
        /* $scope.getAllContacts();*/

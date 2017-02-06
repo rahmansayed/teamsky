@@ -1,0 +1,27 @@
+<ion-view view-title="Contact" ng-controller="contactCtrl">
+  <ion-content>
+    <div class="panel">
+				<form class="form-search">
+						<i class="material-icons search-icon">search</i>
+						<input class="form-input" placeholder="Search contacts by name..." ng-model="contact.displayName"/>
+						<i class="material-icons refresh-icon" ng-click="clear()">refresh</i>
+				</form>
+		</div>
+       <ion-list>     
+
+       <ion-item class="item-remove-animate item-icon-right "
+              ng-repeat = "contact in contacts track by $index" ng-click = "addItem()">
+              <h2>{{contact.displayName}}</h2>
+              <p>{{contact.phoneNumbersType}} : {{contact.phoneNumbersValue}}</p>
+            
+
+            </ion-item>
+
+        </ion-list>
+      
+  </ion-content>
+</ion-view>
+
+
+
+

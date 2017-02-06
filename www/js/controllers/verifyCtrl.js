@@ -21,8 +21,12 @@ angular.module('starter.controllers')
       //$scope.settings.mobile = '999';
       $http.post(global.serverIP+ "/api/user/activate" , data)
         .then(function (response) {
-          alert(response.data);
+          alert(JSON.stringify(response.data));
+           global.userServerId = response.data.userServerId;
+           global.deviceServerId = response.data.deviceServerId;
           
+           console.log('06/02/2017 - verifyCtrl - aalatief after Verify: User Server ID:' + global.userServerId);
+           console.log('06/02/2017 - verifyCtrl - aalatief after Verify: Device Server ID:' + global.deviceServerId);
           /*console.log('aaaltief: user to be updated:'+JSON.stringify(data)); */
           userVerify.updateUserInfo(data,'V');
           userVerify.addUserSetting(userInfo,'verified','Y');

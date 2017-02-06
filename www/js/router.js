@@ -124,6 +124,11 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: 'templates/subscribe.html'
       }
     )
+     .state('contact', {
+      url: '/contact',
+          templateUrl: 'templates/contact.html'
+      }
+    )
   
 
   ;
