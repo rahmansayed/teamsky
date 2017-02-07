@@ -59,7 +59,7 @@ angular.module('starter.services')
 
 		var deferred = $q.defer();
 		var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
-		dbHandler.runQuery(query,[list.listLocalId,list.listName,list.listDescription,list.listServerId,'','',new Date().getTime()],function(response){
+		dbHandler.runQuery(query,[null/*list.listLocalId*/,list.listName,list.listDescription,list.listServerId,'','',new Date().getTime()],function(response){
 			//Success Callback
 			console.log(response);
 			deferred.resolve(response);

@@ -267,7 +267,7 @@ angular.module('starter.services')
         //Sqlite
 		var deferred = $q.defer();
 		var query = "INSERT INTO masterItem (itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
-		dbHandler.runQuery(query,[item.itemLocalId,item.itemName,100,'','','',new Date().getTime()],function(response){
+		dbHandler.runQuery(query,[null/*item.itemLocalId*/,item.itemName,100,'','','',new Date().getTime()],function(response){
 			//Success Callback
 			console.log('aaaltief: Master Item Added: '+response);
 			deferred.resolve(response);
@@ -292,7 +292,7 @@ angular.module('starter.services')
                 //Sqlite
                 var deferred = $q.defer();
                 var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate) VALUES (?,?,?,?,?,?,?,?,?)";
-                dbHandler.runQuery(query,[new Date().getTime(),mySelectedItem.listLocalId,mySelectedItem.itemLocalId,'',1,'','','0',new Date().getTime()],function(response){
+                dbHandler.runQuery(query,[null/*new Date().getTime()*/,mySelectedItem.listLocalId,mySelectedItem.itemLocalId,'',1,'','','0',new Date().getTime()],function(response){
                     //Success Callback
                     console.log(response);
                     deferred.resolve(response);
