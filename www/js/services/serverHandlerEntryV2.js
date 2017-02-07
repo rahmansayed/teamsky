@@ -122,7 +122,7 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function synEntries() {
+      function synEntriesUpstream() {
         var defer = $q.defer();
         var promises = [];
         consoleLog("In synEntries");
@@ -134,7 +134,6 @@ angular.module('starter.services')
           tx.executeSql(query, [], function (tx, result) {
             consoleLog("synEntries result = " + JSON.stringify(result));
             consoleLog("synEntries result.rows = " + JSON.stringify(result.rows));
-            consoleLog("synEntries result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
             consoleLog("synEntries result.rows.length = " + JSON.stringify(result.rows.length));
             for (i = 0; i < result.rows.length; i++) {
               promises.push(syncListEntries(result.rows.item(i).listServerId));
@@ -150,7 +149,7 @@ angular.module('starter.services')
       return {
         createEntry: createEntry,
         // this function is used to synchronize all the un-sync'd lists
-        syncEntries: synEntries
+        synEntriesUpstream: synEntriesUpstream
       }
     }
   );
