@@ -54,7 +54,7 @@ angular.module('starter.controllers')
         $state.go('item',{'listId':listId});
     };
 
-    $scope.getContacts = function() {
+/*    $scope.getContacts = function() {
           $scope.phoneContacts = [];
           function onSuccess(contacts) {
             for (var i = 0; i < contacts.length; i++) {
@@ -68,10 +68,21 @@ angular.module('starter.controllers')
           var options = {};
           options.multiple = true;
           $cordovaContacts.find(options).then(onSuccess, onError);
-        };
+        };*/
  
-    $scope.getAllContacts = function() {
-         $state.go('contact');
+       $scope.getAllContacts = function() {
+        /* $state.go('contact');*/
+       
+           contactHandler.pickContact()
+        .then(function(response){
+            $scope.contactName = response.displayName;
+            console.log('07/02/2017 - listCtrl -aalatief - show selected contact'+JSON.stringify(response));
+            
+        },
+            function(error){
+               console.log('07/02/2017 - listCtrl -aalatief - error show selected contact');
+            
+        });
 
   
   };

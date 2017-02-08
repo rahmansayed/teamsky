@@ -62,6 +62,26 @@ angular.module('starter.services')
         return deferred.promise;
     };
     
+        function getLocalItemId(itemName){
+        var deferred = $q.defer();
+        var query = "SELECT i.itemLocalId from masterItem as i where i.itemName = ?";
+        //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
+        dbHandler.runQuery(query,[itemName],function(response){
+            //Success Callback
+            console.log('Success local Item Id ' + JSON.stringify(response.rows));
+            item = response.rows.item(0);
+            console.log('Items: ' + JSON.stringify(item));
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log('fail Master query '+error);
+            deferred.reject(error);
+        });
+        console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));
+        return deferred.promise;
+    };
+    
+    
 
 
     function getMasterSuccessCB(response)
@@ -269,7 +289,7 @@ angular.module('starter.services')
 		var query = "INSERT INTO masterItem (itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
 		dbHandler.runQuery(query,[null/*item.itemLocalId*/,item.itemName,100,'','','',new Date().getTime()],function(response){
 			//Success Callback
-			console.log('aaaltief: Master Item Added: '+response);
+			console.log('aaltief: Master Item Added: '+JSON.stringify(response));
 			deferred.resolve(response);
 		},function(error){
 			//Error Callback
@@ -480,6 +500,7 @@ angular.module('starter.services')
           checkItem: checkItem,
 
           unCheckItem: unCheckItem ,
+        getLocalItemId:getLocalItemId,
         
         
             removeListItem:removeListItem, 

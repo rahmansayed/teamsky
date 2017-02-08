@@ -37,20 +37,19 @@ angular.module('starter.services')
         var pickContact = function() {
 
             var deferred = $q.defer();
-
             if(navigator && navigator.contacts) {
-
                 navigator.contacts.pickContact(function(contact){
-
                     deferred.resolve( formatContact(contact) );
                 });
-
             } else {
-                deferred.reject("Bummer.  No contacts in desktop browser");
+                deferred.reject("No contacts in desktop browser");
             }
 
             return deferred.promise;
         };
+    
+    
+    
 
         return {
             pickContact : pickContact,

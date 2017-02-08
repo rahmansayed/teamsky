@@ -220,12 +220,19 @@ console.log('$scope.list=: '+ JSON.stringify($scope.list));
                       itemName: itemHandler.initcap(itemName),
                       categoryName: 'Uncategorized'
                     };
-          itemHandler.AddMasterItem($scope.enteredItem);
-        
-        
-         $scope.selectedItem =
+          itemHandler.AddMasterItem($scope.enteredItem)
+              
+        .then(function(response){
+              console.log('07/02/2017 - listItemCtrl - aalatief:Master Item added'+JSON.stringify(response));
+              
+              itemHandler.getLocalItemId($scope.enteredItem.itemName)
+              .then(function(response){
+                  console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id'+JSON.stringify(response.rows.item(0).itemLocalId)+'Entered Item Name: '+$scope.enteredItem.itemName);
+                  itemLocalId = response.rows.item(0).itemLocalId;
+                  
+                  $scope.selectedItem =
                     { listLocalId: $state.params.listId,
-                      itemLocalId: $scope.enteredItem.itemLocalId,
+                      itemLocalId: itemLocalId,
                       itemName: $scope.enteredItem.itemName,
                       categoryName: itemHandler.categoryName(item.itemName),
                       itemCrossed: false,
@@ -236,6 +243,21 @@ console.log('$scope.list=: '+ JSON.stringify($scope.list));
                     };
           itemHandler.addItemToList($scope.selectedItem);
          $state.reload();
+              },
+              function(error){
+                  console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id error'+JSON.stringify(error));
+                  
+              }
+              );
+              
+          },
+             function(error){
+              
+              console.log('07/02/2017 - listItemCtrl - aalatief:Master Item errored'+JSON.stringify(error));
+          });
+        
+        
+
         };
 
     $scope.isItemChecked = function (listItem){

@@ -25,14 +25,14 @@ angular.module('starter.services')
       console.log('init db called!!');
       if (window.cordova) {
         console.log('02/02/2017 - aalatief - initDb from Device');
-        global.db = $cordovaSQLite.openDB({name: "teamSky1_3.db", location: 1, createFromLocation: 1});
+        global.db = $cordovaSQLite.openDB({name: "teamSky1_4.db", location: 1, createFromLocation: 1});
 
         /*$location.path("/subscribe");*/
 
       }
       else {
         console.log('02/02/2017 - aalatief - initDb from Browser');
-        global.db = window.openDatabase("teamSky1_3.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+        global.db = window.openDatabase("teamSky1_4.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
         /*$location.path("/subscribe");*/
       }
@@ -76,7 +76,9 @@ angular.module('starter.services')
         "CREATE TABLE IF NOT EXISTS list_tl (listLocalId integer,language text,listName text,lastUpdateDate integer,lastUpdateBy text )",
 
 
-        "CREATE TABLE IF NOT EXISTS listUser (listLocalId integer,contactLocalId integer,contactStatus text,privilage text,lastUpdateDate integer,lastUpdateBy text  )",
+        "CREATE TABLE IF NOT EXISTS listUser (listLocalId integer,contactLocalId integer,privilage text,lastUpdateDate integer,lastUpdateBy text  )",
+          
+        "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer primary key,contactName text,phoneNumber text,phoneType text,contactStatus text,lastUpdateDate integer,lastUpdateBy text  )",
 
         "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,vendorLocalId integer,itemServerId text,itemPriority integer,lastUpdateDate integer,lastUpdateBy text )",
 
