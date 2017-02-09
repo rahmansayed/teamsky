@@ -45,41 +45,31 @@ angular.module('starter.services')
       };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      function addCategoriesLocal(categoriesList) {
-        //consoleLog("categoriesList = " + JSON.stringify(categoriesList));
+      function addCategoryLocal(category) {
+        console.log("serverHandlerCategoryV2.addCategoriesLocal category = " + JSON.stringify(category));
 
         var defer = $q.defer();
 
-        var query_insert = "insert into category (categoryLocalId,categoryServerId,categoryName) values (?,?,?)";
+        var query_insert = "insert into category (categoryLocalId,categoryServerId,categoryName) values (null,?,?)";
         var query_tl_insert = "insert into category_tl (categoryLocalId,language,categoryName) values (?,?,?)";
 
 
         global.db.transaction(function (tx) {
 
-            for (var i = 0; i < categoriesList.length; i++) {
+            tx.executeSql(query_insert, [category._id, category.categoryName], function (tx, res) {
+              for (var j = 0; j < category.translation.length; j++) {
 
-              var categoryLocalId = 100 + i;
-              var categoryServerId = categoriesList[i]._id;
-              var categoryName = categoriesList[i].categoryName;
+                var transCategoryName = category.translation[j].categoryName;
+                var transLang = category.translation[j].lang;
 
-              /*
-               consoleLog("categoryServerId = " + categoryServerId);
-               consoleLog("categoryName = " + categoryName);
-               consoleLog("categoryLocalId = " + categoryLocalId);
-               */
-
-              tx.executeSql(query_insert, [categoryLocalId, categoryServerId, categoryName]);
-
-              for (var j = 0; j < categoriesList[i].translation.length; j++) {
-
-                var transCategoryName = categoriesList[i].translation[j].categoryName;
-                var transLang = categoriesList[i].translation[j].lang;
-
-                tx.executeSql(query_tl_insert, [categoryLocalId, transLang, transCategoryName]);
+                tx.executeSql(query_tl_insert, [res.insertId, transLang, transCategoryName]);
               }
-            }
-          }, function (error) {
-            consoleLog("Statement Error addCategoriesLocal " + error);
+            }, function (err) {
+              defer.reject(err);
+            });
+          }
+          , function (error) {
+            consoleLog("Statement Error addCategoriesLocal " + error.message);
 
             consoleLog(error);
             defer.reject(error);
@@ -89,7 +79,6 @@ angular.module('starter.services')
             defer.resolve(response);
           });
 
-        consoleLog("End addCategoryLocal");
         return defer.promise;
 
       }
@@ -97,93 +86,70 @@ angular.module('starter.services')
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      function syncCategories() {
+      function syncCategoriesDownstream() {
 
         //deleteCategoryLocal();
         var defer = $q.defer();
-        consoleLog("Start syncCategories");
-        // Start Read Local DB from table category
-
-        consoleLog("Start Read Local DB from table category");
-        /*var query = "SELECT  max(categoryServerId) maxItemServerId  FROM category ";
-         consoleLog("Query => " + query);
-
-         dbHandler.runQuery(query,[],function(res) {
-         consoleLog("Statement true");
-         consoleLog("Result JSON=> categoryServerId " + JSON.stringify(res.rows));
-         categoryListLocal = res.rows;
-         consoleLog("Result JSON=> nnnnnnnnn " + JSON.stringify(categoryListLocal));
-
-         }, function (err) {
-         consoleLog(err);
-         });
-         */
-
 
         var query = "SELECT  max(categoryServerId) as maxCategoryServerId  FROM category ";
-        consoleLog("Query => " + query);
 
         global.db.transaction(function (tx) {
-          tx.executeSql(query, [], function (tx, result) {
-            console.log("Statement True");
-            console.log("maxCategoryServerId result.rows = " + JSON.stringify(result.rows));
-            console.log("maxCategoryServerId result.rows.item = " + JSON.stringify(result.rows.item));
-            console.log("maxCategoryServerId result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
-            var maxCategoryServerId;
-            console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
+            tx.executeSql(query, [], function (tx, result) {
+              console.log("Statement True");
+              console.log("maxCategoryServerId result.rows = " + JSON.stringify(result.rows));
+              console.log("maxCategoryServerId result.rows.item = " + JSON.stringify(result.rows.item));
+              console.log("maxCategoryServerId result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
+              var maxCategoryServerId;
+              console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
 
-            maxCategoryServerId = result.rows.item(0).maxCategoryServerId || '000000000000000000000000';
+              maxCategoryServerId = result.rows.item(0).maxCategoryServerId || '000000000000000000000000';
 
-            console.log("Result JSON=> maxCategoryServerId 2 " + maxCategoryServerId);
+              console.log("Result JSON=> maxCategoryServerId 2 " + maxCategoryServerId);
 
-            console.log("Start Call Server");
+              console.log("Start Call Server");
 
-            var data = {
-              maxCategoryServerId: maxCategoryServerId
-            };
+              var data = {
+                maxCategoryServerId: maxCategoryServerId
+              };
 
-            $http.post(global.serverIP + "/api/categories/get", data)
-              .then(function (serverResponse) {
-                consoleLog(" Server List Back Correctly");
-                consoleLog("true");
-                categoryListServer = serverResponse;
+              $http.post(global.serverIP + "/api/categories/get", data)
+                .then(function (serverResponse) {
+                  consoleLog(" Server List Back Correctly");
+                  consoleLog("true");
 
 //                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
 
-                consoleLog(" End updateList Response Done");
+                  consoleLog(" End updateList Response Done");
+                  var promises = [];
 
-
-                addCategoriesLocal(serverResponse.data).then(function (string) {
-                  defer.resolve(string);
-                }, function (error) {
-                  defer.reject(error);
+                  for (var i = 0; i < serverResponse.data.length; i++) {
+                    promises.push(addCategoryLocal(serverResponse.data[i]));
+                  }
+                  $q.all(promises).then(function () {
+                    defer.resolve();
+                  }, function () {
+                    defer.reject();
+                  });
+                }, function (err) {
+                  defer.reject(err);
                 });
-
-              });
-            consoleLog("End Call Server");
-            consoleLog("///////////////////////////////////////");
-            consoleLog("///////////////////////////////////////");
-
-          }, function (err) {
-            consoleLog("syncCtegories error " + JSON.stringify(err));
-          });
-
-        });
-        consoleLog("End Read Local DB from table category");
-
+            }, function (err) {
+              consoleLog("syncCtegories error " + JSON.stringify(err));
+              defer.reject(err);
+            });
+          }
+        );
 
         return defer.promise;
-
-        consoleLog("End synchCategory");
-
-      };
+      }
 
 
       return {
-        syncCategories: syncCategories,
+        syncCategoriesDownstream: syncCategoriesDownstream,
         deleteCategories: deleteCategoryLocal
       };
     }
-  );
+  )
+;
 
 

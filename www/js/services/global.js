@@ -3,9 +3,9 @@ angular.module('starter.services')
     var db = {};
     var settings = new Array();
     var dataKey;
-    var serverIP = 'https://secret-savannah-80432.herokuapp.com';
+    //var serverIP = 'https://secret-savannah-80432.herokuapp.com';
     //var serverIP = 'http://129.0.89.201:3000';
-    //var serverIP = 'http://localhost:3000';
+    var serverIP = 'http://localhost:3000';
     var userName;
     var userServerId="";
     var deviceServerId="";

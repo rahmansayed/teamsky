@@ -83,14 +83,20 @@ angular.module('starter.services')
           });
         });*/
 
-        serverHandlerCategoryV2.syncCategories().then(function(){
-          serverHandlerItemsV2.syncMasterItems();
+        serverHandlerCategoryV2.syncCategoriesDownstream().then(function(){
+          serverHandlerItemsV2.syncMasterItemsDownstream();
         });
-        serverHandlerListV2.syncListsUpstream();
-
-        serverHandlerItemsV2.syncLocalItems();
-
-        serverHandlerEntryV2.syncEntriesUpsteam();
+        serverHandlerListV2.syncListsUpstream().then(function(){
+          serverHandlerItemsV2.syncLocalItemsUpstream().then(function(){
+            serverHandlerEntryV2.synEntriesUpstream();
+          })
+        });
+        serverHandlerListV2.syncListsDownstream().then(function(){
+          console.log("SERVER HANDLER RESOLVED");
+          serverHandlerEntryV2.syncEntrieDownstream();
+        }, function(){
+          console.log("SERVER HANDLER ERROR")
+        });
 /*
         var list = {
           listLocalId: 1485085399062,

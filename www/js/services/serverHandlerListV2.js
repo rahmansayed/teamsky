@@ -8,148 +8,143 @@ angular.module('starter.services')
 
   .factory('serverHandlerListV2', function ($http, global, $q) {
 
-    var serviceName = "serverHandlerListV2";
+      var serviceName = "serverHandlerListV2";
 
-    //------------------------consoleLog
+      //------------------------consoleLog
 
-    function consoleLog(text) {
-      //return;
-      console.log(serviceName + "  =>  " + text);
-    };
-
-    /***********************************************************************************************************************
-     * the function returns the userServerId of the contact number
-     * @param contactNumbers array of all the contact numbers in international format
-     * @param listServerId
-     */
-    function checkUser(contactNumbers, listServerId) {
-      var defer = $q.defer();
-
-      var data = {
-        userServerId: global.userServerId,
-        listServerId: listServerId,
-        contact: contactNumbers
+      function consoleLog(text) {
+        //return;
+        console.log(serviceName + "  =>  " + text);
       };
 
-      $http.post(global.serverIP + "/api/user/check", data)
-
-        .then(function (response) {
-            console.log('serverListHandler checkUser reponse' + JSON.stringify(response));
-            defer.resolve(response.data.userServerId);
-          },
-          function (error) {
-            console.log('serverListHandler checkUser error' + JSON.stringify(error));
-            defer.reject(error);
-          });
-
-      return defer.promise;
-    }
-
-    /******************************************************************************************************************
-     * this function creates the server record of the user, this function should be called after retrieving the
-     * invitedUserServerId from check user
-     * @param listLocalId
-     * @param invitedUserServerId
-     */
-    function inviteToList(listServerId, invitedUserServerId) {
-
-      var defer = $q.defer();
-      consoleLog("Start inviteToList");
-
-      data = {
-        invitedUserServerId: invitedUserServerId,
-        listServerId: listServerId,
-        deviceServerId: deviceServerId
-      };
-      consoleLog(serviceName + " List to Be inviteToList => " + JSON.stringify(data));
-
-      $http.post(global.serverIP + "/api/list/invite", data)
-
-        .then(function (response) {
-          consoleLog(" inviteToList Response Result => " + response);
-          defer.resolve(response.data.listServerId);
-          consoleLog(" inviteToList Response Done");
-        }, function (error) {
-          defer.reject(error);
-          console.log("serverHandlerListV2 " + " inviteToList " + " error " + JSON.stringify(error));
-        });
-
-      return defer.promise;
-
-    }
-
-    function invite(listServerId, contactNumbers) {
-      var defer = $q.defer();
-
-      checkUser(contactNumbers, listServerId).then(
-        function (result) {
-          console.log("ServerHandlerListV2 invite userServerId = " + result.userServerId);
-          inviteToList(listServerId, result.userServerId);
-        }, function (error) {
-          console.log("ServerHandlerListV2 invite error " + JSON.stringify(error));
-        }
-      )
-      return defer.promise;
-    }
-
-    /*************************************************************************************************************************
-     * this function records the list in the server and updates the local record with the listServerId
-     * @param list
-     */
-
-    function createList(list) {
-
-      consoleLog("Start createList");
-      var defer = $q.defer();
-
-      data = {
-        userServerId: global.userServerId,
-        deviceServerId: global.deviceServerId,
-        listDetails: {
-          listLocalId: list.listLocalId,
-          listName: list.listName,
-          listDesc: list.listDesc,
-          listColour: list.listColour,
-          listOrder: list.listOrder
-        }
-      };
-
-      consoleLog(" List to Be Created = " + JSON.stringify(data));
-
-      $http.post(global.serverIP + "/api/list/create", data)
-        .then(function (response) {
-            consoleLog(" createList Response Result => " + JSON.stringify(response));
-            consoleLog(" createList Response Done");
-            global.db.transaction(function (tx) {
-              var query = "update list set listServerId = ? where listLocalId = ?";
-              tx.executeSql(query, [response.data.listServerId, list.listLocalId], function (tx, result) {
-                defer.resolve(response.data.listServerId);
-                consoleLog('Rows affected = ' + result.rowsAffected)
-              }, function (error) {
-                defer.reject(error);
-                consoleLog('error = ' + JSON.stringify(error));
-
-              });
-              consoleLog(" updateList Response Done");
-            });
-          },
-          function (error) {
-            consoleLog("createList error " + JSON.stringify(error));
-            defer.reject(error);
-          });
-
-      return defer.promise;
-    };
-
-
-    return {
-//------------------------createList
-      createList: createList,
-      // this function is used to synchronize all the un-sync'd lists
-      syncListsUpstream: function () {
-        consoleLog("In syncLists")
+      /***********************************************************************************************************************
+       * the function returns the userServerId of the contact number
+       * @param contactNumbers array of all the contact numbers in international format
+       * @param listServerId
+       */
+      function checkUser(contactNumbers, listServerId) {
         var defer = $q.defer();
-        var promises = []
+
+        var data = {
+          userServerId: global.userServerId,
+          listServerId: listServerId,
+          contact: contactNumbers
+        };
+
+        $http.post(global.serverIP + "/api/user/check", data)
+
+          .then(function (response) {
+              console.log('serverListHandler checkUser reponse' + JSON.stringify(response));
+              defer.resolve(response.data.userServerId);
+            },
+            function (error) {
+              console.log('serverListHandler checkUser error' + JSON.stringify(error));
+              defer.reject(error);
+            });
+
+        return defer.promise;
+      }
+
+      /******************************************************************************************************************
+       * this function creates the server record of the user, this function should be called after retrieving the
+       * invitedUserServerId from check user
+       * @param listLocalId
+       * @param invitedUserServerId
+       */
+      function inviteToList(listServerId, invitedUserServerId) {
+
+        var defer = $q.defer();
+        consoleLog("Start inviteToList");
+
+        data = {
+          invitedUserServerId: invitedUserServerId,
+          listServerId: listServerId,
+          deviceServerId: deviceServerId
+        };
+        consoleLog(serviceName + " List to Be inviteToList => " + JSON.stringify(data));
+
+        $http.post(global.serverIP + "/api/list/invite", data)
+
+          .then(function (response) {
+            consoleLog(" inviteToList Response Result => " + response);
+            defer.resolve(response.data.listServerId);
+            consoleLog(" inviteToList Response Done");
+          }, function (error) {
+            defer.reject(error);
+            console.log("serverHandlerListV2 " + " inviteToList " + " error " + JSON.stringify(error));
+          });
+
+        return defer.promise;
+
+      }
+
+      function invite(listServerId, contactNumbers) {
+        var defer = $q.defer();
+
+        checkUser(contactNumbers, listServerId).then(
+          function (result) {
+            console.log("ServerHandlerListV2 invite userServerId = " + result.userServerId);
+            inviteToList(listServerId, result.userServerId);
+          }, function (error) {
+            console.log("ServerHandlerListV2 invite error " + JSON.stringify(error));
+          }
+        )
+        return defer.promise;
+      }
+
+      /*************************************************************************************************************************
+       * this function records the list in the server and updates the local record with the listServerId
+       * @param list
+       */
+
+      function createList(list) {
+
+        console.log("serverListHandler.createList list = " + JSON.stringify(list));
+        var defer = $q.defer();
+
+        data = {
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId,
+          listDetails: {
+            listLocalId: list.listLocalId,
+            listName: list.listName,
+            listDesc: list.listDesc,
+            listColour: list.listColour,
+            listOrder: list.listOrder
+          }
+        };
+
+        consoleLog(" List to Be Created = " + JSON.stringify(data));
+
+        $http.post(global.serverIP + "/api/list/create", data)
+          .then(function (response) {
+              console.log("serverListHandler.createList server response " + JSON.stringify(response));
+              global.db.transaction(function (tx) {
+                var query = "update list set listServerId = ? where listLocalId = ?";
+                tx.executeSql(query, [response.data.listServerId, list.listLocalId], function (tx, result) {
+                  console.log("serverListHandler.createList Rows affected = " + result.rowsAffected);
+                  defer.resolve(response.data.listServerId);
+                }, function (error) {
+                  console.log("serverListHandler.createList db update error = " + JSON.stringify(error));
+                  defer.reject(error);
+                });
+              });
+            },
+            function (error) {
+              console.log("serverListHandler.createList error " + JSON.stringify(error));
+              defer.reject(error);
+            });
+
+        return defer.promise;
+      };
+
+      /******************************************************************************************************************
+       * this function is used to sync local lists with the server
+       */
+      function syncListsUpstream() {
+        consoleLog("In syncLists");
+        var defer = $q.defer();
+        var promises = [];
         global.db.transaction(function (tx) {
           var query = "select * from list where listServerId = ''";
           tx.executeSql(query, [], function (tx, result) {
@@ -168,73 +163,166 @@ angular.module('starter.services')
                   }
                 ;
 
-              consoleLog("calling createlist for " + listDetails);
+              console.log("serverHandlerListV2.syncListsUpstream calling createlist for " + JSON.stringify(listDetails));
               promises.push(createList(listDetails));
             }
-            defer = $q.all(promises);
+            $q.all(promises).then(function () {
+              defer.resolve();
+            }, function () {
+              defer.reject();
+            });
           }, function (error) {
             consoleLog("error = " + JSON.stringify(error));
+            defer.reject();
           });
         });
-        return defer;
-      },
+        return defer.promise;
+      }
+
+      /******************************************************************************************************************
+       * this function is checks if the serverlist exist locally if not it inserts it
+       * @param list
+       */
+      function upsertServerList(list) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+            var query = "select count(*) as cnt from list where listServerId = ?";
+
+            tx.executeSql(query, [list.listServerId], function (tx, result) {
+              if (result.rows.item(0).cnt == 0) {
+                console.log("serverHandlerListV2 upsertServer ListInserting list " + JSON.stringify(list));
+                var insertQuery = "insert into list(listLocalId,listName,listServerId) values (?,?,?)";
+                var localId = new Date().getTime().toString();
+                tx.executeSql(insertQuery, [localId, list.listName, list.listServerId]);
+              }
+            }, function (error) {
+              consoleLog('error = ' + JSON.stringify(error));
+            });
+            consoleLog(" upsertServerList Response Done");
+          }
+          ,
+          function (error) {
+            consoleLog("syncListsDownstream error " + JSON.stringify(error));
+            defer.reject(error);
+          },
+          function () {
+            defer.resolve();
+          }
+        )
+      };
+
+      /******************************************************************************************************************
+       * this function is used to retrieve lists from the server and record in the local tables
+       */
+      function syncListsDownstream() {
+
+        consoleLog("Start syncListsDownstream");
+
+        var defer = $q.defer();
+        var promises = [];
+        var data = {
+          userServerId: global.userServerId
+        };
+
+
+        $http.post(global.serverIP + "/api/list/user", data)
+          .then(function (response) {
+            consoleLog(" syncListsDownstream Response Result => " + JSON.stringify(response));
+            consoleLog(" syncListsDownstream Response Done");
+            // will check if the list already exist in the local table if not then create it
+            for (var i = 0; i < response.data.length; i++) {
+              var list = {
+                listServerId: response.data[i].lists._id,
+                listName: response.data[i].lists.listname
+              };
+
+              promises.push(upsertServerList(list));
+            }
+            $q.all(promises).then(function () {
+              defer.resolve();
+            }, function () {
+              defer.reject();
+            });
+
+          }, function (error) {
+            console.log("serverHandlerListV2 syncListsDownstream http error " + JSON.stringify(error));
+            defer.reject();
+          });
+
+        return defer.promise;
+      };
+
+
+      return {
+//------------------------createList
+        createList: createList,
+        // this function is used to synchronize all the un-sync'd lists
+        syncListsUpstream: syncListsUpstream,
+        syncListsDownstream: syncListsDownstream,
 //------------------------updateList
-      updateList: function (list) {
+        updateList: function (list) {
 
-        consoleLog("Start updateList");
-
-
-        data = {
-          listLocalId: list.listLocalId,
-          listName: list.listName,
-          listDescription: list.listDescription,
-          listColour: "Red",
-          listOrder: "1"
-
-        };
-
-        consoleLog(" List to Be Updated => " + JSON.stringify(data));
+          consoleLog("Start updateList");
 
 
-        $http.post(global.serverIP + "/api/list/update", data)
+          data = {
+            listLocalId: list.listLocalId,
+            listName: list.listName,
+            listDescription: list.listDescription,
+            listColour: "Red",
+            listOrder: "1"
 
-          .then(function (response) {
-            consoleLog(" updateList Response Result => " + response);
+          };
 
-          });
-
-        return defer.promise;
+          consoleLog(" List to Be Updated => " + JSON.stringify(data));
 
 
-      },
+          $http.post(global.serverIP + "/api/list/update", data)
+
+            .then(function (response) {
+              consoleLog(" updateList Response Result => " + response);
+
+            });
+
+          return defer.promise;
+
+
+        }
+
+        ,
 //------------------------deleteList
-      deleteList: function (list) {
+        deleteList: function (list) {
 
-        consoleLog("Start deleteList");
+          consoleLog("Start deleteList");
 
-        data = {
-          listServerId: list.listServerId,
-          deviceServerId: deviceServerId
-        };
+          data = {
+            listServerId: list.listServerId,
+            deviceServerId: deviceServerId
+          };
 
-        consoleLog(" List to Be Deleted => " + JSON.stringify(data));
+          consoleLog(" List to Be Deleted => " + JSON.stringify(data));
 
-        $http.post(global.serverIP + "/api/list/deactivate", data)
+          $http.post(global.serverIP + "/api/list/deactivate", data)
 
-          .then(function (response) {
-            consoleLog(" deleteList Response Result => " + JSON.stringify(response));
+            .then(function (response) {
+              consoleLog(" deleteList Response Result => " + JSON.stringify(response));
 
-            defer.resolve(response.data.listServerId);
-            consoleLog(" deleteList Response Done");
-          });
+              defer.resolve(response.data.listServerId);
+              consoleLog(" deleteList Response Done");
+            });
 
-        return defer.promise;
+          return defer.promise;
 
-      },
+        }
+        ,
 //------------------------shareList
 
 
-    };
-  });
+      }
+        ;
+    }
+  )
+;
 
 
