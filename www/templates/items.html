@@ -22,6 +22,9 @@
             </ion-item>
            </ion-list>   
         -->
+     <ion-refresher on-refresh="refresh()">
+                     
+      </ion-refresher>
         <div>
           <ion-list>
             <ion-item  class="item" ng-repeat="item in data.items" ng-click="selectItems(item)">{{item.itemName}} </ion-item >

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler) {
+  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler,$timeout) {
 
 
     dbHandler.runQuery() ;
@@ -22,6 +22,18 @@ angular.module('starter.controllers')
         });
        
     };*/
+    
+      $scope.refresh = function() {
+    
+    console.log('Refreshing!');
+    $timeout( function() {
+        $state.reload();
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    
+    }, 1000);
+      
+  };
 
     $scope.removeList=function(listLocalId){
 
@@ -75,9 +87,25 @@ angular.module('starter.controllers')
        
            contactHandler.pickContact()
         .then(function(response){
-            $scope.contactName = response.displayName;
-            console.log('07/02/2017 - listCtrl -aalatief - show selected contact'+JSON.stringify(response));
             
+            $scope.conatact = contactHandler.reorderContact(response);
+            $scope.contactNo = $scope.conatact[0].phoneValue;
+            console.log('07/02/2017 - listCtrl -aalatief - show selected contact'+JSON.stringify($scope.conatact ));
+            contactHandler.addLocalContact($scope.conatact)
+            .then(function(res){
+                console.log('08/02/2017 - listCtrl - aalatief: Local Contact Intserted successfully: '+ $scope.contactNo);
+                contactHandler.getContactLocalId(contactHandler.formatPhoneNumber($scope.contactNo))
+                .then(function(result){
+                    console.log('08/02/2017 - listCtrl - aalatief: Local Contact Id: ' + JSON.stringify(result.rows.item(0)));
+                    
+                },function(error){
+                    
+                    
+                });
+            },
+            function(error){
+                console.log('08/02/2017 - listCtrl - aalatief: Local Contact insert in error');
+            });
         },
             function(error){
                console.log('07/02/2017 - listCtrl -aalatief - error show selected contact');

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, listHandler, itemHandler, $ionicPopup) {
+  .controller('listItem', function ($scope, $state, listHandler, itemHandler, $ionicPopup,$timeout) {
 
     $scope.items = [];
     $scope.selectedItems =  [];
@@ -212,6 +212,18 @@ console.log('$scope.list=: '+ JSON.stringify($scope.list));
     	)
     };
 
+    $scope.refresh = function() {
+    
+    console.log('Refreshing!');
+    $timeout( function() {
+        $state.reload();
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    
+    }, 1000);
+      
+  };
+    
     $scope.AddMasterItem = function(itemName){
 
          console.log('Add Master Item Case: ' + itemName);
