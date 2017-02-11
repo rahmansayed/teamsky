@@ -16,6 +16,7 @@ angular.module('starter.services')
     
         var formatPhoneNumber = function(EnteredPhoneNumber) {
               var formattedNumber = ' ';
+              console.log('EnteredPhoneNumber'+EnteredPhoneNumber);
               var phoneNumber = EnteredPhoneNumber.replace(/\s+/g, '')
              if (!(phoneNumber.substr(0,1) == '+' || phoneNumber.substr(0,2)=='00')){
                  if (phoneNumber.substr(0,1) == '0'){
@@ -77,27 +78,62 @@ angular.module('starter.services')
         function addLocalContact(contact) {
 
 		var deferred = $q.defer();
+            
 		var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactStatus,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?)";
-		dbHandler.runQuery(query,[null,contact.displayName,contact.phoneValue,contact.phoneType,'N',new Date().getTime(),'U'],function(response){
-			//Success Callback
-			console.log(response);
-			deferred.resolve(response);
-		},function(error){
-			//Error Callback
-			console.log(error);
-			deferred.reject(error);
+        getMaxContactLocalId()
+        .then(function(response){
+            maxContactId = response.rows.item(0).maxId + 1;
+            console.log('11/2/2017 - contactHandler - aalatief :maxContactId '+JSON.stringify(maxContactId));
+            for (var i = 0; i < (contact || []).length; i++){
+            dbHandler.runQuery(query,[maxContactId,contact[i].displayName,contact[i].phoneValue,contact[i].phoneType,'N',new Date().getTime(),'U'],function(response){
+                //Success Callback
+                console.log(response);
+                deferred.resolve(response.insertId);
+            },function(error){
+                //Error Callback
+                console.log(error);
+                deferred.reject(error);
 		});
+        };
+            
+        },
+              
+              function(error){
+            console.log('11/2/2017 - contactHandler - aalatief :error ');
+        });    
+
 
 		return deferred.promise;
 	};
+    
+        function addListContact(listLocalId,contactLocalId) {
 
-    function getContactLocalId(contactNo){
-        var deferred = $q.defer();
-        var query = "select c.contactLocalId from contact as c where c.phoneNumber = ?";
-        //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
-        dbHandler.runQuery(query,[contactNo],function(response){
+		var deferred = $q.defer();
+            
+		var query = "insert into listUser (listLocalId ,contactLocalId ,contactServerId ,privilage ,lastUpdateDate ,lastUpdateBy ) values (?,?,?,?,?,?)";    
+        
+            dbHandler.runQuery(query,[listLocalId,contactLocalId,null,null,new Date().getTime(),null],function(response){
             //Success Callback
-            console.log('Contact Name: '+contactNo+'Success local conact Id ' + JSON.stringify(response.rows));
+            console.log('11/2/2017 - ContactHandler - aalatief : Success List Contact Added' + JSON.stringify(response.rows));
+            listUserId = response.insertId;
+            console.log('contact: ' + JSON.stringify(listUserId));
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log('fail Master query '+error);
+            deferred.reject(error);
+        });
+        /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
+        return deferred.promise;
+        };
+
+    function getMaxContactLocalId(){
+        var deferred = $q.defer();
+        var query = "select max(c.contactLocalId) maxId from contact as c ";
+        //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
+        dbHandler.runQuery(query,[],function(response){
+            //Success Callback
+            console.log('Success local contact Id ' + JSON.stringify(response.rows));
             contact = response.rows.item(0);
             console.log('contact: ' + JSON.stringify(contact));
             deferred.resolve(response);
@@ -106,7 +142,26 @@ angular.module('starter.services')
             console.log('fail Master query '+error);
             deferred.reject(error);
         });
-        console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));
+        /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
+        return deferred.promise;
+    };
+    
+        function getContactLocalId(phoneNumber){
+        var deferred = $q.defer();
+        var query = "select c.contactLocalId from contact as c where c.phoneNumber=?";
+        //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
+        dbHandler.runQuery(query,[phoneNumber],function(response){
+            //Success Callback
+            console.log('Success local contact Id ' + JSON.stringify(response.rows));
+            contact = response.rows.item(0);
+            console.log('contact: ' + JSON.stringify(contact));
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log('fail Master query '+error);
+            deferred.reject(error);
+        });
+        /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
         return deferred.promise;
     };
     
@@ -116,8 +171,10 @@ angular.module('starter.services')
             formatContact:formatContact,
             reorderContact:reorderContact,
             addLocalContact:addLocalContact,
-            getContactLocalId:getContactLocalId,
-            formatPhoneNumber:formatPhoneNumber
+            getMaxContactLocalId:getMaxContactLocalId,
+            formatPhoneNumber:formatPhoneNumber,
+            addListContact:addListContact,
+            getContactLocalId:getContactLocalId
             
         };
 

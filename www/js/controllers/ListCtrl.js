@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler,$timeout) {
+  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler,$timeout,$http,global) {
 
 
     dbHandler.runQuery() ;
@@ -82,22 +82,39 @@ angular.module('starter.controllers')
           $cordovaContacts.find(options).then(onSuccess, onError);
         };*/
  
-       $scope.getAllContacts = function() {
+       $scope.getAllContacts = function(listLocalId) {
         /* $state.go('contact');*/
        
-           contactHandler.pickContact()
-        .then(function(response){
+/*           contactHandler.pickContact()
+        .then(function(response){*/
             
-            $scope.conatact = contactHandler.reorderContact(response);
-            $scope.contactNo = $scope.conatact[0].phoneValue;
-            console.log('07/02/2017 - listCtrl -aalatief - show selected contact'+JSON.stringify($scope.conatact ));
-            contactHandler.addLocalContact($scope.conatact)
+            $scope.contact = /*contactHandler.reorderContact(response);*/
+                [{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"}]
+            /*$scope.contactNo = $scope.conatact[0].phoneValue;*/
+            console.log('07/02/2017 - listCtrl -aalatief - show selected contact'+JSON.stringify($scope.contact ));
+            contactHandler.addLocalContact($scope.contact)
             .then(function(res){
-                console.log('08/02/2017 - listCtrl - aalatief: Local Contact Intserted successfully: '+ $scope.contactNo);
-                contactHandler.getContactLocalId(contactHandler.formatPhoneNumber($scope.contactNo))
+                console.log('08/02/2017 - listCtrl - aalatief: Local Contact Intserted successfully: '+ JSON.stringify(res));
+                
+           
+                contactHandler.getContactLocalId(contactHandler.formatPhoneNumber($scope.contact[0].phoneValue))
                 .then(function(result){
                     console.log('08/02/2017 - listCtrl - aalatief: Local Contact Id: ' + JSON.stringify(result.rows.item(0)));
-                    
+                    contactLocalId = result.rows.item(0).contactLocalId;
+                    contactHandler.addListContact(listLocalId,contactLocalId)
+                    .then
+                    (function(res){
+                        listUser = {
+                            userServerId:'58553bb81e546ea068a1bb73',
+                            contact:['+966549183476','+966565508736'],
+                            listServerId:'589efba55cbfa938e44b7898'
+                        };
+                        $http.post( global.serverIP+ "/api/user/check" , listUser).then(function(response){
+                            console.log('11/02/2017 - listCtrl - aalatief: Api Call check User:'+JSON.stringify(response));
+                    },
+                    function(err){
+                        console.log('11/02/2017 - listCtrl - aalatief: Api Call check Error:'+JSON.stringify(err.message));
+                    });
                 },function(error){
                     
                     
@@ -106,14 +123,14 @@ angular.module('starter.controllers')
             function(error){
                 console.log('08/02/2017 - listCtrl - aalatief: Local Contact insert in error');
             });
-        },
+/*        },
             function(error){
                console.log('07/02/2017 - listCtrl -aalatief - error show selected contact');
             
-        });
+        });*/
 
   
-  };
+  });
     
 /*    $scope.getAllContacts = function() {
 
@@ -134,4 +151,5 @@ angular.module('starter.controllers')
        /* $scope.getAllContacts();*/
 
     };
-  });
+  };
+});

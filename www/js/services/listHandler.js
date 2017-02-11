@@ -59,16 +59,28 @@ angular.module('starter.services')
 
 		var deferred = $q.defer();
 		var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
-		dbHandler.runQuery(query,[null/*list.listLocalId*/,list.listName,list.listDescription,list.listServerId,'','',new Date().getTime()],function(response){
+        
+//		dbHandler.runQuery(query,[nulllist.listLocalId,list.listName,list.listDescription,'','','',new Date().getTime()],function(response){
+//			//Success Callback
+//			console.log('11/2/2017 - listHandler - aalatief: add New List: '+JSON.stringify(response.insertId));
+//			deferred.resolve(response.insertId);
+//		},function(error){
+//			//Error Callback
+//			console.log('11/2/2017 - listHandler - aalatief: add New Liste error: '+error.message);
+//			deferred.reject(error);
+//		});
+
+        global.db.transaction(function(tx){
+            tx.executeSql(query, [null/*list.listLocalId*/,list.listName,list.listDescription,'','','',new Date().getTime()],function(tx, response){
 			//Success Callback
-			console.log(response);
-			deferred.resolve(response);
+			console.log('11/2/2017 - listHandler - aalatief: add New List: '+JSON.stringify(response.insertId));
+			deferred.resolve(response.insertId);
 		},function(error){
 			//Error Callback
-			console.log(error);
+			console.log('11/2/2017 - listHandler - aalatief: add New Liste error: '+error.message);
 			deferred.reject(error);
 		});
-
+        });
 		return deferred.promise;
 	};
 
