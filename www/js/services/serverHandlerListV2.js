@@ -233,8 +233,8 @@ angular.module('starter.services')
             // will check if the list already exist in the local table if not then create it
             for (var i = 0; i < response.data.length; i++) {
               var list = {
-                listServerId: response.data[i].lists._id,
-                listName: response.data[i].lists.listname
+                listServerId: response.data[i]._id,
+                listName: response.data[i].listname
               };
 
               promises.push(upsertServerList(list));

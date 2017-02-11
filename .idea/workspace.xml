@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="serverHandlerListV2.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="serverHandlerListV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1177">
-              <caret line="117" column="0" lean-forward="true" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+            <state relative-caret-position="199">
+              <caret line="235" column="17" lean-forward="true" selection-start-line="235" selection-start-column="17" selection-end-line="235" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -62,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="global.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="41" lean-forward="false" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+            <state relative-caret-position="170">
+              <caret line="10" column="26" lean-forward="true" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -86,7 +87,7 @@
         <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-359">
-              <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+              <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -97,7 +98,20 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
               <caret line="39" column="52" lean-forward="false" selection-start-line="39" selection-start-column="52" selection-end-line="39" selection-end-column="52" />
-              <folding />
+              <folding>
+                <marker date="1486801410487" expanded="true" signature="7057:9849" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="7103:9052" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="7215:7399" ph="{&quot;categoryName&quot;: 'Uncategorized'...}" />
+                <marker date="1486801410487" expanded="true" signature="7504:8854" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="7739:8623" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="8079:8522" ph="{&quot;listLocalId&quot;: $state.params.listId...}" />
+                <marker date="1486801410487" expanded="true" signature="8452:8500" ph="/*...*/" />
+                <marker date="1486801410487" expanded="true" signature="8654:8810" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="8884:9021" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="9101:9199" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="9260:9332" ph="{...}" />
+                <marker date="1486801410487" expanded="true" signature="9335:9843" ph="/*...*/" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -157,6 +171,7 @@
       <find>categ</find>
       <find>quer</find>
       <find>100</find>
+      <find>api/list/user</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -219,11 +234,11 @@
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
         <option value="$PROJECT_DIR$/www/js/services/global.js" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
       </list>
     </option>
   </component>
@@ -489,7 +504,7 @@
       <workItem from="1482582022627" duration="8716000" />
       <workItem from="1482904156581" duration="69927000" />
       <workItem from="1486216812562" duration="8226000" />
-      <workItem from="1486281914805" duration="65036000" />
+      <workItem from="1486281914805" duration="67796000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -502,7 +517,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="379478000" />
+    <option name="totallyTimeSpent" value="382238000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -892,26 +907,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="94" column="49" lean-forward="false" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
           <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1177">
-          <caret line="117" column="0" lean-forward="true" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -927,7 +926,7 @@
     <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-359">
-          <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+          <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -944,7 +943,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="39" column="52" lean-forward="false" selection-start-line="39" selection-start-column="52" selection-end-line="39" selection-end-column="52" />
-          <folding />
+          <folding>
+            <marker date="1486801410487" expanded="true" signature="7057:9849" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="7103:9052" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="7215:7399" ph="{&quot;categoryName&quot;: 'Uncategorized'...}" />
+            <marker date="1486801410487" expanded="true" signature="7504:8854" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="7739:8623" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="8079:8522" ph="{&quot;listLocalId&quot;: $state.params.listId...}" />
+            <marker date="1486801410487" expanded="true" signature="8452:8500" ph="/*...*/" />
+            <marker date="1486801410487" expanded="true" signature="8654:8810" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="8884:9021" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="9101:9199" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="9260:9332" ph="{...}" />
+            <marker date="1486801410487" expanded="true" signature="9335:9843" ph="/*...*/" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -966,8 +978,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="41" lean-forward="false" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+        <state relative-caret-position="170">
+          <caret line="10" column="26" lean-forward="true" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="94" column="49" lean-forward="false" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="235" column="17" lean-forward="true" selection-start-line="235" selection-start-column="17" selection-end-line="235" selection-end-column="17" />
           <folding />
         </state>
       </provider>
