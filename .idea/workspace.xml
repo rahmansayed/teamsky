@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
@@ -26,8 +25,8 @@
       <file leaf-file-name="serverHandlerListV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="235" column="17" lean-forward="true" selection-start-line="235" selection-start-column="17" selection-end-line="235" selection-end-column="17" />
+            <state relative-caret-position="184">
+              <caret line="195" column="36" lean-forward="false" selection-start-line="195" selection-start-column="30" selection-end-line="195" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -172,6 +171,7 @@
       <find>quer</find>
       <find>100</find>
       <find>api/list/user</find>
+      <find>insert</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -504,7 +504,7 @@
       <workItem from="1482582022627" duration="8716000" />
       <workItem from="1482904156581" duration="69927000" />
       <workItem from="1486216812562" duration="8226000" />
-      <workItem from="1486281914805" duration="67796000" />
+      <workItem from="1486281914805" duration="70596000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -517,7 +517,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="382238000" />
+    <option name="totallyTimeSpent" value="385038000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -994,8 +994,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="235" column="17" lean-forward="true" selection-start-line="235" selection-start-column="17" selection-end-line="235" selection-end-column="17" />
+        <state relative-caret-position="184">
+          <caret line="195" column="36" lean-forward="false" selection-start-line="195" selection-start-column="30" selection-end-line="195" selection-end-column="36" />
           <folding />
         </state>
       </provider>

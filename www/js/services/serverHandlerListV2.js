@@ -192,9 +192,8 @@ angular.module('starter.services')
             tx.executeSql(query, [list.listServerId], function (tx, result) {
               if (result.rows.item(0).cnt == 0) {
                 console.log("serverHandlerListV2 upsertServer ListInserting list " + JSON.stringify(list));
-                var insertQuery = "insert into list(listLocalId,listName,listServerId) values (?,?,?)";
-                var localId = new Date().getTime().toString();
-                tx.executeSql(insertQuery, [localId, list.listName, list.listServerId]);
+                var insertQuery = "insert into list(listLocalId,listName,listServerId) values (null,?,?)";
+                tx.executeSql(insertQuery, [list.listName, list.listServerId]);
               }
             }, function (error) {
               consoleLog('error = ' + JSON.stringify(error));
