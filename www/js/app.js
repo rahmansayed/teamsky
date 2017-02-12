@@ -45,24 +45,23 @@ angular.module('starter', ['ionic',
                   users = userVerify.userSetting();
                   global.userServerId = userVerify.getUserServerId();
                   global.deviceServerId = userVerify.getDeviceServerId();
-                
-                if (userVerify.isVerified()){
+
+                  if (userVerify.isVerified()) {
                     $ionicLoading.hide();
                     $location.path("/lists");
                   }
-                     else
-                         {
-                            $ionicLoading.hide();
-                             $location.path("/subscribe");
-                 
-                        }
+                  else {
+                    $ionicLoading.hide();
+                    $location.path("/subscribe");
+
+                  }
                   console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                   console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                   console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
                   serverHandler.SynchInitTest();
-            
-            
-            }
+
+
+                }
                 , function (error) {
                   userVerify.getUserSetErrorCB();
                   console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
@@ -86,18 +85,15 @@ angular.module('starter', ['ionic',
 
       //serverHandler.SynchInitTest();
 
-      /*    var push = PushNotification.init({
-       "android": {"senderID": "842803018154"},
-       "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
-       });
-       */
-      /*
-       push.on('registration', function (data) {
-       console.log(data.registrationId);
-       global.dataKey = data.registrationId;
-       //                callAjax(data.registrationId);
-       });
-       */
+      var push = PushNotification.init({
+        "android": {"senderID": "992783511835"},
+        "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
+      });
+      push.on('registration', function (data) {
+        console.log(data.registrationId);
+        global.dataKey = data.registrationId;
+        //                callAjax(data.registrationId);
+      });
 //      push.setMultiNotificationMode(); // pushNotification - Pushnotification Plugin Object
 
 
