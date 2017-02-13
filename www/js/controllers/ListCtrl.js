@@ -92,8 +92,8 @@ angular.module('starter.controllers')
             $scope.contact = /*contactHandler.reorderContact(response);*/
                 
 
-/*[{"displayName":"A badr","phoneValue":"+966540295048","phoneType":"mobile"},{"displayName":"A badr","phoneValue":"+96615;","phoneType":"mobile"}];*/
-                [{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"}];
+[{"displayName":"A badr","phoneValue":"+966540295048","phoneType":"mobile"},{"displayName":"A badr","phoneValue":"+96615;","phoneType":"mobile"}];
+/*                [{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"}];*/
             
             for (var i = 0; i < $scope.contact.length; i++) {
               $scope.phoneNumbers.push($scope.contact[i].phoneValue);
