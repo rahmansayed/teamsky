@@ -10,7 +10,8 @@
               ng-repeat = "list in lists track by $index" ng-click = "addItem(list.listLocalId)">
               <h2>{{list.listName}}</h2>
               <p>{{list.listDescription}}</p>
-              <!--<p>{{contactName}}</p>-->
+              <p ng-style="list.contactStatus == 'S' ? {color:'green' } :list.contactStatus == 'P' ? { color:'red' } : { color:'blue' } ">{{list.contactName}} - {{list.contactStatus }}</p>
+              <!--<p ng-class="list.contactStatus">{{list.contactName}} - {{list.contactStatus }}</p>-->
               <i class="icon ion-chevron-right"></i>
               
            <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">

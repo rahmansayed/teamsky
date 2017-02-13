@@ -27,3 +27,10 @@
   margin-top: -20px; /* Note, this must be half the font size */
   color: $light;
 }
+.P {
+   color: red;
+}
+
+.S {
+   color: green;
+}

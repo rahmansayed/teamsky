@@ -79,13 +79,13 @@ angular.module('starter.services')
 
 		var deferred = $q.defer();
             
-		var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactStatus,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?)";
+		var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactServerId,contactStatus,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?,?)";
         getMaxContactLocalId()
         .then(function(response){
             maxContactId = response.rows.item(0).maxId + 1;
             console.log('11/2/2017 - contactHandler - aalatief :maxContactId '+JSON.stringify(maxContactId));
             for (var i = 0; i < (contact || []).length; i++){
-            dbHandler.runQuery(query,[maxContactId,contact[i].displayName,contact[i].phoneValue,contact[i].phoneType,'N',new Date().getTime(),'U'],function(response){
+            dbHandler.runQuery(query,[maxContactId,contact[i].displayName,contact[i].phoneValue,contact[i].phoneType,'','N',new Date().getTime(),'U'],function(response){
                 //Success Callback
                 console.log(response);
                 deferred.resolve(response.insertId);
@@ -110,9 +110,9 @@ angular.module('starter.services')
 
 		var deferred = $q.defer();
             
-		var query = "insert into listUser (listLocalId ,contactLocalId ,contactServerId ,privilage ,lastUpdateDate ,lastUpdateBy ) values (?,?,?,?,?,?)";    
+		var query = "insert into listUser (listLocalId ,contactLocalId ,privilage ,lastUpdateDate ,lastUpdateBy ) values (?,?,?,?,?)";    
         
-            dbHandler.runQuery(query,[listLocalId,contactLocalId,null,null,new Date().getTime(),null],function(response){
+            dbHandler.runQuery(query,[listLocalId,contactLocalId,null,new Date().getTime(),null],function(response){
             //Success Callback
             console.log('11/2/2017 - ContactHandler - aalatief : Success List Contact Added' + JSON.stringify(response.rows));
             listUserId = response.insertId;
@@ -165,7 +165,26 @@ angular.module('starter.services')
         return deferred.promise;
     };
     
+        function updateContactStatus(contactLocalId,status,contactServerId) {
 
+		var deferred = $q.defer();
+            
+		var query = "update contact  set contactStatus=?,contactServerId=?,lastUpdateDate=?,lastUpdateby = ? where contactLocalId = ?";    
+        
+            dbHandler.runQuery(query,[status,contactServerId,new Date().getTime(),'S',contactLocalId],function(response){
+            //Success Callback
+            console.log('13/2/2017 - ContactHandler - aalatief : Success Contact Status - Server Id update' + JSON.stringify(response));
+/*            listUserId = response;
+            console.log('contact: ' + JSON.stringify(listUserId));*/
+            deferred.resolve(response);
+        },function(error){
+            //Error Callback
+            console.log('13/2/2017 - ContactHandler - aalatief : Fail Contact Status - Server Id update '+error);
+            deferred.reject(error);
+        });
+        /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
+        return deferred.promise;
+        };
         return {
             pickContact : pickContact,
             formatContact:formatContact,
@@ -174,7 +193,8 @@ angular.module('starter.services')
             getMaxContactLocalId:getMaxContactLocalId,
             formatPhoneNumber:formatPhoneNumber,
             addListContact:addListContact,
-            getContactLocalId:getContactLocalId
+            getContactLocalId:getContactLocalId,
+            updateContactStatus:updateContactStatus
             
         };
 

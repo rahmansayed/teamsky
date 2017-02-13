@@ -19,7 +19,9 @@ angular.module('starter.services')
 				{
                 lists.push({listLocalId:response.rows.item(i).listLocalId,
                                    listName:response.rows.item(i).listName,
-                                   listDescription:response.rows.item(i).listDescription});
+                                   listDescription:response.rows.item(i).listDescription,
+                                   contactName:response.rows.item(i).contactName||'Not Shared!',
+                                   contactStatus:response.rows.item(i).contactStatus||'N'});
 				}
 			}else
 			{
@@ -86,7 +88,7 @@ angular.module('starter.services')
 
     function getAllLists(){
         var deferred = $q.defer();
-        var query = "SELECT * from list";
+        var query = "select distinct l.listLocalId,l.listName,l.listDescription,l.listServerId,c.contactName,c.contactStatus from (list as l left join listUser as lu on l.listLocalId = lu.listLocalId) left join contact as c on c.contactLocalId = lu.contactLocalId";
         dbHandler.runQuery(query,[],function(response){
             //Success Callback
             console.log(response);
@@ -158,7 +160,7 @@ angular.module('starter.services')
         lists = [];
 
           x = getAllLists()      
-        .then(getListSuccessCB,getListSuccessCB);
+        .then(getListSuccessCB,getListErrorCB);
             console.log('04/02/2017 - aalatief - Lists ' + JSON.stringify(lists));
      
         return lists;
