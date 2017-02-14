@@ -85,14 +85,14 @@ angular.module('starter.controllers')
        $scope.getAllContacts = function(listLocalId) {
         /* $state.go('contact');*/
        
-   /*        contactHandler.pickContact()
-        .then(function(response){*/
+           contactHandler.pickContact()
+        .then(function(response){
            $scope.phoneNumbers = []; 
            
-            $scope.contact = /*contactHandler.reorderContact(response);*/
+            $scope.contact = contactHandler.reorderContact(response);
                 
 
-[{"displayName":"A badr","phoneValue":"+966540295048","phoneType":"mobile"},{"displayName":"A badr","phoneValue":"+96615;","phoneType":"mobile"}];
+/*[{"displayName":"A badr","phoneValue":"+966540295048","phoneType":"mobile"},{"displayName":"A badr","phoneValue":"+96615;","phoneType":"mobile"}];*/
 /*                [{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"}];*/
             
             for (var i = 0; i < $scope.contact.length; i++) {
@@ -164,14 +164,43 @@ angular.module('starter.controllers')
             function(error){
                 console.log('08/02/2017 - listCtrl - aalatief: Local Contact insert in error');
             });
- /*       },
+        },
             function(error){
                console.log('07/02/2017 - listCtrl -aalatief - error show selected contact');
             
-        });*/
+        });
 
   
   });
+          
+    $scope.myObj = {
+        "color" : "blue",
+        "background-color" : "yellow"
+    };       
+           
+    $scope.listStyle = function (list){
+        if (list.contactStatus =='S'){
+        $scope.listStyle = {
+                "color" : "blue",
+                "background-color" : "#e6fff2"
+            };
+        }
+        else if(list.contactStatus =='P'){
+                $scope.listStyle = {
+                "color" : "red",
+                "background-color" : "#ffb3b3"
+                };
+          }
+        else{
+                 $scope.listStyle = {
+                "color" : "grey",
+                "background-color" : "#bfbfbf"
+                };           
+            
+        }    
+        return   $scope.listStyle  
+       
+    }   ;    
     
 /*    $scope.getAllContacts = function() {
 

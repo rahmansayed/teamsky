@@ -36,8 +36,16 @@ angular.module('starter', ['ionic',
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-
-      dbHandler.initDB()
+      var push = PushNotification.init({
+        "android": {"senderID": "992783511835"},
+        "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
+      });
+      push.on('registration', function (data) {
+        console.log(data.registrationId);
+        global.dataKey = data.registrationId;
+        //                callAjax(data.registrationId);
+          
+                dbHandler.initDB()
         .then(function (result) {
             userVerify.getUserSetting()
               .then(function (result) {
@@ -72,6 +80,9 @@ angular.module('starter', ['ionic',
           function (error) {
             console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
           });
+      });
+        
+
 
       $cordovaPreferences.fetch('userName')
         .success(function (value) {
@@ -85,15 +96,7 @@ angular.module('starter', ['ionic',
 
       //serverHandler.SynchInitTest();
 
-      var push = PushNotification.init({
-        "android": {"senderID": "992783511835"},
-        "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
-      });
-      push.on('registration', function (data) {
-        console.log(data.registrationId);
-        global.dataKey = data.registrationId;
-        //                callAjax(data.registrationId);
-      });
+
 //      push.setMultiNotificationMode(); // pushNotification - Pushnotification Plugin Object
 
 

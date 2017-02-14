@@ -33,7 +33,7 @@ angular.module('starter.controllers')
        /* $scope.deviceLocalId = dial_code;*/
         
         user= {username:dial_code,
-               datekey:'ZXCV'};
+               datekey:global.dataKey/*'ZXCV'*/};
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
             
         console.log (JSON.stringify (response));
