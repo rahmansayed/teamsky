@@ -253,7 +253,7 @@ angular.module('starter.services')
           });
 
         }, function (err) {
-          console.log("serverHandlerV2.syncBackMany db operation ERROR "+err.message);
+          console.log("serverHandlerV2.syncBackMany db operation ERROR " + err.message);
           defer.reject();
         }, function () {
           console.log("serverHandlerV2.syncBackMany db operation complete");
@@ -271,6 +271,7 @@ angular.module('starter.services')
           deviceServerId: global.deviceServerId
         };
 
+        var affectedLists = [];
         $http.post(global.serverIP + "/api/entry/getpending", data)
           .then(function (response) {
             console.log("serverHandlerEntry syncEntriesDownstream server response " + JSON.stringify(response));
@@ -285,7 +286,7 @@ angular.module('starter.services')
 
                 dbHelper.buildLocalIds(response.data.entries).then(function (result) {
                     console.log("serverHandlerEntryV2 localIds = " + JSON.stringify(result));
-
+                    affectedLists = result.lists;
                     global.db.transaction(function (tx) {
                       for (var i = 0; i < response.data.entries.length; i++) {
 
@@ -308,9 +309,9 @@ angular.module('starter.services')
                         } else {
                           qty = 1.0;
                         }
-                        console.log("serverHandlerEntry syncEntriesDownstream localValues listLocalId = " + JSON.stringify(localIds));
-                        console.log("serverHandlerEntry syncEntriesDownstream localValues qty = " + qty);
-                        console.log("serverHandlerEntry syncEntriesDownstream localValues uom = " + uom);
+                        console.log("serverHandlerEntry.syncEntriesDownstream localValues listLocalId = " + JSON.stringify(localIds));
+                        console.log("serverHandlerEntry.syncEntriesDownstream localValues qty = " + qty);
+                        console.log("serverHandlerEntry.syncEntriesDownstream localValues uom = " + uom);
                         var query = "insert into entry " +
                           "(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom, retailerLocalId, lastUpdateBy, entryCrossedFlag) values " +
                           "(null,?,?,?,?,?,?,'',0)";
@@ -319,26 +320,26 @@ angular.module('starter.services')
 
                       }
                     }, function (err) {
-                      console.log("serverHandlerEntry syncEntriesDownstream db insert error = " + JSON.stringify(err.message));
+                      console.log("serverHandlerEntry.syncEntriesDownstream db insert error = " + JSON.stringify(err.message));
                       defer.reject();
                     }, function () {
                       syncBackMany(response.data.entries).then(function () {
-                        console.log("serverHandlerEntry syncEntriesDownstream db insert success");
-                        defer.resolve();
+                        console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
+                        defer.resolve(affectedLists);
                       });
                     });
                   }
                   ,
                   function (err) {
                     console.log("serverHandlerEntryV2 localIds error");
-                    defer.reject();
+                    defer.reject(err);
                   }
                 );
               }
             )
           }, function (err) {
             console.log("serverHandlerEntryV2 server response error " + err.message);
-            defer.reject();
+            defer.reject(err);
           });
         return defer.promise;
       }

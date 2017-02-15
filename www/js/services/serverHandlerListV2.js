@@ -191,24 +191,34 @@ angular.module('starter.services')
 
             tx.executeSql(query, [list.listServerId], function (tx, result) {
               if (result.rows.item(0).cnt == 0) {
-                console.log("serverHandlerListV2 upsertServer ListInserting list " + JSON.stringify(list));
+                console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
                 var insertQuery = "insert into list(listLocalId,listName,listServerId) values (null,?,?)";
-                tx.executeSql(insertQuery, [list.listName, list.listServerId]);
+                tx.executeSql(insertQuery, [list.listName, list.listServerId], function (tx, result) {
+                  console.log("serverHandlerListV2.upsertServer ListInserting insert result " + JSON.stringify(result));
+                  defer.resolve({status: 'Y'});
+                }, function (error) {
+                  console.log("serverHandlerListV2.upsertServer ListInserting insert error " + JSON.stringify(error.message));
+                  defer.reject(error);
+                });
+              }
+              else {
+                defer.resolve({status: 'N'});
               }
             }, function (error) {
-              consoleLog('error = ' + JSON.stringify(error));
+              console.log("serverHandlerListV2.upsertServer count query = " + JSON.stringify(error.message));
+              defer.reject(error);
             });
-            consoleLog(" upsertServerList Response Done");
           }
           ,
           function (error) {
-            consoleLog("syncListsDownstream error " + JSON.stringify(error));
+            console.log("serverHandlerListV2.upsertServer db error " + JSON.stringify(error.message));
             defer.reject(error);
           },
           function () {
-            defer.resolve();
           }
-        )
+        );
+
+        return defer.promise;
       };
 
       /******************************************************************************************************************
@@ -227,8 +237,7 @@ angular.module('starter.services')
 
         $http.post(global.serverIP + "/api/list/user", data)
           .then(function (response) {
-            consoleLog(" syncListsDownstream Response Result => " + JSON.stringify(response));
-            consoleLog(" syncListsDownstream Response Done");
+            console.log("serverHandlerListV2.syncListsDownstream http Response Result =  " + JSON.stringify(response));
             // will check if the list already exist in the local table if not then create it
             for (var i = 0; i < response.data.length; i++) {
               var list = {
@@ -238,88 +247,84 @@ angular.module('starter.services')
 
               promises.push(upsertServerList(list));
             }
-            $q.all(promises).then(function () {
-              defer.resolve();
-            }, function () {
-              defer.reject();
+            $q.all(promises).then(function (res) {
+              var anyNew = false;
+              for (var i = 0; i < res.length; i++) {
+                console.log("syncListsDownstream $q Result " + i + " " + JSON.stringify(res[i].status));
+                if (res[i].status == 'Y') {
+                  anyNew = true;
+                }
+              }
+              defer.resolve(anyNew);
+            }, function (err) {
+              console.log("syncListsDownstream $q error  = " + err.message);
+              defer.reject(err);
             });
-
           }, function (error) {
-            console.log("serverHandlerListV2 syncListsDownstream http error " + JSON.stringify(error));
-            defer.reject();
+            console.log("serverHandlerListV2 syncListsDownstream http error =  " + error.message);
+            defer.reject(error);
           });
 
         return defer.promise;
       };
 
+      /***********************************************************************************************************************
+       *
+       * @param list
+       */
+
+      function deleteList(list) {
+
+        consoleLog("Start deleteList");
+
+        data = {
+          listServerId: list.listServerId,
+          deviceServerId: deviceServerId
+        };
+
+        consoleLog(" List to Be Deleted => " + JSON.stringify(data));
+
+        $http.post(global.serverIP + "/api/list/deactivate", data)
+
+          .then(function (response) {
+            consoleLog(" deleteList Response Result => " + JSON.stringify(response));
+
+            defer.resolve(response.data.listServerId);
+            consoleLog(" deleteList Response Done");
+          });
+
+        return defer.promise;
+      }
+
+      /***********************************************************************************************************************
+       *
+       * @param list
+       */
+      function updateList(list) {
+        consoleLog("Start updateList");
+        data = {
+          listLocalId: list.listLocalId,
+          listName: list.listName,
+          listDescription: list.listDescription,
+          listColour: "Red",
+          listOrder: "1"
+        };
+        consoleLog(" List to Be Updated => " + JSON.stringify(data));
+
+        $http.post(global.serverIP + "/api/list/update", data)
+          .then(function (response) {
+            consoleLog(" updateList Response Result => " + response);
+          });
+        return defer.promise;
+      }
 
       return {
-//------------------------createList
         createList: createList,
-        // this function is used to synchronize all the un-sync'd lists
         syncListsUpstream: syncListsUpstream,
         syncListsDownstream: syncListsDownstream,
-//------------------------updateList
-        updateList: function (list) {
-
-          consoleLog("Start updateList");
-
-
-          data = {
-            listLocalId: list.listLocalId,
-            listName: list.listName,
-            listDescription: list.listDescription,
-            listColour: "Red",
-            listOrder: "1"
-
-          };
-
-          consoleLog(" List to Be Updated => " + JSON.stringify(data));
-
-
-          $http.post(global.serverIP + "/api/list/update", data)
-
-            .then(function (response) {
-              consoleLog(" updateList Response Result => " + response);
-
-            });
-
-          return defer.promise;
-
-
-        }
-
-        ,
-//------------------------deleteList
-        deleteList: function (list) {
-
-          consoleLog("Start deleteList");
-
-          data = {
-            listServerId: list.listServerId,
-            deviceServerId: deviceServerId
-          };
-
-          consoleLog(" List to Be Deleted => " + JSON.stringify(data));
-
-          $http.post(global.serverIP + "/api/list/deactivate", data)
-
-            .then(function (response) {
-              consoleLog(" deleteList Response Result => " + JSON.stringify(response));
-
-              defer.resolve(response.data.listServerId);
-              consoleLog(" deleteList Response Done");
-            });
-
-          return defer.promise;
-
-        }
-        ,
-//------------------------shareList
-
-
+        updateList: updateList,
+        deleteList: deleteList
       }
-        ;
     }
   )
 ;

@@ -18,12 +18,8 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, serverHandlerListV2, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $location, $timeout) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $state, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
-
-
-
-
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -105,12 +101,33 @@ angular.module('starter', ['ionic',
 
         console.log('Message ');
         console.log(JSON.stringify(msg));
-        serverHandlerListV2.syncListsDownstream().then(function () {
-          console.log("SERVER HANDLER RESOLVED");
-          serverHandlerEntryV2.syncEntrieDownstream();
-        }, function () {
-          console.log("SERVER HANDLER ERROR")
-        });
+        serverHandlerListV2.syncListsDownstream().then(function (res) {
+            console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
+            console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
+            console.log("$state.params = " + JSON.stringify($state.params));
+            if ($location.url() == '/lists') {
+              $state.reload();
+            }
+            serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
+              if ($location.url().startsWith('/item')) {
+                console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
+                for(var i=0; i< res.length; i++){
+                  console.log("$state.listId = " + $state.params.listId);
+                  if(res[i].listLocalId == $state.params.listId){
+                    console.log('NOTIFICATION ENTRY LIST MATCH reloading');
+                    $state.reload();
+                  }
+                }
+              }
+            }, function (err) {
+
+            });
+          }
+          ,
+          function () {
+            console.log("SERVER HANDLER ERROR")
+          }
+        );
 
       });
 
