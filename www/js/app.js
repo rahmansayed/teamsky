@@ -18,7 +18,7 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $location, serverHandler, userVerify, $ionicLoading, $location, $timeout) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, serverHandlerListV2, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $location, $timeout) {
     $ionicPlatform.ready(function () {
 
 
@@ -38,50 +38,52 @@ angular.module('starter', ['ionic',
       }
       var push = PushNotification.init({
         "android": {"senderID": "992783511835"},
+        browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+        },
         "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
       });
       push.on('registration', function (data) {
         console.log(data.registrationId);
         global.dataKey = data.registrationId;
         //                callAjax(data.registrationId);
-          
-                dbHandler.initDB()
-        .then(function (result) {
-            userVerify.getUserSetting()
-              .then(function (result) {
-                  userVerify.getUserSetSuccessCB(result);
-                  users = userVerify.userSetting();
-                  global.userServerId = userVerify.getUserServerId();
-                  global.deviceServerId = userVerify.getDeviceServerId();
 
-                  if (userVerify.isVerified()) {
-                    $ionicLoading.hide();
-                    $location.path("/lists");
+        dbHandler.initDB()
+          .then(function (result) {
+              userVerify.getUserSetting()
+                .then(function (result) {
+                    userVerify.getUserSetSuccessCB(result);
+                    users = userVerify.userSetting();
+                    global.userServerId = userVerify.getUserServerId();
+                    global.deviceServerId = userVerify.getDeviceServerId();
+
+                    if (userVerify.isVerified()) {
+                      $ionicLoading.hide();
+                      $location.path("/lists");
+                    }
+                    else {
+                      $ionicLoading.hide();
+                      $location.path("/subscribe");
+
+                    }
+                    console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
+                    console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
+                    console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
+                    serverHandler.SynchInitTest();
+
+
                   }
-                  else {
-                    $ionicLoading.hide();
-                    $location.path("/subscribe");
+                  , function (error) {
+                    userVerify.getUserSetErrorCB();
+                    console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
+                    ;
+                  });
 
-                  }
-                  console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
-                  console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
-                  console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
-                  serverHandler.SynchInitTest();
-
-
-                }
-                , function (error) {
-                  userVerify.getUserSetErrorCB();
-                  console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
-                  ;
-                });
-
-          },
-          function (error) {
-            console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
-          });
+            },
+            function (error) {
+              console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
+            });
       });
-        
 
 
       $cordovaPreferences.fetch('userName')
@@ -99,37 +101,22 @@ angular.module('starter', ['ionic',
 
 //      push.setMultiNotificationMode(); // pushNotification - Pushnotification Plugin Object
 
+      push.on('notification', function (msg) {
 
-      /*     push.on('notification', function (msg) {
-       //alert(data.message);
-       alert("From " + msg.additionalData.username + "." + msg.additionalData.listname +
-       "\n" + msg.additionalData.item + "\n" +
-       msg.additionalData.uom +
-       " \n" + msg.additionalData.qty + "\n" +
-       "with server_id = " + msg.additionalData._id);
-       //local.addFromCloud(JSON.parse(msg.data), "testing", msg.title);
-       console.log('Message ');
-       console.log(JSON.stringify(msg));
-       //syncDB($http, 'testing', $cordovaSQLite, global);
+        console.log('Message ');
+        console.log(JSON.stringify(msg));
+        serverHandlerListV2.syncListsDownstream().then(function () {
+          console.log("SERVER HANDLER RESOLVED");
+          serverHandlerEntryV2.syncEntrieDownstream();
+        }, function () {
+          console.log("SERVER HANDLER ERROR")
+        });
 
-       // data.title,
-       // data.count,
-       // data.sound,
-       // data.image,
-       // data.additionalData
-       });
-       */
-      /*    push.on('error', function (e) {
-       alert(e.message);
-       });
-       */
-      //local.init();
-      //local.addMasterData('items', {name: "milk"});
-      //local.addPlusSync({item: "AX", qty: 1}, "testing");
-      //local.addPlusSync({item: "BX", qty: 2}, "testing");
-      //local.addPlusSync({item: "CX", qty: 3}, "testing");
-      //local.addPlusSync({item: "DX", qty: 4}, "testing");
+      });
 
+      push.on('error', function (e) {
+        alert(e.message);
+      });
 
     });
 

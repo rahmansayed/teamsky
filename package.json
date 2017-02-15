@@ -23,13 +23,14 @@
     "ionic-plugin-keyboard",
     {
       "variables": {
-        "SENDER_ID": "842803018154"
+        "SENDER_ID": "992783511835"
       },
       "locator": "phonegap-plugin-push",
       "id": "phonegap-plugin-push"
     }
   ],
   "cordovaPlatforms": [
-    "android"
+    "android", 
+	"browser"
   ]
 }
