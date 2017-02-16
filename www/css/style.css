@@ -35,6 +35,21 @@
    color: green;
 }
 
-.classA { 
-    background-color: deepskyblue;
+
+
+.item .item-content {
+  background-color: transparent !important;
+}
+
+
+.classS { 
+    background-color: #DCF8C6;
+}
+
+.classP { 
+    background-color: #ffe6e6;
+}
+
+.classNa { 
+    background-color: #e6e6e6;
 }

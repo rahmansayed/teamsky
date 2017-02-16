@@ -6,9 +6,9 @@
       </ion-refresher>
        <ion-list show-reorder="reorderFlag">     
     
-       <ion-item class="item-remove-animate item-icon-right 'classA'"
+       <ion-item ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"   class="item-remove-animate item-icon-right" 
               ng-repeat = "list in lists track by $index" ng-click = "addItem(list.listLocalId)" ng-class="'classA'">
-           <div ng-style="list.contactStatus == 'S' ? {'background-color':'#e6fff2'} :list.contactStatus == 'P' ? {'background-color':'#ffc2b3' } : {'background-color':'#f2f2f2' } " >
+<!--           <div ng-style="list.contactStatus == 'S' ? {'background-color':'#e6fff2'} :list.contactStatus == 'P' ? {'background-color':'#ffc2b3' } : {'background-color':'#f2f2f2' } " >-->
               <h2>{{list.listName}}</h2>
               <p>{{list.listDescription}}</p>
               <p ng-style="list.contactStatus == 'S' ? {color:'blue'} :list.contactStatus == 'P' ? {color:'red' } : {color:'greys' } ">{{list.contactName}} - {{list.contactStatus }}</p>
@@ -22,7 +22,7 @@
               <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeList(list.listLocalId)"></ion-option-button>
               <ion-option-button class="button-calm icon-left ion-edit" ng-click="editList(list.listLocalId)"></ion-option-button>
               <ion-option-button class="button-balanced ion-android-share-alt" ng-click="getAllContacts(list.listLocalId)"></ion-option-button>
-             </div>  
+            <!-- </div>  -->
             </ion-item>
 
         </ion-list>
