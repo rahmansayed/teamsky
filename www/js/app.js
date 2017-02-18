@@ -32,22 +32,102 @@ angular.module('starter', ['ionic',
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-    document.addEventListener("deviceready", function () {
-    
-      if (typeof PushNotification === "defined") {
-      var push = PushNotification.init({
-        "android": {"senderID": "992783511835"},
-        browser: {
-          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-        },
-        "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
-      });
-       
-                push.on('registration', function (data) {
-        console.log(data.registrationId);
-        global.dataKey = data.registrationId;
-        //                callAjax(data.registrationId);
+      document.addEventListener("deviceready", function () {
 
+        if (typeof PushNotification === "defined") {
+          var push = PushNotification.init({
+            "android": {"senderID": "992783511835"},
+            browser: {
+              pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+            },
+            "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
+          });
+
+          push.on('registration', function (data) {
+            console.log(data.registrationId);
+            global.dataKey = data.registrationId;
+            //                callAjax(data.registrationId);
+
+            dbHandler.initDB()
+              .then(function (result) {
+                  userVerify.getUserSetting()
+                    .then(function (result) {
+                        userVerify.getUserSetSuccessCB(result);
+                        users = userVerify.userSetting();
+                        global.userServerId = userVerify.getUserServerId();
+                        global.deviceServerId = userVerify.getDeviceServerId();
+
+                        if (userVerify.isVerified()) {
+                          $ionicLoading.hide();
+                          $location.path("/lists");
+                        }
+                        else {
+                          $ionicLoading.hide();
+                          $location.path("/subscribe");
+
+                        }
+                        console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
+                        console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
+                        console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
+                        serverHandler.SynchInitTest();
+
+
+                      }
+                      , function (error) {
+                        userVerify.getUserSetErrorCB();
+                        console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
+                        ;
+                      });
+
+                },
+                function (error) {
+                  console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
+                });
+          });
+
+          push.on('notification', function (msg) {
+
+            console.log('Message ');
+            console.log(JSON.stringify(msg));
+            serverHandlerListV2.syncListsDownstream().then(function (res) {
+                console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
+                console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
+                console.log("$state.params = " + JSON.stringify($state.params));
+                if ($location.url() == '/lists') {
+                  $state.reload();
+                }
+                serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
+                  if ($location.url().startsWith('/item')) {
+                    console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
+                    for (var i = 0; i < res.length; i++) {
+                      console.log("$state.listId = " + $state.params.listId);
+                      if (res[i].listLocalId == $state.params.listId) {
+                        console.log('NOTIFICATION ENTRY LIST MATCH reloading');
+                        $state.reload();
+                      }
+                    }
+                  }
+                }, function (err) {
+
+                });
+              }
+              ,
+              function () {
+                console.log("SERVER HANDLER ERROR")
+              }
+            );
+
+          });
+
+          push.on('error', function (e) {
+            alert(e.message);
+          });
+
+
+        }
+      });
+      /* else{*/
+      if (typeof PushNotification != "defined") {
         dbHandler.initDB()
           .then(function (result) {
               userVerify.getUserSetting()
@@ -83,145 +163,64 @@ angular.module('starter', ['ionic',
             function (error) {
               console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
             });
-      });
-    
-        push.on('notification', function (msg) {
 
-        console.log('Message ');
-        console.log(JSON.stringify(msg));
-        serverHandlerListV2.syncListsDownstream().then(function (res) {
-            console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
-            console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
-            console.log("$state.params = " + JSON.stringify($state.params));
-            if ($location.url() == '/lists') {
-              $state.reload();
-            }
-            serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-              if ($location.url().startsWith('/item')) {
-                console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
-                for(var i=0; i< res.length; i++){
-                  console.log("$state.listId = " + $state.params.listId);
-                  if(res[i].listLocalId == $state.params.listId){
-                    console.log('NOTIFICATION ENTRY LIST MATCH reloading');
-                    $state.reload();
-                  }
-                }
-              }
-            }, function (err) {
-
-            });
-          }
-          ,
-          function () {
-            console.log("SERVER HANDLER ERROR")
-          }
-        );
-
-      });
-
-      push.on('error', function (e) {
-        alert(e.message);
-      });
-          
-          
-    }
-    });
-       /* else{*/
-        if (typeof PushNotification != "defined") {
-            dbHandler.initDB()
-          .then(function (result) {
-              userVerify.getUserSetting()
-                .then(function (result) {
-                    userVerify.getUserSetSuccessCB(result);
-                    users = userVerify.userSetting();
-                    global.userServerId = userVerify.getUserServerId();
-                    global.deviceServerId = userVerify.getDeviceServerId();
-
-                    if (userVerify.isVerified()) {
-                      $ionicLoading.hide();
-                      $location.path("/lists");
-                    }
-                    else {
-                      $ionicLoading.hide();
-                      $location.path("/subscribe");
-
-                    }
-                    console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
-                    console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
-                    console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
-                    serverHandler.SynchInitTest();
+      }
+      /* }
+       */
 
 
-                  }
-                  , function (error) {
-                    userVerify.getUserSetErrorCB();
-                    console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
-                    ;
-                  });
-
-            },
-            function (error) {
-              console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
-            });
-            
-        }
-       /* }
-*/
-
-
-
-/*      $cordovaPreferences.fetch('userName')
-        .success(function (value) {
-          alert("Success: " + value);
-          global.userName = value;
-        })
-        .error(function (error) {
-          alert("Error: " + error);
-          $location.path('/config');
-        });*/
+      /*      $cordovaPreferences.fetch('userName')
+       .success(function (value) {
+       alert("Success: " + value);
+       global.userName = value;
+       })
+       .error(function (error) {
+       alert("Error: " + error);
+       $location.path('/config');
+       });*/
 
       //serverHandler.SynchInitTest();
 
 
 //      push.setMultiNotificationMode(); // pushNotification - Pushnotification Plugin Object
 
-/*      push.on('notification', function (msg) {
+      /*      push.on('notification', function (msg) {
 
-        console.log('Message ');
-        console.log(JSON.stringify(msg));
-        serverHandlerListV2.syncListsDownstream().then(function (res) {
-            console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
-            console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
-            console.log("$state.params = " + JSON.stringify($state.params));
-            if ($location.url() == '/lists') {
-              $state.reload();
-            }
-            serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-              if ($location.url().startsWith('/item')) {
-                console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
-                for(var i=0; i< res.length; i++){
-                  console.log("$state.listId = " + $state.params.listId);
-                  if(res[i].listLocalId == $state.params.listId){
-                    console.log('NOTIFICATION ENTRY LIST MATCH reloading');
-                    $state.reload();
-                  }
-                }
-              }
-            }, function (err) {
+       console.log('Message ');
+       console.log(JSON.stringify(msg));
+       serverHandlerListV2.syncListsDownstream().then(function (res) {
+       console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
+       console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
+       console.log("$state.params = " + JSON.stringify($state.params));
+       if ($location.url() == '/lists') {
+       $state.reload();
+       }
+       serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
+       if ($location.url().startsWith('/item')) {
+       console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
+       for(var i=0; i< res.length; i++){
+       console.log("$state.listId = " + $state.params.listId);
+       if(res[i].listLocalId == $state.params.listId){
+       console.log('NOTIFICATION ENTRY LIST MATCH reloading');
+       $state.reload();
+       }
+       }
+       }
+       }, function (err) {
 
-            });
-          }
-          ,
-          function () {
-            console.log("SERVER HANDLER ERROR")
-          }
-        );
+       });
+       }
+       ,
+       function () {
+       console.log("SERVER HANDLER ERROR")
+       }
+       );
 
-      });
+       });
 
-      push.on('error', function (e) {
-        alert(e.message);
-      });*/
+       push.on('error', function (e) {
+       alert(e.message);
+       });*/
 
     });
 

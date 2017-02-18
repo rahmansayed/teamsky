@@ -190,36 +190,37 @@ angular.module('starter.services')
             var query = "select count(*) as cnt from list where listServerId = ?";
 
             tx.executeSql(query, [list.listServerId], function (tx, result) {
-              if (result.rows.item(0).cnt == 0) {
-                console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
-                var insertQuery = "insert into list(listLocalId,listName,listServerId) values (null,?,?)";
-                tx.executeSql(insertQuery, [list.listName, list.listServerId], function (tx, result) {
-                  console.log("serverHandlerListV2.upsertServer ListInserting insert result " + JSON.stringify(result));
+                if (result.rows.item(0).cnt == 0) {
+                  console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
+                  var insertQuery = "insert into list(listLocalId,listName,listServerId, lastUpdateBy) values (null,?,?, 'S')";
+                  tx.executeSql(insertQuery, [list.listName, list.listServerId]);
                   defer.resolve({status: 'Y'});
-                }, function (error) {
-                  console.log("serverHandlerListV2.upsertServer ListInserting insert error " + JSON.stringify(error.message));
-                  defer.reject(error);
-                });
+                }
+                else {
+                  defer.resolve({status: 'N'});
+                }
               }
-              else {
-                defer.resolve({status: 'N'});
+              ,
+              function (error) {
+                console.log("serverHandlerListV2.upsertServer count query = " + JSON.stringify(error.message));
+                defer.reject(error);
               }
-            }, function (error) {
-              console.log("serverHandlerListV2.upsertServer count query = " + JSON.stringify(error.message));
-              defer.reject(error);
-            });
+            );
           }
           ,
           function (error) {
             console.log("serverHandlerListV2.upsertServer db error " + JSON.stringify(error.message));
             defer.reject(error);
-          },
+          }
+          ,
           function () {
           }
-        );
+        )
+        ;
 
         return defer.promise;
-      };
+      }
+      ;
 
       /******************************************************************************************************************
        * this function is used to retrieve lists from the server and record in the local tables
@@ -304,6 +305,7 @@ angular.module('starter.services')
         consoleLog("Start updateList");
         data = {
           listLocalId: list.listLocalId,
+          listServerId: list.listServerId,
           listName: list.listName,
           listDescription: list.listDescription,
           listColour: "Red",
@@ -314,6 +316,9 @@ angular.module('starter.services')
         $http.post(global.serverIP + "/api/list/update", data)
           .then(function (response) {
             consoleLog(" updateList Response Result => " + response);
+            defer.resolve();
+          }, function (err) {
+            defer.reject();
           });
         return defer.promise;
       }
