@@ -27,13 +27,6 @@
   margin-top: -20px; /* Note, this must be half the font size */
   color: $light;
 }
-.P {
-   color: red;
-}
-
-.S {
-   color: green;
-}
 
 
 
@@ -53,3 +46,16 @@
 .classNa { 
     background-color: #e6e6e6;
 }
+
+.item-select select
+{
+    right: 0;
+    left: 0;
+    direction: ltr;
+    padding:auto 0;
+    width: 100% ;
+}
+
+   .pane  {
+        background-color: #464646!important;
+    }

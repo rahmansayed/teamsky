@@ -1,22 +1,45 @@
 <ion-view view-title="Register User" ng-controller="subscribeCtrl">
     <ion-content >
-        <div class="list card">
-       <div class="item item-input item-select">
+        
+ 
+        
+      <div>
+
+         <h1  class="text-center item">   
+
+            <br>
+          Verify your mobile number  
+            <br>
+            <br>
+        <p class="padding text-left">
+         Note: You will recieve SMS with verification code in a moment.
+        </p> 
+            <br>
+            <br>
+        </h1>
+      </div>
+     
+
+        
+        
+        <div >
+       <div class="item item-input item-select " >
         <div class="input-label">
-          Select Country
-        </div>
-        <select ng-model="country" ng-init="country=countries[0]" ng-options="country.name for country in countries"></select>
+             &nbsp;
+        </div>    
+        <select ng-model="country" ng-init="country=countries[0]" ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
+            
         </div>
       
         <div class="item item-input item-input">
-        <span class="input-label">Number</span>
-        <input type="text" ng-model="country.dial_code">
+        <!--<input type="text" ng-model="country.dial_code"  readonly="readonly" width="6">-->
+        <input type="tel" placeholder="Your phone number" ng-model="phoneNumber" class="text-left" maxlength ="11">
       </div>
- 
+
      <!-- <p> {{ country | json}} </p>-->
     </div>      
         <div class="padding">
-            <button class="button button-block button-positive" ng-click="subscribeUser(country.dial_code)">Subscribe
+            <button class="button button-block button-positive" ng-click="subscribeUser(country.dial_code.concat(phoneNumber))">Subscribe
             </button>
         
         </div>

@@ -92,7 +92,7 @@ angular.module('starter.controllers')
             $scope.contact = contactHandler.reorderContact(response);
                 
 
-/*[{"displayName":"A badr","phoneValue":"+966540295048","phoneType":"mobile"},{"displayName":"A badr","phoneValue":"+96615;","phoneType":"mobile"}];*/
+
 /*                [{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"}];*/
             
             for (var i = 0; i < $scope.contact.length; i++) {
@@ -173,35 +173,7 @@ angular.module('starter.controllers')
   
   });
           
-    $scope.myObj = {
-        "color" : "blue",
-        "background-color" : "yellow"
-    };       
-           
-    $scope.listStyle = function (list){
-        if (list.contactStatus =='S'){
-        $scope.listStyle = {
-                "color" : "blue",
-                "background-color" : "#e6fff2"
-            };
-        }
-        else if(list.contactStatus =='P'){
-                $scope.listStyle = {
-                "color" : "red",
-                "background-color" : "#ffb3b3"
-                };
-          }
-        else{
-                 $scope.listStyle = {
-                "color" : "grey",
-                "background-color" : "#bfbfbf"
-                };           
-            
-        }    
-        return   $scope.listStyle  
-       
-    }   ;    
-    
+
 /*    $scope.getAllContacts = function() {
 
     contactHandler.pickContact().then(

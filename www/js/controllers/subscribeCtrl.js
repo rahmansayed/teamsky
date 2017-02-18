@@ -1,12 +1,14 @@
 angular.module('starter.controllers')
-  .controller('subscribeCtrl', function ($scope, $state, listHandler, itemHandler, $ionicPopup,$http,$location,$ionicPlatform,$cordovaPreferences,global,userVerify,$ionicLoading,$timeout,$q) {
+  .controller('subscribeCtrl', function ($scope, $state, listHandler, itemHandler, $ionicPopup,$http,$location,$ionicPlatform,$cordovaPreferences,global,userVerify,$ionicLoading,$timeout,$q,$rootScope) {
     
        
-    
+      $scope.$on('$ionicView.beforeEnter', function() {
+      $rootScope.viewColor = '#ef4e3a';
+  }); 
 
     
 
-    $scope.deviceLocalId= '966529572215';//this to be repalced later with dynamic device id
+    $scope.deviceLocalId= global.dataKey;//this to be repalced later with dynamic device id
     
 /*    z = userVerify.getUserInfo().then(function(response){
         
@@ -33,7 +35,7 @@ angular.module('starter.controllers')
        /* $scope.deviceLocalId = dial_code;*/
         
         user= {username:dial_code,
-               datekey:global.dataKey/*'ZXCV'*/};
+               datakey:global.dataKey/*'ZXCV'*/};
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
             
         console.log (JSON.stringify (response));
@@ -1058,5 +1060,8 @@ angular.module('starter.controllers')
     dial_code: "+1 340",
     code: "VI"
 }];
+    
+  
+    
     });
 
