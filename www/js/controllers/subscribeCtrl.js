@@ -36,6 +36,8 @@ angular.module('starter.controllers')
         
         user= {username:dial_code,
                datakey:global.dataKey/*'ZXCV'*/};
+        console.log ('18/02/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (user));
+        
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
             
         console.log (JSON.stringify (response));

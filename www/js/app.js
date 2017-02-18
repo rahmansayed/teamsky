@@ -34,7 +34,7 @@ angular.module('starter', ['ionic',
       }
       document.addEventListener("deviceready", function () {
 
-        if (typeof PushNotification === "defined") {
+       /* if (typeof PushNotification === "defined") {*/
           var push = PushNotification.init({
             "android": {"senderID": "992783511835"},
             browser: {
@@ -44,10 +44,10 @@ angular.module('starter', ['ionic',
           });
 
           push.on('registration', function (data) {
-            console.log(data.registrationId);
+            console.log('18/02/2017 - aalatief - app.js: DataKey:'+data.registrationId);
             global.dataKey = data.registrationId;
             //                callAjax(data.registrationId);
-
+            
             dbHandler.initDB()
               .then(function (result) {
                   userVerify.getUserSetting()
@@ -124,7 +124,7 @@ angular.module('starter', ['ionic',
           });
 
 
-        }
+        /*}*/
       });
       /* else{*/
       if (typeof PushNotification != "defined") {
