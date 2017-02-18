@@ -47,7 +47,7 @@ angular.module('starter.controllers')
                     };
           console.log('Master Item Searched: '+ JSON.stringify($scope.selectedItem));
           itemHandler.addItemToList($scope.selectedItem);
-          serverHandlerEntryV2.syncEntrieUpstream();
+          serverHandlerEntryV2.syncEntriesUpstream();
            $state.reload();
 
       };
@@ -254,7 +254,7 @@ console.log('$scope.list=: '+ JSON.stringify($scope.list));
                       entryCrossedFlag:"0"*/
                     };
           itemHandler.addItemToList($scope.selectedItem);
-          serverHandlerEntryV2.syncEntrieUpstream();
+          serverHandlerEntryV2.syncEntriesUpstream();
          $state.reload();
               },
               function(error){
