@@ -347,7 +347,7 @@ angular.module('starter.services')
       return {
         createEntry: createEntry,
         // this function is used to synchronize all the un-sync'd lists
-        synEntriesUpstream: synEntriesUpstream,
+        syncEntriesUpstream: synEntriesUpstream,
         syncEntrieDownstream: syncEntriesDownstream
       }
     }
