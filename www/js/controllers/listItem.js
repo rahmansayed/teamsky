@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, listHandler, itemHandler, $ionicPopup,$timeout) {
+  .controller('listItem', function ($scope, $state, listHandler, itemHandler, $ionicPopup,$timeout,serverHandlerEntryV2) {
 
     $scope.items = [];
     $scope.selectedItems =  [];
@@ -47,7 +47,7 @@ angular.module('starter.controllers')
                     };
           console.log('Master Item Searched: '+ JSON.stringify($scope.selectedItem));
           itemHandler.addItemToList($scope.selectedItem);
-          
+          serverHandlerEntryV2.syncEntrieUpstream();
            $state.reload();
 
       };
