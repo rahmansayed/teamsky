@@ -254,6 +254,7 @@ console.log('$scope.list=: '+ JSON.stringify($scope.list));
                       entryCrossedFlag:"0"*/
                     };
           itemHandler.addItemToList($scope.selectedItem);
+          serverHandlerEntryV2.syncEntrieUpstream();
          $state.reload();
               },
               function(error){
