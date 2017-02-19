@@ -87,7 +87,9 @@ angular.module('starter.services')
           serverHandlerItemsV2.syncMasterItemsDownstream();
         });
         serverHandlerListV2.syncListsUpstream().then(function(){
+          console.log('serverHandler syncListsUpstream done');
           serverHandlerItemsV2.syncLocalItemsUpstream().then(function(){
+            console.log('serverHandler syncLocalItemsUpstream done');
             serverHandlerEntryV2.syncEntrieDownstream();
           })
         });
