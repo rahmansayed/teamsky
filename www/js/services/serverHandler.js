@@ -6,7 +6,7 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('serverHandler', function ($http, global, $q, dbHandler, serverHandlerCategoryV2,
+  .factory('serverHandler', function ($http, global, $q, dbHandler, serverHandlerCategoryV2,$location,$state,
                                       serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2) {
 
     var defer = $q.defer();
@@ -65,51 +65,73 @@ angular.module('starter.services')
       SynchInitTest: function () {
         consoleLog("Start SynchInitTest");
         /*global.db.transaction(function (tx) {
-          var query = "delete from userInfo";
-          tx.executeSql(query);
-          query = "delete from userSetting";
-          tx.executeSql(query);
-        }, function (error) {
-          consoleLog("Error = " + JSON.stringify(error));
-        }, function (res) {
-          consoleLog("Response = " + JSON.stringify(res));
-        });*/
+         var query = "delete from userInfo";
+         tx.executeSql(query);
+         query = "delete from userSetting";
+         tx.executeSql(query);
+         }, function (error) {
+         consoleLog("Error = " + JSON.stringify(error));
+         }, function (res) {
+         consoleLog("Response = " + JSON.stringify(res));
+         });*/
         //serverHandlerCategoryV2.deleteCategories();
- /*       serverHandlerCategoryV2.deleteCategories().then(function () {
-          serverHandlerCategoryV2.syncCategories().then(function () {
-            serverHandlerItemsV2.deleteItemsLocal().then(function () {
-              serverHandlerItemsV2.syncMasterItems();
-            })
-          });
-        });*/
+        /*       serverHandlerCategoryV2.deleteCategories().then(function () {
+         serverHandlerCategoryV2.syncCategories().then(function () {
+         serverHandlerItemsV2.deleteItemsLocal().then(function () {
+         serverHandlerItemsV2.syncMasterItems();
+         })
+         });
+         });*/
+        serverHandlerListV2.syncListsDownstream().then(function (res) {
+            console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
+            console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
+            console.log("$state.params = " + JSON.stringify($state.params));
+            if ($location.url() == '/lists') {
+              $state.reload();
+            }
+            serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
+              if ($location.url().startsWith('/item')) {
+                console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
+                for (var i = 0; i < res.length; i++) {
+                  console.log("$state.listId = " + $state.params.listId);
+                  if (res[i].listLocalId == $state.params.listId) {
+                    console.log('NOTIFICATION ENTRY LIST MATCH reloading');
+                    $state.reload();
+                  }
+                }
+              }
+            }, function (err) {
 
-        serverHandlerCategoryV2.syncCategoriesDownstream().then(function(){
+            });
+          }
+          ,
+          function () {
+            console.log("SERVER HANDLER ERROR")
+          }
+        );
+
+
+        serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
           serverHandlerItemsV2.syncMasterItemsDownstream();
         });
-        serverHandlerListV2.syncListsUpstream().then(function(){
+        serverHandlerListV2.syncListsUpstream().then(function () {
           console.log('serverHandler syncListsUpstream done');
-          serverHandlerItemsV2.syncLocalItemsUpstream().then(function(){
+          serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
             console.log('serverHandler syncLocalItemsUpstream done');
             serverHandlerEntryV2.syncEntrieDownstream();
           })
         });
-        serverHandlerListV2.syncListsDownstream().then(function(){
-          console.log("SERVER HANDLER RESOLVED");
-          serverHandlerEntryV2.syncEntrieDownstream();
-        }, function(){
-          console.log("SERVER HANDLER ERROR")
-        });
-/*
-        var list = {
-          listLocalId: 1485085399062,
-          listName: 'testlist3',
-          listDesc: 'testlist3',
-          listColour: 'red',
-          listOrder: 3
-        };
-        serverHandlerListV2.createList(list);
+        /*
+         var list = {
+         listLocalId: 1485085399062,
+         listName: 'testlist3',
+         listDesc: 'testlist3',
+         listColour: 'red',
+         listOrder: 3
+         };
+         serverHandlerListV2.createList(list);
 
-*/
+         */
 
         //serverHandlerMasterItem.synchMasterItem();
 

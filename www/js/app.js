@@ -18,7 +18,7 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $state, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
+  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, serverHandlerListV2, $location, serverHandlerEntryV2, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,98 +32,75 @@ angular.module('starter', ['ionic',
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+      document.addEventListener("online", function () {
+        console.log("Device goes online");
+        serverHandler.SynchInitTest();
+      }, false);
+
       document.addEventListener("deviceready", function () {
 
-       /* if (typeof PushNotification === "defined") {*/
-          var push = PushNotification.init({
-            "android": {"senderID": "992783511835"},
-            browser: {
-              pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-            },
-            "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
-          });
+        alert("just to wait");
+        /* if (typeof PushNotification === "defined") {*/
+        var push = PushNotification.init({
+          "android": {"senderID": "992783511835"},
+          browser: {
+            pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+          },
+          "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
+        });
 
-          push.on('registration', function (data) {
-            console.log('18/02/2017 - aalatief - app.js: DataKey:'+data.registrationId);
-            global.dataKey = data.registrationId;
-            //                callAjax(data.registrationId);
-            
-            dbHandler.initDB()
-              .then(function (result) {
-                  userVerify.getUserSetting()
-                    .then(function (result) {
-                        userVerify.getUserSetSuccessCB(result);
-                        users = userVerify.userSetting();
-                        global.userServerId = userVerify.getUserServerId();
-                        global.deviceServerId = userVerify.getDeviceServerId();
+        push.on('registration', function (data) {
+          console.log('18/02/2017 - aalatief - app.js: DataKey:' + data.registrationId);
+          global.dataKey = data.registrationId;
+          //                callAjax(data.registrationId);
 
-                        if (userVerify.isVerified()) {
-                          $ionicLoading.hide();
-                          $location.path("/lists");
-                        }
-                        else {
-                          $ionicLoading.hide();
-                          $location.path("/subscribe");
+          dbHandler.initDB()
+            .then(function (result) {
+                userVerify.getUserSetting()
+                  .then(function (result) {
+                      userVerify.getUserSetSuccessCB(result);
+                      users = userVerify.userSetting();
+                      global.userServerId = userVerify.getUserServerId();
+                      global.deviceServerId = userVerify.getDeviceServerId();
 
-                        }
-                        console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
-                        console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
-                        console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
-                        serverHandler.SynchInitTest();
-
+                      if (userVerify.isVerified()) {
+                        $ionicLoading.hide();
+                        $location.path("/lists");
+                      }
+                      else {
+                        $ionicLoading.hide();
+                        $location.path("/subscribe");
 
                       }
-                      , function (error) {
-                        userVerify.getUserSetErrorCB();
-                        console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
-                        ;
-                      });
+                      console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
+                      console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
+                      console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
+                      serverHandler.SynchInitTest();
 
-                },
-                function (error) {
-                  console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
-                });
-          });
 
-          push.on('notification', function (msg) {
-
-            console.log('Message ');
-            console.log(JSON.stringify(msg));
-            serverHandlerListV2.syncListsDownstream().then(function (res) {
-                console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
-                console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
-                console.log("$state.params = " + JSON.stringify($state.params));
-                if ($location.url() == '/lists') {
-                  $state.reload();
-                }
-                serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-                  if ($location.url().startsWith('/item')) {
-                    console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
-                    for (var i = 0; i < res.length; i++) {
-                      console.log("$state.listId = " + $state.params.listId);
-                      if (res[i].listLocalId == $state.params.listId) {
-                        console.log('NOTIFICATION ENTRY LIST MATCH reloading');
-                        $state.reload();
-                      }
                     }
-                  }
-                }, function (err) {
+                    , function (error) {
+                      userVerify.getUserSetErrorCB();
+                      console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
+                      ;
+                    });
 
-                });
-              }
-              ,
-              function () {
-                console.log("SERVER HANDLER ERROR")
-              }
-            );
+              },
+              function (error) {
+                console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
+              });
+        });
 
-          });
+        push.on('notification', function (msg) {
 
-          push.on('error', function (e) {
-            alert(e.message);
-          });
+          console.log('Message ');
+          console.log(JSON.stringify(msg));
+          serverHandler.SynchInitTest();
+        });
 
-
+        push.on('error', function (e) {
+          alert(e.message);
+        });
         /*}*/
       });
       /* else{*/
