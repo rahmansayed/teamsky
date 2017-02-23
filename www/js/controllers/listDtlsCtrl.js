@@ -21,7 +21,7 @@ angular.module('starter.controllers')
         };
 
         console.log(Contact);
-        listHandler.addUser(100, data);
+        /*listHandler.addUser(100, data);*/
       });
 
     }

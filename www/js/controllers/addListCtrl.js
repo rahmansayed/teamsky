@@ -1,18 +1,11 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, listHandler,serverListHandler,dbHandler,serverHandlerListV2) {
-        $scope.dynamicTitle = 'New List';
-/*        $scope.list= {
+  .controller('addListCtrl', function ($scope, $state, listHandler,serverListHandler,dbHandler,serverHandlerListV2,localListHandlerV2) {
+        $scope.dynamicTitle = 'Create new list';
 
-            listLocalId: new Date().getTime().toString(),
-            listName: '',
-            listDescription: '',
-            listServerId:''
-        };*/
 
         $scope.saveList=function(list){
 
-           /* listHandler.create($scope.list); -- Old Create Local Storage*/
-            listHandler.addNewList(list)
+            localListHandlerV2.addNewList(list)
             .then(function(insertId){
                 console.log('aalatief: List insertId:'+JSON.stringify(insertId));
              list.listLocalId = insertId;

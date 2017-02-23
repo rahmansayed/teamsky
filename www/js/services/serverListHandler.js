@@ -63,7 +63,7 @@ angular.module('starter.services')
       createList: function (list) {
 
         consoleLog("Start createList");
-
+           var defer = $q.defer();
         data = {
 
           userServerId: global.userServerId,
@@ -95,9 +95,9 @@ angular.module('starter.services')
       },
 //------------------------updateList
       updateList: function (list) {
-
+          
         consoleLog("Start updateList");
-
+         var defer = $q.defer();
 
         data = {
           listServerId: list.listServerId,

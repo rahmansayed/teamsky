@@ -1,29 +1,32 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, listHandler, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler,$timeout,$http,global) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler,$timeout,$http,global,localListHandlerV2,$filter) {
 
 
-    dbHandler.runQuery() ;
-
-    $scope.lists = listHandler.list();
+/*Retrieve all lists from localListHandlerV2*/
+    
+    localListHandlerV2.getAllLists()
+    .then(function(lists)
+		{
+        $scope.lists = lists;
+        console.log('21/02/2017 - listCtrl - localListHandlerV2 get all lists:'+$scope.lists);
+       },
+      function(error){
+        console.log('21/02/2017 - listCtrl - localListHandlerV2 ERROR get all lists:'+JSON.stringify(error));
+    });
+    
     
     $scope.data = {selectedContacts : []};
+/*-----------------------------------------------------------------------------------
 
-    console.log($scope.message);
-    console.log('Returned list from DB = ')+JSON.stringify($scope.lists);
-
+/*Route to Edit List Page*/
     $scope.editList=function(listLocalId){
-/*        listHandler.get(listLocalId)
-        .then(function(result){
-            */
+
              $state.go('edit',{'listId':listLocalId});
-        }/*,
-        function(error){
-            console.log('aalatief: List Load Error')
-        });
-       
-    };*/
-    
-      $scope.refresh = function() {
+        }
+/*-------------------------------------------------------------------------------------
+
+/*Pull to refresh */    
+$scope.refresh = function() {
     
     console.log('Refreshing!');
     $timeout( function() {
@@ -34,53 +37,76 @@ angular.module('starter.controllers')
     }, 1000);
       
   };
-
-    $scope.removeList=function(listLocalId){
-
-       var confirmPopup = $ionicPopup.confirm({
+/*-----------------------------------------------------------------------------------*/
+/*Remove list Function*/    
+    $scope.removeList=function(list){
+/*Handle the case of elete from Device*/        
+       document.addEventListener("deviceready", function () {
+       navigator.notification.confirm(
+        "Are you sure you want to delete the list "+list.listName+"?", // the message
+        function( index ) {
+            switch ( index ) {
+                case 1:
+                 localListHandlerV2.deactivateList(list.listLocalId)
+                 .then(function(ret){
+                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: '+ JSON.stringify(ret));
+                      $state.reload();
+                 },function(err){
+                      console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: '+ JSON.stringify(err));
+                 });
+                    break;
+                case 2:
+                    // The second button was pressed
+                    break;
+            }
+        },
+        "Delete List", // a title
+        [ "Delete", "Cancel" ]    // text of the buttons
+    );
+    });
+/*Handle the case for delete from Browser*/   
+    if (!(window.cordova)) {    
+        var confirmPopup = $ionicPopup.confirm({
          title: 'Delete List',
-         template: 'Are you sure you want to delete this list'
+         template: 'Are you sure you want to delete this list'+list.listName+"?"
        });
 
        confirmPopup.then(function(res) {
          if(res) {
-                  listHandler.remove(listLocalId);
-                  $state.reload();
+                 localListHandlerV2.deactivateList(list.listLocalId)
+                 .then(function(ret){
+                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: '+ JSON.stringify(ret));
+                      $state.reload();
+                 },function(err){
+                      console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: '+ JSON.stringify(err));
+                 });
+                 
          }
-       });
+       })};
      };
-
+/*-------------------------------------------------------------------------*/
+/*Order list*/
+    
+    
     $scope.move = function (list,fromIndex,toIndex){
 
-            listHandler.move(list,fromIndex,toIndex);
-
+        $scope.lists.splice(fromIndex, 1);
+        $scope.lists.splice(toIndex, 0, list);
     };
     $scope.reorderFlag = false;
     $scope.toggleReorder = function(){
         $scope.reorderFlag = !$scope.reorderFlag;
     };
+/*--------------------------------------------------------------------------------*/
 
-
+/*Route to Add item Page*/    
     $scope.addItem = function(listId){
         console.log('list id sent : ' + listId);
         $state.go('item',{'listId':listId});
     };
+/*--------------------------------------------------------------------------------*/
 
-/*    $scope.getContacts = function() {
-          $scope.phoneContacts = [];
-          function onSuccess(contacts) {
-            for (var i = 0; i < contacts.length; i++) {
-              var contact = contacts[i];
-              $scope.phoneContacts.push(contact);
-            }
-          };
-          function onError(contactError) {
-            alert(contactError);
-          };
-          var options = {};
-          options.multiple = true;
-          $cordovaContacts.find(options).then(onSuccess, onError);
-        };*/
+  /*Share with Contact */  
  
        $scope.getAllContacts = function(listLocalId) {
         /* $state.go('contact');*/
@@ -113,7 +139,7 @@ angular.module('starter.controllers')
                     .then
                     (function(res){
                         
-                        listHandler.getSpecificList(listLocalId)
+                        localListHandlerV2.getSpecificList(listLocalId)
                         .then(function(response){
                            console.log('12/02/2017 - listCtrl - aalatief: Return My List:'+JSON.stringify(response.rows.item(0))); 
                            $scope.listServerId =   response.rows.item(0).listServerId
@@ -172,26 +198,6 @@ angular.module('starter.controllers')
 
   
   });
-          
-
-/*    $scope.getAllContacts = function() {
-
-    contactHandler.pickContact().then(
-        function(contact) {
-            $scope.data.selectedContacts.push(contact);
-            console.log("Selected contacts=");
-            console.log($scope.data.selectedContacts);
-
-        },
-        function(failure) {
-            console.log("Bummer.  Failed to pick a contact"+JSON.stringify(failure));
-        }
-    )
-    };*/
-
-    $scope.addUserToList = function(){
-       /* $scope.getAllContacts();*/
-
-    };
   };
+/*----------------------------------------------------------------------------------------*/    
 });

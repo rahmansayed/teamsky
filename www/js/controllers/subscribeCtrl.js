@@ -41,7 +41,7 @@ angular.module('starter.controllers')
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
             
         console.log (JSON.stringify (response));
-        alert(JSON.stringify(response));
+        alert('Verification code: '+JSON.stringify(response.data.vCode));
     
             
 /*            $ionicPlatform.ready(function() {

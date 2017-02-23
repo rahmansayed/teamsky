@@ -85,7 +85,7 @@ angular.module('starter', ['ionic',
                 });
           });
 
-          push.on('notification', function (msg) {
+          push.on('notification', function (msg) {0
 
             console.log('Message ');
             console.log(JSON.stringify(msg));
@@ -221,6 +221,8 @@ angular.module('starter', ['ionic',
        push.on('error', function (e) {
        alert(e.message);
        });*/
+  
+        
 
     });
 

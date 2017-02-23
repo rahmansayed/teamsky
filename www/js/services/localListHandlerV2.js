@@ -13,7 +13,7 @@ angular.module('starter.services')
 
         tx.executeSql(query, [listLocalId], function (tx, res) {
           console.log("localListHandlerV2.getList + res.rows.item(0) " + JSON.stringify(res.rows.item(0)));
-          defer.resolve(res.rows.item(0));
+          defer.resolve(res);
         }, function (err) {
           defer.reject(err);
         })
@@ -21,7 +21,7 @@ angular.module('starter.services')
         defer.reject(err);
       }, function () {
       });
-      return deferred.promise;
+      return defer.promise;
     };
 
     /******************************************************************************************************************
@@ -85,7 +85,7 @@ angular.module('starter.services')
      */
     function getAllLists() {
       var defer = $q.defer();
-      var query = "SELECT * from list";
+      var query = "select distinct l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus from (list as l left join listUser as lu on l.listLocalId = lu.listLocalId) left join contact as c on c.contactLocalId = lu.contactLocalId";
       var lists = [];
       global.db.transaction(function (tx) {
 
@@ -132,7 +132,7 @@ angular.module('starter.services')
                 defer.reject(err);
               });
             }, function (err) {
-              defer.reject(err);
+              deferred.reject(err);
             }
           );
         }
@@ -147,6 +147,47 @@ angular.module('starter.services')
       );
       return defer.promise;
     }
+    
+/******************************************************************************************************************
+* deactivate the list from the local db
+* @param listLocalId
+*/
+    function deactivateList(listLocalId) {
+      var deferred = $q.defer();
+      var query = "update list set deleted = 'Y' where listLocalId = ?";
+
+      global.db.transaction(function (tx) {
+
+          var query = "select * from list where listLocalId = ?";
+          tx.executeSql(query, [listLocalId], function (tx, res) {
+              console.log("localListHandlerV2.deactivateList  query res " + JSON.stringify(res));
+              var deleteQuery = "update list set deleted = 'Y' where listLocalId = ?";
+              var ret = {};
+              ret.list = res.rows.item(0);
+              tx.executeSql(deleteQuery, [listLocalId], function (tx, res) {
+                console.log("localListHandlerV2.deactivateList  deleteQuery res " + JSON.stringify(res));
+                ret.rowsAffected = res.rowsAffected;
+                deferred.resolve(ret);
+              }, function (err) {
+                console.log("localListHandlerV2.deactivateList  deleteQuery err " + err.message);
+                deferred.reject(err);
+              });
+            }, function (err) {
+              deferred.reject(err);
+            }
+          );
+        }
+        ,
+        function (err) {
+          deferred.reject(err);
+        }
+        ,
+        function () {
+
+        }
+      );
+      return deferred.promise;
+    }
 
     return {
       getSpecificList: getSpecificList,
@@ -156,7 +197,8 @@ angular.module('starter.services')
       getAllLists: getAllLists,
       addNewList: addNewList,
       updateList: update,
-      getSpecificList: getSpecificList
+      getSpecificList: getSpecificList,
+      deactivateList:deactivateList
     };
   });
 

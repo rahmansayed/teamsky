@@ -302,6 +302,7 @@ angular.module('starter.services')
        * @param list
        */
       function updateList(list) {
+          var defer = $q.defer();
         consoleLog("Start updateList");
         data = {
           listLocalId: list.listLocalId,
