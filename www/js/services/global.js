@@ -4,8 +4,8 @@ angular.module('starter.services')
     var settings = new Array();
     var dataKey;
     var serverIP = 'https://secret-savannah-80432.herokuapp.com';
-    //var serverIP = 'http://192.168.100.6:3000';
-    //var serverIP = 'http://129.0.0.36:3000';
+    //var serverIP = 'http://129.0.89.36:3000';
+    //var serverIP = 'http://127.0.0.1:3000';
     var userName;
     var userServerId="";
     var deviceServerId="";
@@ -14,8 +14,7 @@ angular.module('starter.services')
       global.db.transaction(function(tx){
 
       });
-    };
-
+    }
     return {
       db: db,
       settings: settings,

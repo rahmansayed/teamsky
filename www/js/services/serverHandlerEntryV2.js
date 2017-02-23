@@ -8,15 +8,6 @@ angular.module('starter.services')
 
   .factory('serverHandlerEntryV2', function ($http, global, $q, serverHandlerItemsV2, serverHandlerListV2, dbHelper) {
 
-      var serviceName = "serverHandlerEntryV2";
-
-      //------------------------consoleLog
-
-      function consoleLog(text) {
-        //return;
-        console.log(serviceName + "  =>  " + text);
-      }
-
       /****************************************************************************************************************\
        * this function is used to sync a single entry
        * @param entry
@@ -24,7 +15,7 @@ angular.module('starter.services')
        */
       function createEntry(entry) {
 
-        consoleLog("Start createList");
+        console.log("createEntry");
         var defer = $q.defer();
 
         if (entry.lastUpdateBy == 'Y') {
@@ -54,24 +45,24 @@ angular.module('starter.services')
             }
           };
         }
-        consoleLog(" Entry to Be Created = " + JSON.stringify(data));
+        console.log("createEntry Entry to Be Created = " + JSON.stringify(data));
 
         $http.post(global.serverIP + "/api/entry/add", data)
           .then(function (response) {
-              consoleLog(" createEntry Response Result => " + JSON.stringify(response));
+              console.log("createEntry Response Result => " + JSON.stringify(response));
               defer.resolve(response.data.entryServerId);
-              consoleLog(" createEntry Response Done");
+              console.log("createEntry Response Done");
               global.db.transaction(function (tx) {
                 var query = "update entry set entryServerId = ? where entryLocalId = ?";
                 tx.executeSql(query, [response.data.entryServerId, entry.entryLocalId], function (tx, result) {
                   defer.resolve(response.data.entryServerId);
-                  consoleLog('Rows affected = ' + result.rowsAffected)
+                  console.log('createEntry Rows affected = ' + result.rowsAffected)
                 }, function (error) {
                   defer.reject(error);
-                  consoleLog('error = ' + JSON.stringify(error));
+                  console.log('createEntry error = ' + JSON.stringify(error));
 
                 });
-                consoleLog(" updateList Response Done");
+                console.log("createEntry updateList Response Done");
               });
             },
             function (error) {
@@ -88,17 +79,17 @@ angular.module('starter.services')
        */
       function syncListEntries(listServerId) {
         var defer = $q.defer();
-        consoleLog("In syncListEntries");
+        console.log("In syncListEntries");
         global.db.transaction(function (tx) {
             var query = "select entry.*, list.listServerId, masterItem.itemServerId, masterItem.lastUpdateBy ,retailer.retailerServerId " +
               " from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
               " where entry.entryServerId = ''" +
               "and list.listServerId = ?";
             tx.executeSql(query, [listServerId], function (tx, result) {
-                consoleLog("syncListEntries result = " + JSON.stringify(result));
-                consoleLog("syncListEntries result.rows = " + JSON.stringify(result.rows));
-                consoleLog("syncListEntries result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
-                consoleLog("syncListEntries result.rows.length = " + JSON.stringify(result.rows.length));
+                console.log("syncListEntries result = " + JSON.stringify(result));
+                console.log("syncListEntries result.rows = " + JSON.stringify(result.rows));
+                console.log("syncListEntries result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
+                console.log("syncListEntries result.rows.length = " + JSON.stringify(result.rows.length));
                 if (result.rows.length > 0) {
                   var entries = {
                     listServerId: listServerId,
@@ -122,22 +113,22 @@ angular.module('starter.services')
 
                   $http.post(global.serverIP + "/api/entry/addmany", entries)
                     .then(function (response) {
-                      consoleLog("syncListEntries createEntries server Response Result => " + JSON.stringify(response));
+                      console.log("syncListEntries createEntries server Response Result => " + JSON.stringify(response));
                       global.db.transaction(function (tx) {
                           var query = "update entry set entryServerId = ?, lastUpdateBy = ? where entryLocalId = ?";
                           for (var i = 0; i < response.data.length; i++) {
                             tx.executeSql(query, [response.data[i].entryServerId, response.data[i].localItemFlag, response.data[i].entryLocalId]);
                           }
                         }, function (err) {
-                          consoleLog("syncListEntries DB update Error = " + err);
+                          console.log("syncListEntries DB update Error = " + err);
                           defer.reject(err);
                         }, function () {
-                          consoleLog("syncListEntries DB update successfull");
+                          console.log("syncListEntries DB update successfull");
                           defer.resolve();
                         }
                       );
                     }, function (error) {
-                      consoleLog("syncListEntries Server Sync error = " + JSON.stringify(error));
+                      console.log("syncListEntries Server Sync error = " + JSON.stringify(error));
                       defer.reject();
                     });
                 }
@@ -166,16 +157,16 @@ angular.module('starter.services')
       function synEntriesUpstream() {
         var defer = $q.defer();
         var promises = [];
-        consoleLog("In synEntries");
+        console.log("In synEntries");
         global.db.transaction(function (tx) {
           var query = "select list.listServerId, count(*) cnt " +
             "from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
             "where entry.entryServerId = '' " +
             "group by list.listServerId";
           tx.executeSql(query, [], function (tx, result) {
-            consoleLog("synEntries result = " + JSON.stringify(result));
-            consoleLog("synEntries result.rows = " + JSON.stringify(result.rows));
-            consoleLog("synEntries result.rows.length = " + JSON.stringify(result.rows.length));
+            console.log("synEntries result = " + JSON.stringify(result));
+            console.log("synEntries result.rows = " + JSON.stringify(result.rows));
+            console.log("synEntries result.rows.length = " + JSON.stringify(result.rows.length));
             for (i = 0; i < result.rows.length; i++) {
               promises.push(syncListEntries(result.rows.item(i).listServerId));
             }
@@ -185,7 +176,7 @@ angular.module('starter.services')
               defer.reject();
             });
           }, function (err) {
-            consoleLog("synEntries error = " + JSON.stringify(err));
+            console.log("synEntries error = " + JSON.stringify(err));
             defer.reject();
           });
         });
@@ -344,11 +335,215 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+      function syncBackCrossings(crossings) {
+        var defer = $q.defer();
+
+        var data = {
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId
+        };
+
+        data.entryCrossings = crossings.map(function (crossing) {
+          return crossing._id;
+        });
+
+        console.log('syncBackCrossings data = ' + data);
+        $http.post(global.serverIP + '/api/entry/syncCrossingsBack', data).then(function (res) {
+          console.log('syncBackCrossings server reply = ' + JSON.stringify(res));
+        }, function (err) {
+          console.log('syncBackCrossings server error ' + err.message);
+          defer.reject(err);
+        });
+
+        return defer.promise;
+      }
+
+      function syncCrossingsDownstream() {
+        var defer = $q.defer();
+
+        var data = {
+          deviceServerId: global.deviceServerId
+        };
+
+        $http.post(global.serverIP + '/api/entry/getCrossings', data).then(function (res) {
+
+            if (res.data.length > 0) {
+              var query = "update entry set entryCrossedFlag = 1, lastUpdateBy = 'SS' where entryServerId in ( ";
+              var query = res.data.reduce(function (query, crossing) {
+                return query + "'" + crossing.entryServerId + "', ";
+              }, query);
+
+              query = query.substr(0, query.length - 2) + ')';
+              console.log("syncCrossingsDownstream entriesServerIds = " + query);
+              global.db.transaction(function (tx) {
+                tx.executeSql(query, []);
+              }, function (err) {
+                console.log("syncCrossingsDownstream db update err " + err.message);
+                defer.reject();
+              }, function () {
+                console.log("syncCrossingsDownstream db update complete");
+                syncBackCrossings(res.data).then(function (res) {
+                  defer.resolve();
+                }, function (err) {
+                  defer.reject();
+                });
+              });
+            }
+            else {
+              console.log('syncCrossingsDownstream server no updates ' + JSON.stringify(res.data));
+              defer.resolve();
+            }
+          }
+          ,
+          function (err) {
+            console.log('syncCrossingsDownstream server err ' + JSON.stringify(err));
+            defer.reject();
+          }
+        );
+
+        return defer.promise;
+      }
+
+      function syncCrossingsUptreamUpdateLocalAfterServer(crossedIds) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+
+          //TODO consider the new flag of origin
+          var query = "update entry set lastUpdateBy = 'SS' where entryServerId in ( ";
+          query = crossedIds.reduce(function (query, crossing) {
+            return query + "'" + crossing + "', ";
+          }, query);
+
+          query = query.substr(0, query.length - 2) + ')';
+          console.log("syncCrossingsUptreamUpdateLocalAfterServer query = " + query);
+
+          tx.executeSql(query, []);
+        }, function (err) {
+          console.log("syncCrossingsUptreamUpdateLocalAfterServer DB error " + err);
+          defer.reject(err);
+        }, function () {
+          console.log("syncCrossingsUptreamUpdateLocalAfterServer DB update OK ");
+        });
+
+        return defer.promise;
+      }
+
+      function syncCrossingsUptreamUpdateServer(listServerId, crossedIds) {
+        var defer = $q.defer();
+
+        var data = {
+          deviceServerId: global.deviceServerId,
+          userServerId: global.userServerId,
+          listServerId: listServerId,
+          entries: crossedIds
+        };
+
+        $http.post(global.serverIP + '/api/entry/crossmany', data).then(function (res) {
+          syncCrossingsUptreamUpdateLocalAfterServer(crossedIds).then(function (res) {
+            console.log('syncCrossingsUptreamUpdateServer syncCrossingsUptreamUpdateLocalAfterServer called successfully');
+            defer.resolve(res);
+          }, function (err) {
+            console.log('syncCrossingsUptreamUpdateServer syncCrossingsUptreamUpdateLocalAfterServer ERR');
+            defer.reject();
+          })
+        }, function (err) {
+          console.log('syncCrossingsUptreamUpdateServer server err ' + JSON.stringify(err));
+          defer.reject();
+        });
+        return defer.promise;
+      }
+
+      function syncCrossingsUptreamperList(listServerId) {
+        var defer = $q.defer();
+        console.log('syncCrossingsUptreamperList started');
+        global.db.transaction(function (tx) {
+          var query = "select entry.entryServerId " +
+            "from entry, list " +
+            "where entry.listLocalId = list.listLocalId " +
+            "and entry.entryCrossedFlag = 1 " +
+            "and entry.lastUpdateBy = 'LE'" +
+            "and list.listServerId = '" + listServerId.listServerId + "'";
+
+          console.log('syncCrossingsUptreamperList query = ' + query);
+          console.log('syncCrossingsUptreamperList listServerId = ' + listServerId.listServerId);
+          tx.executeSql(query, [], function (tx, res) {
+            var crossedIds = [];
+            console.log("syncCrossingsUptreamperList res.rows.length = " + res.rows.length);
+            for (var i = 0; i < res.rows.length; i++) {
+              crossedIds.push(res.rows.item(i).entryServerId);
+            }
+            console.log('syncCrossingsUptreamperList  crossedIds ' + JSON.stringify(crossedIds));
+            syncCrossingsUptreamUpdateServer(listServerId.listServerId, crossedIds).then(function () {
+              defer.resolve();
+            }, function (err) {
+              defer.reject();
+            })
+          }, function (err) {
+            console.log('syncCrossingsUptreamperList  db query err ' + JSON.stringify(err));
+            defer.reject();
+          });
+        }, function (err) {
+          console.log('syncCrossingsUptreamperList  db err ' + JSON.stringify(err));
+          defer.reject();
+        }, function (res) {
+
+        });
+        return defer.promise;
+      }
+
+
+      function syncCrossingsUptream() {
+        var defer = $q.defer();
+        console.log('syncCrossingsUptream started');
+        global.db.transaction(function (tx) {
+          var query = "select distinct list.listServerId " +
+            "from entry, list " +
+            "where entry.listLocalId = list.listLocalId " +
+            "and entry.entryCrossedFlag = 1 " +
+            "and entry.lastUpdateBy = 'LE'";
+
+          console.log('syncCrossingsUptream query = ' + query);
+          tx.executeSql(query, [], function (tx, res) {
+            var crossedListId = [];
+            console.log("syncCrossingsUptream res.rows.length = " + res.rows.length);
+            for (var i = 0; i < res.rows.length; i++) {
+              crossedListId.push(res.rows.item(i));
+            }
+            console.log('syncCrossingsUptream  crossedListId ' + JSON.stringify(crossedListId));
+            var promises = crossedListId.map(function (listServerId) {
+              return syncCrossingsUptreamperList(listServerId);
+            });
+
+            $q.all(promises, function (res) {
+              console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(resolved));
+              defer.resolve();
+
+            }, function (err) {
+              console.log('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
+              defer.reject();
+            });
+            //TODO should call the server for crossing the entries
+          }, function (err) {
+            console.log('syncCrossingsUptream  db query err ' + JSON.stringify(err));
+            defer.reject();
+          });
+        }, function (err) {
+          console.log('syncCrossingsUptream  db err ' + JSON.stringify(err));
+          defer.reject();
+        }, function (res) {
+
+        });
+        return defer.promise;
+      }
+
       return {
         createEntry: createEntry,
         // this function is used to synchronize all the un-sync'd lists
         syncEntriesUpstream: synEntriesUpstream,
-        syncEntrieDownstream: syncEntriesDownstream
+        syncEntrieDownstream: syncEntriesDownstream,
+        syncCrossingsDownstream: syncCrossingsDownstream,
+        syncCrossingsUptream: syncCrossingsUptream
       }
     }
   )

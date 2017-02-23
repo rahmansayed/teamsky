@@ -121,6 +121,11 @@ angular.module('starter.services')
             serverHandlerEntryV2.syncEntrieDownstream();
           })
         });
+
+        serverHandlerEntryV2.syncCrossingsDownstream().then(function(){
+          console.log('syncCrossingsDownstream complete');
+          serverHandlerEntryV2.syncCrossingsUptream();
+        });
         /*
          var list = {
          listLocalId: 1485085399062,
