@@ -118,8 +118,13 @@ angular.module('starter.services')
           console.log('serverHandler syncListsUpstream done');
           serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
             console.log('serverHandler syncLocalItemsUpstream done');
-            serverHandlerEntryV2.syncEntrieDownstream();
+            serverHandlerEntryV2.syncEntriesUpstream();
           })
+        });
+
+        serverHandlerEntryV2.syncCrossingsDownstream().then(function(){
+          console.log('syncCrossingsDownstream complete');
+          serverHandlerEntryV2.syncCrossingsUptream();
         });
         /*
          var list = {
