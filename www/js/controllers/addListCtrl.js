@@ -18,15 +18,15 @@ angular.module('starter.controllers')
                 console.log('aalatief: List Server create fail:'+JSON.stringify(error));
             }      
         );
-                
+            console.log('04/02/2017 - aalatief - : Lists array after create:'+JSON.stringify(list));
+            $state.go('lists');   
             },  
                 function(err){
-                    
+                    console.log('23/2/2017 - aalatief: List Server create fail:'+JSON.stringify(err));
                     
                 });
 
-            console.log('04/02/2017 - aalatief - : Lists array after create:'+JSON.stringify($scope.lists));
-            $state.go('lists');
+
         };
   });
 

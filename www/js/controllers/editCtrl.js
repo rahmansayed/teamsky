@@ -19,9 +19,10 @@ angular.module('starter.controllers')
         localListHandlerV2.update($scope.list)
         .then(function(response){
             $state.go('lists');
-            console.log('23/2/2017 - aalatief: List local update success:'+JSON.stringify(response));
+            console.log('23/2/2017 - aalatief: List local update success:'+JSON.stringify($scope.list)+' , '+JSON.stringify(response));
         },function(error){
-            
+            console.log('23/2/2017 - aalatief: List local update fail:'+JSON.stringify($scope.list)+' , '+JSON.stringify(error));
+        },function(error){
         });
         
         serverHandlerListV2.updateList($scope.list)

@@ -130,6 +130,7 @@ angular.module('starter', ['ionic',
       if (typeof PushNotification != "defined") {
         dbHandler.initDB()
           .then(function (result) {
+            global.dataKey = 'ZXCV';
               userVerify.getUserSetting()
                 .then(function (result) {
                     userVerify.getUserSetSuccessCB(result);
@@ -221,8 +222,6 @@ angular.module('starter', ['ionic',
        push.on('error', function (e) {
        alert(e.message);
        });*/
-  
-        
 
     });
 

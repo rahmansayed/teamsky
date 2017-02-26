@@ -7,6 +7,6 @@
     "plugin": "^4.0.0"
   },
   "resolutions": {
-    "angular": "1.5.9"
+    "angular": "1.6.2"
   }
 }

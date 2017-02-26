@@ -68,7 +68,7 @@ $scope.refresh = function() {
     if (!(window.cordova)) {    
         var confirmPopup = $ionicPopup.confirm({
          title: 'Delete List',
-         template: 'Are you sure you want to delete this list'+list.listName+"?"
+         template: 'Are you sure you want to delete this list '+list.listName+"?"
        });
 
        confirmPopup.then(function(res) {

@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('itemHandler', function ($q, $timeout, dbHandler, $state) {
+  .factory('localItemHandlerV2', function ($q, $timeout, dbHandler, $state,global) {
 
     var selected = [];
     var items = [];
@@ -10,20 +10,9 @@ angular.module('starter.services')
     var y;
     var x;
     var z;
-    //items = angular.fromJson(window.localStorage['item']||[]);
-    y = getAllMasterItem()
-      .then(getMasterSuccessCB, getMasterErrorCB);
-    console.log('Y: ' + JSON.stringify(y));
-    console.log('master Items: ' + JSON.stringify(items));
 
-    /* x = getAllEntry($state.params.listId)
-     .then(getEntrySuccessCB,getEntryErrorCB);
-     console.log('Entry Items: ' + JSON.stringify(selectedItems));*/
-
-    z = getCheckedItem()
-      .then(getCheckedSuccessCB, getCheckedErrorCB);
-    console.log('!!!Checked Items: ' + JSON.stringify(checkedItems));
-
+    
+/*Get All Master items and push on items Array*/
     function getAllMasterItem() {
       var defer = $q.defer();
 
@@ -31,7 +20,11 @@ angular.module('starter.services')
         var query = "SELECT i.itemLocalId, i.itemName, c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId";
         tx.executeSql(query, [], function (tx, res) {
           console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
-          defer.resolve(res);
+          for (var i = 0; i < res.rows.length; i++) {
+            items.push(res.rows.item(i));
+          } 
+            defer.resolve(items);
+          
         }, function (err) {
           console.log("localItemHandlerV2.getAllMasterItem query err = " + err.message);
           defer.reject();
@@ -43,7 +36,8 @@ angular.module('starter.services')
       });
       return defer.promise;
     };
-
+  /*-------------------------------------------------------------------------------------*/ 
+    /*Get local item Id*/    
     function getLocalItemId(itemName) {
       var defer = $q.defer();
 
@@ -64,75 +58,8 @@ angular.module('starter.services')
 
       return defer.promise;
     };
-
-
-    function getMasterSuccessCB(response) {
-
-      if (response && response.rows && response.rows.length > 0) {
-
-        for (var i = 0; i < response.rows.length; i++) {
-          items.push({
-            itemLocalId: response.rows.item(i).itemLocalId,
-            itemName: response.rows.item(i).itemName,
-            categoryName: response.rows.item(i).categoryName
-          });
-          console.log('Item Handler create item:' + items);
-        }
-      } else {
-        var message = "No master items created till now.";
-      }
-    }
-
-    function getMasterErrorCB(error) {
-      var message = "Some error occurred in fetching Master items";
-    }
-    ;
-
-    //Get Checked ITems
-    function getCheckedItem() {
-      var deferred = $q.defer();
-      var query = "SELECT i.itemName, i.itemLocalId, e.entryLocalId, e.entryCrossedFlag, e.lastUpdateDate, i.categoryLocalId, e.listLocalId FROM entry AS e INNER JOIN masterItem AS i ON e.itemLocalId = i.itemLocalId WHERE e.listLocalId= ? and e.entryCrossedFlag='1'";
-      //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
-      dbHandler.runQuery(query, [$state.params.listId], function (response) {
-        //Success Callback
-        console.log('Success Check Query ' + response);
-        checkedItem = response.rows;
-        console.log('checkedItems: ' + JSON.stringify(checkedItem));
-        deferred.resolve(response);
-      }, function (error) {
-        //Error Callback
-        console.log('fail Check query ' + error);
-        deferred.reject(error);
-      });
-      console.log('Cheked Deferred Promise: ' + JSON.stringify(deferred.promise));
-      return deferred.promise;
-    };
-
-
-    function getCheckedSuccessCB(response) {
-
-      if (response && response.rows && response.rows.length > 0) {
-
-        for (var i = 0; i < response.rows.length; i++) {
-          checkedItems.push({
-            listLocalId: response.rows.item(i).listLocalId,
-            itemLocalId: response.rows.item(i).itemLocalId,
-            itemName: response.rows.item(i).itemName,
-            entryCrossedFlag: response.rows.item(i).entryCrossedFlag,
-            entryLocalId: response.rows.item(i).entryLocalId
-          });
-          console.log('Item Handler create item:' + checkedItems);
-        }
-      } else {
-        var message = "No Checked items created till now.";
-      }
-    };
-
-    function getCheckedErrorCB(error) {
-      var message = "Some error occurred in fetching Checekd items";
-    }
-    ;
-
+  /*-------------------------------------------------------------------------------------*/ 
+    /*Sort Items array*/
     items = items.sort(function (a, b) {
 
       var itemA = a.itemName.toLowerCase();
@@ -142,8 +69,8 @@ angular.module('starter.services')
       if (itemA < itemB) return -1;
       return 0;
     });
-
-
+  /*-------------------------------------------------------------------------------------*/ 
+ /*Check if Master Item already exists*/
     function masterItemExist(Item) {
       //localStorage
       for (var i = 0; i < items.length; i++) {
@@ -154,62 +81,56 @@ angular.module('starter.services')
       ;
       return false;
     };
-
+  /*-------------------------------------------------------------------------------------*/ 
+/*Convert string into init capital*/
     function initcap(name) {
       var returnedName = name.substring(0, 1).toUpperCase()
         + name.substring(1, name.length).toLowerCase();
       return returnedName;
     };
 
-
-    function isItemChecked(listItem) {
-      for (var j = 0; j < checkedItems.length; j++) {
-        if (checkedItems[j].listLocalId == listItem.listLocalId && checkedItems[j].itemLocalId == listItem.itemLocalId) {
-          return true;
-        }
-      }
-      ;
-      return false;
-    };
-
-
+  /*-------------------------------------------------------------------------------------*/ 
+/*Search Item Function*/    
     var searchItems = function (searchFilter) {
-
       console.log('Searching items for ' + searchFilter);
+   
+      console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));
       var deferred = $q.defer();
-      var matches = items.filter(function (item) {
-        console.log('The item Returned from Search: ' + item.itemName.toLowerCase());
-        if (item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1) return true;
-      })
+        var matches = items.filter( function(item) {
+        console.log('The item Returned from Search: '+item.itemName.toLowerCase());
+        if(item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ) return true;
+        })
 
-      console.log('items array: ' + JSON.stringify(items));
-      $timeout(function () {
-        console.log('Matches : ' + JSON.stringify(matches));
-        deferred.resolve(matches);
+        console.log('items array: ' + JSON.stringify(items));
+        $timeout( function(){
+         console.log('Matches : ' + JSON.stringify(matches));
+        deferred.resolve( matches );
 
-      }, 100);
+        }, 100);
 
-      return deferred.promise;
+       return deferred.promise;
     };
+  /*-------------------------------------------------------------------------------------*/ 
+/*return master items */    
+    function masterItems() {
+            items = [];
 
-
-    function itemExitInList(selectedItem) {
-      for (var j = 0; j < selectedItems.length; j++) {
-        if (selectedItems[j].listLocalId == selectedItem.listLocalId && selectedItems[j].itemName.toLowerCase() == selectedItem.itemName.toLowerCase()) {
-          return true;
-        }
-      }
-      ;
-      return false;
+            getAllMasterItem()
+            .then(function(result){
+               items =result;
+               console.log('25/2/2017 - aalatief: Master items: '+JSON.stringify(result));
+              }
+            , function(error) {
+              console.log('aalatief: List master Item Load Fail:'+JSON.stringify(error));;
+            });
+        return items;
     };
-
-
+  /*-------------------------------------------------------------------------------------*/     
+/*Add New Master Item*/    
     function addMaserItem(item) {
       //Local Storage
       if (!masterItemExist(item)) {
         items.push(item);
-        window.localStorage['item'] = angular.toJson(items);
-        console.log('item created');
 
         //Sqlite
         var deferred = $q.defer();
@@ -228,27 +149,9 @@ angular.module('starter.services')
       }
       console.log('Master item exist');
     };
-
-    return {
-      item: items,
-      getAllMasterItem: getAllMasterItem,
-      searchItems: searchItems,
-      initcap: function (name) {
-        return initcap(name);
-      },
-      getLocalItemId: getLocalItemId,
-      AddMasterItem: addMaserItem,
-
-      deleteAll: function () {
-
-        for (var i = 0; i < selectedItems.length; i++) {
-
-          selectedItems.splice(i, 1);
-          saveToLocalStorage();
-        }
-      }
-      ,
-      categoryName: function (itemName) {
+   /*-------------------------------------------------------------------------------------*/   
+/*Get Category Name*/    
+    function categoryName(itemName) {
         /*console.log(itemName);*/
         for (var i = 0; i < items.length; i++) {
           if (items[i].itemName == itemName) {
@@ -257,15 +160,15 @@ angular.module('starter.services')
           }
         }
 
-      }
-      ,
-      getItemById: function (itemId) {
-        for (var i = 0; i < selectedItems.length; i++) {
-          if (selectedItems[i].itemLocalId == itemId) {
-            return selectedItems[i];
-          }
-        }
-        return undefined;
-      }
+      };
+  /*-------------------------------------------------------------------------------------*/     
+    return {
+      masterItems:masterItems,
+      searchItems: searchItems,
+      categoryName: categoryName,
+      initcap: initcap, 
+      addMasterItem: addMaserItem,    
+      getLocalItemId: getLocalItemId,    
+      getAllMasterItem: getAllMasterItem
     };
   });

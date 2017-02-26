@@ -20,7 +20,7 @@
               
               <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeList(list)"></ion-option-button>
               <ion-option-button class="button-calm icon-left ion-edit" ng-click="editList(list.listLocalId)"></ion-option-button>
-              <ion-option-button class="button-balanced ion-android-share-alt" ng-click="getAllContacts(list.listLocalId)"></ion-option-button>
+              <ion-option-button class="button-balanced ion-android-person-add" ng-click="getAllContacts(list.listLocalId)"></ion-option-button>
             <!-- </div>  -->
             </ion-item>
 
@@ -28,8 +28,13 @@
         
       
     </ion-content>
-    <div class="bar bar-footer bar-stable ">
-        <a href="#/add" class="button button-positive icon ion-plus-round">Add List</a>
-        <button class="button button-positive icon-left ion-shuffle" ng-click="toggleReorder()">Order</button>
-    </div>
+ <!--   <div class="bar bar-footer bar-stable ">-->
+    <div id="footer" class="button-bar"  >    
+<!--        <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
+        <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
+        
+        <a style="min-width: 50%;border-radius: 0px; " class="button button-lite icon-left ion-plus-round " href="#/add">Add</a>
+       <a style="min-width: 50%;border-radius: 0px; "  class="button button-lite icon-left ion-shuffle" ng-click="toggleReorder()">Order</a>
+</div>
+   <!-- </div>-->
 </ion-view>

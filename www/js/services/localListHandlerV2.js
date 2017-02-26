@@ -31,10 +31,10 @@ angular.module('starter.services')
     function update(list) {
       var defer = $q.defer();
       var query = "update list set " +
-        " list.listName = ? " +
-        ", list.listDescription = ? " +
-        ", list.listColor = ? " +
-        ", list.listOrder = ? " +
+        " listName = ? " +
+        ", listDescription = ? " +
+        ", listColor = ? " +
+        ", listOrder = ? " +
         ", lastUpdateBy = ? " +
         " where listLocalId = ? ";
 
@@ -44,6 +44,7 @@ angular.module('starter.services')
             console.log("localListHandlerV2.update + res " + JSON.stringify(res));
             defer.resolve(res);
           }, function (err) {
+            console.log("localListHandlerV2.update + err " + query + ' '+ JSON.stringify(err));
             defer.reject(err);
           })
       }, function (err) {
@@ -60,16 +61,16 @@ angular.module('starter.services')
     function addNewList(list) {
 
       var deferred = $q.defer();
-      var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,lastUpdateDate, lastUpdateBy) " +
-        "VALUES (null,?,?,?,?,?,?)";
+      var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,lastUpdateDate, lastUpdateBy) " +
+        "VALUES (null,?,?,?,?,?,?,?,?)";
 
       global.db.transaction(function (tx) {
-        tx.executeSql(query, [list.listName, list.listDescription, '', '', '', new Date().getTime(), 'L'], function (tx, response) {
+        tx.executeSql(query, [list.listName, list.listDescription, '', '', '','', new Date().getTime(), 'L'], function (tx, response) {
           //Success Callback
           console.log("localListHandlerV2.addNewList  res " + JSON.stringify(response));
           deferred.resolve(response.insertId);
         }, function (error) {
-          console.log("localListHandlerV2.addNewList  error " + error.message);
+          console.log("localListHandlerV2.addNewList  error " + JSON.stringify(error));
           deferred.reject(error);
         });
       }, function (err) {

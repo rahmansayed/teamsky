@@ -7,17 +7,11 @@
             <div class="item item-input">
                 <textarea rows="5" ng-model="list.listDescription"></textarea> 
             </div>
-             <ion-toggle toggle-class="toggle-assertive"
-                    ng-model="sync"
-                    ng-true-value="'Synced'"
-                    ng-false-value="'nonSynced'">
-          Synchronize
-        </ion-toggle>
         </div>
-        <div class="padding">
-            <button class="button button-block button-positive" ng-click="saveList(list)">Save
-            </button>
-        
+        <div class="padding button-bar">
+<!--            <button class="button button-bar" ng-click="saveList(list)">Save
+            </button>-->
+            <a style="min-width: 50%;border-radius: 0px;border:0px solid; " class="button button-lite icon ion-plus-round " ng-click="saveList(list)">Save</a>
         </div>
     </ion-content>
 </ion-view>
