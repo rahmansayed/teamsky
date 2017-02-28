@@ -141,6 +141,7 @@ angular.module('starter', ['ionic',
                     if (userVerify.isVerified()) {
                       $ionicLoading.hide();
                       $location.path("/lists");
+                      serverHandler.SynchInitTest();
                     }
                     else {
                       $ionicLoading.hide();
