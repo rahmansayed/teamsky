@@ -47,7 +47,7 @@ angular.module('starter', ['ionic',
             console.log('18/02/2017 - aalatief - app.js: DataKey:'+data.registrationId);
             global.dataKey = data.registrationId;
             //                callAjax(data.registrationId);
-            
+
             dbHandler.initDB()
               .then(function (result) {
                   userVerify.getUserSetting()
@@ -58,6 +58,8 @@ angular.module('starter', ['ionic',
                         global.deviceServerId = userVerify.getDeviceServerId();
 
                         if (userVerify.isVerified()) {
+                          console.log('app.js user verified true');
+                          serverHandler.SynchInitTest();
                           $ionicLoading.hide();
                           $location.path("/lists");
                         }
@@ -69,8 +71,6 @@ angular.module('starter', ['ionic',
                         console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                         console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                         console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
-                        serverHandler.SynchInitTest();
-
 
                       }
                       , function (error) {
@@ -150,8 +150,6 @@ angular.module('starter', ['ionic',
                     console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                     console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                     console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
-                    serverHandler.SynchInitTest();
-
 
                   }
                   , function (error) {

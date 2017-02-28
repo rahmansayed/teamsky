@@ -11,19 +11,19 @@ angular.module('starter.services')
     var x ;
     var z ;
       //items = angular.fromJson(window.localStorage['item']||[]);
-       y = getAllMasterItem()      
+       y = getAllMasterItem()
        .then(getMasterSuccessCB,getMasterErrorCB);
        console.log('Y: ' + JSON.stringify(y));
        console.log('master Items: ' + JSON.stringify(items));
-     
-    /* x = getAllEntry($state.params.listId)      
+
+    /* x = getAllEntry($state.params.listId)
       .then(getEntrySuccessCB,getEntryErrorCB);
       console.log('Entry Items: ' + JSON.stringify(selectedItems));*/
-      
-     z = getCheckedItem()      
+
+     z = getCheckedItem()
       .then(getCheckedSuccessCB,getCheckedErrorCB);
       console.log('!!!Checked Items: ' + JSON.stringify(checkedItems));
-      
+
       function getAllEntry(listId){
         var deferred = $q.defer();
         var query = "SELECT l.listLocalId,e.itemLocalId, i.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag    FROM ((masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) INNER JOIN list AS l ON e.listLocalId = l.listLocalId) INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId where l.listLocalId = ? ";
@@ -42,7 +42,7 @@ angular.module('starter.services')
         console.log('Deferred Promise: '+ JSON.stringify(deferred.promise));
         return deferred.promise;
     };
-    
+
     function getAllMasterItem(){
         var deferred = $q.defer();
         var query = "SELECT i.itemLocalId, i.itemName, c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId";
@@ -51,7 +51,7 @@ angular.module('starter.services')
             //Success Callback
             console.log('Success Master Query ' + response);
             item = response.rows;
-            console.log('Items: ' + JSON.stringify(item));
+//            console.log('Items: ' + JSON.stringify(item));
             deferred.resolve(response);
         },function(error){
             //Error Callback
@@ -61,7 +61,7 @@ angular.module('starter.services')
         console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));
         return deferred.promise;
     };
-    
+
         function getLocalItemId(itemName){
         var deferred = $q.defer();
         var query = "SELECT i.itemLocalId from masterItem as i where i.itemName = ?";
@@ -80,13 +80,13 @@ angular.module('starter.services')
         console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));
         return deferred.promise;
     };
-    
-    
+
+
 
 
     function getMasterSuccessCB(response)
 		{
-			
+
 			if(response && response.rows && response.rows.length > 0)
 			{
 
@@ -95,7 +95,7 @@ angular.module('starter.services')
                 items.push({itemLocalId:response.rows.item(i).itemLocalId,
                             itemName:response.rows.item(i).itemName,
                             categoryName:response.rows.item(i).categoryName});
-                console.log('Item Handler create item:' + items);        
+      //          console.log('Item Handler create item:' + items);
 				}
 			}else
 			{
@@ -108,7 +108,7 @@ angular.module('starter.services')
 			var message = "Some error occurred in fetching Master items";
 		}
     ;
-    
+
     //Get Checked ITems
     function getCheckedItem(){
         var deferred = $q.defer();
@@ -128,24 +128,24 @@ angular.module('starter.services')
         console.log('Cheked Deferred Promise: '+ JSON.stringify(deferred.promise));
         return deferred.promise;
     };
-    
+
 
 
     function getCheckedSuccessCB(response)
 		{
-			
+
 			if(response && response.rows && response.rows.length > 0)
 			{
 
 				for(var i=0;i<response.rows.length;i++)
-				{ 
+				{
                 checkedItems.push({
                             listLocalId:response.rows.item(i).listLocalId,
                             itemLocalId:response.rows.item(i).itemLocalId,
                             itemName:response.rows.item(i).itemName,
                             entryCrossedFlag:response.rows.item(i).entryCrossedFlag,
                             entryLocalId:response.rows.item(i).entryLocalId});
-                console.log('Item Handler create item:' + checkedItems);        
+                console.log('Item Handler create item:' + checkedItems);
 				}
 			}else
 			{
@@ -158,7 +158,7 @@ angular.module('starter.services')
 			var message = "Some error occurred in fetching Checekd items";
 		}
     ;
-    
+
     items = items.sort(function(a, b) {
 
             var itemA = a.itemName.toLowerCase();
@@ -169,12 +169,12 @@ angular.module('starter.services')
 	   return 0;
       });
     //Setting selectem Item Array
-    
-   
+
+
 
     function getEntrySuccessCB(response)
 		{
-			
+
 			if(response && response.rows && response.rows.length > 0)
 			{
 
@@ -246,14 +246,14 @@ angular.module('starter.services')
 
 
     var searchItems = function(searchFilter) {
-   
+
         console.log('Searching items for ' + searchFilter);
         var deferred = $q.defer();
 	    var matches = items.filter( function(item) {
             console.log('The item Returned from Search: '+item.itemName.toLowerCase());
 	    	if(item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ) return true;
 	    })
-        
+
         console.log('items array: ' + JSON.stringify(items));
         $timeout( function(){
              console.log('Matches : ' + JSON.stringify(matches));
@@ -263,9 +263,9 @@ angular.module('starter.services')
 
         return deferred.promise;
     };
-    
-    
-      
+
+
+
     function itemExitInList(selectedItem){
         for  (var j=0;j<selectedItems.length;j++){
             if (selectedItems[j].listLocalId == selectedItem.listLocalId && selectedItems[j].itemName.toLowerCase() == selectedItem.itemName.toLowerCase()){
@@ -275,7 +275,7 @@ angular.module('starter.services')
      return false;
       };
 
-    
+
 
     function addMaserItem(item) {
         //Local Storage
@@ -283,7 +283,7 @@ angular.module('starter.services')
             items.push(item);
             window.localStorage['item'] = angular.toJson(items) ;
              console.log('item created');
-         
+
         //Sqlite
 		var deferred = $q.defer();
 		var query = "INSERT INTO masterItem (itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
@@ -299,7 +299,7 @@ angular.module('starter.services')
 
 		return deferred.promise;
         }
-        console.log('Master item exist');     
+        console.log('Master item exist');
 	};
 
     function addItemToList(mySelectedItem){
@@ -308,7 +308,7 @@ angular.module('starter.services')
                     selectedItems.push(mySelectedItem);
                     saveToLocalStorage();
                     console.log('item added in list '||mySelectedItem.categoryName);
-                  
+
                 //Sqlite
                 var deferred = $q.defer();
                 var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -356,7 +356,7 @@ angular.module('starter.services')
                             deferred.reject(error);
                         });
 
-                        return deferred.promise;  
+                        return deferred.promise;
 
                       }
                     }
@@ -364,7 +364,7 @@ angular.module('starter.services')
 
                  }
             };
-    
+
     function unCheckItem(checkedItem){
                  console.log('Is Item Checked: '+isItemChecked(checkedItem));
                  if (isItemChecked(checkedItem)){
@@ -399,7 +399,7 @@ angular.module('starter.services')
                     console.log(error);
                     deferred.reject(error);
                 });
-                     
+
                 for (var i = 0; i < selectedItems.length; i++) {
 
                       if (selectedItems[i].itemName == checkedItem.itemName) {
@@ -415,10 +415,10 @@ angular.module('starter.services')
                            //return;
                         }
                 };
-                return deferred.promise;  
+                return deferred.promise;
 
-                 
-                 
+
+
                  }
             };
     function removeListItem (listItem){
@@ -449,16 +449,16 @@ angular.module('starter.services')
 
                   return items;
               },
-        
+
             selectedItem: function(){
                   selectedItems = [];
 
-                  x = getAllEntry($state.params.listId)      
+                  x = getAllEntry($state.params.listId)
                 .then(getEntrySuccessCB,getEntryErrorCB);
                     console.log('Entry Items from selectedItem function: ' + JSON.stringify(selectedItems));
                   return selectedItems;
               },
-            
+
             getAllEntry: getAllEntry,
             getAllMasterItem:getAllMasterItem,
             searchItems : searchItems ,
@@ -501,9 +501,9 @@ angular.module('starter.services')
 
           unCheckItem: unCheckItem ,
         getLocalItemId:getLocalItemId,
-        
-        
-            removeListItem:removeListItem, 
+
+
+            removeListItem:removeListItem,
 
             AddMasterItem:addMaserItem,
 

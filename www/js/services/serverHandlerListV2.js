@@ -227,14 +227,13 @@ angular.module('starter.services')
        */
       function syncListsDownstream() {
 
-        consoleLog("Start syncListsDownstream");
-
         var defer = $q.defer();
         var promises = [];
         var data = {
           userServerId: global.userServerId
         };
 
+        console.log("Start syncListsDownstream data = " + JSON.stringify(data));
 
         $http.post(global.serverIP + "/api/list/user", data)
           .then(function (response) {
@@ -302,7 +301,7 @@ angular.module('starter.services')
        * @param list
        */
       function updateList(list) {
-          var defer = $q.defer();
+        var defer = $q.defer();
         consoleLog("Start updateList");
         data = {
           listLocalId: list.listLocalId,
