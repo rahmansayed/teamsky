@@ -8,7 +8,7 @@ angular.module('starter.controllers')
 
     
 
-    $scope.deviceLocalId= global.dataKey;//this to be repalced later with dynamic device id
+    $scope.deviceLocalId= global.dataKey||'ZXCV';//this to be repalced later with dynamic device id
     
 /*    z = userVerify.getUserInfo().then(function(response){
         

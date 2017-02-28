@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('verifyCtrl', function ($scope, global, $http, $state,userVerify,dbHandler) {
+  .controller('verifyCtrl', function ($scope, global, $http, $state,userVerify,dbHandler,global) {
     $scope.settings = {};
     var data = {};
     
@@ -16,8 +16,8 @@ angular.module('starter.controllers')
         deviceServerId:user.deviceServerId,  
         vCode: vCode
       };
-   /*  console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    
-        console.log('date: '+JSON.stringify(data));*/
+   /*  console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    */
+        console.log('28/2/2017 - aalatief : date: '+JSON.stringify(data));
       //$scope.settings.mobile = '999';
       $http.post(global.serverIP+ "/api/user/activate" , data)
         .then(function (response) {

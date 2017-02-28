@@ -1,14 +1,14 @@
 angular.module('starter.services')
 
-  .factory('userVerify', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler) {
+  .factory('userVerify', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler,global) {
 
 
-    var verificationData = {
+/*    var verificationData = {
       deviceLocalId: '',
       userServerId: '',
       deviceServerId: '',
       vcode: ''
-    };
+    };*/
 
     var selectedUsers = [];
 
@@ -277,11 +277,11 @@ angular.module('starter.services')
     function updateVerificationData(data) {
 
       console.log('aalatief service, User Data:' + JSON.stringify(data));
-      verificationData.deviceLocalId = data.deviceLocalId;
-      verificationData.userServerId = data.userServerId;
-      verificationData.deviceServerId = data.deviceServerId;
+      global.verificationData.deviceLocalId = data.deviceLocalId;
+      global.verificationData.userServerId = data.userServerId;
+      global.verificationData.deviceServerId = data.deviceServerId;
 
-      console.log('aalatief service after update, User Data:' + JSON.stringify(verificationData));
+      console.log('28/2/2017 - aalatief service after update, User Data:' + JSON.stringify(global.verificationData));
 
     };
 
@@ -290,16 +290,16 @@ angular.module('starter.services')
 
       verificationData: function () {
 
-        return verificationData;
+        return global.verificationData;
       },
 
 
       selectedUser: function () {
-        /*selectedUsers = [];
+        selectedUsers = [];
 
          m = getUserSetting()
          .then(getUserSuccessCB,getUserErrorCB);
-         console.log('aalatief: Users Are: ' + JSON.stringify(selectedUsers));*/
+         console.log('aalatief: Users Are: ' + JSON.stringify(selectedUsers));
         return selectedUsers;
       },
       userSetting: function () {

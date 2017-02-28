@@ -13,6 +13,9 @@
     
     </ion-header-bar>
    
+<ion-floating-button click="modal.show()" has-footer="false" button-color="#900C3F" icon="ion-plus" icon-color="#fff">
+</ion-floating-button>
+    
     <ion-content>
         <!--   
         <ion-list>
@@ -57,6 +60,8 @@
                     <input type="text"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
                
                     </div>
+                     
+                     
                     <div class="item item-input">UOM  &emsp;
                         <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">
                         
@@ -97,11 +102,50 @@
         </ion-list>
         </div>
     
+        <script id="templates/searchItem.html" type="text/ng-template">
+      <ion-modal-view  style="width: 75%; height: 75%; border:groove;position:absolute;top: 65%; left: 5%; right: 5%; bottom: 5%;">
+        <ion-header-bar class="bar bar-header">
+          <h1 class="title">Search Master Items</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            
+              <div >
+                <select ng-model="selectedItem" ng-options="item for item in listItems">    
+                </select>
+            </div>
+              
+              <label class="item item-input">
+              <input ng-model="newUser.firstName" type="text" placeholder="Category">
+            </label>
+            <label class="item item-input">
+              
+              <input ng-model="newUser.lastName" type="text" placeholder="Item Name">
+            </label>
+
+            <button class="button button-full button-light icon ion-plus-round" ng-click="createContact(newUser)">Add</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>    
+        
+        
 
         
     </ion-content>
-    <div class="bar bar-footer bar-stable ">
+    <div class="bar bar-footer">
+            <div id="footer" class="button-bar"  >    
+<!--        <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
+        <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
+        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person" >Profile</a>
         
+        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel " href="#/add">Add</a>
+       <a style="min-width: 25%;border-radius: 0px; "  class="button button-lite icon ion-shuffle" ng-click="toggleReorder()">Order</a>
+        
+    
+        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-ios-information-outline ">About</a>
+</div>
       
     </div>
 </ion-nav-view>

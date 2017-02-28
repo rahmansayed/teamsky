@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicPopup,$timeout,serverHandlerEntryV2,localItemHandlerV2,localEntryHandlerV2,localListHandlerV2) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup,$timeout,serverHandlerEntryV2,localItemHandlerV2,localEntryHandlerV2,localListHandlerV2) {
 
     $scope.items = [];
     $scope.selectedItems =  [];
@@ -215,5 +215,19 @@ $scope.unCheckItem = function(checkedItem){
 
     };
     /*-----------------------------------------------------------------------------------------------*/
+    $scope.addQuickItem = function(){
+        $state.go('edit',{'listId':1});
+    };
+    
+    $ionicModal.fromTemplateUrl('templates/searchItem.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+      $scope.createContact = function(u) {        
+    $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+    $scope.modal.hide();
+  };
+    
 });
 

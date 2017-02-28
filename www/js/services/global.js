@@ -9,6 +9,13 @@ angular.module('starter.services')
     var userName;
     var userServerId="";
     var deviceServerId="";
+    
+    var verificationData = {
+      deviceLocalId: '',
+      userServerId: '',
+      deviceServerId: '',
+      vcode: ''
+    };
 
     function initialize(){
       global.db.transaction(function(tx){
@@ -23,7 +30,8 @@ angular.module('starter.services')
       userName: userName,
       userServerId: userServerId,
       deviceServerId: deviceServerId,
-      initialize : initialize
+      initialize : initialize,
+       verificationData:verificationData
     };
   });
 
