@@ -14,7 +14,7 @@ angular.module('starter.controllers')
       //Stop the ion-refresher from spinning
       $scope.$broadcast('scroll.refreshComplete');
     
-    }, 1000);
+    }, 100);
       
   };
  /*------------------------------------------------------------------*/   

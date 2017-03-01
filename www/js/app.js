@@ -127,7 +127,7 @@ angular.module('starter', ['ionic',
         /*}*/
       });
       /* else{*/
-      if (typeof PushNotification != "defined") {
+      if (typeof PushNotification != "defined" && !window.cordova) {
         dbHandler.initDB()
           .then(function (result) {
             global.dataKey = 'ZXCV';

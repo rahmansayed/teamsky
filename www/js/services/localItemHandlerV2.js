@@ -92,21 +92,21 @@ angular.module('starter.services')
   /*-------------------------------------------------------------------------------------*/ 
 /*Search Item Function*/    
     var searchItems = function (searchFilter) {
-      console.log('Searching items for ' + searchFilter);
+  /*    console.log('Searching items for ' + searchFilter);
    
-      console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));
+      console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));*/
       var deferred = $q.defer();
         var matches = items.filter( function(item) {
-        console.log('The item Returned from Search: '+item.itemName.toLowerCase());
+/*        console.log('The item Returned from Search: '+item.itemName.toLowerCase());*/
         if(item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ) return true;
         })
 
-        console.log('items array: ' + JSON.stringify(items));
-        $timeout( function(){
-         console.log('Matches : ' + JSON.stringify(matches));
+ /*       console.log('items array: ' + JSON.stringify(items));*/
+  /*      $timeout( function(){*/
+         /*console.log('Matches : ' + JSON.stringify(matches));*/
         deferred.resolve( matches );
 
-        }, 100);
+ /*       }, 1);*/
 
        return deferred.promise;
     };
