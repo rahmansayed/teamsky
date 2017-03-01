@@ -81,7 +81,7 @@ angular.module('starter.services')
         var defer = $q.defer();
         console.log("In syncListEntries");
         global.db.transaction(function (tx) {
-            var query = "select entry.*, list.listServerId, masterItem.itemServerId, masterItem.lastUpdateBy ,retailer.retailerServerId " +
+            var query = "select entry.*, list.listServerId, masterItem.itemServerId, masterItem.origin ,retailer.retailerServerId " +
               " from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
               " where entry.entryServerId = ''" +
               "and list.listServerId = ?";
@@ -103,7 +103,7 @@ angular.module('starter.services')
                       uom: result.rows.item(i).uom,
                       retailerServerId: result.rows.item(i).retailerServerId
                     });
-                    if (result.rows.item(i).lastUpdateBy == 'LS') {
+                    if (result.rows.item(i).origin == 'L') {
                       entries.entries[entries.entries.length - 1].userItemServerId = result.rows.item(i).itemServerId;
                     }
                     else {

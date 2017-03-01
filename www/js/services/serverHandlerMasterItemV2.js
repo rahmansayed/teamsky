@@ -5,20 +5,15 @@ angular.module('starter.services')
       //------------------------Global Variable
 
       var serviceName = "serverHandlerItemsV2";
-      //------------------------consoleLog
-      function consoleLog(text) {
-        //return;
-        console.log(serviceName + "  =>  " + text);
-      };
-
+      //------------------------console.log
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // this function is used to truncate the categories table
       function deleteItemsLocal() {
-        consoleLog("Start deleteCategoryLocal");
+        console.log("Start deleteCategoryLocal");
 
         var defer = $q.defer();
         var query = "delete from masterItem ";
-        consoleLog("Statement Run: " + query);
+        console.log("Statement Run: " + query);
 
 
         global.db.transaction(function (tx) {
@@ -27,11 +22,11 @@ angular.module('starter.services')
 
           }
           , function (err) {
-            consoleLog(err);
+            console.log(err);
             defer.reject(err);
           }
           , function (response) {
-            consoleLog(response);
+            console.log(response);
             defer.resolve(response);
           });
         return defer.promise;
@@ -39,7 +34,7 @@ angular.module('starter.services')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addItemsLocal(itemsList) {
-        consoleLog("itemsList = " + JSON.stringify(itemsList));
+        console.log("itemsList = " + JSON.stringify(itemsList));
 
         var defer = $q.defer();
 
@@ -66,7 +61,7 @@ angular.module('starter.services')
                     });
                   }
                   else {
-                    consoleLog("NO cat");
+                    console.log("NO cat");
                     tx.executeSql(query_insert_wc, [itemServerId, itemName], function (tx, res) {
                       for (var j = 0; j < item.translation.length; j++) {
                         var transItemName = item.translation[j].itemName;
@@ -82,20 +77,20 @@ angular.module('starter.services')
             );
           },
           function (error) {
-            consoleLog("Statement Error additemsLocal " + error.message);
+            console.log("Statement Error additemsLocal " + error.message);
 
-            consoleLog("ERROR = " + JSON.stringify(error));
+            console.log("ERROR = " + JSON.stringify(error));
             defer.resolve(error);
           }
           ,
           function (response) {
-            consoleLog("items Added =>");
+            console.log("items Added =>");
             defer.resolve(response);
           }
         )
         ;
 
-        consoleLog("End additemLocal");
+        console.log("End additemLocal");
         return defer.promise;
 
       }
@@ -129,8 +124,8 @@ angular.module('starter.services')
 
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
-                  consoleLog(" syncMasterItems Items Server List Back Correctly");
-//                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
+                  console.log(" syncMasterItems Items Server List Back Correctly");
+//                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
 
                   addItemsLocal(serverResponse.data).then(function (string) {
                     defer.resolve(string);
@@ -139,12 +134,12 @@ angular.module('starter.services')
                   });
 
                 });
-              consoleLog("End Call Server");
-              consoleLog("///////////////////////////////////////");
-              consoleLog("///////////////////////////////////////");
+              console.log("End Call Server");
+              console.log("///////////////////////////////////////");
+              console.log("///////////////////////////////////////");
 
             }, function (error) {
-              consoleLog(error);
+              console.log(error);
             });
         });
         return defer.promise;
@@ -163,20 +158,20 @@ angular.module('starter.services')
 
         $http.post(global.serverIP + "/api/items/add", data)
           .then(function (serverResponse) {
-            consoleLog(" syncLocalItem Items Server List Back Correctly");
+            console.log(" syncLocalItem Items Server List Back Correctly");
             itemServerId = serverResponse.data.userItemServerId;
 
-//                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
+//                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
 
-            consoleLog(" End updateList Response Done");
+            console.log(" End updateList Response Done");
 
             global.db.transaction(function (tx) {
               var query = "update masterItem set itemServerId = ?, flag = ? where itemLocalId = ?";
               tx.executeSql(query, [itemServerId, 'S', item.itemLocalId], function (tx, res) {
-                consoleLog("Item updated successfully");
+                console.log("Item updated successfully");
                 defer.resolve(string);
               }, function (tx, error) {
-                consoleLog("Error = " + JSON.stringify(error));
+                console.log("Error = " + JSON.stringify(error));
                 defer.reject(error);
               });
             });
@@ -202,8 +197,8 @@ angular.module('starter.services')
             tx.executeSql(query, [],
               function (tx, result) {
 
-                consoleLog("Statement True");
-                consoleLog("localResponse.rows = " + JSON.stringify(result.rows));
+                console.log("Statement True");
+                console.log("localResponse.rows = " + JSON.stringify(result.rows));
 
                 if (result.rows.length > 0) {
                   var data = {
@@ -293,7 +288,7 @@ angular.module('starter.services')
                       });
 
                     }, function (error) {
-                      consoleLog("syncotheruserslocalItems Error = " + error);
+                      console.log("syncotheruserslocalItems Error = " + error);
                       defer.reject(error);
                     }, function (result) {
                       defer.resolve(result);
@@ -304,7 +299,7 @@ angular.module('starter.services')
                 defer.resolve();
               }
             }, function (error) {
-              consoleLog(error);
+              console.log(error);
             });
         }, function (err) {
 

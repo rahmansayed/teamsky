@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localItemHandlerV2', function ($q, $timeout, dbHandler, $state,global) {
+  .factory('localItemHandlerV2', function ($q, $timeout, dbHandler, $state, global) {
 
     var selected = [];
     var items = [];
@@ -12,7 +12,7 @@ angular.module('starter.services')
     var z;
 
 
-/*Get All Master items and push on items Array*/
+    /*Get All Master items and push on items Array*/
     function getAllMasterItem() {
       var defer = $q.defer();
 
@@ -23,7 +23,7 @@ angular.module('starter.services')
           for (var i = 0; i < res.rows.length; i++) {
             items.push(res.rows.item(i));
           }
-            defer.resolve(items);
+          defer.resolve(items);
 
         }, function (err) {
           console.log("localItemHandlerV2.getAllMasterItem query err = " + err.message);
@@ -36,7 +36,7 @@ angular.module('starter.services')
       });
       return defer.promise;
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*Get local item Id*/
     function getLocalItemId(itemName) {
       var defer = $q.defer();
@@ -58,7 +58,7 @@ angular.module('starter.services')
 
       return defer.promise;
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*Sort Items array*/
     items = items.sort(function (a, b) {
 
@@ -69,8 +69,8 @@ angular.module('starter.services')
       if (itemA < itemB) return -1;
       return 0;
     });
-  /*-------------------------------------------------------------------------------------*/
- /*Check if Master Item already exists*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Check if Master Item already exists*/
     function masterItemExist(Item) {
       //localStorage
       for (var i = 0; i < items.length; i++) {
@@ -81,59 +81,60 @@ angular.module('starter.services')
       ;
       return false;
     };
-  /*-------------------------------------------------------------------------------------*/
-/*Convert string into init capital*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Convert string into init capital*/
     function initcap(name) {
       var returnedName = name.substring(0, 1).toUpperCase()
         + name.substring(1, name.length).toLowerCase();
       return returnedName;
     };
 
-  /*-------------------------------------------------------------------------------------*/
-/*Search Item Function*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Search Item Function*/
     var searchItems = function (searchFilter) {
-  /*    console.log('Searching items for ' + searchFilter);
+      /*    console.log('Searching items for ' + searchFilter);
 
-      console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));*/
+       console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));*/
       var deferred = $q.defer();
-        var matches = items.filter( function(item) {
-/*        console.log('The item Returned from Search: '+item.itemName.toLowerCase());*/
-        if(item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ) return true;
-        })
+      var matches = items.filter(function (item) {
+        /*        console.log('The item Returned from Search: '+item.itemName.toLowerCase());*/
+        if (item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1) return true;
+      })
 
- /*       console.log('items array: ' + JSON.stringify(items));*/
-  /*      $timeout( function(){*/
-         /*console.log('Matches : ' + JSON.stringify(matches));*/
-        deferred.resolve( matches );
+      /*       console.log('items array: ' + JSON.stringify(items));*/
+      /*      $timeout( function(){*/
+      /*console.log('Matches : ' + JSON.stringify(matches));*/
+      deferred.resolve(matches);
 
- /*       }, 1);*/
+      /*       }, 1);*/
 
-       return deferred.promise;
+      return deferred.promise;
     };
-  /*-------------------------------------------------------------------------------------*/
-/*return master items */
+    /*-------------------------------------------------------------------------------------*/
+    /*return master items */
     function masterItems() {
-            items = [];
+      items = [];
 
-            getAllMasterItem()
-            .then(function(result){
-               items =result;
-               console.log('25/2/2017 - aalatief: Master items: '+JSON.stringify(result));
-              }
-            , function(error) {
-              console.log('aalatief: List master Item Load Fail:'+JSON.stringify(error));;
-            });
-        return items;
+      getAllMasterItem()
+        .then(function (result) {
+            items = result;
+            console.log('25/2/2017 - aalatief: Master items: ' + JSON.stringify(result));
+          }
+          , function (error) {
+            console.log('aalatief: List master Item Load Fail:' + JSON.stringify(error));
+            ;
+          });
+      return items;
     };
-  /*-------------------------------------------------------------------------------------*/
-/*Add New Master Item*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Add New Master Item*/
     function addMaserItem(item) {
-      //Local Storage
+
+      var deferred = $q.defer();
+
       if (!masterItemExist(item)) {
         items.push(item);
 
-        //Sqlite
-        var deferred = $q.defer();
         var query = "INSERT INTO masterItem " +
           "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag) " +
           "VALUES (?,?,?,?,?,?,?, 'L', 'N')";
@@ -152,21 +153,21 @@ angular.module('starter.services')
       console.log('Master item exist');
       return deferred.promise;
     };
-   /*-------------------------------------------------------------------------------------*/
-/*Get Category Name*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Get Category Name*/
     function categoryName(itemName) {
-        /*console.log(itemName);*/
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].itemName == itemName) {
-            console.log('Category Name Function: ' + items[i].categoryName);
-            return items[i].categoryName;
-          }
+      /*console.log(itemName);*/
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].itemName == itemName) {
+          console.log('Category Name Function: ' + items[i].categoryName);
+          return items[i].categoryName;
         }
+      }
 
-      };
-  /*-------------------------------------------------------------------------------------*/
+    };
+    /*-------------------------------------------------------------------------------------*/
     return {
-      masterItems:masterItems,
+      masterItems: masterItems,
       searchItems: searchItems,
       categoryName: categoryName,
       initcap: initcap,

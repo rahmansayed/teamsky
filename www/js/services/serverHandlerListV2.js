@@ -120,7 +120,7 @@ angular.module('starter.services')
           .then(function (response) {
               console.log("serverListHandler.createList server response " + JSON.stringify(response));
               global.db.transaction(function (tx) {
-                var query = "update list set listServerId = ? where listLocalId = ?";
+                var query = "update list set listServerId = ? , flag = 'S' where listLocalId = ?";
                 tx.executeSql(query, [response.data.listServerId, list.listLocalId], function (tx, result) {
                   console.log("serverListHandler.createList Rows affected = " + result.rowsAffected);
                   defer.resolve(response.data.listServerId);
