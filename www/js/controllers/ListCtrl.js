@@ -1,9 +1,9 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup,$cordovaContacts,serverListHandler,dbHandler,contactHandler,$timeout,$http,global,localListHandlerV2,$filter) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup,$cordovaContacts,dbHandler,contactHandler,$timeout,$http,global,localListHandlerV2,$filter) {
 
 
 /*Retrieve all lists from localListHandlerV2*/
-    
+
     localListHandlerV2.getAllLists()
     .then(function(lists)
 		{
@@ -13,8 +13,8 @@ angular.module('starter.controllers')
       function(error){
         console.log('21/02/2017 - listCtrl - localListHandlerV2 ERROR get all lists:'+JSON.stringify(error));
     });
-    
-    
+
+
     $scope.data = {selectedContacts : []};
 /*-----------------------------------------------------------------------------------
 
@@ -25,22 +25,22 @@ angular.module('starter.controllers')
         }
 /*-------------------------------------------------------------------------------------
 
-/*Pull to refresh */    
+/*Pull to refresh */
 $scope.refresh = function() {
-    
+
     console.log('Refreshing!');
     $timeout( function() {
         $state.reload();
       //Stop the ion-refresher from spinning
       $scope.$broadcast('scroll.refreshComplete');
-    
+
     }, 1000);
-      
+
   };
 /*-----------------------------------------------------------------------------------*/
-/*Remove list Function*/    
+/*Remove list Function*/
     $scope.removeList=function(list){
-/*Handle the case of elete from Device*/        
+/*Handle the case of elete from Device*/
        document.addEventListener("deviceready", function () {
        navigator.notification.confirm(
         "Are you sure you want to delete the list "+list.listName+"?", // the message
@@ -64,8 +64,8 @@ $scope.refresh = function() {
         [ "Delete", "Cancel" ]    // text of the buttons
     );
     });
-/*Handle the case for delete from Browser*/   
-    if (!(window.cordova)) {    
+/*Handle the case for delete from Browser*/
+    if (!(window.cordova)) {
         var confirmPopup = $ionicPopup.confirm({
          title: 'Delete List',
          template: 'Are you sure you want to delete this list '+list.listName+"?"
@@ -80,14 +80,14 @@ $scope.refresh = function() {
                  },function(err){
                       console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: '+ JSON.stringify(err));
                  });
-                 
+
          }
        })};
      };
 /*-------------------------------------------------------------------------*/
 /*Order list*/
-    
-    
+
+
     $scope.move = function (list,fromIndex,toIndex){
 
         $scope.lists.splice(fromIndex, 1);
@@ -99,28 +99,28 @@ $scope.refresh = function() {
     };
 /*--------------------------------------------------------------------------------*/
 
-/*Route to Add item Page*/    
+/*Route to Add item Page*/
     $scope.addItem = function(listId){
         console.log('list id sent : ' + listId);
         $state.go('item',{'listId':listId});
     };
 /*--------------------------------------------------------------------------------*/
 
-  /*Share with Contact */  
- 
+  /*Share with Contact */
+
        $scope.getAllContacts = function(listLocalId) {
         /* $state.go('contact');*/
-       
+
            contactHandler.pickContact()
         .then(function(response){
-           $scope.phoneNumbers = []; 
-           
+           $scope.phoneNumbers = [];
+
             $scope.contact = contactHandler.reorderContact(response);
-                
+
 
 
 /*                [{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"}];*/
-            
+
             for (var i = 0; i < $scope.contact.length; i++) {
               $scope.phoneNumbers.push($scope.contact[i].phoneValue);
             }
@@ -129,8 +129,8 @@ $scope.refresh = function() {
             contactHandler.addLocalContact($scope.contact)
             .then(function(res){
                 console.log('08/02/2017 - listCtrl - aalatief: Local Contact Intserted successfully: '+ JSON.stringify(res));
-                
-           
+
+
                 contactHandler.getContactLocalId(contactHandler.formatPhoneNumber($scope.contact[0].phoneValue))
                 .then(function(result){
                     console.log('08/02/2017 - listCtrl - aalatief: Local Contact Id: ' + JSON.stringify(result.rows.item(0)));
@@ -138,10 +138,10 @@ $scope.refresh = function() {
                     contactHandler.addListContact(listLocalId,contactLocalId)
                     .then
                     (function(res){
-                        
+
                         localListHandlerV2.getSpecificList(listLocalId)
                         .then(function(response){
-                           console.log('12/02/2017 - listCtrl - aalatief: Return My List:'+JSON.stringify(response.rows.item(0))); 
+                           console.log('12/02/2017 - listCtrl - aalatief: Return My List:'+JSON.stringify(response.rows.item(0)));
                            $scope.listServerId =   response.rows.item(0).listServerId
                            listUser = {
                             userServerId:global.userServerId,
@@ -152,12 +152,12 @@ $scope.refresh = function() {
                             console.log('11/02/2017 - listCtrl - aalatief: Api Call check User:'+JSON.stringify(response));
                             $scope.invitedUserServerId = response.data.userServerId;
                             console.log('13/02/2017 - listCtrl - aalatief: invitedUserServerId:'+JSON.stringify($scope.invitedUserServerId));
-                            
+
                             contactHandler.updateContactStatus(contactLocalId,'S',$scope.invitedUserServerId).then(function(response){
-                            console.log('13/02/2017 - listCtrl - aalatief: Update Subscribed User Status:'+JSON.stringify(response));    
+                            console.log('13/02/2017 - listCtrl - aalatief: Update Subscribed User Status:'+JSON.stringify(response));
                             },function(error){
-                                console.log('13/02/2017 - listCtrl - aalatief: Error Update Subscribed User Status:'+JSON.stringify(Error)); 
-                            });                            
+                                console.log('13/02/2017 - listCtrl - aalatief: Error Update Subscribed User Status:'+JSON.stringify(Error));
+                            });
 
                             listDetail={
                                 listServerId:$scope.listServerId,
@@ -165,26 +165,26 @@ $scope.refresh = function() {
                             }
                              $http.post( global.serverIP+ "/api/list/invite" , listDetail).then(function(response){
                                  console.log('11/02/2017 - listCtrl - aalatief: Invite Api Call check:'+JSON.stringify(response));
-                                 
+
                              },function(error){});
                     },
                     function(err){
                         console.log('11/02/2017 - listCtrl - aalatief: Api Call check Error:'+JSON.stringify(err));
                         contactHandler.updateContactStatus(contactLocalId,'P',null).then(function(response){
-                        console.log('13/02/2017 - listCtrl - aalatief: Update Prospect User Status:'+JSON.stringify(response));    
+                        console.log('13/02/2017 - listCtrl - aalatief: Update Prospect User Status:'+JSON.stringify(response));
                         },function(error){
-                            console.log('13/02/2017 - listCtrl - aalatief: Error Update Prospect User Status:'+JSON.stringify(Error)); 
+                            console.log('13/02/2017 - listCtrl - aalatief: Error Update Prospect User Status:'+JSON.stringify(Error));
                         });
-                    });    
-                            
-                            
+                    });
+
+
                         },function(error){
-                            console.log('13/02/2017 - listCtrl - aalatief: Return My List error:'+JSON.stringify(error)); 
+                            console.log('13/02/2017 - listCtrl - aalatief: Return My List error:'+JSON.stringify(error));
                         });
 
                 },function(error){
-                    
-                    console.log('13/02/2017 - listCtrl - aalatief: Return My List error:'+JSON.stringify(error)); 
+
+                    console.log('13/02/2017 - listCtrl - aalatief: Return My List error:'+JSON.stringify(error));
                 });
             },
             function(error){
@@ -193,11 +193,11 @@ $scope.refresh = function() {
         },
             function(error){
                console.log('07/02/2017 - listCtrl -aalatief - error show selected contact');
-            
+
         });
 
-  
+
   });
   };
-/*----------------------------------------------------------------------------------------*/    
+/*----------------------------------------------------------------------------------------*/
 });

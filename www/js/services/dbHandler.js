@@ -12,7 +12,7 @@ angular.module('starter.services')
           successCb(res);
         }, function (err) {
           //errorCb(err);
-      console.log('Error Query Run!!' +'Query: '+ query +JSON.stringify(err));
+          console.log('Error Query Run!!' + 'Query: ' + query + JSON.stringify(err));
         });
       }.bind(this));
       // console.log('Init Query Run!!');
@@ -25,14 +25,14 @@ angular.module('starter.services')
       console.log('init db called!!');
       if (window.cordova) {
         console.log('11/02/2017 - aalatief - initDb from Device');
-        global.db = $cordovaSQLite.openDB({name: "teamSky1_9.db", location: 1, createFromLocation: 1});
+        global.db = $cordovaSQLite.openDB({name: "teamSky1_11.db", location: 1, createFromLocation: 1});
 
         /*$location.path("/subscribe");*/
 
       }
       else {
         console.log('11/02/2017 - aalatief - initDb from Browser');
-        global.db = window.openDatabase("teamSky1_9.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+        global.db = window.openDatabase("teamSky1_11.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
         /*$location.path("/subscribe");*/
       }
@@ -71,16 +71,16 @@ angular.module('starter.services')
 
         /* "drop table userSetting",  */
 
-        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,origin text, flag text, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS list_tl (listLocalId integer,language text,listName text,lastUpdateDate integer,lastUpdateBy text )",
 
 
         "CREATE TABLE IF NOT EXISTS listUser (listLocalId integer,contactLocalId integer,privilage text,lastUpdateDate integer,lastUpdateBy text)",
-          
+
         "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer,contactName text,phoneNumber text UNIQUE,phoneType text,contactServerId text,contactStatus text,lastUpdateDate integer,lastUpdateBy text,PRIMARY KEY(contactLocalId,phoneNumber))",
 
-        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,vendorLocalId integer,itemServerId text,itemPriority integer,lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId text,itemPriority integer,lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS masterItem_tl (itemLocalId integer,language text,itemName text,lastUpdateDate integer,lastUpdateBy text )",
 
@@ -93,7 +93,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS vendor_tl (vendorLocalId integer,language text,vendorName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,itemLocalId integer,entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag text,deleted text,lastUpdateDate integer,lastUpdateBy text)",
+        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,itemLocalId integer,origin text, flag text, deliveredFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag text,deleted text,lastUpdateDate integer,lastUpdateBy text)",
 
         "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text,retailerServerId text,lastUpdateDate integer,lastUpdateBy text)",
 

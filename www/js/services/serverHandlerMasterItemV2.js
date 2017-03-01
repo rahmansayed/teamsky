@@ -43,8 +43,8 @@ angular.module('starter.services')
 
         var defer = $q.defer();
 
-        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, lastUpdateBy) values (null,?,?,?, 'SS')";
-        var query_insert_wc = "insert into masterItem  (itemLocalId,itemServerId,itemName,lastUpdateBy) values (null,?,?,'SS')";
+        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag) values (null,?,?,?, 'S', 'S')";
+        var query_insert_wc = "insert into masterItem  (itemLocalId,itemServerId,itemName,origin, flag) values (null,?,?,'S','S')";
         var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lastUpdateBy) values (?,?,?,'SS')";
 
         dbHelper.buildCatgegoriesMap(itemsList).then(function (categoryMap) {
@@ -108,7 +108,7 @@ angular.module('starter.services')
         //deleteCategoryLocal();
         var defer = $q.defer();
 
-        var query = "SELECT  max(itemServerId) maxItemServerId  FROM masterItem where lastUpdateBy = 'SS'";
+        var query = "SELECT  max(itemServerId) maxItemServerId  FROM masterItem where origin = 'S'";
 
         global.db.transaction(function (tx) {
           tx.executeSql(query, [],
@@ -171,8 +171,8 @@ angular.module('starter.services')
             consoleLog(" End updateList Response Done");
 
             global.db.transaction(function (tx) {
-              var query = "update masterItem set itemServerId = ?, lastUpdateBy = ? where itemLocalId = ?";
-              tx.executeSql(query, [itemServerId, 'LS', item.itemLocalId], function (tx, res) {
+              var query = "update masterItem set itemServerId = ?, flag = ? where itemLocalId = ?";
+              tx.executeSql(query, [itemServerId, 'S', item.itemLocalId], function (tx, res) {
                 consoleLog("Item updated successfully");
                 defer.resolve(string);
               }, function (tx, error) {
@@ -215,11 +215,11 @@ angular.module('starter.services')
                   $http.post(global.serverIP + "/api/items/addmany", data)
                     .then(function (serverResponse) {
                       console.log("serverHandlerMasterItemV2.syncLocalItems Items Server List Back" + JSON.stringify(serverResponse));
-                      var query = "update masterItem set itemServerId = ?, lastUpdateBy = ? where itemLocalId = ?";
+                      var query = "update masterItem set itemServerId = ?, flag = ? where itemLocalId = ?";
                       global.db.transaction(function (tx) {
                         for (i = 0; i < serverResponse.data.length; i++) {
                           var item = serverResponse.data[i];
-                          tx.executeSql(query, [item.userItemServerId, 'LS', item.itemLocalId]);
+                          tx.executeSql(query, [item.userItemServerId, 'S', item.itemLocalId]);
                         }
                       }, function (err) {
                         console.log("serverHandlerMasterItemV2.syncLocalItems db update error = " + err.message);
@@ -276,7 +276,7 @@ angular.module('starter.services')
                     console.log("syncotheruserslocalItems Items Server List Back Correctly " + JSON.stringify(serverResponse));
                     global.db.transaction(function (tx) {
 
-                      var query = "update masterItem set lastUpdateBy = 'OS' where itemLocalId in (";
+                      var query = "update masterItem set origin = 'S', flag = 'S' where itemLocalId in (";
                       for (var i = 0; i < result.rows.length; i++) {
                         query = query + result.rows.item(i).itemLocalId;
                         if (i < result.rows.length - 1) {

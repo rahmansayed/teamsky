@@ -1,21 +1,21 @@
 angular.module('starter.controllers')
-  .controller('subscribeCtrl', function ($scope, $state, listHandler, itemHandler, $ionicPopup,$http,$location,$ionicPlatform,$cordovaPreferences,global,userVerify,$ionicLoading,$timeout,$q,$rootScope) {
-    
-       
+  .controller('subscribeCtrl', function ($scope, $state, $ionicPopup,$http,$location,$ionicPlatform,$cordovaPreferences,global,userVerify,$ionicLoading,$timeout,$q,$rootScope) {
+
+
       $scope.$on('$ionicView.beforeEnter', function() {
       $rootScope.viewColor = '#ef4e3a';
-  }); 
+  });
 
-    
+
 
     $scope.deviceLocalId= global.dataKey||'ZXCV';//this to be repalced later with dynamic device id
-    
+
 /*    z = userVerify.getUserInfo().then(function(response){
-        
+
          $scope.users = userVerify.selectedUser();
     });*/
-   
-        
+
+
        /* .then(function(response){
             console.log('All Users: ' + JSON.stringify($scope.users)) ;
         });
@@ -23,27 +23,27 @@ angular.module('starter.controllers')
 /*    console.log('All Users: ' + JSON.stringify($scope.users)) ;
     console.log('Is user Verified?: '+userVerify.isUserVerified($scope.deviceLocalId));
     */
-    
+
 /*    if (userVerify.isUserVerified($scope.deviceLocalId)) {
-        
+
         $location.path("/lists");
     }
     */
     $scope.subscribeUser=function(dial_code){
-        
-        
+
+
        /* $scope.deviceLocalId = dial_code;*/
-        
+
         user= {username:dial_code,
                datakey:global.dataKey/*'ZXCV'*/};
         console.log ('18/02/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (user));
-        
+
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
-            
+
         console.log (JSON.stringify (response));
         alert('Verification code: '+JSON.stringify(response.data.vCode));
-    
-            
+
+
 /*            $ionicPlatform.ready(function() {
 
 
@@ -55,41 +55,41 @@ angular.module('starter.controllers')
                       console.log("Error: " + error);
                   });
               });*/
-            
+
             userData = {deviceLocalId: $scope.deviceLocalId,
                        userServerId:response.data.userServerId,
                        deviceServerId:response.data.deviceServerId,
                        vcode:response.data.vcode};
-            
+
          /*   console.log('aalatief Subscribe, User Data:'+JSON.stringify(userData));*/
 
-                        
+
            // $state.go("/verify")
             userInfo = {deviceLocalId: $scope.deviceLocalId,
                         dialCode:dial_code,
                         userServerId:userData.userServerId,
                         deviceServerId:userData.deviceServerId,
                         status:'S'} ;
-            
-            
+
+
             userVerify.addUserInfo(userInfo);
-            
-            
+
+
             userVerify.updateVerificationData(userData);
             $location.path("/verify");
         },function(error){
             console.log (error);
-            
+
         });
-            
-        
-            
-            
-        
+
+
+
+
+
         console.log('subscribe: '+ dial_code);
-    };    
-      
-  $scope.countries = [ 
+    };
+
+  $scope.countries = [
       {
     name: "Saudi Arabia",
     dial_code: "+966",
@@ -1064,8 +1064,8 @@ angular.module('starter.controllers')
     dial_code: "+1 340",
     code: "VI"
 }];
-    
-  
-    
+
+
+
     });
 

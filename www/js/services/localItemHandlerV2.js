@@ -11,7 +11,7 @@ angular.module('starter.services')
     var x;
     var z;
 
-    
+
 /*Get All Master items and push on items Array*/
     function getAllMasterItem() {
       var defer = $q.defer();
@@ -22,9 +22,9 @@ angular.module('starter.services')
           console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
           for (var i = 0; i < res.rows.length; i++) {
             items.push(res.rows.item(i));
-          } 
+          }
             defer.resolve(items);
-          
+
         }, function (err) {
           console.log("localItemHandlerV2.getAllMasterItem query err = " + err.message);
           defer.reject();
@@ -36,8 +36,8 @@ angular.module('starter.services')
       });
       return defer.promise;
     };
-  /*-------------------------------------------------------------------------------------*/ 
-    /*Get local item Id*/    
+  /*-------------------------------------------------------------------------------------*/
+    /*Get local item Id*/
     function getLocalItemId(itemName) {
       var defer = $q.defer();
 
@@ -58,7 +58,7 @@ angular.module('starter.services')
 
       return defer.promise;
     };
-  /*-------------------------------------------------------------------------------------*/ 
+  /*-------------------------------------------------------------------------------------*/
     /*Sort Items array*/
     items = items.sort(function (a, b) {
 
@@ -69,7 +69,7 @@ angular.module('starter.services')
       if (itemA < itemB) return -1;
       return 0;
     });
-  /*-------------------------------------------------------------------------------------*/ 
+  /*-------------------------------------------------------------------------------------*/
  /*Check if Master Item already exists*/
     function masterItemExist(Item) {
       //localStorage
@@ -81,7 +81,7 @@ angular.module('starter.services')
       ;
       return false;
     };
-  /*-------------------------------------------------------------------------------------*/ 
+  /*-------------------------------------------------------------------------------------*/
 /*Convert string into init capital*/
     function initcap(name) {
       var returnedName = name.substring(0, 1).toUpperCase()
@@ -89,11 +89,11 @@ angular.module('starter.services')
       return returnedName;
     };
 
-  /*-------------------------------------------------------------------------------------*/ 
-/*Search Item Function*/    
+  /*-------------------------------------------------------------------------------------*/
+/*Search Item Function*/
     var searchItems = function (searchFilter) {
   /*    console.log('Searching items for ' + searchFilter);
-   
+
       console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));*/
       var deferred = $q.defer();
         var matches = items.filter( function(item) {
@@ -110,8 +110,8 @@ angular.module('starter.services')
 
        return deferred.promise;
     };
-  /*-------------------------------------------------------------------------------------*/ 
-/*return master items */    
+  /*-------------------------------------------------------------------------------------*/
+/*return master items */
     function masterItems() {
             items = [];
 
@@ -125,8 +125,8 @@ angular.module('starter.services')
             });
         return items;
     };
-  /*-------------------------------------------------------------------------------------*/     
-/*Add New Master Item*/    
+  /*-------------------------------------------------------------------------------------*/
+/*Add New Master Item*/
     function addMaserItem(item) {
       //Local Storage
       if (!masterItemExist(item)) {
@@ -134,7 +134,9 @@ angular.module('starter.services')
 
         //Sqlite
         var deferred = $q.defer();
-        var query = "INSERT INTO masterItem (itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate) VALUES (?,?,?,?,?,?,?)";
+        var query = "INSERT INTO masterItem " +
+          "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag) " +
+          "VALUES (?,?,?,?,?,?,?, 'L', 'N')";
         dbHandler.runQuery(query, [null/*item.itemLocalId*/, item.itemName, 1, '', '', '', new Date().getTime()], function (response) {
           //Success Callback
           console.log('aaltief: Master Item Added: ' + JSON.stringify(response));
@@ -150,8 +152,8 @@ angular.module('starter.services')
       console.log('Master item exist');
       return deferred.promise;
     };
-   /*-------------------------------------------------------------------------------------*/   
-/*Get Category Name*/    
+   /*-------------------------------------------------------------------------------------*/
+/*Get Category Name*/
     function categoryName(itemName) {
         /*console.log(itemName);*/
         for (var i = 0; i < items.length; i++) {
@@ -162,14 +164,14 @@ angular.module('starter.services')
         }
 
       };
-  /*-------------------------------------------------------------------------------------*/     
+  /*-------------------------------------------------------------------------------------*/
     return {
       masterItems:masterItems,
       searchItems: searchItems,
       categoryName: categoryName,
-      initcap: initcap, 
-      addMasterItem: addMaserItem,    
-      getLocalItemId: getLocalItemId,    
+      initcap: initcap,
+      addMasterItem: addMaserItem,
+      getLocalItemId: getLocalItemId,
       getAllMasterItem: getAllMasterItem
     };
   });

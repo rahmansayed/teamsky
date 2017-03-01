@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localListHandlerV2', function ($http, global, serverListHandler, dbHandler, $q, serverHandlerListV2) {
+  .factory('localListHandlerV2', function ($http, global, dbHandler, $q, serverHandlerListV2) {
 
     /******************************************************************************************************************
      * returns the list identified by listLocalId
@@ -36,6 +36,7 @@ angular.module('starter.services')
         ", listColor = ? " +
         ", listOrder = ? " +
         ", lastUpdateBy = ? " +
+        ", flag = 'E'" +
         " where listLocalId = ? ";
 
       global.db.transaction(function (tx) {
@@ -44,7 +45,7 @@ angular.module('starter.services')
             console.log("localListHandlerV2.update + res " + JSON.stringify(res));
             defer.resolve(res);
           }, function (err) {
-            console.log("localListHandlerV2.update + err " + query + ' '+ JSON.stringify(err));
+            console.log("localListHandlerV2.update + err " + query + ' ' + JSON.stringify(err));
             defer.reject(err);
           })
       }, function (err) {
@@ -61,19 +62,20 @@ angular.module('starter.services')
     function addNewList(list) {
 
       var deferred = $q.defer();
-      var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,lastUpdateDate, lastUpdateBy) " +
-        "VALUES (null,?,?,?,?,?,?,?,?)";
+      var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,lastUpdateDate, lastUpdateBy, origin, flag) " +
+        "VALUES (null,?,?,?,?,?,?,?,?,'L', 'N')";
 
       global.db.transaction(function (tx) {
-        tx.executeSql(query, [list.listName, list.listDescription, '', '', '','', new Date().getTime(), 'L'], function (tx, response) {
+        tx.executeSql(query, [list.listName, list.listDescription, '', '', '', '', new Date().getTime(), 'L'], function (tx, response) {
           //Success Callback
           console.log("localListHandlerV2.addNewList  res " + JSON.stringify(response));
           deferred.resolve(response.insertId);
         }, function (error) {
-          console.log("localListHandlerV2.addNewList  error " + JSON.stringify(error));
+          console.log("localListHandlerV2.addNewList  error " + error.message);
           deferred.reject(error);
         });
       }, function (err) {
+        console.log("localListHandlerV2.addNewList  error " + JSON.stringify(error));
         defer.reject(err);
       }, function () {
 
@@ -112,6 +114,7 @@ angular.module('starter.services')
      * delete the list from the local db, the promise resolves with the list details, for further server communication
      * @param listLocalId
      */
+    //TODO change the delete logic to happen after server akncoweldgement
     function deleteList(listLocalId) {
       var deferred = $q.defer();
       var query = "DELETE FROM list WHERE listLocalId = ?";
@@ -148,11 +151,11 @@ angular.module('starter.services')
       );
       return defer.promise;
     }
-    
-/******************************************************************************************************************
-* deactivate the list from the local db
-* @param listLocalId
-*/
+
+    /******************************************************************************************************************
+     * deactivate the list from the local db
+     * @param listLocalId
+     */
     function deactivateList(listLocalId) {
       var deferred = $q.defer();
       var query = "update list set deleted = 'Y' where listLocalId = ?";
@@ -199,7 +202,7 @@ angular.module('starter.services')
       addNewList: addNewList,
       updateList: update,
       getSpecificList: getSpecificList,
-      deactivateList:deactivateList
+      deactivateList: deactivateList
     };
   });
 

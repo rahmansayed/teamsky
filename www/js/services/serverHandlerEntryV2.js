@@ -53,7 +53,7 @@ angular.module('starter.services')
               defer.resolve(response.data.entryServerId);
               console.log("createEntry Response Done");
               global.db.transaction(function (tx) {
-                var query = "update entry set entryServerId = ? where entryLocalId = ?";
+                var query = "update entry set entryServerId = ? , flag = 'S' where entryLocalId = ?";
                 tx.executeSql(query, [response.data.entryServerId, entry.entryLocalId], function (tx, result) {
                   defer.resolve(response.data.entryServerId);
                   console.log('createEntry Rows affected = ' + result.rowsAffected)
@@ -115,9 +115,9 @@ angular.module('starter.services')
                     .then(function (response) {
                       console.log("syncListEntries createEntries server Response Result => " + JSON.stringify(response));
                       global.db.transaction(function (tx) {
-                          var query = "update entry set entryServerId = ?, lastUpdateBy = ? where entryLocalId = ?";
+                          var query = "update entry set entryServerId = ?, flag= 'S' where entryLocalId = ?";
                           for (var i = 0; i < response.data.length; i++) {
-                            tx.executeSql(query, [response.data[i].entryServerId, response.data[i].localItemFlag, response.data[i].entryLocalId]);
+                            tx.executeSql(query, [response.data[i].entryServerId, response.data[i].entryLocalId]);
                           }
                         }, function (err) {
                           console.log("syncListEntries DB update Error = " + err);
@@ -194,8 +194,8 @@ angular.module('starter.services')
           tx.executeSql(queryServerIds, [entry.listServerId, entry.itemServerId],
             function (tx, result) {
               if (result.rows.length == 0) {
-                var query = "insert into entry(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom), values " +
-                  "(?,?,?,?,?,?)";
+                var query = "insert into entry(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom, origin, flag), values " +
+                  "(?,?,?,?,?,?, 'S', 'S')";
               } else {
                 tx.ex
               }
@@ -304,8 +304,8 @@ angular.module('starter.services')
                         console.log("serverHandlerEntry.syncEntriesDownstream localValues qty = " + qty);
                         console.log("serverHandlerEntry.syncEntriesDownstream localValues uom = " + uom);
                         var query = "insert into entry " +
-                          "(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom, retailerLocalId, lastUpdateBy, entryCrossedFlag) values " +
-                          "(null,?,?,?,?,?,?,'',0)";
+                          "(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom, retailerLocalId, lastUpdateBy, entryCrossedFlag, origin, flag) values " +
+                          "(null,?,?,?,?,?,?,'',0,'S', 'S')";
 
                         tx.executeSql(query, [localIds.listLocalId, localIds.itemLocalId, response.data.entries[i]._id, qty, uom, localIds.retailerLocalId]);
 
@@ -358,7 +358,78 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function syncCrossingsDownstream() {
+    function syncBackDelivers(delivers) {
+      var defer = $q.defer();
+
+      var data = {
+        userServerId: global.userServerId,
+        deviceServerId: global.deviceServerId
+      };
+
+      data.entryCrossings = delivers.map(function (crossing) {
+        return crossing._id;
+      });
+
+      console.log('syncBackDelivers data = ' + data);
+      $http.post(global.serverIP + '/api/entry/syncDeliversBack', data).then(function (res) {
+        console.log('syncBackDelivers server reply = ' + JSON.stringify(res));
+      }, function (err) {
+        console.log('syncBackDelivers server error ' + err.message);
+        defer.reject(err);
+      });
+
+      return defer.promise;
+    }
+
+
+    function syncDeliveryDownstream() {
+      var defer = $q.defer();
+
+      var data = {
+        deviceServerId: global.deviceServerId
+      };
+
+      $http.post(global.serverIP + '/api/entry/getDelivers', data).then(function (res) {
+
+          if (res.data.length > 0) {
+            var query = "update entry set deliveredFlag = 1, flag = 'S' where entryServerId in ( ";
+            var query = res.data.reduce(function (query, deliver) {
+              return query + "'" + deliver.entryServerId + "', ";
+            }, query);
+
+            query = query.substr(0, query.length - 2) + ')';
+            console.log("syncDeliveryDownstream query = " + query);
+            global.db.transaction(function (tx) {
+              tx.executeSql(query, []);
+            }, function (err) {
+              console.log("syncDeliveryDownstream db update err " + err.message);
+              defer.reject();
+            }, function () {
+              console.log("syncDeliveryDownstream db update complete");
+              syncBackDelivers(res.data).then(function (res) {
+                defer.resolve();
+              }, function (err) {
+                defer.reject();
+              });
+            });
+          }
+          else {
+            console.log('syncDeliveryDownstream server no updates ' + JSON.stringify(res.data));
+            defer.resolve();
+          }
+        }
+        ,
+        function (err) {
+          console.log('syncDeliveryDownstream server err ' + JSON.stringify(err));
+          defer.reject();
+        }
+      );
+
+      return defer.promise;
+    }
+
+
+    function syncCrossingsDownstream() {
         var defer = $q.defer();
 
         var data = {
@@ -368,7 +439,7 @@ angular.module('starter.services')
         $http.post(global.serverIP + '/api/entry/getCrossings', data).then(function (res) {
 
             if (res.data.length > 0) {
-              var query = "update entry set entryCrossedFlag = 1, lastUpdateBy = 'SS' where entryServerId in ( ";
+              var query = "update entry set entryCrossedFlag = 1, flag = 'S' where entryServerId in ( ";
               var query = res.data.reduce(function (query, crossing) {
                 return query + "'" + crossing.entryServerId + "', ";
               }, query);
@@ -410,7 +481,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
 
           //TODO consider the new flag of origin
-          var query = "update entry set lastUpdateBy = 'SS' where entryServerId in ( ";
+          var query = "update entry set flag = 'S' where entryServerId in ( ";
           query = crossedIds.reduce(function (query, crossing) {
             return query + "'" + crossing + "', ";
           }, query);
@@ -462,7 +533,7 @@ angular.module('starter.services')
             "from entry, list " +
             "where entry.listLocalId = list.listLocalId " +
             "and entry.entryCrossedFlag = 1 " +
-            "and entry.lastUpdateBy = 'LE'" +
+            "and entry.flag = 'E'" +
             "and list.listServerId = '" + listServerId.listServerId + "'";
 
           console.log('syncCrossingsUptreamperList query = ' + query);
@@ -501,7 +572,7 @@ angular.module('starter.services')
             "from entry, list " +
             "where entry.listLocalId = list.listLocalId " +
             "and entry.entryCrossedFlag = 1 " +
-            "and entry.lastUpdateBy = 'LE'";
+            "and entry.flag = 'E'";
 
           console.log('syncCrossingsUptream query = ' + query);
           tx.executeSql(query, [], function (tx, res) {
@@ -543,6 +614,7 @@ angular.module('starter.services')
         syncEntriesUpstream: synEntriesUpstream,
         syncEntrieDownstream: syncEntriesDownstream,
         syncCrossingsDownstream: syncCrossingsDownstream,
+        syncDeliveryDownstream: syncDeliveryDownstream,
         syncCrossingsUptream: syncCrossingsUptream
       }
     }
