@@ -148,6 +148,7 @@ angular.module('starter.services')
         return deferred.promise;
       }
       console.log('Master item exist');
+      return deferred.promise;
     };
    /*-------------------------------------------------------------------------------------*/   
 /*Get Category Name*/    

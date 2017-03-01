@@ -130,7 +130,27 @@
       </ion-modal-view>
     </script>    
         
+        <div class="item-details" ng-show="showSearchDetails">
+                   <div class="list">
+            
+              <div >
+                <select ng-model="selectedItem" ng-options="item for item in data.items">    
+                </select>
+            </div>
+              
+              <label class="item item-input">
+              <input ng-model="newUser.firstName" type="text" placeholder="Category">
+            </label>
+            <label class="item item-input">
+              
+              <input ng-model="newUser.lastName" type="text" placeholder="Item Name">
+            </label>
+
+            <button class="button button-full button-light icon ion-plus-round" ng-click="createContact(newUser)">Add</button>
+          </div>
         
+        </div>
+
 
         
     </ion-content>
@@ -140,7 +160,7 @@
         <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
         <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person" >Profile</a>
         
-        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel " href="#/add">Add</a>
+        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel " ng-click="showSearchDetails = !showSearchDetails">Add</a>
        <a style="min-width: 25%;border-radius: 0px; "  class="button button-lite icon ion-shuffle" ng-click="toggleReorder()">Order</a>
         
     
