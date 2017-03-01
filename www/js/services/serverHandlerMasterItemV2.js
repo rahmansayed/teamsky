@@ -204,8 +204,12 @@ angular.module('starter.services')
                   var data = {
                     userServerId: global.userServerId,
                     deviceServerId: global.deviceServerId,
-                    items: result.rows
+                    items: []
                   };
+
+                  for (var i = 0; i < result.rows.length; i++) {
+                    data.items.push(result.rows.item(i));
+                  }
 
                   $http.post(global.serverIP + "/api/items/addmany", data)
                     .then(function (serverResponse) {
