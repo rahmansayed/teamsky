@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state,global) {
+  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global,serverHandlerEntryV2) {
 
     var selected = [];
     var items = [];
@@ -27,7 +27,7 @@ angular.module('starter.services')
 
       return deferred.promise;
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
@@ -45,6 +45,17 @@ angular.module('starter.services')
           console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
           defer.reject();
         });
+
+        //update seen status
+        global.db.transaction(function (tx) {
+            var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0";
+            tx.executeSql(query2, []);
+          }, function (err) {
+            console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
+          },
+          function () {
+            serverHandlerEntryV2.syncSeensUpstream();
+          });
       }, function (err) {
         console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
         defer.reject();
@@ -54,9 +65,9 @@ angular.module('starter.services')
       return defer.promise;
     };
 
-/*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
 
-/*Return all checked entries in array checkedItems*/
+    /*Return all checked entries in array checkedItems*/
     function getCheckedItem(listLocalId) {
       var deferred = $q.defer();
 
@@ -78,7 +89,7 @@ angular.module('starter.services')
 
       return deferred.promise;
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
 
     /*Sort items*/
     items = items.sort(function (a, b) {
@@ -91,7 +102,7 @@ angular.module('starter.services')
       return 0;
     });
 
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*Check if entry is crossed*/
     function isItemChecked(listItem) {
       for (var j = 0; j < checkedItems.length; j++) {
@@ -102,7 +113,7 @@ angular.module('starter.services')
       ;
       return false;
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*check if item exit already in a list*/
     function itemExitInList(selectedItem) {
       for (var j = 0; j < selectedItems.length; j++) {
@@ -113,8 +124,8 @@ angular.module('starter.services')
       ;
       return false;
     };
-  /*-------------------------------------------------------------------------------------*/
-  /*Add entry to a list*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Add entry to a list*/
     function addItemToList(mySelectedItem) {
       console.log('Add Item to List Case: ' + JSON.stringify(mySelectedItem));
       if (!itemExitInList(mySelectedItem)) {
@@ -123,8 +134,8 @@ angular.module('starter.services')
 
         //Sqlite
         var deferred = $q.defer();
-        var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag) " +
-          "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0)";
+        var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag) " +
+          "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0, 1)";
         dbHandler.runQuery(query, [null/*new Date().getTime()*/, mySelectedItem.listLocalId, mySelectedItem.itemLocalId, '', 1, '', '', '0', new Date().getTime()], function (response) {
           //Success Callback
           console.log(response);
@@ -139,35 +150,35 @@ angular.module('starter.services')
       }
       console.log('item exist in list');
     };
-  /*-------------------------------------------------------------------------------------*/
-/*Mark item as crossed*/
+    /*-------------------------------------------------------------------------------------*/
+    /*Mark item as crossed*/
     function checkItem(listItem) {
       console.log('Is Item Checked: ' + isItemChecked(listItem));
       if (!isItemChecked(listItem)) {
-            var deferred = $q.defer();
-            var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
+        var deferred = $q.defer();
+        var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
 
-            dbHandler.runQuery(query, [new Date().getTime(), listItem.itemLocalId, listItem.listLocalId], function (response) {
-              //Success Callback
-              console.log('Update Entry with Check Flag!!!'+JSON.stringify(response));
-              //checkedItems.push(listItem);
+        dbHandler.runQuery(query, [new Date().getTime(), listItem.itemLocalId, listItem.listLocalId], function (response) {
+          //Success Callback
+          console.log('Update Entry with Check Flag!!!' + JSON.stringify(response));
+          //checkedItems.push(listItem);
 
-              deferred.resolve(response);
-            }, function (error) {
-              //Error Callback
-              console.log(error);
-              deferred.reject(error);
-            });
+          deferred.resolve(response);
+        }, function (error) {
+          //Error Callback
+          console.log(error);
+          deferred.reject(error);
+        });
 
-            return deferred.promise;
+        return deferred.promise;
       }
     };
-  /*-------------------------------------------------------------------------------------*/
-  /*Mark item as uncrossed*/
-    function unCheckItem(checkedItem,AllCheckedItems) {
+    /*-------------------------------------------------------------------------------------*/
+    /*Mark item as uncrossed*/
+    function unCheckItem(checkedItem, AllCheckedItems) {
       console.log('24/2/2017- aalatief - Is Item Checked: ' + isItemChecked(checkedItem));
 
-        if (isItemChecked(checkedItem)) {
+      if (isItemChecked(checkedItem)) {
         var deferred = $q.defer();
         var query = "update entry  set entryCrossedFlag=0, flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
 
@@ -191,7 +202,7 @@ angular.module('starter.services')
         return deferred.promise;
       }
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*delete entry*/
     //TODO change the delete logic to be applicable only if the server was acknoweldged
     function removeListItem(listItem) {
@@ -215,67 +226,71 @@ angular.module('starter.services')
 
       return deferred.promise;
     };
-   /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     /*Retrun entries for list*/
     function selectedItem(listLocalId) {
-        selectedItems = [];
+      selectedItems = [];
 
-        getAllEntry(listLocalId)
-        .then(function(result){
-           selectedItems=result;
-           console.log('aalatief: list items: '+JSON.stringify(result));
+      getAllEntry(listLocalId)
+        .then(function (result) {
+            selectedItems = result;
+            console.log('aalatief: list items: ' + JSON.stringify(result));
           }
-        , function(error) {
-          console.log('aalatief: List Item Load Fail:'+JSON.stringify(error));;
-        });
+          , function (error) {
+            console.log('aalatief: List Item Load Fail:' + JSON.stringify(error));
+            ;
+          });
 
-        return selectedItems;
-      };
+      return selectedItems;
+    };
     /*-------------------------------------------------------------------------------------*/
     /*Retrun crossed entries for list*/
     function checkedItem(listLocalId) {
-            checkedItems = [];
+      checkedItems = [];
 
-            getCheckedItem(listLocalId)
-            .then(function(result){
-               checkedItems =result;
-               console.log('aalatief: list checked items: '+JSON.stringify(result));
-              }
-            , function(error) {
-              console.log('aalatief: List checked Item Load Fail:'+JSON.stringify(error));;
-            });
-        return checkedItems;
-      }
-/*-------------------------------------------------------------------------------------*/
-    function allListItemCategoryCrossed(selectedItems,category) {
-
-        for (var i = 0; i < selectedItems.length; i++) {
-          if (selectedItems[i].categoryName != category) {
-            continue;
+      getCheckedItem(listLocalId)
+        .then(function (result) {
+            checkedItems = result;
+            console.log('aalatief: list checked items: ' + JSON.stringify(result));
           }
-          if (selectedItems[i].categoryName == category && selectedItems[i].entryCrossedFlag == 0) {
-            return false;
-            break;
-          }
+          , function (error) {
+            console.log('aalatief: List checked Item Load Fail:' + JSON.stringify(error));
+            ;
+          });
+      return checkedItems;
+    }
 
+    /*-------------------------------------------------------------------------------------*/
+    function allListItemCategoryCrossed(selectedItems, category) {
+
+      for (var i = 0; i < selectedItems.length; i++) {
+        if (selectedItems[i].categoryName != category) {
+          continue;
         }
-        return true;
+        if (selectedItems[i].categoryName == category && selectedItems[i].entryCrossedFlag == 0) {
+          return false;
+          break;
+        }
+
       }
-  /*-------------------------------------------------------------------------------------*/
-/* deactivate item from list from the local db*/
+      return true;
+    }
+
+    /*-------------------------------------------------------------------------------------*/
+    /* deactivate item from list from the local db*/
     function deactivateItem(listItem) {
       var deferred = $q.defer();
       global.db.transaction(function (tx) {
 
-              var deleteQuery = "update entry set deleted = 'Y' where entryLocalId = ?";
-              tx.executeSql(deleteQuery, [listItem.entryLocalId], function (tx, res) {
-                console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
-               /* ret.rowsAffected = res.rowsAffected;*/
-                deferred.resolve(res);
-              }, function (err) {
-                console.log("localEntryHandlerV2.deactivateItem  deleteQuery err " + err.message);
-                deferred.reject(err);
-              });
+          var deleteQuery = "update entry set deleted = 'Y' where entryLocalId = ?";
+          tx.executeSql(deleteQuery, [listItem.entryLocalId], function (tx, res) {
+            console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
+            /* ret.rowsAffected = res.rowsAffected;*/
+            deferred.resolve(res);
+          }, function (err) {
+            console.log("localEntryHandlerV2.deactivateItem  deleteQuery err " + err.message);
+            deferred.reject(err);
+          });
         }
         ,
         function (err) {
@@ -284,15 +299,15 @@ angular.module('starter.services')
       );
       return deferred.promise;
     };
-  /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------*/
     return {
       selectedItem: selectedItem,
       checkedItem: checkedItem,
       addItemToList: addItemToList,
-      allListItemCategoryCrossed:allListItemCategoryCrossed,
+      allListItemCategoryCrossed: allListItemCategoryCrossed,
       checkItem: checkItem,
       unCheckItem: unCheckItem,
-      deactivateItem:deactivateItem
+      deactivateItem: deactivateItem
 
     };
   });

@@ -25,14 +25,14 @@ angular.module('starter.services')
       console.log('init db called!!');
       if (window.cordova) {
         console.log('11/02/2017 - aalatief - initDb from Device');
-        global.db = $cordovaSQLite.openDB({name: "teamSky1_11.db", location: 1, createFromLocation: 1});
+        global.db = $cordovaSQLite.openDB({name: "teamSky1_12.db", location: 1, createFromLocation: 1});
 
         /*$location.path("/subscribe");*/
 
       }
       else {
         console.log('11/02/2017 - aalatief - initDb from Browser');
-        global.db = window.openDatabase("teamSky1_11.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+        global.db = window.openDatabase("teamSky1_12.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
         /*$location.path("/subscribe");*/
       }
@@ -93,7 +93,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS vendor_tl (vendorLocalId integer,language text,vendorName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,itemLocalId integer,origin text, flag text, deliveredFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag text,deleted text,lastUpdateDate integer,lastUpdateBy text)",
+        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,itemLocalId integer,origin text, flag text, deliveredFlag number, seenFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag text,deleted text,lastUpdateDate integer,lastUpdateBy text)",
 
         "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text,retailerServerId text,lastUpdateDate integer,lastUpdateBy text)",
 

@@ -49,9 +49,10 @@ angular.module('starter.services')
 
       serverHandlerEntryV2.syncCrossingsDownstream().then(function () {
         console.log('syncCrossingsDownstream complete');
-        serverHandlerEntryV2.syncCrossingsUptream();
+        serverHandlerEntryV2.syncCrossingsUpstream();
       });
 
+      serverHandlerEntryV2.syncDeliveryDownstream();
       console.log("End SynchInitTest");
     };
 
