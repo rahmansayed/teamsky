@@ -1,21 +1,21 @@
-<ion-view view-title="Register User" ng-controller="subscribeCtrl">
+<ion-view view-title="Subscribe" ng-controller="subscribeCtrl" >
     <ion-content >
         
  
-        
+        <div class = "col text-center" style = "height:100px;background-color:#900C3F;">
+            </div>
       <div>
 
-         <h1  class="text-center item">   
-
+         <h1  class="text-center item" style="text-align:left; font-size:200% ;color:#900C3F;white-space: normal;padding-left: 20px;">   
             <br>
-          Verify your mobile number  
-            <br>
-            <br>
-        <p class="padding text-left">
-         Note: You will recieve SMS with verification code in a moment.
-        </p> 
+             <strong>Verify your number </strong>
             <br>
             <br>
+           
+        <p class="padding text-left " style="text-align:left;white-space: normal;"> 
+            Note: You will recieve SMS with verification code in a moment. </p>
+            <br>
+    
         </h1>
       </div>
      
@@ -38,10 +38,13 @@
 
      <!-- <p> {{ country | json}} </p>-->
     </div>      
-        <div class="padding">
-            <button class="button button-block button-positive" ng-click="subscribeUser(country.dial_code.concat(phoneNumber))">Subscribe
+        <div class="padding" >
+            <button class="button button-block button-positive" style = "background-color:#900C3F;" ng-click="subscribeUser(country.dial_code.concat(phoneNumber))">Subscribe
             </button>
-        
+                
+         <p class="padding text-left " style="text-align:left;white-space: normal;"> 
+            *Carrier charges might apply. </p>
         </div>
+
     </ion-content>
 </ion-view>

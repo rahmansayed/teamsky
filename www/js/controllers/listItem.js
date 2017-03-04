@@ -225,10 +225,10 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------------------*/
     $scope.addQuickItem = function () {
-      $state.go('edit', {'listId': 1});
+      $state.go('item', {'listId': 1});
     };
 
-    $ionicModal.fromTemplateUrl('templates/searchItem.html', {
+   /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
       scope: $scope
     }).then(function (modal) {
       $scope.modal = modal;
@@ -236,7 +236,7 @@ angular.module('starter.controllers')
     $scope.createContact = function (u) {
       $scope.contacts.push({name: u.firstName + ' ' + u.lastName});
       $scope.modal.hide();
-    };
+    };*/
 
   });
 
