@@ -19,11 +19,11 @@ angular.module('starter.services')
       })
 
       console.log('items array: ' + JSON.stringify(items));
-      $timeout(function () {
+/*      $timeout(function () {*/
         console.log('Matches : ' + JSON.stringify(matches));
         deferred.resolve(matches);
 
-      }, 100);
+/*      }, 100);*/
 
       return deferred.promise;
     };
@@ -31,7 +31,7 @@ angular.module('starter.services')
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
-      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, i.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted   " +
+      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, i.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag   " +
         "FROM ((masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) INNER JOIN list AS l ON e.listLocalId = l.listLocalId) INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId where l.listLocalId = ? and ifnull(e.deleted,'N')  !='Y'";
 
       global.db.transaction(function (tx) {

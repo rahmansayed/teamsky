@@ -8,6 +8,8 @@ angular.module('starter.controllers')
     dbHandler.runQuery();*/
     
     
+    
+    
     $ionicLoading.show({
     template: '<ion-spinner icon="spiral" class="spinner-positive"></ion-spinner> <br>Loading...',
     noBackdrop: true,

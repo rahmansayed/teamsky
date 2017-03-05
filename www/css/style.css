@@ -62,9 +62,9 @@ label.show {
   -webkit-backface-visibility: hidden;
 }*/
 
-.item .item-content {
+/*.item .item-content {
   background-color: transparent !important;
-}
+}*/
 
 
 .classS { 
@@ -95,6 +95,9 @@ label.show {
   margin-top : 40px;
   border-top:  1px solid;
 }
+
+
+
 
 /*   .pane  {
         background-color: #464646!important;

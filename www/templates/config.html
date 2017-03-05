@@ -1,8 +1,8 @@
-<ion-view view-title="Loading" ng-controller="dbConfigCtrl">
-   <!--
-    <ion-content >
+<ion-view  ng-controller="dbConfigCtrl">
+   
+    <ion-content style="background-color:#f9b9d0;">
       
-       <ion-list show-reorder="reorderFlag">     
+<!--       <ion-list show-reorder="reorderFlag">     
 
        <ion-item class="item-remove-animate item-icon-right "
               ng-repeat = "list in lists track by list.id" ng-click = "addItem(list.id)">
@@ -18,15 +18,25 @@
               <ion-option-button class="button-balanced ion-android-share-alt" ng-click="addUserToList()"></ion-option-button>
             </ion-item>
 
-        </ion-list>
-        
+        </ion-list>-->
+        <div class="img" align="middle" style="margin:100px 0px">
+  <a target="_blank" href="cordova_bot.png">
+    <img src="img\cordova_bot.png" alt="Logo" >
+  </a>
+
+</div>
+        <div>
+      <h1 class="text-center item" style="text-align:center; font-size:200% ;background-color:#f9b9d0;white-space: normal;padding-left: 20px;"><p class="padding text-center " style="text-align:left;white-space: normal;">TeamSky Shopping List</p></h1>
       
+      </div>
     </ion-content>
-    <div class="bar bar-footer bar-stable ">
+    <!--<div class="bar bar-footer bar-stable ">
         <a href="#/add" class="button button-positive icon ion-plus-round">Add List</a>
         <button class="button button-positive icon-left ion-shuffle" ng-click="toggleReorder()">Order</button>
     </div> 
     -->
+    
+
 </ion-view>
 
 

@@ -34,7 +34,7 @@ $scope.refresh = function() {
       //Stop the ion-refresher from spinning
       $scope.$broadcast('scroll.refreshComplete');
 
-    }, 1000);
+    }, 100);
 
   };
 /*-----------------------------------------------------------------------------------*/
