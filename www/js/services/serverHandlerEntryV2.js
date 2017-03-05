@@ -358,31 +358,31 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-    function syncBackSeens(seens) {
-      var defer = $q.defer();
+      function syncBackSeens(seens) {
+        var defer = $q.defer();
 
-      var data = {
-        userServerId: global.userServerId,
-        deviceServerId: global.deviceServerId
-      };
+        var data = {
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId
+        };
 
-      data.entryCrossings = seens.map(function (seen) {
-        return seen._id;
-      });
+        data.entrySeens = seens.map(function (seen) {
+          return seen._id;
+        });
 
-      console.log('syncBackSeens data = ' + data);
-      $http.post(global.serverIP + '/api/entry/syncSeensBack', data).then(function (res) {
-        console.log('syncBackSeens server reply = ' + JSON.stringify(res));
-      }, function (err) {
-        console.log('syncBackSeens server error ' + err.message);
-        defer.reject(err);
-      });
+        console.log('syncBackSeens data = ' + data);
+        $http.post(global.serverIP + '/api/entry/syncSeensBack', data).then(function (res) {
+          console.log('syncBackSeens server reply = ' + JSON.stringify(res));
+        }, function (err) {
+          console.log('syncBackSeens server error ' + err.message);
+          defer.reject(err);
+        });
 
-      return defer.promise;
-    }
+        return defer.promise;
+      }
 
 
-    function syncBackDelivers(delivers) {
+      function syncBackDelivers(delivers) {
         var defer = $q.defer();
 
         var data = {
@@ -394,9 +394,10 @@ angular.module('starter.services')
           return crossing._id;
         });
 
-        console.log('syncBackDelivers data = ' + data);
+        console.log('syncBackDelivers data = ' + JSON.stringify(data));
         $http.post(global.serverIP + '/api/entry/syncDeliversBack', data).then(function (res) {
           console.log('syncBackDelivers server reply = ' + JSON.stringify(res));
+          defer.resolve();
         }, function (err) {
           console.log('syncBackDelivers server error ' + err.message);
           defer.reject(err);
@@ -452,51 +453,51 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-    function syncCrossingsDownstream() {
-      var defer = $q.defer();
+      function syncCrossingsDownstream() {
+        var defer = $q.defer();
 
-      var data = {
-        deviceServerId: global.deviceServerId
-      };
+        var data = {
+          deviceServerId: global.deviceServerId
+        };
 
-      $http.post(global.serverIP + '/api/entry/getCrossings', data).then(function (res) {
+        $http.post(global.serverIP + '/api/entry/getCrossings', data).then(function (res) {
 
-          if (res.data.length > 0) {
-            var query = "update entry set entryCrossedFlag = 1, flag = 'S' where entryServerId in ( ";
-            var query = res.data.reduce(function (query, crossing) {
-              return query + "'" + crossing.entryServerId + "', ";
-            }, query);
+            if (res.data.length > 0) {
+              var query = "update entry set entryCrossedFlag = 1, flag = 'S' where entryServerId in ( ";
+              var query = res.data.reduce(function (query, crossing) {
+                return query + "'" + crossing.entryServerId + "', ";
+              }, query);
 
-            query = query.substr(0, query.length - 2) + ')';
-            console.log("syncCrossingsDownstream entriesServerIds = " + query);
-            global.db.transaction(function (tx) {
-              tx.executeSql(query, []);
-            }, function (err) {
-              console.log("syncCrossingsDownstream db update err " + err.message);
-              defer.reject();
-            }, function () {
-              console.log("syncCrossingsDownstream db update complete");
-              syncBackCrossings(res.data).then(function (res) {
-                defer.resolve();
+              query = query.substr(0, query.length - 2) + ')';
+              console.log("syncCrossingsDownstream entriesServerIds = " + query);
+              global.db.transaction(function (tx) {
+                tx.executeSql(query, []);
               }, function (err) {
+                console.log("syncCrossingsDownstream db update err " + err.message);
                 defer.reject();
+              }, function () {
+                console.log("syncCrossingsDownstream db update complete");
+                syncBackCrossings(res.data).then(function (res) {
+                  defer.resolve();
+                }, function (err) {
+                  defer.reject();
+                });
               });
-            });
+            }
+            else {
+              console.log('syncCrossingsDownstream server no updates ' + JSON.stringify(res.data));
+              defer.resolve();
+            }
           }
-          else {
-            console.log('syncCrossingsDownstream server no updates ' + JSON.stringify(res.data));
-            defer.resolve();
+          ,
+          function (err) {
+            console.log('syncCrossingsDownstream server err ' + JSON.stringify(err));
+            defer.reject();
           }
-        }
-        ,
-        function (err) {
-          console.log('syncCrossingsDownstream server err ' + JSON.stringify(err));
-          defer.reject();
-        }
-      );
+        );
 
-      return defer.promise;
-    }
+        return defer.promise;
+      }
 
       function syncSeenDownstream() {
         var defer = $q.defer();
@@ -505,7 +506,7 @@ angular.module('starter.services')
           deviceServerId: global.deviceServerId
         };
 
-        $http.post(global.serverIP + '/api/entry/getSeeings', data).then(function (res) {
+        $http.post(global.serverIP + '/api/entry/getSeens', data).then(function (res) {
 
             if (res.data.length > 0) {
               var query = "update entry set seenFlag = 3 where entryServerId in ( ";
@@ -698,23 +699,25 @@ angular.module('starter.services')
           tx.executeSql(query, [], function (tx, res) {
             var crossedListId = [];
             console.log("syncCrossingsUptream res.rows.length = " + res.rows.length);
-            for (var i = 0; i < res.rows.length; i++) {
-              crossedListId.push(res.rows.item(i));
-            }
-            console.log('syncCrossingsUptream  crossedListId ' + JSON.stringify(crossedListId));
-            var promises = crossedListId.map(function (listServerId) {
-              return syncCrossingsUptreamperList(listServerId);
-            });
+            if (res.rows.length > 0) {
+              for (var i = 0; i < res.rows.length; i++) {
+                crossedListId.push(res.rows.item(i));
+              }
+              console.log('syncCrossingsUptream  crossedListId ' + JSON.stringify(crossedListId));
+              var promises = crossedListId.map(function (listServerId) {
+                return syncCrossingsUptreamperList(listServerId);
+              });
 
-            $q.all(promises, function (res) {
-              console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(resolved));
+              $q.all(promises, function (res) {
+                console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(resolved));
+                defer.resolve();
+              }, function (err) {
+                console.log('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
+                defer.reject();
+              });
+            } else {
               defer.resolve();
-
-            }, function (err) {
-              console.log('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
-              defer.reject();
-            });
-            //TODO should call the server for crossing the entries
+            }
           }, function (err) {
             console.log('syncCrossingsUptream  db query err ' + JSON.stringify(err));
             defer.reject();
@@ -741,20 +744,22 @@ angular.module('starter.services')
           tx.executeSql(query, [], function (tx, res) {
             var seenEntryId = [];
             console.log("syncSeensUptream res.rows.length = " + res.rows.length);
-            for (var i = 0; i < res.rows.length; i++) {
-              seenEntryId.push(res.rows.item(i).entryServerId);
-            }
-            console.log('syncSeensUptream  seenEntryId ' + JSON.stringify(seenEntryId));
+            if (res.rows.length > 0) {
+              for (var i = 0; i < res.rows.length; i++) {
+                seenEntryId.push(res.rows.item(i).entryServerId);
+              }
+              console.log('syncSeensUptream  seenEntryId ' + JSON.stringify(seenEntryId));
 
-            syncSeenUptreamUpdateServer(seenEntryId).then(function (res) {
-              console.log('syncSeensUptream  syncSeenUptreamUpdateServer resolved ' + JSON.stringify(resolved));
+              syncSeenUptreamUpdateServer(seenEntryId).then(function (res) {
+                console.log('syncSeensUptream  syncSeenUptreamUpdateServer resolved ' + JSON.stringify(resolved));
+                defer.resolve();
+              }, function (err) {
+                console.log('syncSeensUptream  syncSeenUptreamUpdateServer err ' + JSON.stringify(err));
+                defer.reject();
+              });
+            } else {
               defer.resolve();
-
-            }, function (err) {
-              console.log('syncSeensUptream  syncSeenUptreamUpdateServer err ' + JSON.stringify(err));
-              defer.reject();
-            });
-            //TODO should call the server for crossing the entries
+            }
           }, function (err) {
             console.log('syncSeensUptream  db query err ' + JSON.stringify(err));
             defer.reject();
@@ -776,7 +781,8 @@ angular.module('starter.services')
         syncCrossingsDownstream: syncCrossingsDownstream,
         syncDeliveryDownstream: syncDeliveryDownstream,
         syncCrossingsUpstream: syncCrossingsUpstream,
-        syncSeensUpstream: syncSeensUpstream
+        syncSeensUpstream: syncSeensUpstream,
+        syncSeenDownstream: syncSeenDownstream
       }
     }
   )

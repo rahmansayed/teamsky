@@ -60,7 +60,7 @@ angular.module('starter', ['ionic',
 
                       if (userVerify.isVerified()) {
                         console.log('app.js user verified true');
-                        serverHandler.SynchInitTest();
+                        serverHandler.syncInit();
                         $ionicLoading.hide();
                         $location.path("/lists");
                       }
@@ -87,7 +87,6 @@ angular.module('starter', ['ionic',
         });
 
         push.on('notification', function (msg) {
-          0
 
           console.log('Message ');
           console.log(JSON.stringify(msg));
@@ -232,7 +231,6 @@ angular.module('starter', ['ionic',
           if (resumeEvent.pendingResult.pluginStatus === "OK") {
             console.log('resumeEvent.pendingResult.pluginServiceName = ' + resumeEvent.pendingResult.pluginServiceName);
             var contact = navigator.contacts.create(resumeEvent.pendingResult.result);
-
 
             var data =
               {

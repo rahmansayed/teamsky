@@ -23,19 +23,19 @@ angular.module('starter.services')
     function initDB() {
       var deferred = $q.defer();
       console.log('init db called!!');
-      if (window.cordova) {
+/*      if (window.cordova) {
         console.log('11/02/2017 - aalatief - initDb from Device');
         global.db = $cordovaSQLite.openDB({name: "teamSky1_12.db", location: 1, createFromLocation: 1});
 
-        /*$location.path("/subscribe");*/
+        /!*$location.path("/subscribe");*!/
 
       }
-      else {
+      else {*/
         console.log('11/02/2017 - aalatief - initDb from Browser');
         global.db = window.openDatabase("teamSky1_12.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
         /*$location.path("/subscribe");*/
-      }
+      //}
       /*db = $cordovaSQLite.openDB("teamSky.db");*/
       /*var query = "DROP TABLE IF EXISTS tsList";
        runQuery(query,[],function(res) {

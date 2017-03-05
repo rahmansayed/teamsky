@@ -4,9 +4,27 @@ angular.module('starter.services')
                                       serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2) {
 
 
-    function SynchInitTest() {
-      console.log("Start SynchInitTest");
+    function syncInit() {
+      console.log("Start syncInit");
 
+      handleNotification();
+
+      serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
+        serverHandlerItemsV2.syncMasterItemsDownstream();
+      });
+      serverHandlerListV2.syncListsUpstream().then(function () {
+        console.log('serverHandler syncListsUpstream done');
+        serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
+          console.log('serverHandler syncLocalItemsUpstream done');
+          serverHandlerEntryV2.syncEntriesUpstream();
+        })
+      });
+
+      console.log("End SynchInitTest");
+    }
+
+    // handle a server notification
+    function handleNotification() {
       serverHandlerListV2.syncListsDownstream().then(function (res) {
           console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
           console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
@@ -25,6 +43,12 @@ angular.module('starter.services')
                 }
               }
             }
+            serverHandlerEntryV2.syncDeliveryDownstream().then(function () {
+                serverHandlerEntryV2.syncSeenDownstream();
+              }, function (err) {
+                console.log("syncInit syncDeliveryDownstream err = " + err);
+              }
+            );
           }, function (err) {
 
           });
@@ -35,29 +59,16 @@ angular.module('starter.services')
         }
       );
 
-
-      serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
-        serverHandlerItemsV2.syncMasterItemsDownstream();
-      });
-      serverHandlerListV2.syncListsUpstream().then(function () {
-        console.log('serverHandler syncListsUpstream done');
-        serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
-          console.log('serverHandler syncLocalItemsUpstream done');
-          serverHandlerEntryV2.syncEntriesUpstream();
-        })
-      });
-
       serverHandlerEntryV2.syncCrossingsDownstream().then(function () {
         console.log('syncCrossingsDownstream complete');
         serverHandlerEntryV2.syncCrossingsUpstream();
       });
 
-      serverHandlerEntryV2.syncDeliveryDownstream();
-      console.log("End SynchInitTest");
-    };
+    }
 
     return {
-      SynchInitTest: SynchInitTest
+      syncInit: syncInit,
+      handleNotification: handleNotification
     }
   });
 

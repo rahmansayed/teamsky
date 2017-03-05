@@ -30,7 +30,7 @@
     }
   ],
   "cordovaPlatforms": [
-    "android", 
-	"browser"
+    "android",
+    "browser"
   ]
 }
