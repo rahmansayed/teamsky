@@ -19,11 +19,11 @@ angular.module('starter.services')
       })
 
       console.log('items array: ' + JSON.stringify(items));
-/*      $timeout(function () {*/
-        console.log('Matches : ' + JSON.stringify(matches));
-        deferred.resolve(matches);
+      /*      $timeout(function () {*/
+      console.log('Matches : ' + JSON.stringify(matches));
+      deferred.resolve(matches);
 
-/*      }, 100);*/
+      /*      }, 100);*/
 
       return deferred.promise;
     };
@@ -48,8 +48,10 @@ angular.module('starter.services')
 
         //update seen status
         global.db.transaction(function (tx) {
-            var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0";
-            tx.executeSql(query2, []);
+            var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0 and listLocalId = ?";
+            tx.executeSql(query2, [listId]);
+            var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 where listLocalId = ?";
+            tx.executeSql(query3, [listId]);
           }, function (err) {
             console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
           },

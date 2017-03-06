@@ -23,18 +23,18 @@ angular.module('starter.services')
     function initDB() {
       var deferred = $q.defer();
       console.log('init db called!!');
-/*      if (window.cordova) {
-        console.log('11/02/2017 - aalatief - initDb from Device');
-        global.db = $cordovaSQLite.openDB({name: "teamSky1_12.db", location: 1, createFromLocation: 1});
+      /*      if (window.cordova) {
+       console.log('11/02/2017 - aalatief - initDb from Device');
+       global.db = $cordovaSQLite.openDB({name: "teamSky1_12.db", location: 1, createFromLocation: 1});
 
-        /!*$location.path("/subscribe");*!/
+       /!*$location.path("/subscribe");*!/
 
-      }
-      else {*/
-        console.log('11/02/2017 - aalatief - initDb from Browser');
-        global.db = window.openDatabase("teamSky1_12.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+       }
+       else {*/
+      console.log('11/02/2017 - aalatief - initDb from Browser');
+      global.db = window.openDatabase("teamSky1_13.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
-        /*$location.path("/subscribe");*/
+      /*$location.path("/subscribe");*/
       //}
       /*db = $cordovaSQLite.openDB("teamSky.db");*/
       /*var query = "DROP TABLE IF EXISTS tsList";
@@ -71,7 +71,7 @@ angular.module('starter.services')
 
         /* "drop table userSetting",  */
 
-        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,origin text, flag text, lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,origin text, flag text, newCount integer, deliverCount integer, seenCount integer, crossCount integer, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS list_tl (listLocalId integer,language text,listName text,lastUpdateDate integer,lastUpdateBy text )",
 

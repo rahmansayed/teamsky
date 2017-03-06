@@ -8,6 +8,64 @@ angular.module('starter.services')
 
   .factory('serverHandlerEntryV2', function ($http, global, $q, serverHandlerItemsV2, serverHandlerListV2, dbHelper) {
 
+      /****************************************************************************************************************
+       * this function is used to build the list of affected lists for syncSeenDownstream, syncDeliversDownstream,
+       * syncCrossDownstream
+       * @param entries
+       */
+      function buildAffectedLists(entries) {
+        var defer = $q.defer();
+        var query = "select listLocalId, count(*) as cnt from entry where entryServerId in ( ";
+        var query = entries.reduce(function (query, entry) {
+          return query + "'" + entry.entryServerId + "', ";
+        }, query);
+
+        query = query.substr(0, query.length - 2) + ')';
+
+        query = query + " group by listLocalId";
+        global.db.transaction(function (tx) {
+          tx.executeSql(query, [], function (tx, res) {
+            var lists = [];
+            for (var i = 0; i < res.rows.length; i++) {
+              lists.push(res.rows.item(i));
+            }
+            defer.resolve(lists);
+          }, function (err) {
+            console.log('buildAffectedLists tx err = ' + err);
+            defer.reject();
+          });
+        }, function (err) {
+          console.log('buildAffectedLists db err = ' + err);
+          defer.reject();
+        }, function () {
+
+        });
+
+
+        return defer.promise;
+      };
+      /****************************************************************************************************************
+       *
+       */
+      function updateListNotificationCount(flag, affectedLists) {
+        var defer = $q.defer();
+
+        var query = "update list set " + flag + " = ifnull(" + flag + ",0) +? where listLocalId = ?";
+        console.log('updateListNotificationCount query = ' + query);
+        global.db.transaction(function (tx) {
+          affectedLists.forEach(function (list) {
+            tx.executeSql(query, [list.cnt, list.listLocalId]);
+          });
+        }, function (err) {
+          console.log('updateListNotificationCount db err ' + JSON.stringify(err));
+          defer.reject();
+        }, function () {
+          console.log('updateListNotificationCount db completed');
+          defer.resolve();
+        });
+        return defer.promise;
+      }
+
       /****************************************************************************************************************\
        * this function is used to sync a single entry
        * @param entry
@@ -254,6 +312,9 @@ angular.module('starter.services')
 
       }
 
+      /*****************************************************************************************************************
+       * this function is used to retrieve new entries from the server
+       */
       function syncEntriesDownstream() {
         var defer = $q.defer();
 
@@ -316,6 +377,7 @@ angular.module('starter.services')
                     }, function () {
                       syncBackMany(response.data.entries).then(function () {
                         console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
+                        updateListNotificationCount('newCount', affectedLists);
                         defer.resolve(affectedLists);
                       });
                     });
@@ -373,6 +435,7 @@ angular.module('starter.services')
         console.log('syncBackSeens data = ' + data);
         $http.post(global.serverIP + '/api/entry/syncSeensBack', data).then(function (res) {
           console.log('syncBackSeens server reply = ' + JSON.stringify(res));
+          defer.resolve(res);
         }, function (err) {
           console.log('syncBackSeens server error ' + err.message);
           defer.reject(err);
@@ -431,8 +494,11 @@ angular.module('starter.services')
                 defer.reject();
               }, function () {
                 console.log("syncDeliveryDownstream db update complete");
-                syncBackDelivers(res.data).then(function (res) {
-                  defer.resolve();
+                syncBackDelivers(res.data).then(function (res1) {
+                  buildAffectedLists(res.data).then(function (res2) {
+                    updateListNotificationCount('deliverCount', res2);
+                    defer.resolve(res2);
+                  });
                 }, function (err) {
                   defer.reject();
                 });
@@ -440,7 +506,7 @@ angular.module('starter.services')
             }
             else {
               console.log('syncDeliveryDownstream server no updates ' + JSON.stringify(res.data));
-              defer.resolve();
+              defer.resolve(res.data);
             }
           }
           ,
@@ -477,8 +543,11 @@ angular.module('starter.services')
                 defer.reject();
               }, function () {
                 console.log("syncCrossingsDownstream db update complete");
-                syncBackCrossings(res.data).then(function (res) {
-                  defer.resolve();
+                syncBackCrossings(res.data).then(function (res1) {
+                  buildAffectedLists(res.data).then(function (res2) {
+                    updateListNotificationCount('crossCount', res2);
+                    defer.resolve(res2);
+                  });
                 }, function (err) {
                   defer.reject();
                 });
@@ -486,7 +555,7 @@ angular.module('starter.services')
             }
             else {
               console.log('syncCrossingsDownstream server no updates ' + JSON.stringify(res.data));
-              defer.resolve();
+              defer.resolve(res.data);
             }
           }
           ,
@@ -523,8 +592,12 @@ angular.module('starter.services')
                 defer.reject();
               }, function () {
                 console.log("syncSeenDownstream db update complete");
-                syncBackSeens(res.data).then(function (res) {
-                  defer.resolve();
+                syncBackSeens(res.data).then(function (res1) {
+                  console.log('syncSeenDownstream buildAffectedLists after syncBackSeens');
+                  buildAffectedLists(res.data).then(function (res2) {
+                    updateListNotificationCount('seenCount', res2);
+                    defer.resolve(res2);
+                  });
                 }, function (err) {
                   defer.reject();
                 });
@@ -532,7 +605,7 @@ angular.module('starter.services')
             }
             else {
               console.log('syncSeenDownstream server no updates ' + JSON.stringify(res.data));
-              defer.resolve();
+              defer.resolve(res.data);
             }
           }
           ,
@@ -777,12 +850,12 @@ angular.module('starter.services')
         createEntry: createEntry,
         // this function is used to synchronize all the un-sync'd lists
         syncEntriesUpstream: synEntriesUpstream,
-        syncEntrieDownstream: syncEntriesDownstream,
-        syncCrossingsDownstream: syncCrossingsDownstream,
-        syncDeliveryDownstream: syncDeliveryDownstream,
         syncCrossingsUpstream: syncCrossingsUpstream,
         syncSeensUpstream: syncSeensUpstream,
-        syncSeenDownstream: syncSeenDownstream
+        syncSeenDownstream: syncSeenDownstream,
+        syncEntrieDownstream: syncEntriesDownstream,
+        syncCrossingsDownstream: syncCrossingsDownstream,
+        syncDeliveryDownstream: syncDeliveryDownstream
       }
     }
   )

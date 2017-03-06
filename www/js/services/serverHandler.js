@@ -32,19 +32,26 @@ angular.module('starter.services')
           if ($location.url() == '/lists') {
             $state.reload();
           }
-          serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
+          serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
+            console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
+
             if ($location.url().startsWith('/item')) {
-              console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
-              for (var i = 0; i < res.length; i++) {
+              for (var i = 0; i < affectedLists.length; i++) {
                 console.log("$state.listId = " + $state.params.listId);
-                if (res[i].listLocalId == $state.params.listId) {
+                if (affectedLists[i].listLocalId == $state.params.listId) {
                   console.log('NOTIFICATION ENTRY LIST MATCH reloading');
                   $state.reload();
                 }
               }
             }
-            serverHandlerEntryV2.syncDeliveryDownstream().then(function () {
-                serverHandlerEntryV2.syncSeenDownstream();
+            serverHandlerEntryV2.syncDeliveryDownstream().then(function (affectedLists) {
+                console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
+
+                serverHandlerEntryV2.syncSeenDownstream().then(function (affectedLists) {
+                  console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
+                }, function (err) {
+                  console.log("syncInit syncSeenDownstream err = " + err);
+                });
               }, function (err) {
                 console.log("syncInit syncDeliveryDownstream err = " + err);
               }
@@ -59,8 +66,8 @@ angular.module('starter.services')
         }
       );
 
-      serverHandlerEntryV2.syncCrossingsDownstream().then(function () {
-        console.log('syncCrossingsDownstream complete');
+      serverHandlerEntryV2.syncCrossingsDownstream().then(function (affectedLists) {
+        console.log('syncCrossingsDownstream affectedLists = ' + JSON.stringify(affectedLists));
         serverHandlerEntryV2.syncCrossingsUpstream();
       });
 

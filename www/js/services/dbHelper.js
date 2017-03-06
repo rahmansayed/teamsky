@@ -8,6 +8,10 @@ angular.module('starter.services')
 
   .factory('dbHelper', function (global, $q) {
 
+      /***********************************************************************************************************************
+       *
+       * @param items
+       */
 
       function getItemslocalIds(items) {
         console.log("dbHelper getItemslocalIds " + JSON.stringify(items));
@@ -44,7 +48,7 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function getListsLocalIds(lists) {
+      function getListsLocalIds(lists, entries) {
         console.log("dbHelper getListsLocalIds " + JSON.stringify(lists));
         var listsRet = [];
         var defer = $q.defer();
@@ -60,9 +64,18 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           tx.executeSql(query, [], function (tx, result) {
             for (var i = 0; i < result.rows.length; i++) {
+              var cnt = 0;
+
+              for (var k = 0; k < entries.length; k++) {
+                if (entries[k].listServerId == result.rows.item(i).listServerId) {
+                  cnt++;
+                }
+              }
+
               listsRet.push({
                 listServerId: result.rows.item(i).listServerId,
-                listLocalId: result.rows.item(i).listLocalId
+                listLocalId: result.rows.item(i).listLocalId,
+                cnt: cnt
               })
             }
             console.log('dbHelper getListsLocalIds listRet ' + JSON.stringify(listsRet));
@@ -134,7 +147,7 @@ angular.module('starter.services')
 
         return $q.all({
           retailers: getRetailersLocalIds(retailers),
-          lists: getListsLocalIds(lists),
+          lists: getListsLocalIds(lists, entries),
           items: getItemslocalIds(items)
         });
       }
@@ -267,7 +280,7 @@ angular.module('starter.services')
         insertLocalItemsDownstream: insertLocalItemsDownstream,
         getLocalIds: getLocalIds,
         getCategoryLocalIdfromMap: getCategoryLocalIdfromMap,
-        buildCatgegoriesMap: buildCatgegoriesMap
+        buildCatgegoriesMap: buildCatgegoriesMap,
       }
     }
   )
