@@ -4,37 +4,10 @@ angular.module('starter.services')
                                       serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2) {
 
 
-    function SynchInitTest() {
-      console.log("Start SynchInitTest");
+    function syncInit() {
+      console.log("Start syncInit");
 
-      serverHandlerListV2.syncListsDownstream().then(function (res) {
-          console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
-          console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
-          console.log("$state.params = " + JSON.stringify($state.params));
-          if ($location.url() == '/lists') {
-            $state.reload();
-          }
-          serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-            if ($location.url().startsWith('/item')) {
-              console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
-              for (var i = 0; i < res.length; i++) {
-                console.log("$state.listId = " + $state.params.listId);
-                if (res[i].listLocalId == $state.params.listId) {
-                  console.log('NOTIFICATION ENTRY LIST MATCH reloading');
-                  $state.reload();
-                }
-              }
-            }
-          }, function (err) {
-
-          });
-        }
-        ,
-        function () {
-          console.log("SERVER HANDLER ERROR")
-        }
-      );
-
+      handleNotification();
 
       serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
         serverHandlerItemsV2.syncMasterItemsDownstream();
@@ -47,17 +20,62 @@ angular.module('starter.services')
         })
       });
 
-      serverHandlerEntryV2.syncCrossingsDownstream().then(function () {
-        console.log('syncCrossingsDownstream complete');
+      console.log("End SynchInitTest");
+    }
+
+    // handle a server notification
+    function handleNotification() {
+      serverHandlerListV2.syncListsDownstream().then(function (res) {
+          console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
+          console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
+          console.log("$state.params = " + JSON.stringify($state.params));
+          if ($location.url() == '/lists') {
+            $state.reload();
+          }
+          serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
+            console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
+
+            if ($location.url().startsWith('/item')) {
+              for (var i = 0; i < affectedLists.length; i++) {
+                console.log("$state.listId = " + $state.params.listId);
+                if (affectedLists[i].listLocalId == $state.params.listId) {
+                  console.log('NOTIFICATION ENTRY LIST MATCH reloading');
+                  $state.reload();
+                }
+              }
+            }
+            serverHandlerEntryV2.syncDeliveryDownstream().then(function (affectedLists) {
+                console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
+
+                serverHandlerEntryV2.syncSeenDownstream().then(function (affectedLists) {
+                  console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
+                }, function (err) {
+                  console.log("syncInit syncSeenDownstream err = " + err);
+                });
+              }, function (err) {
+                console.log("syncInit syncDeliveryDownstream err = " + err);
+              }
+            );
+          }, function (err) {
+
+          });
+        }
+        ,
+        function () {
+          console.log("SERVER HANDLER ERROR")
+        }
+      );
+
+      serverHandlerEntryV2.syncCrossingsDownstream().then(function (affectedLists) {
+        console.log('syncCrossingsDownstream affectedLists = ' + JSON.stringify(affectedLists));
         serverHandlerEntryV2.syncCrossingsUpstream();
       });
 
-      serverHandlerEntryV2.syncDeliveryDownstream();
-      console.log("End SynchInitTest");
-    };
+    }
 
     return {
-      SynchInitTest: SynchInitTest
+      syncInit: syncInit,
+      handleNotification: handleNotification
     }
   });
 

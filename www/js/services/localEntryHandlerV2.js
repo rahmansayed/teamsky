@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global,serverHandlerEntryV2) {
+  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2) {
 
     var selected = [];
     var items = [];
@@ -19,11 +19,11 @@ angular.module('starter.services')
       })
 
       console.log('items array: ' + JSON.stringify(items));
-/*      $timeout(function () {*/
-        console.log('Matches : ' + JSON.stringify(matches));
-        deferred.resolve(matches);
+      /*      $timeout(function () {*/
+      console.log('Matches : ' + JSON.stringify(matches));
+      deferred.resolve(matches);
 
-/*      }, 100);*/
+      /*      }, 100);*/
 
       return deferred.promise;
     };
@@ -48,8 +48,10 @@ angular.module('starter.services')
 
         //update seen status
         global.db.transaction(function (tx) {
-            var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0";
-            tx.executeSql(query2, []);
+            var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0 and listLocalId = ?";
+            tx.executeSql(query2, [listId]);
+            var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 where listLocalId = ?";
+            tx.executeSql(query3, [listId]);
           }, function (err) {
             console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
           },
@@ -124,31 +126,31 @@ angular.module('starter.services')
       ;
       return false;
     };
-    /*-------------------------------------------------------------------------------------*/
-    /*Add entry to a list*/
+    /*******************************************************************************************************************
+     * add item to list and increment item usage
+     * @param mySelectedItem
+     */
     function addItemToList(mySelectedItem) {
       console.log('Add Item to List Case: ' + JSON.stringify(mySelectedItem));
+      var deferred = $q.defer();
       if (!itemExitInList(mySelectedItem)) {
         selectedItems.push(mySelectedItem);
         console.log('item added in list ' || mySelectedItem.categoryName);
 
-        //Sqlite
-        var deferred = $q.defer();
-        var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag) " +
-          "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0, 1)";
-        dbHandler.runQuery(query, [null/*new Date().getTime()*/, mySelectedItem.listLocalId, mySelectedItem.itemLocalId, '', 1, '', '', '0', new Date().getTime()], function (response) {
-          //Success Callback
-          console.log(response);
-          deferred.resolve(response);
-        }, function (error) {
-          //Error Callback
-          console.log(error);
-          deferred.reject(error);
-        });
+        global.db.transaction(function (tx) {
+          var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag) " +
+            "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0, 1)";
 
-        return deferred.promise;
+          tx.executeSql(query, [null/*new Date().getTime()*/, mySelectedItem.listLocalId, mySelectedItem.itemLocalId, '', 1, '', '', '0', new Date().getTime()]);
+          var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
+          tx.executeSql(updateQuery, [mySelectedItem.itemLocalId]);
+        }, function (err) {
+          deferred.reject(err);
+        }, function () {
+          deferred.resolve();
+        });
       }
-      console.log('item exist in list');
+      return deferred.promise;
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as crossed*/

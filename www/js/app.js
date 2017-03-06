@@ -18,14 +18,15 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $state, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
-   
-    
-    
-    /*Disabe H/W back button in some cases*/
+  .run(function ($ionicPlatform, global, $cordovaPreferences, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
+        /*Disabe H/W back button in some cases*/
     $ionicPlatform.ready(function () {
 
-       $ionicPlatform.registerBackButtonAction(function (event) {
+
+      
+      
+      $ionicPlatform.ready(function () {
+    $ionicPlatform.registerBackButtonAction(function (event) {
         if ( ($state.$current.name=="lists") ||
              ($state.$current.name=="subscribe") ||
              ($state.$current.name=="config")||
@@ -37,9 +38,7 @@ angular.module('starter', ['ionic',
                 navigator.app.backHistory();
             }
         }, 100); 
-        
-        
-        
+
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -79,7 +78,7 @@ angular.module('starter', ['ionic',
 
                       if (userVerify.isVerified()) {
                         console.log('app.js user verified true');
-                        serverHandler.SynchInitTest();
+                        serverHandler.syncInit();
                         $ionicLoading.hide();
                         $location.path("/lists");
                       }
@@ -106,37 +105,8 @@ angular.module('starter', ['ionic',
         });
 
         push.on('notification', function (msg) {
-          0
 
-          console.log('Message ');
-          console.log(JSON.stringify(msg));
-          serverHandlerListV2.syncListsDownstream().then(function (res) {
-              console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
-              console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
-              console.log("$state.params = " + JSON.stringify($state.params));
-              if ($location.url() == '/lists') {
-                $state.reload();
-              }
-              serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-                if ($location.url().startsWith('/item')) {
-                  console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
-                  for (var i = 0; i < res.length; i++) {
-                    console.log("$state.listId = " + $state.params.listId);
-                    if (res[i].listLocalId == $state.params.listId) {
-                      console.log('NOTIFICATION ENTRY LIST MATCH reloading');
-                      $state.reload();
-                    }
-                  }
-                }
-              }, function (err) {
-
-              });
-            }
-            ,
-            function () {
-              console.log("SERVER HANDLER ERROR")
-            }
-          );
+          notificationHandler.handleNotification(msg);
 
         });
 
@@ -162,7 +132,7 @@ angular.module('starter', ['ionic',
                     if (userVerify.isVerified()) {
                       $ionicLoading.hide();
                       $location.path("/lists");
-                      serverHandler.SynchInitTest();
+                      serverHandler.syncInit();
                     }
                     else {
                       $ionicLoading.hide();
@@ -252,7 +222,6 @@ angular.module('starter', ['ionic',
             console.log('resumeEvent.pendingResult.pluginServiceName = ' + resumeEvent.pendingResult.pluginServiceName);
             var contact = navigator.contacts.create(resumeEvent.pendingResult.result);
 
-
             var data =
               {
                 user: global.userName,
@@ -276,3 +245,4 @@ angular.module('starter', ['ionic',
     );
 
   });
+});
