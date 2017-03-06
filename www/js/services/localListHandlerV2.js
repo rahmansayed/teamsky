@@ -13,7 +13,8 @@ angular.module('starter.services')
 
         tx.executeSql(query, [listLocalId], function (tx, res) {
           console.log("localListHandlerV2.getList + res.rows.item(0) " + JSON.stringify(res.rows.item(0)));
-          defer.resolve(res);
+          specificList =   res.rows.item(0);  
+          defer.resolve(specificList);
         }, function (err) {
           defer.reject(err);
         })

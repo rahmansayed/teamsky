@@ -11,7 +11,8 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
     .state('lists', {
       cache: false,
       url: '/lists',
-      templateUrl: 'templates/lists.html'
+      templateUrl: 'templates/lists.html',
+      controller: 'listCtrl'
     })
     .state('edit', {
       cache: false,

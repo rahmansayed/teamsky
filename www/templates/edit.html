@@ -1,17 +1,22 @@
 <ion-view view-title="Edit List" >
+  <ion-nav-bar class="theme-color">
+        <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+    
+    <ion-nav-title>{{dynamicTitle}} </ion-nav-title>
     <ion-content >
         <div class="list card">
             <div class="item item-input">
                 <input type="text"  ng-model="list.listName" placeholder="Enter list name.">
             </div>
             <div class="item item-input">
-                <textarea rows="5" ng-model="list.listDescription"></textarea> 
+                <textarea rows="5" ng-model="list.listDescription" placeholder="Enter list Description."></textarea> 
             </div>
         </div>
         <div class="padding button-bar">
 <!--            <button class="button button-bar" ng-click="saveList(list)">Save
             </button>-->
-            <a style="min-width: 50%;border-radius: 0px;border:0px solid; " class="button button-lite icon ion-plus-round " ng-click="saveList(list)">Save</a>
+            <a style="background-color:#900C3F; color:" class="button button-block button-positive" ng-click="saveList(list)">Save</a>
         </div>
     </ion-content>
 </ion-view>

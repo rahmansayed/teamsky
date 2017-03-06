@@ -19,8 +19,26 @@ angular.module('starter', ['ionic',
 /*var db = null;*/
 
   .run(function ($ionicPlatform, global, local, $cordovaPreferences, dbHandler, $state, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
+   
+    
+    
+    /*Disabe H/W back button in some cases*/
     $ionicPlatform.ready(function () {
 
+       $ionicPlatform.registerBackButtonAction(function (event) {
+        if ( ($state.$current.name=="lists") ||
+             ($state.$current.name=="subscribe") ||
+             ($state.$current.name=="config")||
+             ($state.$current.name=="verify")
+            ){
+               navigator.app.exitApp();
+            } else {
+                // For all other states, the H/W BACK button is enabled
+                navigator.app.backHistory();
+            }
+        }, 100); 
+        
+        
         
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)

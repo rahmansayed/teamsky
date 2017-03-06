@@ -1,12 +1,16 @@
 angular.module('starter.controllers')
-  .controller('subscribeCtrl', function ($scope, $state, $ionicPopup,$http,$location,$ionicPlatform,$cordovaPreferences,global,userVerify,$ionicLoading,$timeout,$q,$rootScope) {
+  .controller('subscribeCtrl', function ($scope, $state, $ionicPopup,$http,$location,$ionicPlatform,$cordovaPreferences,global,userVerify,$ionicLoading,$timeout,$q,$rootScope, $ionicHistory) {
 
 
       $scope.$on('$ionicView.beforeEnter', function() {
       $rootScope.viewColor = '#ef4e3a';
   });
 
+  $ionicHistory.nextViewOptions({
+    disableBack: true
+  });
 
+/*  $state.go('lists');*/
 
     $scope.deviceLocalId= global.dataKey||'ZXCV';//this to be repalced later with dynamic device id
 

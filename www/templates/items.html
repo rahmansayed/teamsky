@@ -1,6 +1,10 @@
-<ion-nav-view  view-title={{dynamicListTitle}} >
-
-    <ion-header-bar class="bar-subheader item-input-inset">
+<ion-view>
+    
+     <ion-nav-bar class="theme-color">
+        <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+<ion-nav-title> {{dynamicListTitle}} </ion-nav-title>
+    <ion-header-bar class="bar-subheader item-input-inset" >
               <label class="item-input-wrapper">
                 <i class="icon placeholder-icon ion-android-search"></i>
                 <input type="search" placeholder="Search" ng-change="search()" ng-model="data.search">
@@ -16,7 +20,7 @@
 <ion-floating-button click="modal.show()" has-footer="false" button-color="#900C3F" icon="ion-plus" icon-color="#fff">
 </ion-floating-button>-->
     
-    <ion-content>
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
         <!--   
         <ion-list>
             <ion-item ng-repeat = "list in listItems">
@@ -181,4 +185,4 @@
 </div>
       
     </div>
-</ion-nav-view>
+</ion-view>

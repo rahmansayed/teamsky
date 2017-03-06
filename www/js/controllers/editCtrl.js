@@ -1,13 +1,14 @@
 angular.module('starter.controllers')
-  .controller('editCtrl', function ($scope, $state, listHandler,dbHandler,serverHandlerListV2,localListHandlerV2) {
+  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2) {
 
     $scope.dynamicTitle = 'Edit List';
     console.log('Edit List: ' + 'List Id:' + $state.params.listId);
     
     localListHandlerV2.getSpecificList($state.params.listId)
     .then(function(res){
-        console.log('23/02/2017 - aalatief: specific List success:'+JSON.stringify(res.rows.item(0) ));
-        $scope.list=angular.copy(res.rows.item(0));
+        console.log('23/02/2017 - aalatief: specific List success:'+JSON.stringify(res));
+        $scope.list=angular.copy(res);
+         $scope.dynamicTitle = 'Edit List: '+ res.listName;
     },
     function(error){
         console.log('aalatief: specific List fail:'+JSON.stringify(error));

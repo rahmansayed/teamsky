@@ -96,7 +96,16 @@ label.show {
   border-top:  1px solid;
 }
 
+/*Header Color*/
+.theme-color {
+background-color: #900C3F !important;
+color: #ffffff;}
 
+
+/*Back Button color*/
+.back-button {
+  color: #ffffff !important;
+}
 
 
 /*   .pane  {

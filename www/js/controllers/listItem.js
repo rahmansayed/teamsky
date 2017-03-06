@@ -1,10 +1,11 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory) {
 
     $scope.items = [];
     $scope.selectedItems = [];
     $scope.checkedItems = [];
 
+    
     /*Drag to refresh functionality*/
     $scope.refresh = function () {
 
@@ -17,6 +18,14 @@ angular.module('starter.controllers')
       }, 100);
 
     };
+    localListHandlerV2.getSpecificList($state.params.listId)
+    .then(function(response){
+        $scope.dynamicListTitle = response.listName;
+    },function(error){
+        console.log('Error');
+    });
+    
+    
     /*------------------------------------------------------------------*/
     /*Load all entries related to specfi list*/
     $scope.items = localItemHandlerV2.masterItems();
@@ -34,7 +43,7 @@ angular.module('starter.controllers')
     /*Search for existing master item*/
     $scope.data = {"items": [], "search": ''};
     $scope.search = function () {
-      console.log('Search pressed : ' + $scope.data.search);
+      /*console.log('Search pressed : ' + $scope.data.search);*/
       localItemHandlerV2.searchItems($scope.data.search).then(
         function (matches) {
 

@@ -1,7 +1,11 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup,$cordovaContacts,dbHandler,contactHandler,$timeout,$http,global,localListHandlerV2,$filter) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup,$cordovaContacts,dbHandler,contactHandler,$timeout,$http,global,localListHandlerV2,$filter, $ionicHistory) {
 
 
+/* $ionicHistory.nextViewOptions({
+    disableBack: true
+   
+  });*/
 /*Retrieve all lists from localListHandlerV2*/
 
     localListHandlerV2.getAllLists()

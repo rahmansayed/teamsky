@@ -1,11 +1,14 @@
-<ion-view view-title="verify" ng-controller="verifyCtrl">
+<ion-view view-title="Verify" ng-controller="verifyCtrl">
+      <ion-nav-bar class="theme-color">
+        <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
   <ion-content>
     <label class="item item-input">
       <input type="text" ng-model="vCode" placeholder="Verification Code">
     </label>
 
     <label class="item item-input">
-      <button class="button button-full button-positive" ng-click="verify(vCode)">
+      <button class="button button-full button-positive" style = "background-color:#900C3F;" ng-click="verify(vCode)">
         Submit
       </button>
     </label>

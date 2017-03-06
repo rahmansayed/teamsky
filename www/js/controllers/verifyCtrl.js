@@ -1,7 +1,12 @@
 angular.module('starter.controllers')
-  .controller('verifyCtrl', function ($scope, global, $http, $state,userVerify,dbHandler,global) {
+  .controller('verifyCtrl', function ($scope, global, $http, $state,userVerify,dbHandler,global, $ionicHistory) {
     $scope.settings = {};
     var data = {};
+    
+      $ionicHistory.nextViewOptions({
+    disableBack: true
+  });
+
     
     
     user = userVerify.verificationData();
