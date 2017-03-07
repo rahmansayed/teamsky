@@ -92,14 +92,16 @@ angular.module('starter.services')
     /*-------------------------------------------------------------------------------------*/
     /*Search Item Function*/
     var searchItems = function (searchFilter) {
-      /*    console.log('Searching items for ' + searchFilter);
+      console.log('searchItems searchFilter = ' + searchFilter);
 
-       console.log('25/2/2017 - aalatief - master items' + JSON.stringify(items));*/
       var deferred = $q.defer();
+      var words = searchFilter.toLowerCase().split(" ");
       var matches = items.filter(function (item) {
-        /*        console.log('The item Returned from Search: '+item.itemName.toLowerCase());*/
-        if (item.lowerItemName.indexOf(searchFilter.toLowerCase()) !== -1) return true;
-      })
+        var x = words.reduce(function (found, word) {
+          return (item.lowerItemName.indexOf(word) !== -1) && found;
+        }, true);
+        return x;
+      });
 
       /*       console.log('items array: ' + JSON.stringify(items));*/
       /*      $timeout( function(){*/

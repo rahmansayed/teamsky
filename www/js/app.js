@@ -13,14 +13,12 @@ angular.module('starter', ['ionic',
   'ngCordova',
   'ion-floating-menu',
   'angular.filter',
-  'ngRoute'/*,
-   'countrySelect'*/
+  'ngRoute'
 ])
 /*var db = null;*/
 
   .run(function ($ionicPlatform, global, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
-
 
       function init() {
         dbHandler.initDB()
@@ -95,6 +93,7 @@ angular.module('starter', ['ionic',
 
       document.addEventListener("deviceready", function () {
         alert('just to wait');
+
         /* if (typeof PushNotification === "defined") {*/
         var push = PushNotification.init({
           "android": {"senderID": "992783511835"},
