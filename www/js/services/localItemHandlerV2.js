@@ -98,10 +98,12 @@ angular.module('starter.services')
       var deferred = $q.defer();
       var words = searchFilter.toLowerCase().split(" ");
       var matches = items.filter(function (item) {
-        var x = words.reduce(function (found, word) {
-          return (item.lowerItemName.indexOf(word) !== -1) && found;
-        }, true);
-        return x;
+        for (var i = 0; i < words.length; i++) {
+          if (item.lowerItemName.indexOf(words[i]) == -1) {
+            return false;
+          }
+        }
+        return true;
       });
 
       /*       console.log('items array: ' + JSON.stringify(items));*/
