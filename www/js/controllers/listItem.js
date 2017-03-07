@@ -5,7 +5,7 @@ angular.module('starter.controllers')
     $scope.selectedItems = [];
     $scope.checkedItems = [];
 
-    
+
     /*Drag to refresh functionality*/
     $scope.refresh = function () {
 
@@ -24,8 +24,8 @@ angular.module('starter.controllers')
     },function(error){
         console.log('Error');
     });
-    
-    
+
+
     /*------------------------------------------------------------------*/
     /*Load all Master Items*/
     $scope.items = global.masterItems||localItemHandlerV2.masterItems();
@@ -73,7 +73,8 @@ angular.module('starter.controllers')
           itemQuatity: 0,
           itemUom: "",
           itemRetailer: "",
-          entryCrossedFlag: item.entryCrossedFlag
+          entryCrossedFlag: item.entryCrossedFlag,
+          language: item.language
         };
       console.log('Master Item Searched: ' + JSON.stringify($scope.selectedItem));
       localEntryHandlerV2.addItemToList($scope.selectedItem)
@@ -155,8 +156,8 @@ angular.module('starter.controllers')
                       itemCrossed: false,
                       itemQuatity: 0,
                       itemUom: "",
-                      itemRetailer: ""/*,
-                     entryCrossedFlag:"0"*/
+                      itemRetailer: "",
+                      language: "EN"
                     };
                   localEntryHandlerV2.addItemToList($scope.selectedItem);
                   serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {

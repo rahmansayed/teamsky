@@ -31,8 +31,13 @@ angular.module('starter.services')
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
-      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, i.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag   " +
-        "FROM ((masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) INNER JOIN list AS l ON e.listLocalId = l.listLocalId) INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId where l.listLocalId = ? and ifnull(e.deleted,'N')  !='Y'";
+      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag " +
+        " FROM ( " +
+        " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
+        " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
+        " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
+        " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
+        " where l.listLocalId = ? and ifnull(e.deleted,'N')  !='Y'";
 
       global.db.transaction(function (tx) {
         tx.executeSql(query, [listId], function (tx, result) {
@@ -138,10 +143,10 @@ angular.module('starter.services')
         console.log('item added in list ' || mySelectedItem.categoryName);
 
         global.db.transaction(function (tx) {
-          var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag) " +
-            "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0, 1)";
+          var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag, language) " +
+            "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0, 1, ?)";
 
-          tx.executeSql(query, [null/*new Date().getTime()*/, mySelectedItem.listLocalId, mySelectedItem.itemLocalId, '', 1, '', '', '0', new Date().getTime()]);
+          tx.executeSql(query, [null/*new Date().getTime()*/, mySelectedItem.listLocalId, mySelectedItem.itemLocalId, '', 1, '', '', '0', new Date().getTime(), mySelectedItem.language]);
           var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
           tx.executeSql(updateQuery, [mySelectedItem.itemLocalId]);
         }, function (err) {
@@ -187,11 +192,11 @@ angular.module('starter.services')
 
       global.db.transaction(function (tx) {
         var insert_query = "INSERT INTO entry " +
-          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, origin, flag, deliveredFlag, seenFlag) " +
-          "VALUES (null,?,?,0,'L', 'N', 0, 1)";
+          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, origin, flag, deliveredFlag, seenFlag, language) " +
+          "VALUES (null,?,?,0,'L', 'N', 0, 1, ?)";
 
         var mark_query = "update entry set deleted = 'Y' where entryLocalId = ?";
-        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId]);
+        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language]);
         tx.executeSql(mark_query, [entry.entryLocalId]);
       }, function (error) {
         //Error Callback

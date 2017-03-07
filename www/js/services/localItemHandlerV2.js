@@ -17,8 +17,9 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       global.db.transaction(function (tx) {
-        var query = "SELECT i.itemLocalId, i.itemName, lower(i.itemName) lowerItemName , c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId" +
-          " order by itemPriority desc";
+        var query = "SELECT i.itemLocalId, itl.itemName, lower(itl.itemName) lowerItemName , c.categoryName , itl.language " +
+          " FROM (category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId) INNER JOIN masterItem_tl as itl ON itl.itemlocalId = i.itemlocalId " +
+          " order by i.itemPriority desc";
         tx.executeSql(query, [], function (tx, res) {
           console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
           for (var i = 0; i < res.rows.length; i++) {
@@ -137,24 +138,30 @@ angular.module('starter.services')
       var deferred = $q.defer();
 
       if (!masterItemExist(item)) {
+
+        item.language = 'EN';
+        console.log('addMaserItem item = ' + JSON.stringify(item));
         items.push(item);
 
-        var query = "INSERT INTO masterItem " +
-          "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag) " +
-          "VALUES (?,?,?,?,?,?,?, 'L', 'N')";
-        dbHandler.runQuery(query, [null/*item.itemLocalId*/, item.itemName, 1, '', '', '', new Date().getTime()], function (response) {
-          //Success Callback
-          console.log('aaltief: Master Item Added: ' + JSON.stringify(response));
-          deferred.resolve(response);
-        }, function (error) {
-          //Error Callback
-          console.log(error);
-          deferred.reject(error);
+        global.db.transaction(function (tx) {
+          var query_item = "INSERT INTO masterItem " +
+            "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag) " +
+            "VALUES (?,?,?,?,?,?,?, 'L', 'N')";
+          tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, 1, '', '', '', new Date().getTime()], function (tx, res) {
+            var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName) values (?,?,?)";
+            tx.executeSql(query_lang, [res.insertId, 'EN', item.itemName], function (tx, res2) {
+              deferred.resolve(res.insertId);
+            }, function (err) {
+              console.log('addMaserItem = error' + error);
+              deferred.reject(error);
+            });
+          }, function (err) {
+            console.log('addMaserItem = error' + error);
+            deferred.reject(error);
+          });
         });
 
-        return deferred.promise;
       }
-      console.log('Master item exist');
       return deferred.promise;
     };
     /*-------------------------------------------------------------------------------------*/

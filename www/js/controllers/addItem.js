@@ -190,7 +190,8 @@ angular.module('starter.controllers')
                     { listId: $state.params.listId,
                       itemId: item.itemlocalId,
                       itemName: item.itemName,
-                      ItemCrossed: 0
+                      ItemCrossed: 0,
+                      language: item.language
                     };
           console.log('select item: '+$scope.selectedItem)
           itemHandler.addItemToList($scope.selectedItem);
