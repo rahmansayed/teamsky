@@ -1,14 +1,33 @@
-<ion-view view-title="Verify" ng-controller="verifyCtrl">
+<ion-view view-title="Verification" ng-controller="verifyCtrl">
       <ion-nav-bar class="theme-color">
         <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <label class="item item-input">
+    
+       <div class = "col text-center" style = "height:100px;background-color:#900C3F;">
+            </div>
+      <div>
+
+         <h1  class="text-center item" style="text-align:left; font-size:200% ;color:#900C3F;white-space: normal;padding-left: 20px;">   
+            <br>
+             <strong>Enter Verification Code </strong>
+            <br>
+            <br>
+           
+        <p class="padding text-left " style="text-align:left;white-space: normal;"> 
+            Enter the 4 letters received by SMS </p>
+            <br>
+    
+        </h1>
+      </div>
+      
+      
+      <label class="item item-input">
       <input type="text" ng-model="vCode" placeholder="Verification Code">
     </label>
 
     <label class="item item-input">
-      <button class="button button-full button-positive" style = "background-color:#900C3F;" ng-click="verify(vCode)">
+      <button class="button button-block button-positive" style = "background-color:#900C3F;" ng-click="verify(vCode)">
         Submit
       </button>
     </label>

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory,global) {
 
     $scope.items = [];
     $scope.selectedItems = [];
@@ -27,8 +27,8 @@ angular.module('starter.controllers')
     
     
     /*------------------------------------------------------------------*/
-    /*Load all entries related to specfi list*/
-    $scope.items = localItemHandlerV2.masterItems();
+    /*Load all Master Items*/
+    $scope.items = global.masterItems||localItemHandlerV2.masterItems();
     /*------------------------------------------------------------------*/
     /*Load all entries related to specfi list*/
     $scope.listItems = localEntryHandlerV2.selectedItem($state.params.listId);

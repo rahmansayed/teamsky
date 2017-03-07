@@ -18,13 +18,13 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, $cordovaPreferences, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
-        /*Disabe H/W back button in some cases*/
+  .run(function ($ionicPlatform, global, $cordovaPreferences, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout,localItemHandlerV2) {
+        
     $ionicPlatform.ready(function () {
 
 
       
-      
+      /*Disabe H/W back button in some cases*/
       $ionicPlatform.ready(function () {
     $ionicPlatform.registerBackButtonAction(function (event) {
         if ( ($state.$current.name=="lists") ||
@@ -76,17 +76,30 @@ angular.module('starter', ['ionic',
                       global.userServerId = userVerify.getUserServerId();
                       global.deviceServerId = userVerify.getDeviceServerId();
 
+                    
+                    /*Load Master Items in case user is verified*/
+                    localItemHandlerV2.getAllMasterItem()
+                    .then(function (result) {
+                        global.masterItems  = result;
+                           console.log('7/3/2017 - app.run - aalatief: Master Item:' + JSON.stringify(global.masterItems));
+                      }
+                      , function (error) {
+                        console.log('aalatief: List master Item Load Fail:' + JSON.stringify(error));
+
+                      });
                       if (userVerify.isVerified()) {
                         console.log('app.js user verified true');
                         serverHandler.syncInit();
                         $ionicLoading.hide();
                         $location.path("/lists");
+
                       }
                       else {
                         $ionicLoading.hide();
                         $location.path("/subscribe");
 
                       }
+                      
                       console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                       console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                       console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
@@ -128,10 +141,21 @@ angular.module('starter', ['ionic',
                     users = userVerify.userSetting();
                     global.userServerId = userVerify.getUserServerId();
                     global.deviceServerId = userVerify.getDeviceServerId();
+                    
+                  /*Load Master Items in case user is verified*/
+                    localItemHandlerV2.getAllMasterItem()
+                    .then(function (result) {
+                        global.masterItems  = result;
+                           console.log('7/3/2017 - app.run - aalatief: Master Item:' + JSON.stringify(global.masterItems));
+                      }
+                      , function (error) {
+                        console.log('aalatief: List master Item Load Fail:' + JSON.stringify(error));
 
+                      });
                     if (userVerify.isVerified()) {
                       $ionicLoading.hide();
                       $location.path("/lists");
+
                       serverHandler.syncInit();
                     }
                     else {
@@ -139,6 +163,22 @@ angular.module('starter', ['ionic',
                       $location.path("/subscribe");
 
                     }
+                    
+                  
+/*                        localItemHandlerV2.getAllMasterItem()
+                        .then(function (result) {
+                            global.masterItems  = result;
+                               console.log('7/3/2017 - app.run - aalatief: Master Item:' + JSON.stringify(global.masterItems));
+                          }
+                          , function (error) {
+                            console.log('aalatief: List master Item Load Fail:' + JSON.stringify(error));
+                            
+                          });*/
+                                         
+                 /*   global.masterItems  = localItemHandlerV2.masterItems();  */
+                 /*   console.log('7/3/2017 - app.run - aalatief: Master Item:' + JSON.stringify(global.masterItems));*/
+                  
+                  
                     console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                     console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                     console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
