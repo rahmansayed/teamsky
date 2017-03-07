@@ -161,7 +161,7 @@ angular.module('starter.services')
                       uom: result.rows.item(i).uom,
                       retailerServerId: result.rows.item(i).retailerServerId
                     });
-                    if (result.rows.item(i).origin == 'L') {
+                    if ((result.rows.item(i).origin == 'L') || (result.rows.item(i).origin == 'O' )) {
                       entries.entries[entries.entries.length - 1].userItemServerId = result.rows.item(i).itemServerId;
                     }
                     else {
@@ -727,6 +727,7 @@ angular.module('starter.services')
             "from entry, list " +
             "where entry.listLocalId = list.listLocalId " +
             "and entry.entryCrossedFlag = 1 " +
+            "and ifnull(entry.entryServerId,'-1') <> '-1' " +
             "and entry.flag = 'E'" +
             "and list.listServerId = '" + listServerId.listServerId + "'";
 

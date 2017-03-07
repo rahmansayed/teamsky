@@ -255,7 +255,7 @@ angular.module('starter.services')
         var defer = $q.defer();
         console.log("serverHandlerMasterItemV2 syncDownstreamedItemsBack started");        // Start Read Local DB from table category
 
-        var query = "SELECT  * FROM masterItem where lastUpdateBy = 'O'";
+        var query = "SELECT  * FROM masterItem where origin = 'O'";
 
         global.db.transaction(function (tx) {
           tx.executeSql(query, [],
@@ -276,30 +276,7 @@ angular.module('starter.services')
                 $http.post(global.serverIP + "/api/items/syncOtherUserItems", data)
                   .then(function (serverResponse) {
                     console.log("syncotheruserslocalItems Items Server List Back Correctly " + JSON.stringify(serverResponse));
-                    global.db.transaction(function (tx) {
-
-                      var query = "update masterItem set origin = 'S', flag = 'S' where itemLocalId in (";
-                      for (var i = 0; i < result.rows.length; i++) {
-                        query = query + result.rows.item(i).itemLocalId;
-                        if (i < result.rows.length - 1) {
-                          query = query + ","
-                        }
-                      }
-                      query = query + ')';
-                      console.log("syncotheruserslocalItems Items query " + query);
-
-                      tx.executeSql(query, [], function (tx, res) {
-                        console.log("syncotheruserslocalItems update res " + res.rowsAffected);
-                      }, function (err) {
-                        console.log("syncotheruserslocalItems err " + err.message);
-                      });
-
-                    }, function (error) {
-                      console.log("syncotheruserslocalItems Error = " + error);
-                      defer.reject(error);
-                    }, function (result) {
-                      defer.resolve(result);
-                    });
+                    defer.resolve();
                   });
               }
               else {

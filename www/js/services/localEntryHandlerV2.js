@@ -154,55 +154,63 @@ angular.module('starter.services')
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as crossed*/
-    function checkItem(listItem) {
-      console.log('Is Item Checked: ' + isItemChecked(listItem));
-      if (!isItemChecked(listItem)) {
-        var deferred = $q.defer();
-        var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
+    function crossEntry(entry) {
+      console.log('crossEntry isItemChecked = ' + isItemChecked(entry));
+      var deferred = $q.defer();
+      var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
 
-        dbHandler.runQuery(query, [new Date().getTime(), listItem.itemLocalId, listItem.listLocalId], function (response) {
+      global.db.transaction(function (tx) {
+        tx.executeSql(query, [new Date().getTime(), entry.itemLocalId, entry.listLocalId], function (response) {
           //Success Callback
           console.log('Update Entry with Check Flag!!!' + JSON.stringify(response));
           //checkedItems.push(listItem);
-
-          deferred.resolve(response);
-        }, function (error) {
-          //Error Callback
+          serverHandlerEntryV2.syncCrossingsUpstream().then(function () {
+            deferred.resolve(response);
+          });
+        }, function (err) {
           console.log(error);
           deferred.reject(error);
         });
+      }, function (error) {
+        console.log(error);
+        deferred.reject(error);
+      });
 
-        return deferred.promise;
-      }
+      return deferred.promise;
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as uncrossed*/
-    function unCheckItem(checkedItem, AllCheckedItems) {
-      console.log('24/2/2017- aalatief - Is Item Checked: ' + isItemChecked(checkedItem));
+    function repeatEntry(entry, AllCheckedItems) {
+      console.log('repeatEntry entry = ' + entry);
 
-      if (isItemChecked(checkedItem)) {
-        var deferred = $q.defer();
-        var query = "update entry  set entryCrossedFlag=0, flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
+      var deferred = $q.defer();
+      var query = "INSERT INTO entry " +
+        "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, origin, flag, deliveredFlag, seenFlag) " +
+        "VALUES (null,?,?,0,'L', 'N', 0, 1)";
 
-        dbHandler.runQuery(query, [new Date().getTime(), checkedItem.itemLocalId, checkedItem.listLocalId], function (response) {
-          //Success Callback
-          console.log('Update Entry with uncheck Flag!!!');
-          console.log(response);
-          deferred.resolve(response);
-        }, function (error) {
-          //Error Callback
-          console.log(error);
-          deferred.reject(error);
+      global.db.transaction(function (tx) {
+        tx.executeSql(query, [entry.listLocalId, entry.itemLocalId]);
+      }, function (error) {
+        //Error Callback
+        console.log('repeatEntry db error = ' + error);
+        deferred.reject(error);
+      }, function () {
+        console.log('repeatEntry insert success');
+        serverHandlerEntryV2.syncEntriesUpstream().then(function () {
+          deferred.resolve();
+        }, function (err) {
+          deferred.reject(err);
         });
 
-        for (var k = 0; k < AllCheckedItems.length; k++) {
-          if ((AllCheckedItems[k].itemName == checkedItem.itemName) && (AllCheckedItems[k].listLocalId == checkedItem.listLocalId)) {
-            AllCheckedItems.splice(k, 1);
-          }
+      });
+
+      for (var k = 0; k < AllCheckedItems.length; k++) {
+        if ((AllCheckedItems[k].itemName == entry.itemName) && (AllCheckedItems[k].listLocalId == entry.listLocalId)) {
+          AllCheckedItems.splice(k, 1);
         }
-        ;
-        return deferred.promise;
       }
+
+      return deferred.promise;
     };
     /*-------------------------------------------------------------------------------------*/
     /*delete entry*/
@@ -307,8 +315,8 @@ angular.module('starter.services')
       checkedItem: checkedItem,
       addItemToList: addItemToList,
       allListItemCategoryCrossed: allListItemCategoryCrossed,
-      checkItem: checkItem,
-      unCheckItem: unCheckItem,
+      checkItem: crossEntry,
+      unCheckItem: repeatEntry,
       deactivateItem: deactivateItem
 
     };

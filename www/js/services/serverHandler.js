@@ -6,9 +6,6 @@ angular.module('starter.services')
 
     function syncInit() {
       console.log("Start syncInit");
-
-      handleNotification();
-
       serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
         serverHandlerItemsV2.syncMasterItemsDownstream();
       });
@@ -19,7 +16,7 @@ angular.module('starter.services')
           serverHandlerEntryV2.syncEntriesUpstream();
         })
       });
-
+      handleNotification();
       console.log("End SynchInitTest");
     }
 
