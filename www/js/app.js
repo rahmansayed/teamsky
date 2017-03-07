@@ -18,7 +18,7 @@ angular.module('starter', ['ionic',
 ])
 /*var db = null;*/
 
-  .run(function ($ionicPlatform, global, $cordovaPreferences, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
+  .run(function ($ionicPlatform, global, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
 
 
@@ -32,6 +32,15 @@ angular.module('starter', ['ionic',
                     global.userServerId = userVerify.getUserServerId();
                     global.deviceServerId = userVerify.getDeviceServerId();
                     serverHandler.syncInit();
+
+                    localItemHandlerV2.getAllMasterItem()
+                      .then(function (result) {
+                          global.masterItems = result;
+                          console.log('global.masterItems = ' + JSON.stringify(global.masterItems));
+                        }
+                        , function (error) {
+                          console.log('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                        });
                     if (userVerify.isVerified()) {
                       console.log('app.js user verified true');
                       $ionicLoading.hide();
@@ -70,8 +79,21 @@ angular.module('starter', ['ionic',
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-      document.addEventListener("deviceready", function () {
+      $ionicPlatform.registerBackButtonAction(function (event) {
+        if (($state.$current.name == "lists") ||
+          ($state.$current.name == "subscribe") ||
+          ($state.$current.name == "config") ||
+          ($state.$current.name == "verify")
+        ) {
+          navigator.app.exitApp();
+        } else {
+          // For all other states, the H/W BACK button is enabled
+          navigator.app.backHistory();
+        }
+      }, 100);
 
+
+      document.addEventListener("deviceready", function () {
         alert('just to wait');
         /* if (typeof PushNotification === "defined") {*/
         var push = PushNotification.init({

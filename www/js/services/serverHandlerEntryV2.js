@@ -141,7 +141,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
             var query = "select entry.*, list.listServerId, masterItem.itemServerId, masterItem.origin ,retailer.retailerServerId " +
               " from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
-              " where entry.entryServerId = ''" +
+              " where entry.flag = 'N'" +
               "and list.listServerId = ?";
             tx.executeSql(query, [listServerId], function (tx, result) {
                 console.log("syncListEntries result = " + JSON.stringify(result));
@@ -219,7 +219,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "select list.listServerId, count(*) cnt " +
             "from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
-            "where entry.entryServerId = '' " +
+            "where entry.flag = 'N' " +
             "group by list.listServerId";
           tx.executeSql(query, [], function (tx, result) {
             console.log("synEntries result = " + JSON.stringify(result));

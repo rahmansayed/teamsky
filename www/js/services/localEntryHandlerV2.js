@@ -181,15 +181,18 @@ angular.module('starter.services')
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as uncrossed*/
     function repeatEntry(entry, AllCheckedItems) {
-      console.log('repeatEntry entry = ' + entry);
+      console.log('repeatEntry entry = ' + JSON.stringify(entry));
 
       var deferred = $q.defer();
-      var query = "INSERT INTO entry " +
-        "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, origin, flag, deliveredFlag, seenFlag) " +
-        "VALUES (null,?,?,0,'L', 'N', 0, 1)";
 
       global.db.transaction(function (tx) {
-        tx.executeSql(query, [entry.listLocalId, entry.itemLocalId]);
+        var insert_query = "INSERT INTO entry " +
+          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, origin, flag, deliveredFlag, seenFlag) " +
+          "VALUES (null,?,?,0,'L', 'N', 0, 1)";
+
+        var mark_query = "update entry set deleted = 'Y' where entryLocalId = ?";
+        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId]);
+        tx.executeSql(mark_query, [entry.entryLocalId]);
       }, function (error) {
         //Error Callback
         console.log('repeatEntry db error = ' + error);
@@ -205,7 +208,7 @@ angular.module('starter.services')
       });
 
       for (var k = 0; k < AllCheckedItems.length; k++) {
-        if ((AllCheckedItems[k].itemName == entry.itemName) && (AllCheckedItems[k].listLocalId == entry.listLocalId)) {
+        if ((AllCheckedItems[k].entryLocalId == entry.entryLocalId) && (AllCheckedItems[k].listLocalId == entry.listLocalId)) {
           AllCheckedItems.splice(k, 1);
         }
       }

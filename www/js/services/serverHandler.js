@@ -6,8 +6,11 @@ angular.module('starter.services')
 
     function syncInit() {
       console.log("Start syncInit");
+      var defer = $q.defer();
       serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
-        serverHandlerItemsV2.syncMasterItemsDownstream();
+        serverHandlerItemsV2.syncMasterItemsDownstream().then(function () {
+          defer.resolve();
+        });
       });
       serverHandlerListV2.syncListsUpstream().then(function () {
         console.log('serverHandler syncListsUpstream done');
@@ -17,7 +20,7 @@ angular.module('starter.services')
         })
       });
       handleNotification();
-      console.log("End SynchInitTest");
+      return defer.promise;
     }
 
     // handle a server notification

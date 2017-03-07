@@ -17,7 +17,7 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       global.db.transaction(function (tx) {
-        var query = "SELECT i.itemLocalId, i.itemName, c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId";
+        var query = "SELECT i.itemLocalId, i.itemName, lower(i.itemName) lowerItemName , c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId";
         tx.executeSql(query, [], function (tx, res) {
           console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
           for (var i = 0; i < res.rows.length; i++) {
@@ -98,7 +98,7 @@ angular.module('starter.services')
       var deferred = $q.defer();
       var matches = items.filter(function (item) {
         /*        console.log('The item Returned from Search: '+item.itemName.toLowerCase());*/
-        if (item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1) return true;
+        if (item.lowerItemName.indexOf(searchFilter.toLowerCase()) !== -1) return true;
       })
 
       /*       console.log('items array: ' + JSON.stringify(items));*/
@@ -122,7 +122,6 @@ angular.module('starter.services')
           }
           , function (error) {
             console.log('aalatief: List master Item Load Fail:' + JSON.stringify(error));
-            ;
           });
       return items;
     };
