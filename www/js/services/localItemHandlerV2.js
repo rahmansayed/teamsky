@@ -17,7 +17,8 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       global.db.transaction(function (tx) {
-        var query = "SELECT i.itemLocalId, i.itemName, lower(i.itemName) lowerItemName , c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId";
+        var query = "SELECT i.itemLocalId, i.itemName, lower(i.itemName) lowerItemName , c.categoryName FROM category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId" +
+          " order by itemPriority desc";
         tx.executeSql(query, [], function (tx, res) {
           console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
           for (var i = 0; i < res.rows.length; i++) {
