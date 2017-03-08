@@ -8,7 +8,9 @@ angular.module('starter.services')
       console.log("Start syncInit");
       var defer = $q.defer();
       serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
+        console.log('syncInit calling syncMasterItemsDownstream');
         serverHandlerItemsV2.syncMasterItemsDownstream().then(function () {
+          console.log('syncInit resolved');
           defer.resolve();
         });
       });

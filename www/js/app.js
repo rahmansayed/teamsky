@@ -29,16 +29,19 @@ angular.module('starter', ['ionic',
                     users = userVerify.userSetting();
                     global.userServerId = userVerify.getUserServerId();
                     global.deviceServerId = userVerify.getDeviceServerId();
-                    serverHandler.syncInit();
+                    serverHandler.syncInit().then(function () {
+                      console.log('calling getAllMasterItem');
+                      localItemHandlerV2.getAllMasterItem()
+                        .then(function (result) {
+                            global.masterItems = result;
+                            console.log('global.masterItems populated = ');
+                          }
+                          , function (error) {
+                            console.log('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                          });
 
-                    localItemHandlerV2.getAllMasterItem()
-                      .then(function (result) {
-                          global.masterItems = result;
-//                          console.log('global.masterItems = ' + JSON.stringify(global.masterItems));
-                        }
-                        , function (error) {
-                          console.log('global.masterItems Item Load Fail:' + JSON.stringify(error));
-                        });
+                    });
+
                     if (userVerify.isVerified()) {
                       console.log('app.js user verified true');
                       $ionicLoading.hide();

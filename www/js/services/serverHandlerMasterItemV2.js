@@ -73,6 +73,10 @@ angular.module('starter.services')
                     });
                   }
                 });
+              }, function (err) {
+
+              }, function () {
+                defer.resolve();
               }
             );
           },
@@ -81,20 +85,12 @@ angular.module('starter.services')
 
             console.log("ERROR = " + JSON.stringify(error));
             defer.resolve(error);
-          }
-          ,
-          function (response) {
-            console.log("items Added =>");
-            defer.resolve(response);
-          }
-        )
-        ;
+          });
 
         console.log("End additemLocal");
         return defer.promise;
 
       }
-      ;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,13 +122,16 @@ angular.module('starter.services')
                 .then(function (serverResponse) {
                   console.log(" syncMasterItems Items Server List Back Correctly");
 //                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
-
-                  addItemsLocal(serverResponse.data).then(function (string) {
-                    defer.resolve(string);
-                  }, function (error) {
-                    defer.reject(error);
-                  });
-
+                  if (serverResponse.data.length > 0) {
+                    addItemsLocal(serverResponse.data).then(function (string) {
+                      defer.resolve(string);
+                    }, function (error) {
+                      defer.reject(error);
+                    });
+                  }
+                  else {
+                    defer.resolve();
+                  }
                 });
               console.log("End Call Server");
               console.log("///////////////////////////////////////");
@@ -270,7 +269,7 @@ angular.module('starter.services')
                   items: []
                 };
 
-                for(var i=0; i< result.rows.length; i++){
+                for (var i = 0; i < result.rows.length; i++) {
                   data.items.push(result.rows.item(i));
                 }
                 $http.post(global.serverIP + "/api/items/syncOtherUserItems", data)
