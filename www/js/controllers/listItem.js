@@ -95,12 +95,15 @@ angular.module('starter.controllers')
     /*Check item in list*/
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
-      localEntryHandlerV2.checkItem(listItem)
-        .then(function (response) {
+      localEntryHandlerV2.checkItem(listItem);
+      
+/*        .then(function (response) {
           $state.reload();
         }, function (error) {
 
-        });
+        });*/
+        
+        $state.reload();
 
     };
     /*------------------------------------------------------------------*/

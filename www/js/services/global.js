@@ -22,10 +22,11 @@ angular.module('starter.services')
     
     function initialize(){
       global.db.transaction(function(tx){
-      });
-        
 
-    }
+      });
+    };
+
+    
     return {
       db: db,
       settings: settings,
