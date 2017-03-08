@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory,global) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory,global,pickerView) {
 
     $scope.items = [];
     $scope.selectedItems = [];
@@ -127,6 +127,7 @@ angular.module('starter.controllers')
         }
       )
     };
+    
     /*------------------------------------------------------------------*/
 
 
@@ -251,5 +252,8 @@ angular.module('starter.controllers')
       $scope.modal.hide();
     };*/
 
+    
   });
+
+
 

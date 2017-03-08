@@ -56,7 +56,7 @@
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
                 <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
-               
+             
                  <div class="item-details" ng-show="showDetails">
                     <div class="item item-input" autofocus="autofocus">Quantity &emsp;
                     <input type="text"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
@@ -66,17 +66,14 @@
                      
                     <div class="item item-input">UOM  &emsp;
                         <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">
-                        
-                        <proton:multi-list-picker>
-                          <proton:multi-list-picker-list>
-                            <proton:multi-list-picker-list-item>Kilogram</proton:multi-list-picker-list-item>
-                            <proton:multi-list-picker-list-item>Pound</proton:multi-list-picker-list-item>
-                            <proton:multi-list-picker-list-item>Piece</proton:multi-list-picker-list-item>
-                            <proton:multi-list-picker-list-item>Each</proton:multi-list-picker-list-item>
-                            <proton:multi-list-picker-list-item>Litre</proton:multi-list-picker-list-item>
-                            <proton:multi-list-picker-list-item>Ml</proton:multi-list-picker-list-item>
-                          </proton:multi-list-picker-list>
-                        </proton:multi-list-picker>
+                            <select>
+                              <option>Kilogram</option>
+                              <option Pound>Green</option>
+                              <option>Piece</option>
+                              <option>Each</option>    
+                              <option>Litre</option>  
+                              <option>Ml</option>  
+                            </select>
                     </div>
                     <div class="item item-input">Retailer  &emsp;
                         <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">

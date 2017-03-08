@@ -107,7 +107,255 @@ color: #ffffff;}
   color: #ffffff !important;
 }
 
+/*Picker View Part*/
 
-/*   .pane  {
-        background-color: #464646!important;
-    }*/
+@charset "UTF-8";
+
+body {
+  cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+
+$positive: #387ef5 !default;
+
+@mixin animation-duration($duration) {
+ -webkit-animation-duration: $duration;
+         animation-duration: $duration;
+}
+
+@mixin animation-timing-function($animation-timing) {
+ -webkit-animation-timing-function: $animation-timing;
+         animation-timing-function: $animation-timing;
+}
+
+@mixin animation-fill-mode($fill-mode) {
+ -webkit-animation-fill-mode: $fill-mode;
+         animation-fill-mode: $fill-mode;
+}
+
+@mixin animation-name($name...) {
+ -webkit-animation-name: $name;
+         animation-name: $name;
+}
+
+@mixin animation-iteration-count($count) {
+ -webkit-animation-iteration-count: $count;
+         animation-iteration-count: $count;
+}
+
+@mixin transform($val) {
+  -webkit-transform: $val;
+          transform: $val;
+}
+@mixin display-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@mixin border-top-left-radius($radius) {
+  -webkit-border-top-left-radius: $radius;
+          border-top-left-radius: $radius;
+}
+@mixin border-top-right-radius($radius) {
+  -webkit-border-top-right-radius: $radius;
+          border-top-right-radius: $radius;
+}
+@mixin border-bottom-right-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+          border-bottom-right-radius: $radius;
+}
+@mixin border-bottom-left-radius($radius) {
+  -webkit-border-bottom-left-radius: $radius;
+          border-bottom-left-radius: $radius;
+}
+
+@mixin absolute-screen-center($elemTop: 50%, $elemLeft: 50%, $offsetX: -50%, $offsetY: -50%) {
+	position: absolute;
+	top: $elemTop; left: $elemLeft;
+	@include transform(translate($offsetX, $offsetY));
+}
+
+@mixin absolute-vertical-center() {
+	position: absolute;
+	top: 50%;
+	@include transform(translateY(-50%));
+}
+
+@mixin absolute-horizontal-center() {
+	position: absolute;
+	left: 50%;
+	@include transform(translateX(-50%));
+}
+
+
+$picker-view-width: 100vw;
+$picker-view-height: 33.33vh;
+
+$picker-view-font-size: 26px;
+$picker-button-font-size: 28px;
+
+@mixin picker-content-base() {
+	@include display-flex();
+	position: relative;
+	background-color: white;
+}
+
+.picker-view {
+	z-index: 9999;
+	position: absolute;
+	left: 0; bottom: 0;
+	text-align: center;
+
+  width: 100%;
+	width: $picker-view-width;
+  height: 33.33%;
+	height: $picker-view-height;
+
+	background-color: transparent;
+// remove scrollbar while using overflow-scroll="true"
+	&::-webkit-scrollbar, *::-webkit-scrollbar {
+		display: none; // hide native scroll bar
+	}
+	.picker-accessory-bar {
+		@include picker-content-base();
+		z-index: 3;
+		height: 20%;
+
+		.picker-title {
+			@include absolute-screen-center();
+			margin: 0;
+			font-size: $picker-button-font-size;
+			color: rgba(gray, 0.8);
+		}
+
+		.button {
+			@include absolute-vertical-center();
+			font-size: $picker-button-font-size;
+			font-weight: bold;
+			color: $positive;
+
+			&:first-of-type {
+				left: 1%;
+			}
+			&:last-of-type {
+				right: 1%;
+			}
+		}
+	}
+
+	.picker-content {
+		@include picker-content-base();
+		height: 80%;
+		padding: 2.5% 5%; 
+
+		.picker-scroll {
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			margin: auto;
+			font-size: $picker-view-font-size;
+			line-height: normal;
+
+			color: black;
+			border-style: solid;
+			border-top-width: 1vmin;
+			border-bottom-width: 1vmin;
+			border-color: transparent;
+
+			.scroll {
+				min-height: 100%;
+
+				div {
+					opacity: 0.15;
+
+					&.selected {
+						opacity: 1;
+
+						// border-top-width: 1px;
+						// border-bottom-width: 1px;
+						// border-style: solid;
+						font-weight: bold;
+						// @include scale(1.25);
+					}
+
+					&.pre-select {
+						opacity: 0.3;
+					}
+				}
+
+			}
+
+			&:after {
+				content: '';
+				z-index: -1;
+				position: absolute;
+				top: 1vmin; bottom: 1vmin;
+				border-radius: 4vmin;
+			}
+
+			&:first-of-type {
+				left: 0;
+				border-left-width: 1vmin;
+				border-right-width: 0.5vmin;
+				@include border-top-left-radius(5vmin);
+				@include border-bottom-left-radius(5vmin);
+
+				&:after {
+					left: 1vmin; right: 0.5vmin;
+				}
+			}
+			&:last-of-type {
+				right: 0;
+				border-left-width: 0.5vmin;
+				border-right-width: 1vmin;
+				@include border-top-right-radius(5vmin);
+				@include border-bottom-right-radius(5vmin);
+				&:after {
+					left: 0.5vmin; right: 1vmin;
+				}
+			}
+			&:not(:first-of-type):not(:last-of-type) {
+				border-left-width: 0.5vmin;
+				border-right-width: 0.5vmin;
+				&:after {
+					left: 0.5vmin; right: 0.5vmin;
+				}
+			}
+		}
+	}
+}
+
+.picker-view-slidein {
+	@include animation-duration(0.2s); 
+	@include animation-fill-mode(both);
+	@include animation-timing-function(ease-in);
+	@include animation-iteration-count(1);
+	@include animation-name(pickerViewSlidein);
+}
+@keyframes pickerViewSlidein {
+	from { opacity: 0; transform: translateY(100%); }
+	to { opacity: 1; transform: translateY(0); }
+}
+@-webkit-keyframes pickerViewSlidein { 
+	from { opacity: 0; -webkit-transform: translateY(100%); }
+	to { opacity: 1; -webkit-transform: translateY(0); }
+}
+
+.picker-view-slideout {
+	@include animation-duration(0.2s); 
+	@include animation-fill-mode(both);
+	@include animation-timing-function(ease-out);
+	@include animation-iteration-count(1);
+	@include animation-name(pickerViewSlideout);
+}
+@keyframes pickerViewSlideout { 
+	from { opacity: 1; transform: translateY(0); }
+	to { opacity: 0; transform: translateY(100%); }
+}
+@-webkit-keyframes pickerViewSlideout { 
+	from { opacity: 1; -webkit-transform: translateY(0); }
+	to { opacity: 0; -webkit-transform: translateY(100%); }
+}
