@@ -28,7 +28,14 @@ angular.module('starter.controllers')
 
     /*------------------------------------------------------------------*/
     /*Load all Master Items*/
-    $scope.items = global.masterItems || localItemHandlerV2.masterItems();
+    if (global.masterItems) {
+      $scope.items = global.masterItems;
+    }
+    else {
+      localItemHandlerV2.getAllMasterItem().then(function (res) {
+        $scope.items = res;
+      })
+    }
     /*------------------------------------------------------------------*/
     /*Load all entries related to specfi list*/
     localEntryHandlerV2.selectedItem($state.params.listId).then(function (res) {
@@ -38,7 +45,7 @@ angular.module('starter.controllers')
 
     /*------------------------------------------------------------------*/
     /*Load all checked entries related to specfi list*/
-    localEntryHandlerV2.checkedItem($state.params.listId).then(function(res){
+    localEntryHandlerV2.checkedItem($state.params.listId).then(function (res) {
       $scope.checkedItems = res;
     });
 

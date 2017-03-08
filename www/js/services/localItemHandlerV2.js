@@ -123,21 +123,6 @@ angular.module('starter.services')
         }
         ;
       /*-------------------------------------------------------------------------------------*/
-      /*return master items */
-      function masterItems() {
-        items = [];
-
-        getAllMasterItem()
-          .then(function (result) {
-              items = result;
-              console.log('25/2/2017 - aalatief: Master items: ' + JSON.stringify(result));
-            }
-            , function (error) {
-              console.log('aalatief: List master Item Load Fail:' + JSON.stringify(error));
-            });
-        return items;
-      };
-      /*-------------------------------------------------------------------------------------*/
       /*Add New Master Item*/
       function addMaserItem(item) {
 
@@ -184,7 +169,6 @@ angular.module('starter.services')
       };
       /*-------------------------------------------------------------------------------------*/
       return {
-        masterItems: masterItems,
         searchItems: searchItems,
         categoryName: categoryName,
         initcap: initcap,
