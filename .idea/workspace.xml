@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandler.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/listItem.js" afterPath="$PROJECT_DIR$/www/js/controllers/listItem.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="localItemHandlerV2.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="localItemHandlerV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/localItemHandlerV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="169" column="46" lean-forward="true" selection-start-line="169" selection-start-column="46" selection-end-line="169" selection-end-column="46" />
+            <state relative-caret-position="370">
+              <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -94,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serverHandlerMasterItemV2.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serverHandlerMasterItemV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="78" column="32" lean-forward="false" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
+            <state relative-caret-position="124">
+              <caret line="53" column="73" lean-forward="true" selection-start-line="53" selection-start-column="73" selection-end-line="53" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -107,8 +106,8 @@
       <file leaf-file-name="listItem.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="47" column="56" lean-forward="true" selection-start-line="47" selection-start-column="56" selection-end-line="47" selection-end-column="56" />
+            <state relative-caret-position="316">
+              <caret line="155" column="0" lean-forward="true" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -223,11 +222,11 @@
         <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/verifyCtrl.js" />
-        <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
-        <option value="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
+        <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
+        <option value="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
       </list>
     </option>
   </component>
@@ -515,7 +514,7 @@
       <workItem from="1487157402714" duration="49697000" />
       <workItem from="1488351650242" duration="30752000" />
       <workItem from="1488528710807" duration="17549000" />
-      <workItem from="1488872703306" duration="25236000" />
+      <workItem from="1488872703306" duration="26163000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -528,7 +527,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="534105000" />
+    <option name="totallyTimeSpent" value="535032000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -941,30 +940,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="12" column="8" lean-forward="false" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="47" column="56" lean-forward="true" selection-start-line="47" selection-start-column="56" selection-end-line="47" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/localItemHandlerV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="169" column="46" lean-forward="true" selection-start-line="169" selection-start-column="46" selection-end-line="169" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localListHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
@@ -991,8 +966,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="78" column="32" lean-forward="false" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
+        <state relative-caret-position="124">
+          <caret line="53" column="73" lean-forward="true" selection-start-line="53" selection-start-column="73" selection-end-line="53" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="155" column="0" lean-forward="true" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/localItemHandlerV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
           <folding />
         </state>
       </provider>

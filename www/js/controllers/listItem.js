@@ -156,47 +156,35 @@ angular.module('starter.controllers')
 
         .then(function (response) {
             console.log('07/02/2017 - listItemCtrl - aalatief:Master Item added' + JSON.stringify(response));
+            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id' + JSON.stringify(response) + 'Entered Item Name: ' + $scope.enteredItem.itemName);
 
-            localItemHandlerV2.getLocalItemId($scope.enteredItem.itemName)
-              .then(function (response) {
-                  console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id' + JSON.stringify(response) + 'Entered Item Name: ' + $scope.enteredItem.itemName);
-                  itemLocalId = response;
+            $scope.selectedItem =
+              {
+                listLocalId: $state.params.listId,
+                itemLocalId: response,
+                itemName: localItemHandlerV2.initcap(itemName),
+                categoryName: localItemHandlerV2.categoryName(itemName),
+                itemCrossed: false,
+                itemQuatity: 0,
+                itemUom: "",
+                itemRetailer: "",
+                language: "EN"
+              };
+            localEntryHandlerV2.addItemToList($scope.selectedItem);
+            serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
+              serverHandlerEntryV2.syncEntriesUpstream();
+            }, function (err) {
 
-                  $scope.selectedItem =
-                    {
-                      listLocalId: $state.params.listId,
-                      itemLocalId: itemLocalId,
-                      itemName: $scope.enteredItem.itemName,
-                      categoryName: localItemHandlerV2.categoryName(itemName),
-                      itemCrossed: false,
-                      itemQuatity: 0,
-                      itemUom: "",
-                      itemRetailer: "",
-                      language: "EN"
-                    };
-                  localEntryHandlerV2.addItemToList($scope.selectedItem);
-                  serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
-                    serverHandlerEntryV2.syncEntriesUpstream();
-                  }, function (err) {
+            });
 
-                  });
-
-                  $state.reload();
-                },
-                function (error) {
-                  console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id error' + JSON.stringify(error));
-
-                }
-              );
-
+            $state.reload();
           },
           function (error) {
 
             console.log('07/02/2017 - listItemCtrl - aalatief:Master Item errored' + JSON.stringify(error));
-          });
-
-
-    };
+          }
+        );
+    }
     /*-----------------------------------------------------------------------------------------------*/
     /*Deactivate item from list*/
     $scope.removeFromList = function (listItem) {
@@ -264,7 +252,8 @@ angular.module('starter.controllers')
      };*/
 
 
-  });
+  })
+;
 
 
 

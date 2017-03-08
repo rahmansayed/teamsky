@@ -173,7 +173,6 @@ angular.module('starter.services')
         categoryName: categoryName,
         initcap: initcap,
         addMasterItem: addMaserItem,
-        getLocalItemId: getLocalItemId,
         getAllMasterItem: getAllMasterItem
       };
     }
