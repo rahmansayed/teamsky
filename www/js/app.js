@@ -34,7 +34,7 @@ angular.module('starter', ['ionic',
                     localItemHandlerV2.getAllMasterItem()
                       .then(function (result) {
                           global.masterItems = result;
-                          console.log('global.masterItems = ' + JSON.stringify(global.masterItems));
+//                          console.log('global.masterItems = ' + JSON.stringify(global.masterItems));
                         }
                         , function (error) {
                           console.log('global.masterItems Item Load Fail:' + JSON.stringify(error));
@@ -102,7 +102,6 @@ angular.module('starter', ['ionic',
           },
           "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {}
         });
-        global.dataKey = 'ZXCV';
         push.on('registration', function (data) {
           console.log('18/02/2017 - aalatief - app.js: DataKey:' + data.registrationId);
           global.dataKey = data.registrationId;
@@ -119,6 +118,7 @@ angular.module('starter', ['ionic',
       });
 
       if (typeof PushNotification != "defined" && !window.cordova) {
+        global.dataKey = 'ZXCV';
         init();
       }
     });

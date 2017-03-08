@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory,global,pickerView) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, pickerView) {
 
     $scope.items = [];
     $scope.selectedItems = [];
@@ -19,24 +19,28 @@ angular.module('starter.controllers')
 
     };
     localListHandlerV2.getSpecificList($state.params.listId)
-    .then(function(response){
+      .then(function (response) {
         $scope.dynamicListTitle = response.listName;
-    },function(error){
+      }, function (error) {
         console.log('Error');
-    });
+      });
 
 
     /*------------------------------------------------------------------*/
     /*Load all Master Items*/
-    $scope.items = global.masterItems||localItemHandlerV2.masterItems();
+    $scope.items = global.masterItems || localItemHandlerV2.masterItems();
     /*------------------------------------------------------------------*/
     /*Load all entries related to specfi list*/
-    $scope.listItems = localEntryHandlerV2.selectedItem($state.params.listId);
+    localEntryHandlerV2.selectedItem($state.params.listId).then(function (res) {
+      $scope.listItems = res;
+    });
 
 
     /*------------------------------------------------------------------*/
     /*Load all checked entries related to specfi list*/
-    $scope.checkedItems = localEntryHandlerV2.checkedItem($state.params.listId);
+    localEntryHandlerV2.checkedItem($state.params.listId).then(function(res){
+      $scope.checkedItems = res;
+    });
 
 
     /*------------------------------------------------------------------*/
@@ -96,14 +100,14 @@ angular.module('starter.controllers')
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
       localEntryHandlerV2.checkItem(listItem);
-      
-/*        .then(function (response) {
-          $state.reload();
-        }, function (error) {
 
-        });*/
-        
-        $state.reload();
+      /*        .then(function (response) {
+       $state.reload();
+       }, function (error) {
+
+       });*/
+
+      $state.reload();
 
     };
     /*------------------------------------------------------------------*/
@@ -127,7 +131,7 @@ angular.module('starter.controllers')
         }
       )
     };
-    
+
     /*------------------------------------------------------------------*/
 
 
@@ -242,17 +246,17 @@ angular.module('starter.controllers')
       $state.go('item', {'listId': 1});
     };
 
-   /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
-      scope: $scope
-    }).then(function (modal) {
-      $scope.modal = modal;
-    });
-    $scope.createContact = function (u) {
-      $scope.contacts.push({name: u.firstName + ' ' + u.lastName});
-      $scope.modal.hide();
-    };*/
+    /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
+     scope: $scope
+     }).then(function (modal) {
+     $scope.modal = modal;
+     });
+     $scope.createContact = function (u) {
+     $scope.contacts.push({name: u.firstName + ' ' + u.lastName});
+     $scope.modal.hide();
+     };*/
 
-    
+
   });
 
 
