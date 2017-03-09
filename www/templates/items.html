@@ -49,15 +49,21 @@
         <ion-list show-reorder="reorderFlag"> 
             
         <div class="item item-divider"
-            ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" ng-show="!allListItemCategoryCrossed(item.categoryName)">
-                        {{item.categoryName}}
-         <ion-item class="item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = ! showDetails" ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" >
-                <h2>{{listItem.itemName}}   - {{listItem.seenFlag}}</h2>
+            ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" ng-show="!allListItemCategoryCrossed(item.categoryName)" style="padding-bottom:20px;">
+            <p style="padding-bottom:10px;" align="center">  {{item.categoryName}}</p>
+              
+         <ion-item class="item-profile item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = true" ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" >
+
+               
+                <div style="display:inline; float:left;">        
+                <h2 style="display:inline;">{{listItem.itemName}}   - {{listItem.seenFlag}}</h2>
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
                 <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
-             
-                 <div class="item-details" ng-show="showDetails">
+                    
+    
+                <div class="item-details" ng-show="showDetails">
+                    <br>
                     <div class="item item-input" autofocus="autofocus">Quantity &emsp;
                     <input type="text"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
                
@@ -65,7 +71,7 @@
                      
                      
                     <div class="item item-input">UOM  &emsp;
-                        <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">
+                       <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
                             <select>
                               <option>Kilogram</option>
                               <option Pound>Green</option>
@@ -78,23 +84,34 @@
                     <div class="item item-input">Retailer  &emsp;
                         <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
                     </div>
-                 </div>
-             <div align="right" ng-show= "listItem.seenFlag==0">
-              <p>&#x25CB;</p>
+                
+                <div class="padding button-bar" ng-show="showDetails">
+                        <a style="background-color:#900C3F;color:white;" class="button" ng-click="hide()">Ok</a>
+                 </div>  
+
+                 </div>    
+                </div>
+             <div style="display:inline; float:right;" >
+            <div align="right" ng-show= "listItem.seenFlag==0" style="display:inline;">
+              <p style="display:inline;">&#x25CB;</p>
              </div>
              
-             <div align="right" ng-show= "listItem.seenFlag==1">
-              <p>&#10008;</p>
+             <div align="right" ng-show= "listItem.seenFlag==1" style="display:inline;">
+              <p style="display:inline;">&#10008;</p>
              </div>
              
-             <div align="right" ng-show= "listItem.seenFlag==2">
-              <p>&#10004;</p>
+             <div align="right" ng-show= "listItem.seenFlag==2" style="display:inline;">
+              <p style="display:inline;">&#10004;</p>
              </div>
              
-            <div align="right" ng-show= "listItem.seenFlag==3">
-              <p>&#10004;&#10004;</p>
+            <div align="right" ng-show= "listItem.seenFlag==3" style="display:inline;">
+              <p style="display:inline;">&#10004;&#10004;</p>
              </div>
-          </ionitem>  
+            </div>     
+
+             
+          </ionitem>
+
         </div>
         </ion-list>
       </div>

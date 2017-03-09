@@ -240,7 +240,19 @@ angular.module('starter.controllers')
     $scope.addQuickItem = function () {
       $state.go('item', {'listId': 1});
     };
-
+    
+    
+        //This will hide the DIV by default.
+    $scope.showDetails = false;
+    $scope.show = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.showDetails = true;
+    };
+    $scope.hide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.showDetails = false;
+        $state.reload();
+    };
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
      }).then(function (modal) {
