@@ -32,7 +32,7 @@ angular.module('starter.services')
        }
        else {*/
       console.log('11/02/2017 - aalatief - initDb from Browser');
-      global.db = window.openDatabase("teamSky1_19.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+      global.db = window.openDatabase("teamSky1_20.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
       /*$location.path("/subscribe");*/
       //}
@@ -80,7 +80,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer,contactName text,phoneNumber text UNIQUE,phoneType text,contactServerId text,contactStatus text,lastUpdateDate integer,lastUpdateBy text,PRIMARY KEY(contactLocalId,phoneNumber))",
 
-        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId text,itemPriority integer,lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId text,itemPriority integer, genericFlag integer, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE VIRTUAL TABLE IF NOT EXISTS masterItem_tl USING fts3(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
 
@@ -123,7 +123,7 @@ angular.module('starter.services')
            */
         }
       }, function (error) {
-        console.error('dbHandler initDB error = '+error.message);
+        console.error('dbHandler initDB error = ' + error.message);
         deferred.reject(error);
       }, function () {
         deferred.resolve();

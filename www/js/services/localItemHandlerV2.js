@@ -19,7 +19,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language " +
             " FROM (category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId) INNER JOIN masterItem_tl as itl ON itl.itemlocalId = i.itemlocalId " +
-            " order by i.itemPriority desc";
+            " order by i.itemPriority desc, i.genericFlag desc";
           tx.executeSql(query, [], function (tx, res) {
             console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
             for (var i = 0; i < res.rows.length; i++) {
@@ -106,7 +106,7 @@ angular.module('starter.services')
         var lang = isRTL(searchFilter) ? 'AR' : 'EN';
 
         var deferred = $q.defer();
-        if (searchFilter.length > 3) {
+        if (searchFilter.length > 2) {
           console.log('searchItemsDB searchFilter = ' + searchFilter);
           var words = searchFilter.toLowerCase().split(" ");
           var matches = [];
@@ -192,9 +192,9 @@ angular.module('starter.services')
 
           global.db.transaction(function (tx) {
             var query_item = "INSERT INTO masterItem " +
-              "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag) " +
+              "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag, genericFlag) " +
               "VALUES (?,?,?,?,?,?,?, 'L', 'N')";
-            tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, 1, '', '', '', new Date().getTime()], function (tx, res) {
+            tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, 1, '', '', 1, new Date().getTime(),0], function (tx, res) {
               var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?)";
               tx.executeSql(query_lang, [res.insertId, 'EN', item.itemName, item.itemName.toLowerCase()], function (tx, res2) {
                 deferred.resolve(res.insertId);

@@ -38,8 +38,8 @@ angular.module('starter.services')
 
         var defer = $q.defer();
 
-        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag) values (null,?,?,?, 'S', 'S')";
-        var query_insert_wc = "insert into masterItem  (itemLocalId,itemServerId,itemName,origin, flag) values (null,?,?,'S','S')";
+        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) values (null,?,?,?, 'S', 'S',?,0)";
+        var query_insert_wc = "insert into masterItem  (itemLocalId,itemServerId,itemName,origin, flag,genericFlag,itemPriority) values (null,?,?,'S','S',?,0)";
         var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lowerItemName, lastUpdateBy) values (?,?,?,?,'SS')";
 
         dbHelper.buildCatgegoriesMap(itemsList).then(function (categoryMap) {
@@ -48,9 +48,13 @@ angular.module('starter.services')
                   var itemServerId = item._id;
                   var itemName = item.itemName;
                   console.log("SyncItemsV2 categoryName = " + item.categoryName);
+                  var genericFlag = 0;
+                  if (item.generic) {
+                    genericFlag = 1;
+                  }
                   if (item.categoryName) {
                     var categoryLocalId = dbHelper.getCategoryLocalIdfromMap(item.categoryName, categoryMap);
-                    tx.executeSql(query_insert_c, [itemServerId, itemName, categoryLocalId], function (tx, res) {
+                    tx.executeSql(query_insert_c, [itemServerId, itemName, categoryLocalId, genericFlag], function (tx, res) {
                       for (var j = 0; j < item.translation.length; j++) {
                         var transItemName = item.translation[j].itemName;
                         var transLang = item.translation[j].lang;
@@ -62,7 +66,7 @@ angular.module('starter.services')
                   }
                   else {
                     console.log("NO cat");
-                    tx.executeSql(query_insert_wc, [itemServerId, itemName], function (tx, res) {
+                    tx.executeSql(query_insert_wc, [itemServerId, itemName, genericFlag], function (tx, res) {
                       for (var j = 0; j < item.translation.length; j++) {
                         var transItemName = item.translation[j].itemName;
                         var transLang = item.translation[j].lang;
@@ -115,9 +119,11 @@ angular.module('starter.services')
               var data = {
                 maxItemServerId: maxItemServerId,
                 userServerId: global.userServerId,
-                deviceServerId: global.deviceServerId
+                deviceServerId: global.deviceServerId,
+                countryCode: global.countryCode
               };
 
+              console.log("syncMasterItemsDownstream data = " + JSON.stringify(data));
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
                   console.log(" syncMasterItems Items Server List Back Correctly");
