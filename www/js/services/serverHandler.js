@@ -1,7 +1,7 @@
 angular.module('starter.services')
 
   .factory('serverHandler', function ($http, global, $q, dbHandler, serverHandlerCategoryV2, $location, $state,
-                                      serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2) {
+                                      serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2, serverHandlerRetailerV2) {
 
 
     function syncInit() {
@@ -21,6 +21,10 @@ angular.module('starter.services')
           serverHandlerEntryV2.syncEntriesUpstream();
         })
       });
+
+      serverHandlerRetailerV2.syncMasterRetailersDownstream().then(function(){
+        console.log('serverHandler syncMasterRetailersDownstream done');
+      })
       handleNotification();
       return defer.promise;
     }

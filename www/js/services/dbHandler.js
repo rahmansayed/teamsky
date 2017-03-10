@@ -32,7 +32,7 @@ angular.module('starter.services')
        }
        else {*/
       console.log('11/02/2017 - aalatief - initDb from Browser');
-      global.db = window.openDatabase("teamSky1_14.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+      global.db = window.openDatabase("teamSky1_19.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
       /*$location.path("/subscribe");*/
       //}
@@ -71,7 +71,7 @@ angular.module('starter.services')
 
         /* "drop table userSetting",  */
 
-        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,origin text, flag text, newCount integer, deliverCount integer, seenCount integer, crossCount integer, lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,origin text, flag text, newCount integer, deliverCount integer, seenCount integer, crossCount integer, updateCount integer, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS list_tl (listLocalId integer,language text,listName text,lastUpdateDate integer,lastUpdateBy text )",
 
@@ -82,7 +82,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId text,itemPriority integer,lastUpdateDate integer,lastUpdateBy text )",
 
-        "CREATE TABLE IF NOT EXISTS masterItem_tl (itemLocalId integer,language text,itemName text,lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE VIRTUAL TABLE IF NOT EXISTS masterItem_tl USING fts3(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS category (categoryLocalId integer primary key,categoryName text,categoryServerId text,lastUpdateDate integer,lastUpdateBy text)",
 
@@ -95,7 +95,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,itemLocalId integer,origin text, flag text, deliveredFlag number, seenFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag text,deleted text,lastUpdateDate integer,lastUpdateBy text, language text)",
 
-        "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text,retailerServerId text,lastUpdateDate integer,lastUpdateBy text)",
+        "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text,retailerServerId text,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
 
         "CREATE TABLE IF NOT EXISTS retailer_tl (retailerLocalId integer ,language text,retailerName text,lastUpdateDate integer,lastUpdateBy text)",
 
@@ -123,6 +123,7 @@ angular.module('starter.services')
            */
         }
       }, function (error) {
+        console.error('dbHandler initDB error = '+error.message);
         deferred.reject(error);
       }, function () {
         deferred.resolve();

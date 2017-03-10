@@ -40,7 +40,7 @@ angular.module('starter.services')
 
         var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag) values (null,?,?,?, 'S', 'S')";
         var query_insert_wc = "insert into masterItem  (itemLocalId,itemServerId,itemName,origin, flag) values (null,?,?,'S','S')";
-        var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lastUpdateBy) values (?,?,?,'SS')";
+        var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lowerItemName, lastUpdateBy) values (?,?,?,?,'SS')";
 
         dbHelper.buildCatgegoriesMap(itemsList).then(function (categoryMap) {
             global.db.transaction(function (tx) {
@@ -54,7 +54,7 @@ angular.module('starter.services')
                       for (var j = 0; j < item.translation.length; j++) {
                         var transItemName = item.translation[j].itemName;
                         var transLang = item.translation[j].lang;
-                        tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName]);
+                        tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName, transItemName.toLowerCase()]);
                       }
                     }, function (err) {
                       defer.reject(err);
@@ -66,7 +66,7 @@ angular.module('starter.services')
                       for (var j = 0; j < item.translation.length; j++) {
                         var transItemName = item.translation[j].itemName;
                         var transLang = item.translation[j].lang;
-                        tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName]);
+                        tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName, transItemName.toLowerCase()]);
                       }
                     }, function (err) {
                       defer.reject(err);

@@ -22,14 +22,17 @@ angular.module('starter.services')
                   }
                 }
               }
-              serverHandlerEntryV2.syncCrossingsDownstream().then(function(affectedLists){
-                console.log('syncCrossingsDownstream affectedLists = '+ JSON.stringify(affectedLists));
+              serverHandlerEntryV2.syncCrossingsDownstream().then(function (affectedLists) {
+                console.log('syncCrossingsDownstream affectedLists = ' + JSON.stringify(affectedLists));
               });
-              serverHandlerEntryV2.syncDeliveryDownstream().then(function(affectedLists){
-                console.log('syncDeliveryDownstream affectedLists = '+ JSON.stringify(affectedLists));
+              serverHandlerEntryV2.syncDeliveryDownstream().then(function (affectedLists) {
+                console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
               });
-              serverHandlerEntryV2.syncSeenDownstream().then(function(affectedLists){
-                console.log('syncSeenDownstream affectedLists = '+ JSON.stringify(affectedLists));
+              serverHandlerEntryV2.syncSeenDownstream().then(function (affectedLists) {
+                console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
+              });
+              serverHandlerEntryV2.syncUpdatesDownstream().then(function (affectedLists) {
+                console.log('syncUpdatesDownstream affectedLists = ' + JSON.stringify(affectedLists));
               });
             }, function (err) {
 

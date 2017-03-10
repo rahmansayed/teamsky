@@ -54,7 +54,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
             var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0 and listLocalId = ?";
             tx.executeSql(query2, [listId]);
-            var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 where listLocalId = ?";
+            var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 where listLocalId = ?";
             tx.executeSql(query3, [listId]);
           }, function (err) {
             console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
@@ -279,17 +279,42 @@ angular.module('starter.services')
 
     /*-------------------------------------------------------------------------------------*/
     /* deactivate item from list from the local db*/
-    function deactivateItem(listItem) {
+    function deactivateItem(entry) {
       var deferred = $q.defer();
       global.db.transaction(function (tx) {
 
           var deleteQuery = "update entry set deleted = 'Y' where entryLocalId = ?";
-          tx.executeSql(deleteQuery, [listItem.entryLocalId], function (tx, res) {
+          tx.executeSql(deleteQuery, [entry.entryLocalId], function (tx, res) {
             console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
             /* ret.rowsAffected = res.rowsAffected;*/
             deferred.resolve(res);
           }, function (err) {
             console.log("localEntryHandlerV2.deactivateItem  deleteQuery err " + err.message);
+            deferred.reject(err);
+          });
+        }
+        ,
+        function (err) {
+          deferred.reject(err);
+        }
+      );
+      return deferred.promise;
+    };
+    /*******************************************************************************************************************
+     *
+     * @param entry
+     */
+    function updateEntry(entry) {
+      var deferred = $q.defer();
+      global.db.transaction(function (tx) {
+
+          var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, flag = 'E' where entryLocalId = ?";
+          tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId], function (tx, res) {
+            console.log("updateEntry res " + JSON.stringify(res));
+            deferred.resolve(res);
+            serverHandlerEntryV2.syncEntriesUpdatesUpstream();
+          }, function (err) {
+            console.log("updateEntry  updateQuery err " + err.message);
             deferred.reject(err);
           });
         }
@@ -308,7 +333,8 @@ angular.module('starter.services')
       allListItemCategoryCrossed: allListItemCategoryCrossed,
       checkItem: crossEntry,
       unCheckItem: repeatEntry,
-      deactivateItem: deactivateItem
+      deactivateItem: deactivateItem,
+      updateEntry: updateEntry
 
     };
   });

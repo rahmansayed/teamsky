@@ -93,7 +93,7 @@ angular.module('starter.services')
       }
 
       function getRetailersLocalIds(retailers) {
-        console.log("dbHelper getListsLocalIds " + JSON.stringify(retailers));
+        console.log("dbHelper getRetailersLocalIds " + JSON.stringify(retailers));
         var retailersRet = [];
         var defer = $q.defer();
         var query = "select * from retailer where retailerServerId in ( ";
@@ -143,6 +143,9 @@ angular.module('starter.services')
           }
           if (entries[i].retailerServerId)
             retailers.push(entries[i].retailerServerId);
+          else if(entries[i].userRetailerServerId){
+            retailers.push(entries[i].userRetailerServerId);
+          }
         }
 
         return $q.all({
@@ -152,6 +155,37 @@ angular.module('starter.services')
         });
       }
 
+      function insertLocalRetailerDownstream(retailers) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+            // checking if there are items that need to be sync'd
+            retailers.forEach(function (retailer) {
+              var query = "insert into retailer " +
+                "(retailerLocalId, retailerName, retailerServerId, origin, flag) values" +
+                "(null,?, ?, 'O', 'S')";
+              tx.executeSql(query, [retailers[i].retailerName, retailers[i]._id], function (tx, res) {
+                var query_tl_insert = "insert into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
+                tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailers[i].retailerName]);
+              });
+            });
+          }
+          ,
+          function (err) {
+            console.log("insertLocalRetailerDownstream error " + JSON.stringify(err.message));
+            defer.reject(err);
+          }
+          ,
+          function () {
+            defer.resolve();
+            console.log("insertLocalRetailerDownstream successfully");
+          }
+        );
+
+        return defer.promise;
+      }
+
+
       function insertLocalItemsDownstream(items) {
         var defer = $q.defer();
 
@@ -159,17 +193,17 @@ angular.module('starter.services')
           // checking if there are items that need to be sync'd
           for (var i = 0; i < items.length; i++) {
             var query = "insert into masterItem " +
-              "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, lastUpdateBy) values" +
-              "(null,?,1,'',?,'O')";
+              "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, origin, flag) values" +
+              "(null,?,1,'',?,'O', 'S')";
 
             tx.executeSql(query, [items[i].itemName, items[i]._id]);
           }
         }, function (err) {
-          console.log("dbHelper items error " + JSON.stringify(err.message));
+          console.log("insertLocalItemsDownstream error " + JSON.stringify(err.message));
           defer.reject(err);
         }, function () {
           defer.resolve();
-          console.log("dbHelper items loaded successfully");
+          console.log("insertLocalItemsDownstream loaded successfully");
         });
 
         return defer.promise;
@@ -204,6 +238,12 @@ angular.module('starter.services')
         for (var i = 0; i < localIdsMap.retailers.length; i++) {
           if (entry.retailerServerId) {
             if (localIdsMap.retailers[i].retailerServerId == entry.retailerServerId) {
+              result.retailerLocalId = localIdsMap.retailers[i].retailerLocalId;
+              break;
+            }
+          }
+          if (entry.userRetailerServerId) {
+            if (localIdsMap.retailers[i].retailerServerId == entry.userRetailerServerId) {
               result.retailerLocalId = localIdsMap.retailers[i].retailerLocalId;
               break;
             }
@@ -272,15 +312,28 @@ angular.module('starter.services')
         }
       }
 
+      function getRetailerLocalIdfromMap(retailerServerId, retailerMap) {
+        for (var i = 0; i < retailerMap.length; i++) {
+          if (retailerServerId) {
+            if (retailerMap[i].retailerServerId == retailerServerId) {
+              return retailerMap[i].retailerLocalId;
+            }
+          }
+        }
+      }
+
+
       return {
         getItemslocalIds: getItemslocalIds,
         getListsLocalIds: getListsLocalIds,
         getRetailersLocalIds: getRetailersLocalIds,
         buildLocalIds: buildLocalIds,
         insertLocalItemsDownstream: insertLocalItemsDownstream,
+        insertLocalRetailerDownstream: insertLocalRetailerDownstream,
         getLocalIds: getLocalIds,
         getCategoryLocalIdfromMap: getCategoryLocalIdfromMap,
         buildCatgegoriesMap: buildCatgegoriesMap,
+        getRetailerLocalIdfromMap: getRetailerLocalIdfromMap
       }
     }
   )
