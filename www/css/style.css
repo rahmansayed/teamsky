@@ -117,7 +117,35 @@ color: #ffffff;}
     width: 100%;
     border-radius: 4px; }
 
+
+/*Make padding equal for ion item*/
  .item-content {
   padding-right: 4% !important;
   padding-left: 4% !important;
 }
+
+/*CSS required for new directive inputdropdown */
+
+.input-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.input-dropdown .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 2px;
+    background: #EEE;
+    z-index: 9999;
+}
+.input-dropdown .dropdown div {
+    cursor: pointer;
+    padding: 2px 5px;
+    z-index: 9999;
+}
+.input-dropdown input:focus + .dropdown {
+    display: block;
+}
+/*End of directive*/

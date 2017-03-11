@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, pickerView) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2) {
 
     $scope.items = [];
     $scope.selectedItems = [];
@@ -255,6 +255,21 @@ angular.module('starter.controllers')
         console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
         localEntryHandlerV2.updateEntry(entry);
     };
+    
+            $scope.retailerList = null;
+            //Declaring the function to load data from database
+            $scope.fillretListetailerList = function () {
+               localRetailerHandlerV2.getAllRetailers()
+                .then(function (result) {
+                    $scope.retailerList = result;
+                   console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList ));
+                },function(error){
+                   
+               });
+            };
+            //Calling the function to load the data on pageload
+            $scope.fillretListetailerList();
+    
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
      }).then(function (modal) {
