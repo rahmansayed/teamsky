@@ -34,7 +34,9 @@
       </ion-refresher>
         <div>
           <ion-list>
-            <ion-item  class="item" ng-repeat="item in data.items" ng-click="selectItems(item)">{{item.itemName}}</ion-item >
+            <ion-item  class="item" 
+                       ng-repeat="item in data.items" 
+                       ng-click="selectItems(item)">{{item.itemName}}</ion-item >
 
           </ion-list>
         </div>
@@ -49,10 +51,17 @@
         <ion-list show-reorder="reorderFlag"> 
             
         <div class="item item-divider"
-            ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" ng-show="!allListItemCategoryCrossed(item.categoryName)" style="padding-bottom:20px;">
-            <p >  <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;" align="center">{{item.categoryName}}</h2></p>
+             ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" 
+             ng-show="!allListItemCategoryCrossed(item.categoryName)" 
+             style="padding-bottom:20px;">
+            <p >  <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;" 
+                      align="center">{{item.categoryName}}</h2></p>
               
-         <ion-item class="no-padding item-profile item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = true" ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" style=" border-radius:15px;">
+         <ion-item class="no-padding item-profile item-remove-animate item-icon-right item calm-bg" 
+                   ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" 
+                   ng-click = "showDetails = true" 
+                   ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" 
+                   style=" border-radius:15px;">
 
                
                 <div style="display:inline; float:left;">        
@@ -65,7 +74,7 @@
                 <div class="item-details " ng-show="showDetails">
                     <br>
                     <div class="item item-input" autofocus="autofocus">Quantity &emsp;
-                    <input type="tel"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
+                    <input type="tel"   placeholder="Enter Quantity" ng-model="listItem.quantity">
                
                     </div>
                      
@@ -86,7 +95,7 @@
                     </div>
                 
                 <div class="padding button-bar" ng-show="showDetails">
-                        <a style="background-color:#900C3F;color:white;" class="button" ng-click="hide()">Ok</a>
+                        <a style="background-color:#900C3F;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
                  </div>  
 
                  </div>    
@@ -112,7 +121,7 @@
             </div>     
 
              
-          </ionitem>
+          </ion-item>
 
         </div>
         </ion-list>

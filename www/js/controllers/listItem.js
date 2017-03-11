@@ -248,10 +248,12 @@ angular.module('starter.controllers')
         //If DIV is visible it will be hidden and vice versa.
         $scope.showDetails = true;
     };
-    $scope.hide = function () {
+    $scope.hide = function (entry) {
         //If DIV is visible it will be hidden and vice versa.
         $scope.showDetails = false;
         $state.reload();
+        console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
+        localEntryHandlerV2.updateEntry(entry);
     };
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
