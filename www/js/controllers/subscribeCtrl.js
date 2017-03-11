@@ -33,12 +33,12 @@ angular.module('starter.controllers')
         $location.path("/lists");
     }
     */
-    $scope.subscribeUser=function(dial_code){
+    $scope.subscribeUser=function(enteredNumber){
 
 
-       /* $scope.deviceLocalId = dial_code;*/
-
-        user= {username:dial_code,
+      console.log ('11/03/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (enteredNumber));
+        
+        user= {username:enteredNumber.countryCode.concat(enteredNumber.phoneNumber),
                datakey:global.dataKey/*'ZXCV'*/};
         console.log ('18/02/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (user));
 
@@ -63,22 +63,24 @@ angular.module('starter.controllers')
             userData = {deviceLocalId: $scope.deviceLocalId,
                        userServerId:response.data.userServerId,
                        deviceServerId:response.data.deviceServerId,
-                       vcode:response.data.vcode};
+                       vcode:response.data.vcode,
+                       countryCode:enteredNumber.countryCode};
 
          /*   console.log('aalatief Subscribe, User Data:'+JSON.stringify(userData));*/
 
 
            // $state.go("/verify")
             userInfo = {deviceLocalId: $scope.deviceLocalId,
-                        dialCode:dial_code,
+                        dialCode:enteredNumber.countryCode.concat(enteredNumber.phoneNumber),
                         userServerId:userData.userServerId,
                         deviceServerId:userData.deviceServerId,
+                        countryCode:enteredNumber.countryCode,
                         status:'S'} ;
 
 
             userVerify.addUserInfo(userInfo);
 
-
+            console.log ('11/03/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (userData));
             userVerify.updateVerificationData(userData);
             $location.path("/verify");
         },function(error){
@@ -90,7 +92,7 @@ angular.module('starter.controllers')
 
 
 
-        console.log('subscribe: '+ dial_code);
+        console.log('subscribe: '+ enteredNumber);
     };
 
   $scope.countries = [

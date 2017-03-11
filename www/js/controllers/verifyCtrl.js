@@ -19,7 +19,8 @@ angular.module('starter.controllers')
         deviceLocalId: user.deviceLocalId,
         userServerId:user.userServerId,
         deviceServerId:user.deviceServerId,
-        vCode: vCode
+        vCode: vCode,
+        countryCode:user.countryCode
       };
    /*  console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    */
         console.log('28/2/2017 - aalatief : date: '+JSON.stringify(data));
@@ -37,6 +38,8 @@ angular.module('starter.controllers')
           userVerify.addUserSetting(userInfo,'verified','Y');
           userVerify.addUserSetting(userInfo,'userServerId',response.data.userServerId);
           userVerify.addUserSetting(userInfo,'deviceServerId',response.data.deviceServerId);
+          userVerify.addUserSetting(userInfo,'countryCode',data.countryCode);
+          
           serverHandler.syncInit();
 
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */

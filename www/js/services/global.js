@@ -16,7 +16,8 @@ angular.module('starter.services')
       deviceLocalId: '',
       userServerId: '',
       deviceServerId: '',
-      vcode: ''
+      vcode: '',
+      countryCode: ''
     };
 
 

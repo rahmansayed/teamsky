@@ -43,7 +43,7 @@
      <!-- <p> {{ country | json}} </p>-->
     </div>      
         <div class="padding" >
-            <button class="button button-block button-positive" style = "background-color:#900C3F;" ng-click="subscribeUser(country.dial_code.concat(phoneNumber))">Subscribe
+            <button class="button button-block button-positive" style = "background-color:#900C3F;" ng-click="subscribeUser({countryCode:country.dial_code,phoneNumber:phoneNumber})">Subscribe
             </button>
                 
          <p class="padding text-left " style="text-align:left;white-space: normal;"> 

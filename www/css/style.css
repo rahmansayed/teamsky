@@ -116,3 +116,8 @@ color: #ffffff;}
     max-height: 40px;
     width: 100%;
     border-radius: 4px; }
+
+ .item-content {
+  padding-right: 4% !important;
+  padding-left: 4% !important;
+}

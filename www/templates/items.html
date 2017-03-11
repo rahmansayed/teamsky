@@ -50,22 +50,22 @@
             
         <div class="item item-divider"
             ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" ng-show="!allListItemCategoryCrossed(item.categoryName)" style="padding-bottom:20px;">
-            <p style="padding-bottom:10px;" align="center">  {{item.categoryName}}</p>
+            <p >  <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;" align="center">{{item.categoryName}}</h2></p>
               
-         <ion-item class="item-profile item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = true" ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" >
+         <ion-item class="no-padding item-profile item-remove-animate item-icon-right item calm-bg" ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" ng-click = "showDetails = true" ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" style=" border-radius:15px;">
 
                
                 <div style="display:inline; float:left;">        
-                <h2 style="display:inline;">{{listItem.itemName}}   - {{listItem.seenFlag}}</h2>
+                <h2 style="display:inline;text-align:left;white-space: normal;">{{listItem.itemName}}   - {{listItem.seenFlag}}</h2>
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
                 <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
                     
     
-                <div class="item-details" ng-show="showDetails">
+                <div class="item-details " ng-show="showDetails">
                     <br>
                     <div class="item item-input" autofocus="autofocus">Quantity &emsp;
-                    <input type="text"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
+                    <input type="tel"   placeholder="Enter Quantity" ng-model="listItem.itemQuantity">
                
                     </div>
                      
@@ -74,7 +74,7 @@
                        <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
                             <select>
                               <option>Kilogram</option>
-                              <option Pound>Green</option>
+                              <option>Pound</option>
                               <option>Piece</option>
                               <option>Each</option>    
                               <option>Litre</option>  
@@ -91,13 +91,15 @@
 
                  </div>    
                 </div>
-             <div style="display:inline; float:right;" >
+    
+             
+             <div class="no-padding" style="display:inline; float:right; " >
             <div align="right" ng-show= "listItem.seenFlag==0" style="display:inline;">
               <p style="display:inline;">&#x25CB;</p>
              </div>
              
              <div align="right" ng-show= "listItem.seenFlag==1" style="display:inline;">
-              <p style="display:inline;">&#10008;</p>
+              <p style="display:inline; ">&#10008;</p>
              </div>
              
              <div align="right" ng-show= "listItem.seenFlag==2" style="display:inline;">
@@ -117,7 +119,7 @@
       </div>
         <div class="list">
             <ion-list show-reorder="reorderFlag">   
-                <button class="button button-block button-balanced" ng-show="checkedItems.length !== 0">
+                <button class="button button-block button-balanced" ng-show="checkedItems.length !== 0"style="background-color:#900C3F;color:white;">
                   Crossed Items
                 </button>
 
@@ -132,58 +134,8 @@
             
         </ion-list>
         </div>
-<!--    
-        <script id="templates/searchItem.html" type="text/ng-template">
-      <ion-modal-view  style="width: 75%; height: 75%; border:groove;position:absolute;top: 65%; left: 5%; right: 5%; bottom: 5%;">
-        <ion-header-bar class="bar bar-header">
-          <h1 class="title">Search Master Items</h1>
-          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
-        </ion-header-bar>
-        <ion-content class="padding">
-          <div class="list">
-            
-              <div >
-                <select ng-model="selectedItem" ng-options="item for item in listItems">    
-                </select>
-            </div>
-              
-              <label class="item item-input">
-              <input ng-model="newUser.firstName" type="text" placeholder="Category">
-            </label>
-            <label class="item item-input">
-              
-              <input ng-model="newUser.lastName" type="text" placeholder="Item Name">
-            </label>
-
-            <button class="button button-full button-light icon ion-plus-round" ng-click="createContact(newUser)">Add</button>
-          </div>
-        </ion-content>
-      </ion-modal-view>
-    </script>    -->
-        
-<!--        <div class="item-details" ng-show="showSearchDetails">
-                   <div class="list">
-            
-              <div >
-                <select ng-model="selectedItem" ng-options="item for item in data.items">    
-                </select>
-            </div>
-              
-              <label class="item item-input">
-              <input ng-model="newUser.firstName" type="text" placeholder="Category">
-            </label>
-            <label class="item item-input">
-              
-              <input ng-model="newUser.lastName" type="text" placeholder="Item Name">
-            </label>
-
-            <button class="button button-full button-light icon ion-plus-round" ng-click="createContact(newUser)">Add</button>
-          </div>
-        
-        </div>-->
 
 
-        
     </ion-content>
     <div class="bar bar-footer">
             <div id="footer" class="button-bar"  >    

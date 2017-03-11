@@ -280,7 +280,9 @@ angular.module('starter.services')
       global.verificationData.deviceLocalId = data.deviceLocalId;
       global.verificationData.userServerId = data.userServerId;
       global.verificationData.deviceServerId = data.deviceServerId;
+      global.verificationData.countryCode = data.countryCode;    
 
+      global.countryCode = data.countryCode;   
       console.log('28/2/2017 - aalatief service after update, User Data:' + JSON.stringify(global.verificationData));
 
     };
