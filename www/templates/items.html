@@ -77,11 +77,17 @@
                     <input type="tel"   placeholder="Enter Quantity" ng-model="listItem.quantity">
                
                     </div>
-                     
-                     
-                    <div class="item item-input">UOM  &emsp;
+                                        <!--<div class="item item-input" >UOMM &emsp;
+                    <input-dropdown ng-model="listItem.uom" list="values" on-select="pick(value)"></input-dropdown>
+                                            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                     </div>-->
+
+                    <div class="item item-input">Unit  &emsp;
                        <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
-                            <select>
+                            <select type="text"
+                                    ng-model="listItem.uom" 
+                                    style="width:200px;"
+                                >
                               <option>Kilogram</option>
                               <option>Pound</option>
                               <option>Piece</option>
@@ -93,7 +99,13 @@
                     <div class="item item-input">Retailer  &emsp;
                         <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
                     </div>
-                
+                    
+
+                    <select ng-model="retailer.retailerName" ng-options="retailer.retailerName for retailer in retailerList">
+                        <option value="" label="Select Retailer"></option>
+                    </select>
+   
+                    
                 <div class="padding button-bar" ng-show="showDetails">
                         <a style="background-color:#900C3F;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
                  </div>  

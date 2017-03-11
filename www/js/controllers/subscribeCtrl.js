@@ -39,7 +39,8 @@ angular.module('starter.controllers')
       console.log ('11/03/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (enteredNumber));
         
         user= {username:enteredNumber.countryCode.concat(enteredNumber.phoneNumber),
-               datakey:global.dataKey/*'ZXCV'*/};
+               datakey:global.dataKey/*'ZXCV'*/,
+               countryCode:enteredNumber.countryCode};
         console.log ('18/02/2017 - aalatief - subscribeCtrl: ' +JSON.stringify (user));
 
         $http.post( global.serverIP+ "/api/user/subscribe" , user).then(function(response){
