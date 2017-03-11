@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerListV2, $location, $state) {
+  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerListV2, $location, $state, contactHandler) {
 
       function handleNotification(msg) {
         console.log('notificationHandler msg = ' + JSON.stringify(msg));
@@ -34,6 +34,8 @@ angular.module('starter.services')
               serverHandlerEntryV2.syncUpdatesDownstream().then(function (affectedLists) {
                 console.log('syncUpdatesDownstream affectedLists = ' + JSON.stringify(affectedLists));
               });
+
+              contactHandler.checkProspects();
             }, function (err) {
 
             });
