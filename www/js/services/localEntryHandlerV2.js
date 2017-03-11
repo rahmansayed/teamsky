@@ -312,7 +312,7 @@ angular.module('starter.services')
           tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId], function (tx, res) {
             console.log("updateEntry res " + JSON.stringify(res));
             deferred.resolve(res);
-            //serverHandlerEntryV2.syncEntriesUpdatesUpstream();
+            serverHandlerEntryV2.syncUpdatesUpstream();
           }, function (err) {
             console.log("updateEntry  updateQuery err " + err.message);
             deferred.reject(err);

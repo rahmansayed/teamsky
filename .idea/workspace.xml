@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/dbHandler.js" afterPath="$PROJECT_DIR$/www/js/services/dbHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,8 +26,8 @@
       <file leaf-file-name="serverHandlerEntryV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="1104" column="0" lean-forward="true" selection-start-line="1104" selection-start-column="0" selection-end-line="1104" selection-end-column="0" />
+            <state relative-caret-position="-18165">
+              <caret line="8" column="11" lean-forward="false" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -66,21 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="306" column="33" lean-forward="false" selection-start-line="306" selection-start-column="33" selection-end-line="306" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="global.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+            <state relative-caret-position="34">
+              <caret line="314" column="55" lean-forward="false" selection-start-line="314" selection-start-column="55" selection-end-line="314" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -221,7 +208,6 @@
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
-        <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerRetailerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
@@ -230,6 +216,7 @@
         <option value="$PROJECT_DIR$/www/js/services/dbHandler.js" />
         <option value="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/global.js" />
+        <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
       </list>
     </option>
   </component>
@@ -499,7 +486,7 @@
       <workItem from="1487157402714" duration="49697000" />
       <workItem from="1488351650242" duration="30752000" />
       <workItem from="1488528710807" duration="17549000" />
-      <workItem from="1488872703306" duration="65804000" />
+      <workItem from="1488872703306" duration="66547000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -512,7 +499,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="574673000" />
+    <option name="totallyTimeSpent" value="575416000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -877,27 +864,21 @@
         <state relative-caret-position="256">
           <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h2#0;n#div#0;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="e#3043#3049#0" expanded="true" />
-            <element signature="e#3295#3301#0" expanded="true" />
-            <element signature="e#3899#3905#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#3;n#div#0;n#div#0;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#1;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#2;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#3;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-            <marker date="1489038063200" expanded="false" signature="8180:8215" ph="..." />
-            <marker date="1489038063200" expanded="false" signature="8300:8335" ph="..." />
-            <marker date="1489038063200" expanded="false" signature="8456:8491" ph="..." />
-            <marker date="1489038063200" expanded="false" signature="8607:8642" ph="..." />
+            <element signature="n#style#0;n#div#0;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="e#3342#3348#0" expanded="false" />
+            <element signature="e#3589#3595#0" expanded="false" />
+            <element signature="e#4187#4193#0" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#0;n#div#2;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#3;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#0;n#div#3;n#div#1;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-view#0;n#!!top" expanded="false" />
+            <marker date="1489226121773" expanded="false" signature="6533:6568" ph="..." />
+            <marker date="1489226121773" expanded="false" signature="6653:6688" ph="..." />
+            <marker date="1489226121773" expanded="false" signature="6809:6844" ph="..." />
+            <marker date="1489226121773" expanded="false" signature="6960:6995" ph="..." />
           </folding>
         </state>
       </provider>
@@ -958,14 +939,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="1104" column="0" lean-forward="true" selection-start-line="1104" selection-start-column="0" selection-end-line="1104" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -982,14 +955,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="306" column="33" lean-forward="false" selection-start-line="306" selection-start-column="33" selection-end-line="306" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localItemHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="415">
@@ -1002,6 +967,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-18165">
+          <caret line="8" column="11" lean-forward="false" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="314" column="55" lean-forward="false" selection-start-line="314" selection-start-column="55" selection-end-line="314" selection-end-column="55" />
           <folding />
         </state>
       </provider>
