@@ -21,7 +21,7 @@ angular.module('starter.services')
             " FROM (category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId) INNER JOIN masterItem_tl as itl ON itl.itemlocalId = i.itemlocalId " +
             " order by i.itemPriority desc, i.genericFlag desc";
           tx.executeSql(query, [], function (tx, res) {
-            console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
+            //console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
             for (var i = 0; i < res.rows.length; i++) {
               items.push(res.rows.item(i));
             }

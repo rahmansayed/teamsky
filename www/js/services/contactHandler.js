@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('contactHandler', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler, $cordovaContacts, $http) {
+  .factory('contactHandler', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler, $cordovaContacts, $http, global) {
 
     var formatContact = function (contact) {
 
@@ -61,6 +61,7 @@ angular.module('starter.services')
 
     var pickContact = function () {
 
+      console.log("pickContact ");
       var deferred = $q.defer();
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
@@ -186,14 +187,16 @@ angular.module('starter.services')
     };
 
     function checkProspect(prospect) {
+      console.log("checkProspect prospect = " + JSON.stringify(prospect));
       var defer = $q.defer();
       var data = {
         userServerId: global.userServerId,
-        contact: prospect.propectNumbers
+        contact: prospect.prospectNumbers
       };
 
       $http.post(global.serverIP + '/api/user/check', data).then(function (res) {
         console.log("checkProspect " + JSON.stringify(prospect) + " server response " + JSON.stringify(res));
+        updateContactStatus(prospect.prospectLocalId, 'S', res.userServerId);
       }, function (err) {
 
       });
@@ -203,12 +206,12 @@ angular.module('starter.services')
     function checkProspects() {
       var defer = $q.defer();
 
-      var query = "select distinct contactLocalId from contacts where contactStatus = 'P'";
+      var query = "select distinct contactLocalId from contact where contactStatus = 'P'";
       global.db.transaction(function (tx) {
         tx.executeSql(query, [], function (tx, res) {
           for (var i = 0; i < res.rows.length; i++) {
-            var numbersQuery = "select * from contacts where contactLocalId = ?";
-            tx.executeSql(numbersQuery, [res.rows.item(i)], function (tx, res2) {
+            var numbersQuery = "select * from contact where contactLocalId = ?";
+            tx.executeSql(numbersQuery, [res.rows.item(i).contactLocalId], function (tx, res2) {
               var prospect = {
                 prospectLocalId: res2.rows.item(0).contactLocalId,
                 prospectNumbers: []

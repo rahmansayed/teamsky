@@ -82,7 +82,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId text,itemPriority integer, genericFlag integer, lastUpdateDate integer,lastUpdateBy text )",
 
-        "CREATE VIRTUAL TABLE IF NOT EXISTS masterItem_tl USING fts3(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS masterItem_tl(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS category (categoryLocalId integer primary key,categoryName text,categoryServerId text,lastUpdateDate integer,lastUpdateBy text)",
 

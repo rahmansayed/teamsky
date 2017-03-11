@@ -94,7 +94,7 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
 
         tx.executeSql(query, [], function (tx, res) {
-          console.log("localListHandlerV2.getAllLists  success " + JSON.stringify(res));
+          //console.log("localListHandlerV2.getAllLists  success " + JSON.stringify(res));
           for (var i = 0; i < res.rows.length; i++) {
             lists.push(res.rows.item(i));
           }

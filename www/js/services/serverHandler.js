@@ -22,7 +22,7 @@ angular.module('starter.services')
         })
       });
 
-      serverHandlerRetailerV2.syncMasterRetailersDownstream().then(function(){
+      serverHandlerRetailerV2.syncMasterRetailersDownstream().then(function () {
         console.log('serverHandler syncMasterRetailersDownstream done');
       })
       handleNotification();
@@ -34,14 +34,14 @@ angular.module('starter.services')
       serverHandlerListV2.syncListsDownstream().then(function (res) {
           console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
           console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
-          console.log("$state.params = " + JSON.stringify($state.params));
+          // console.log("$state.params = " + JSON.stringify($state.params));
           if ($location.url() == '/lists') {
             $state.reload();
           }
           serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
-            console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
+            // console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
 
-            if ($location.url().startsWith('/item')) {
+            if ($location.url().indexOf('/item') == 0) {
               for (var i = 0; i < affectedLists.length; i++) {
                 console.log("$state.listId = " + $state.params.listId);
                 if (affectedLists[i].listLocalId == $state.params.listId) {

@@ -148,9 +148,9 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "select * from list where listServerId = ''";
           tx.executeSql(query, [], function (tx, result) {
-            consoleLog("result = " + JSON.stringify(result));
-            consoleLog("result.rows = " + JSON.stringify(result.rows));
-            consoleLog("result.rows.length = " + JSON.stringify(result.rows.length));
+//            consoleLog("result = " + JSON.stringify(result));
+// consoleLog("result.rows = " + JSON.stringify(result.rows));
+//            consoleLog("result.rows.length = " + JSON.stringify(result.rows.length));
             for (i = 0; i < result.rows.length; i++) {
               var list = result.rows.item(i);
               var listDetails =
