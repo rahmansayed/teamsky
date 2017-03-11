@@ -145,8 +145,8 @@ $scope.refresh = function() {
 
                         localListHandlerV2.getSpecificList(listLocalId)
                         .then(function(response){
-                           console.log('12/02/2017 - listCtrl - aalatief: Return My List:'+JSON.stringify(response.rows.item(0)));
-                           $scope.listServerId =   response.rows.item(0).listServerId
+                           console.log('12/02/2017 - listCtrl - aalatief: Return My List:'+JSON.stringify(response));
+                           $scope.listServerId =   response.listServerId;
                            listUser = {
                             userServerId:global.userServerId,
                             contact:$scope.phoneNumbers,

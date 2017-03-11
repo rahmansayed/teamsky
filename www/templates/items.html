@@ -100,11 +100,12 @@
                         <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
                     </div>
                     
-
-                    <select ng-model="retailer.retailerName" ng-options="retailer.retailerName for retailer in retailerList">
-                        <option value="" label="Select Retailer"></option>
+                    <div class="item item-input">Retailer  &emsp;
+                    <select ng-model="retailer.retailerName" ng-options="retailer.retailerName for retailer in retailerList"
+                            style="width:200px;">
+                        <option value="" label="Pick Retailer"></option>
                     </select>
-   
+                    </div>
                     
                 <div class="padding button-bar" ng-show="showDetails">
                         <a style="background-color:#900C3F;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
