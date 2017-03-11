@@ -150,7 +150,8 @@ $scope.refresh = function() {
                            listUser = {
                             userServerId:global.userServerId,
                             contact:$scope.phoneNumbers,
-                            listServerId:$scope.listServerId
+                            listServerId:$scope.listServerId,
+                            contactLocalId:contactLocalId
                         };
                         $http.post( global.serverIP+ "/api/user/check" , listUser).then(function(response){
                             console.log('11/02/2017 - listCtrl - aalatief: Api Call check User:'+JSON.stringify(response));
@@ -169,6 +170,7 @@ $scope.refresh = function() {
                             }
                              $http.post( global.serverIP+ "/api/list/invite" , listDetail).then(function(response){
                                  console.log('11/02/2017 - listCtrl - aalatief: Invite Api Call check:'+JSON.stringify(response));
+                                 $state.reload();
 
                              },function(error){});
                     },
@@ -202,6 +204,6 @@ $scope.refresh = function() {
 
 
   });
-  };
+       };
 /*----------------------------------------------------------------------------------------*/
 });

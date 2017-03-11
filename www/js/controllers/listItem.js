@@ -262,7 +262,7 @@ angular.module('starter.controllers')
                localRetailerHandlerV2.getAllRetailers()
                 .then(function (result) {
                     $scope.retailerList = result;
-                   console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList ));
+                   console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList));
                 },function(error){
                    
                });

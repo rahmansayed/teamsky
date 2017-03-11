@@ -101,7 +101,7 @@
                     </div>
                     
                     <div class="item item-input">Retailer  &emsp;
-                    <select ng-model="retailer.retailerName" ng-options="retailer.retailerName for retailer in retailerList"
+                    <select ng-model="listItem.retailerLocalId" ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList track by retailer.retailerName "
                             style="width:200px;">
                         <option value="" label="Pick Retailer"></option>
                     </select>

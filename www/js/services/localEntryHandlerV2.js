@@ -29,7 +29,7 @@ angular.module('starter.services')
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
-      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag " +
+      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId " +
         " FROM ( " +
         " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
         " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
