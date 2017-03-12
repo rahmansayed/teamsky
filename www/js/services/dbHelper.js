@@ -44,7 +44,7 @@ angular.module('starter.services')
           defer.reject();
         }, function () {
           console.log('dbHelper getItemslocalIds DONE');
-        })
+        });
         return defer.promise;
       }
 
@@ -88,7 +88,7 @@ angular.module('starter.services')
           defer.reject();
         }, function () {
           console.log('dbHelper getListsLocalIds DONE');
-        })
+        });
         return defer.promise;
       }
 
@@ -123,7 +123,7 @@ angular.module('starter.services')
           defer.reject();
         }, function () {
           console.log('dbHelper getRetailersLocalIds DONE');
-        })
+        });
         return defer.promise;
       }
 

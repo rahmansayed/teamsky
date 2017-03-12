@@ -5,17 +5,17 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ui.select',
+angular.module('starter', ['ionic', 'ui.select',
   'ionic.service.core',
   'starter.controllers',
   'starter.services',
-  'starter.directives',                            
+  'starter.directives',
   'proton.multi-list-picker',
   'ngCordova',
   'ion-floating-menu',
   'angular.filter',
   'ngRoute'
-  
+
 ])
 /*var db = null;*/
 
@@ -31,18 +31,20 @@ angular.module('starter', ['ionic','ui.select',
                     users = userVerify.userSetting();
                     global.userServerId = userVerify.getUserServerId();
                     global.deviceServerId = userVerify.getDeviceServerId();
-                    serverHandler.syncInit().then(function () {
-                      console.log('calling getAllMasterItem');
-                      localItemHandlerV2.getAllMasterItem()
-                        .then(function (result) {
-                            global.masterItems = result;
-                            console.log('global.masterItems populated = ');
-                          }
-                          , function (error) {
-                            console.log('global.masterItems Item Load Fail:' + JSON.stringify(error));
-                          });
+                    if (global.userServerId != 'Not Found') {
+                      serverHandler.syncInit().then(function () {
+                        console.log('calling getAllMasterItem');
+                        localItemHandlerV2.getAllMasterItem()
+                          .then(function (result) {
+                              global.masterItems = result;
+                              console.log('global.masterItems populated = ');
+                            }
+                            , function (error) {
+                              console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                            });
 
-                    });
+                      });
+                    }
 
                     if (userVerify.isVerified()) {
                       console.log('app.js user verified true');

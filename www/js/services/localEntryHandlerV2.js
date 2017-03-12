@@ -4,28 +4,7 @@ angular.module('starter.services')
 
     var selected = [];
     var items = [];
-    var listId;
 
-
-    /*Get searched items*/
-    var searchItems = function (searchFilter) {
-      console.log('Searching items for ' + searchFilter);
-      var deferred = $q.defer();
-      var matches = items.filter(function (item) {
-        console.log('The item Returned from Search: ' + item.itemName.toLowerCase());
-        if (item.itemName.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1) return true;
-      })
-
-      console.log('items array: ' + JSON.stringify(items));
-      /*      $timeout(function () {*/
-      console.log('Matches : ' + JSON.stringify(matches));
-      deferred.resolve(matches);
-
-      /*      }, 100);*/
-
-      return deferred.promise;
-    };
-    /*-------------------------------------------------------------------------------------*/
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
@@ -46,7 +25,7 @@ angular.module('starter.services')
           }
           defer.resolve(entries);
         }, function (err) {
-          console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
+          console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
           defer.reject();
         });
 
@@ -57,13 +36,13 @@ angular.module('starter.services')
             var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 where listLocalId = ?";
             tx.executeSql(query3, [listId]);
           }, function (err) {
-            console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
+            console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
           },
           function () {
             serverHandlerEntryV2.syncSeensUpstream();
           });
       }, function (err) {
-        console.log("localEntryHandlerV2.getAllEntry query err = " + err.message);
+        console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
         defer.reject();
       }, function () {
 
@@ -95,10 +74,10 @@ angular.module('starter.services')
           }
           deferred.resolve(crossedEntries);
         }, function (err) {
-          console.log("localEntryHandlerV2.getCheckedItem query err = " + err.message);
+          console.error("localEntryHandlerV2.getCheckedItem query err = " + err.message);
         });
       }, function (err) {
-        console.log("localEntryHandlerV2.getCheckedItem query err = " + err.message);
+        console.error("localEntryHandlerV2.getCheckedItem query err = " + err.message);
       }, function () {
       });
 
@@ -179,11 +158,11 @@ angular.module('starter.services')
             deferred.resolve(response);
           });
         }, function (err) {
-          console.log(error);
+          console.error(error);
           deferred.reject(error);
         });
       }, function (error) {
-        console.log(error);
+        console.error(error);
         deferred.reject(error);
       });
 
@@ -206,7 +185,7 @@ angular.module('starter.services')
         tx.executeSql(mark_query, [entry.entryLocalId]);
       }, function (error) {
         //Error Callback
-        console.log('repeatEntry db error = ' + error);
+        console.error('repeatEntry db error = ' + error);
         deferred.reject(error);
       }, function () {
         console.log('repeatEntry insert success');
@@ -244,7 +223,7 @@ angular.module('starter.services')
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
-        console.log(error);
+        console.error(error);
         deferred.reject(error);
       });
 
@@ -289,7 +268,7 @@ angular.module('starter.services')
             /* ret.rowsAffected = res.rowsAffected;*/
             deferred.resolve(res);
           }, function (err) {
-            console.log("localEntryHandlerV2.deactivateItem  deleteQuery err " + err.message);
+            console.error("localEntryHandlerV2.deactivateItem  deleteQuery err " + err.message);
             deferred.reject(err);
           });
         }
@@ -314,7 +293,7 @@ angular.module('starter.services')
             deferred.resolve(res);
             serverHandlerEntryV2.syncUpdatesUpstream();
           }, function (err) {
-            console.log("updateEntry  updateQuery err " + err.message);
+            console.error("updateEntry  updateQuery err " + err.message);
             deferred.reject(err);
           });
         }

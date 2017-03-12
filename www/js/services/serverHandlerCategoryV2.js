@@ -17,26 +17,26 @@ angular.module('starter.services')
         consoleLog("Start deleteCategoryLocal");
 
         var defer = $q.defer();
-        var query = "delete from category "
+        var query = "delete from category ";
         consoleLog("Statement Run: " + query);
 
 
         dbHandler.runQuery(query, [], function (res) {
-          consoleLog("Delete category Done");
-          var query = "delete from category_tl "
-          consoleLog("Statement Run: " + query);
+          console.log("Delete category Done");
+          var query = "delete from category_tl ";
+          console.log("Statement Run: " + query);
 
 
           dbHandler.runQuery(query, [], function (res) {
-            consoleLog("Delete category_tl Done");
+            console.log("Delete category_tl Done");
             defer.resolve('All deleted');
 
           }, function (err) {
-            consoleLog(err);
+            console.log(err);
             defer.reject(err);
           });
         }, function (err) {
-          consoleLog(err);
+          console.log(err);
           defer.reject(err);
         });
 

@@ -8,14 +8,7 @@ angular.module('starter.services')
 
   .factory('serverHandlerListV2', function ($http, global, $q) {
 
-      var serviceName = "serverHandlerListV2";
-
       //------------------------consoleLog
-
-      function consoleLog(text) {
-        //return;
-        console.log(serviceName + "  =>  " + text);
-      };
 
       /***********************************************************************************************************************
        * the function returns the userServerId of the contact number
@@ -38,7 +31,7 @@ angular.module('starter.services')
               defer.resolve(response.data.userServerId);
             },
             function (error) {
-              console.log('serverListHandler checkUser error' + JSON.stringify(error));
+              console.error('serverListHandler checkUser error' + JSON.stringify(error));
               defer.reject(error);
             });
 
@@ -61,17 +54,17 @@ angular.module('starter.services')
           listServerId: listServerId,
           deviceServerId: deviceServerId
         };
-        consoleLog(serviceName + " List to Be inviteToList => " + JSON.stringify(data));
+        console.log("inviteToList  List to Be inviteToList => " + JSON.stringify(data));
 
         $http.post(global.serverIP + "/api/list/invite", data)
 
           .then(function (response) {
-            consoleLog(" inviteToList Response Result => " + response);
+            console.log(" inviteToList Response Result => " + response);
             defer.resolve(response.data.listServerId);
             consoleLog(" inviteToList Response Done");
           }, function (error) {
             defer.reject(error);
-            console.log("serverHandlerListV2 " + " inviteToList " + " error " + JSON.stringify(error));
+            console.error("serverHandlerListV2 " + " inviteToList " + " error " + JSON.stringify(error));
           });
 
         return defer.promise;
@@ -86,9 +79,9 @@ angular.module('starter.services')
             console.log("ServerHandlerListV2 invite userServerId = " + result.userServerId);
             inviteToList(listServerId, result.userServerId);
           }, function (error) {
-            console.log("ServerHandlerListV2 invite error " + JSON.stringify(error));
+            console.error("ServerHandlerListV2 invite error " + JSON.stringify(error));
           }
-        )
+        );
         return defer.promise;
       }
 
@@ -114,7 +107,7 @@ angular.module('starter.services')
           }
         };
 
-        consoleLog(" List to Be Created = " + JSON.stringify(data));
+        console.log("createList List to Be Created = " + JSON.stringify(data));
 
         $http.post(global.serverIP + "/api/list/create", data)
           .then(function (response) {
@@ -125,13 +118,13 @@ angular.module('starter.services')
                   console.log("serverListHandler.createList Rows affected = " + result.rowsAffected);
                   defer.resolve(response.data.listServerId);
                 }, function (error) {
-                  console.log("serverListHandler.createList db update error = " + JSON.stringify(error));
+                  console.error("serverListHandler.createList db update error = " + JSON.stringify(error));
                   defer.reject(error);
                 });
               });
             },
             function (error) {
-              console.log("serverListHandler.createList error " + JSON.stringify(error));
+              console.error("serverListHandler.createList error " + JSON.stringify(error));
               defer.reject(error);
             });
 
@@ -142,7 +135,7 @@ angular.module('starter.services')
        * this function is used to sync local lists with the server
        */
       function syncListsUpstream() {
-        consoleLog("In syncLists");
+        console.log("syncListsUpstream In syncLists");
         var defer = $q.defer();
         var promises = [];
         global.db.transaction(function (tx) {
@@ -172,7 +165,7 @@ angular.module('starter.services')
               defer.reject();
             });
           }, function (error) {
-            consoleLog("error = " + JSON.stringify(error));
+            console.error("error = " + JSON.stringify(error));
             defer.reject();
           });
         });
@@ -202,14 +195,14 @@ angular.module('starter.services')
               }
               ,
               function (error) {
-                console.log("serverHandlerListV2.upsertServer count query = " + JSON.stringify(error.message));
+                console.error("serverHandlerListV2.upsertServer count query = " + JSON.stringify(error.message));
                 defer.reject(error);
               }
             );
           }
           ,
           function (error) {
-            console.log("serverHandlerListV2.upsertServer db error " + JSON.stringify(error.message));
+            console.error("serverHandlerListV2.upsertServer db error " + JSON.stringify(error.message));
             defer.reject(error);
           }
           ,
@@ -257,11 +250,11 @@ angular.module('starter.services')
               }
               defer.resolve(anyNew);
             }, function (err) {
-              console.log("syncListsDownstream $q error  = " + err.message);
+              console.error("syncListsDownstream $q error  = " + err.message);
               defer.reject(err);
             });
           }, function (error) {
-            console.log("serverHandlerListV2 syncListsDownstream http error =  " + error.message);
+            console.error("serverHandlerListV2 syncListsDownstream http error =  " + error.message);
             defer.reject(error);
           });
 
@@ -282,7 +275,7 @@ angular.module('starter.services')
           deviceServerId: deviceServerId
         };
 
-        consoleLog(" List to Be Deleted => " + JSON.stringify(data));
+        console.log("deleteList List to Be Deleted => " + JSON.stringify(data));
 
         $http.post(global.serverIP + "/api/list/deactivate", data)
 
@@ -290,7 +283,7 @@ angular.module('starter.services')
             consoleLog(" deleteList Response Result => " + JSON.stringify(response));
 
             defer.resolve(response.data.listServerId);
-            consoleLog(" deleteList Response Done");
+            console.log(" deleteList Response Done");
           });
 
         return defer.promise;
@@ -315,7 +308,7 @@ angular.module('starter.services')
 
         $http.post(global.serverIP + "/api/list/update", data)
           .then(function (response) {
-            consoleLog(" updateList Response Result => " + response);
+            console.log(" updateList Response Result => " + response);
             defer.resolve();
           }, function (err) {
             defer.reject();

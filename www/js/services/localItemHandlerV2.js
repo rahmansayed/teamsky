@@ -101,7 +101,7 @@ angular.module('starter.services')
 
       /*-------------------------------------------------------------------------------------*/
       /*Search Item Function*/
-      var searchItems = function (searchFilter) {
+      function searchItems(searchFilter) {
         console.log('searchItems isRTL = ' + isRTL(searchFilter));
         var lang = isRTL(searchFilter) ? 'AR' : 'EN';
         var deferred = $q.defer();
@@ -131,7 +131,7 @@ angular.module('starter.services')
         return deferred.promise;
       }
 
-      var searchItemsDB = function (searchFilter) {
+    function searchItemsDB(searchFilter) {
         console.log('searchItemsDB isRTL = ' + isRTL(searchFilter));
         var deferred = $q.defer();
         if (searchFilter.length > 3) {
@@ -157,7 +157,7 @@ angular.module('starter.services')
           } else {
             query = query + " AND itl.language='EN'"
           }
-          console.log('searchItemsDB query = ' + query)
+          console.log('searchItemsDB query = ' + query);
           global.db.transaction(function (tx) {
             tx.executeSql(query, [], function (tx, res) {
               var matchedItems = [];
@@ -167,7 +167,7 @@ angular.module('starter.services')
               deferred.resolve(matchedItems);
               console.log('res = ' + JSON.stringify(res));
             }, function (err) {
-              console.log('searchItemsDB err = ' + err.message);
+              console.error('searchItemsDB err = ' + err.message);
             });
           })
         }
@@ -210,7 +210,7 @@ angular.module('starter.services')
                 deferred.reject(error);
               });
             }, function (error) {
-              console.log('addMaserItem = error' + error.message);
+              console.error('addMaserItem = error' + error.message);
               deferred.reject(error);
             });
           });

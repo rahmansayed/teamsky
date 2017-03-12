@@ -16,7 +16,7 @@ angular.module('starter.services')
     var formatPhoneNumber = function (EnteredPhoneNumber) {
       var formattedNumber = ' ';
       console.log('EnteredPhoneNumber' + EnteredPhoneNumber);
-      var phoneNumber = EnteredPhoneNumber.replace(/\s+/g, '')
+      var phoneNumber = EnteredPhoneNumber.replace(/\s+/g, '');
       if (!(phoneNumber.substr(0, 1) == '+' || phoneNumber.substr(0, 2) == '00')) {
         if (phoneNumber.substr(0, 1) == '0') {
 
@@ -31,7 +31,7 @@ angular.module('starter.services')
 
       }
       else {
-        formattedNumber = phoneNumber
+        formattedNumber = phoneNumber;
         console.log('11/2/2017 - contactHandler - aalatief : No is in international Format' + formattedNumber)
       }
 
@@ -120,7 +120,7 @@ angular.module('starter.services')
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
-        console.log('fail Master query ' + error);
+        console.error('fail Master query ' + error);
         deferred.reject(error);
       });
       /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
@@ -139,7 +139,7 @@ angular.module('starter.services')
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
-        console.log('fail Master query ' + error);
+        console.error('fail Master query ' + error);
         deferred.reject(error);
       });
       /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
@@ -158,7 +158,7 @@ angular.module('starter.services')
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
-        console.log('fail Master query ' + error);
+        console.error('fail Master query ' + error);
         deferred.reject(error);
       });
       /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
@@ -179,7 +179,7 @@ angular.module('starter.services')
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
-        console.log('13/2/2017 - ContactHandler - aalatief : Fail Contact Status - Server Id update ' + error);
+        console.error('13/2/2017 - ContactHandler - aalatief : Fail Contact Status - Server Id update ' + error);
         deferred.reject(error);
       });
       /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
@@ -225,7 +225,7 @@ angular.module('starter.services')
             });
           }
         }, function (err) {
-          console.log("checkProspects query err " + err);
+          console.error("checkProspects query err " + err);
         });
       });
       return defer.promise;

@@ -24,7 +24,7 @@ angular.module('starter.services')
 
       serverHandlerRetailerV2.syncMasterRetailersDownstream().then(function () {
         console.log('serverHandler syncMasterRetailersDownstream done');
-      })
+      });
       handleNotification();
       return defer.promise;
     }
@@ -56,10 +56,10 @@ angular.module('starter.services')
                 serverHandlerEntryV2.syncSeenDownstream().then(function (affectedLists) {
                   console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
                 }, function (err) {
-                  console.log("syncInit syncSeenDownstream err = " + err);
+                  console.error("syncInit syncSeenDownstream err = " + err);
                 });
               }, function (err) {
-                console.log("syncInit syncDeliveryDownstream err = " + err);
+                console.error("syncInit syncDeliveryDownstream err = " + err);
               }
             );
           }, function (err) {
