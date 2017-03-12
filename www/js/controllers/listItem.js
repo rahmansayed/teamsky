@@ -168,7 +168,7 @@ angular.module('starter.controllers')
                 itemQuatity: 0,
                 itemUom: "",
                 itemRetailer: "",
-                language: "EN"
+                language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN'
               };
             localEntryHandlerV2.addItemToList($scope.selectedItem);
             serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
@@ -240,49 +240,49 @@ angular.module('starter.controllers')
     $scope.addQuickItem = function () {
       $state.go('item', {'listId': 1});
     };
-    
-    
-        //This will hide the DIV by default.
+
+
+    //This will hide the DIV by default.
     $scope.showDetails = false;
     $scope.show = function () {
-        //If DIV is visible it will be hidden and vice versa.
-        $scope.showDetails = true;
+      //If DIV is visible it will be hidden and vice versa.
+      $scope.showDetails = true;
     };
     $scope.hide = function (entry) {
-        //If DIV is visible it will be hidden and vice versa.
-        $scope.showDetails = false;
-        $state.reload();
-        console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
-        localEntryHandlerV2.updateEntry(entry);
+      //If DIV is visible it will be hidden and vice versa.
+      $scope.showDetails = false;
+      $state.reload();
+      console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
+      localEntryHandlerV2.updateEntry(entry);
     };
-    
-            $scope.retailerList = null;
-            //Declaring the function to load data from database
-            $scope.fillretListetailerList = function () {
-               localRetailerHandlerV2.getAllRetailers()
-                .then(function (result) {
-                    $scope.retailerList = result;
-                   console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList));
-                },function(error){
-                   
-               });
-            };
-            //Calling the function to load the data on pageload
-            $scope.fillretListetailerList();
-            
-         //$scope.retailerList.selected = {retailerLocalId:1};
-        /* vm.selected = $scope.retailerList[0];*/
-    
-vm = this;
+
+    $scope.retailerList = null;
+    //Declaring the function to load data from database
+    $scope.fillretListetailerList = function () {
+      localRetailerHandlerV2.getAllRetailers()
+        .then(function (result) {
+          $scope.retailerList = result;
+          console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList));
+        }, function (error) {
+
+        });
+    };
+    //Calling the function to load the data on pageload
+    $scope.fillretListetailerList();
+
+    //$scope.retailerList.selected = {retailerLocalId:1};
+    /* vm.selected = $scope.retailerList[0];*/
+
+    vm = this;
     vm.isLoaded = false;
     vm.values = [{
-        'key': 22,
-        'value': 'Kevin'
+      'key': 22,
+      'value': 'Kevin'
     }, {
-        'key': 24,
-        'value': 'Fiona'
+      'key': 24,
+      'value': 'Fiona'
     }];
-   /* vm.selected = vm.values[0];*/
+    /* vm.selected = vm.values[0];*/
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
      }).then(function (modal) {

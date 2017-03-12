@@ -104,7 +104,6 @@ angular.module('starter.services')
       var searchItems = function (searchFilter) {
         console.log('searchItems isRTL = ' + isRTL(searchFilter));
         var lang = isRTL(searchFilter) ? 'AR' : 'EN';
-
         var deferred = $q.defer();
         if (searchFilter.length > 2) {
           console.log('searchItemsDB searchFilter = ' + searchFilter);
@@ -113,6 +112,7 @@ angular.module('starter.services')
           for (var j = 0; j < items.length; j++) {
             var match = true;
             for (var i = 0; i < words.length; i++) {
+              //console.log("searchItems items[j] = " + JSON.stringify(items[j]))
               if (items[j].lowerItemName.indexOf(words[i]) == -1 ||
                 items[j].language != lang
               ) {
@@ -188,22 +188,29 @@ angular.module('starter.services')
 
           item.language = 'EN';
           console.log('addMaserItem item = ' + JSON.stringify(item));
-          items.push(item);
 
           global.db.transaction(function (tx) {
             var query_item = "INSERT INTO masterItem " +
               "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag, genericFlag) " +
-              "VALUES (?,?,?,?,?,?,?, 'L', 'N')";
-            tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, 1, '', '', 1, new Date().getTime(),0], function (tx, res) {
-              var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?)";
-              tx.executeSql(query_lang, [res.insertId, 'EN', item.itemName, item.itemName.toLowerCase()], function (tx, res2) {
+              "VALUES (?,?,?,?,?,?,?, 'L', 'N',0)";
+            tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, 1, '', '', 1, new Date().getTime()], function (tx, res) {
+              var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
+              var lang = isRTL(item.itemName) ? 'AR' : 'EN';
+              tx.executeSql(query_lang, [res.insertId, lang, item.itemName, item.itemName.toLowerCase()], function (tx, res2) {
+                items.push({
+                  itemLocalId: res.insertId,
+                  itemName: item.itemName,
+                  lowerItemName: item.itemName.toLowerCase(),
+                  categoryName: 'Dairy',
+                  language: lang
+                });
                 deferred.resolve(res.insertId);
-              }, function (err) {
-                console.log('addMaserItem = error' + error);
+              }, function (error) {
+                console.error('addMaserItem = error' + error.message);
                 deferred.reject(error);
               });
-            }, function (err) {
-              console.log('addMaserItem = error' + error);
+            }, function (error) {
+              console.log('addMaserItem = error' + error.message);
               deferred.reject(error);
             });
           });
@@ -230,7 +237,8 @@ angular.module('starter.services')
         categoryName: categoryName,
         initcap: initcap,
         addMasterItem: addMaserItem,
-        getAllMasterItem: getAllMasterItem
+        getAllMasterItem: getAllMasterItem,
+        isRTL: isRTL
       };
     }
   );

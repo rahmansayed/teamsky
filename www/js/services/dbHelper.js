@@ -143,7 +143,7 @@ angular.module('starter.services')
           }
           if (entries[i].retailerServerId)
             retailers.push(entries[i].retailerServerId);
-          else if(entries[i].userRetailerServerId){
+          else if (entries[i].userRetailerServerId) {
             retailers.push(entries[i].userRetailerServerId);
           }
         }
@@ -191,13 +191,17 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
           // checking if there are items that need to be sync'd
-          for (var i = 0; i < items.length; i++) {
-            var query = "insert into masterItem " +
-              "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, origin, flag) values" +
-              "(null,?,1,'',?,'O', 'S')";
+          items.forEach(function (item) {
 
-            tx.executeSql(query, [items[i].itemName, items[i]._id]);
-          }
+            var query = "insert into masterItem " +
+              "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, origin, flag, genericFlag, itemPriority) values" +
+              "(null,?,1,'',?,'O', 'S', 0,0)";
+
+            tx.executeSql(query, [item.itemName, item._id], function (tx, res) {
+              var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
+              tx.executeSql(query_lang, [res.insertId, 'EN', item.itemName, item.itemName.toLowerCase()]);
+            });
+          });
         }, function (err) {
           console.log("insertLocalItemsDownstream error " + JSON.stringify(err.message));
           defer.reject(err);
