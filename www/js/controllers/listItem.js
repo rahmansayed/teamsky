@@ -270,7 +270,7 @@ angular.module('starter.controllers')
             //Calling the function to load the data on pageload
             $scope.fillretListetailerList();
             
-         $scope.retailerList.selected = {retailerLocalId:1};
+         //$scope.retailerList.selected = {retailerLocalId:1};
         /* vm.selected = $scope.retailerList[0];*/
     
 vm = this;
