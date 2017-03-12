@@ -96,17 +96,48 @@
                               <option>Ml</option>  
                             </select>
                     </div>
-                    <div class="item item-input">Retailer  &emsp;
+<!--                    <div class="item item-input">Retailer  &emsp;
                         <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
-                    </div>
+                    </div>-->
                     
                     <div class="item item-input">Retailer  &emsp;
-                    <select ng-model="listItem.retailerLocalId" ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList track by retailer.retailerName "
-                            style="width:200px;">
-                        <option value="" label="Pick Retailer"></option>
+                    <select  type="text" ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList" ng-model="listItem.retailerLocalId">
+                       
                     </select>
                     </div>
-                    
+                      <div>
+                        <ui-select tagging ng-model="retailerList.selected" theme="bootstrap">
+                            <ui-select-match placeholder="Pick Retailer">{{$select.selected.retailerName}} -   {{listItem.retailerLocalId}}</ui-select-match>
+                            <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
+                                <div ng-bind="retailer.retailerName| highlight: $select.search"></div>
+                            </ui-select-choices>
+
+                        </ui-select>
+                      </div>
+                        <div ng-controller="listItem as vm">
+                            <ui-select tagging ng-model="vm.selected" theme="bootstrap">
+                                <ui-select-match placeholder="Pick Retailer">{{$select.selected.value}}</ui-select-match>
+                                <ui-select-choices repeat="val in vm.values | filter: $select.search track by val.value">
+                                    <div ng-bind="val.value | highlight: $select.search"></div>
+                                </ui-select-choices>
+
+                            </ui-select>
+                        </div>
+<!--                      <div class="select-box">
+                            <h3>Select2 theme</h3>
+                            <p>Selected: {{ctrl.person.selected}}</p>
+                            <ui-select ng-model="listItem.retailerLocalId" theme="bootstrap" ng-disabled="disabled" title="Pick Retailer" append-to-body="true">
+                              <ui-select-match placeholder="Pick Retailer">{{$select.selected.name}}</ui-select-match>
+                              <ui-select-choices repeat="retailer in retailerList | propsFilter: {retailerName: $select.search}">
+                                <div ng-bind-html="listItem.retailerLocalId| highlight: $select.search"></div>
+                                <small>
+                                  Retailer: {{listItem.retailerName}}
+                                  age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                </small>
+                              </ui-select-choices>
+                            </ui-select>
+                            <p class="alert alert-info positioned">The select dropdown menu should be displayed above this element.</p>
+                          </div>-->
                 <div class="padding button-bar" ng-show="showDetails">
                         <a style="background-color:#900C3F;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
                  </div>  

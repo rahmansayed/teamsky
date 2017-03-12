@@ -269,7 +269,20 @@ angular.module('starter.controllers')
             };
             //Calling the function to load the data on pageload
             $scope.fillretListetailerList();
+            
+         $scope.retailerList.selected = {retailerLocalId:1};
+        /* vm.selected = $scope.retailerList[0];*/
     
+vm = this;
+    vm.isLoaded = false;
+    vm.values = [{
+        'key': 22,
+        'value': 'Kevin'
+    }, {
+        'key': 24,
+        'value': 'Fiona'
+    }];
+   /* vm.selected = vm.values[0];*/
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
      }).then(function (modal) {
