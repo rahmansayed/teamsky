@@ -105,16 +105,52 @@
                        
                     </select>
                     </div>
-                      <div>
-                        <ui-select tagging ng-model="retailerList.selected" theme="bootstrap">
+                    
+                         <div class="item item-input">Retailer  &emsp;
+                         <label class="item-input-wrapper">
+                            <!--<i class="icon placeholder-icon ion-android-search"></i>-->
+                            <input type="search" placeholder="Pick Retailer" ng-change="searchRetailer()" ng-model="retailerData.search">
+
+                          </label>
+                            <div class="buttons">
+                                <button class="button button-positive icon ion-plus-round"  ng-click="addRetailer(retailerData.search)" ng-show="retailerData.search !== retailerData.retialers"></button>
+                             
+                            </div>
+                             <br>
+                            <div>
+                              <ion-list>
+                                <ion-item  class="item" 
+                                           ng-repeat="retailer in retailerData.retailers" 
+                                           ng-click="selectRetailer(retailer)">{{retailer.retailerName}}</ion-item >
+
+                              </ion-list>
+                            </div>
+                    </div>
+                    
+<!--                      <div>
+                        <ui-select tagging="processItem" tagging-label="(new)" ng-model="retailerList.selected" theme="bootstrap"  >
                             <ui-select-match placeholder="Pick Retailer">{{$select.selected.retailerName}} -   {{listItem.retailerLocalId}}</ui-select-match>
                             <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
+                                
+                                      <span ng-bind-html="retailer.retailerName | highlight: $select.search"></span>
+                                      <small ng-bind-html="retailer.retailerLocalId| highlight: $select.search"></small>
                                 <div ng-bind="retailer.retailerName| highlight: $select.search"></div>
                             </ui-select-choices>
-
                         </ui-select>
                       </div>
-                        <div ng-controller="listItem as vm">
+                    
+                    
+                      <h3>Selectize theme</h3>
+                      <p>Selected: {{retailer.selected}}</p>
+                      <ui-select tagging="processItem" ng-model="retailerList.selected" theme="selectize" ng-disabled="disabled" style="width: 300px;">
+                        <ui-select-match placeholder="Select Retailer">{{$select.selected.retailerName}}</ui-select-match>
+                        <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
+                          <span ng-bind-html="retailer.retailerName | highlight: $select.search"></span>
+                          <small ng-bind-html="retailer.retailerLocalId | highlight: $select.search"></small>
+                        </ui-select-choices>
+                      </ui-select>
+                       
+                    <div ng-controller="listItem as vm">
                             <ui-select tagging ng-model="vm.selected" theme="bootstrap">
                                 <ui-select-match placeholder="Pick Retailer">{{$select.selected.value}}</ui-select-match>
                                 <ui-select-choices repeat="val in vm.values | filter: $select.search track by val.value">
@@ -122,7 +158,7 @@
                                 </ui-select-choices>
 
                             </ui-select>
-                        </div>
+                        </div>-->
 <!--                      <div class="select-box">
                             <h3>Select2 theme</h3>
                             <p>Selected: {{ctrl.person.selected}}</p>

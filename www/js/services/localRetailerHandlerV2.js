@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localRetailerHandlerV2', function ($q, global, serverHandlerRetailerV2) {
+  .factory('localRetailerHandlerV2', function ($q, global, serverHandlerRetailerV2,localItemHandlerV2) {
 
       function getAllRetailers() {
         var defer = $q.defer();
@@ -51,10 +51,44 @@ angular.module('starter.services')
         });
         return defer.promise;
       }
+    
+    /*-------------------------------------------------------------------------------------*/
+      /*Search Function*/
+      function search(searchFilter,searchArray) {
+        console.log('13/3/2017 - aalatief - search isRTL = ' + localItemHandlerV2.isRTL(searchFilter));
+        var lang = localItemHandlerV2.isRTL(searchFilter) ? 'AR' : 'EN';
+        var deferred = $q.defer();
+        if (searchFilter.length > 0) {
+          console.log('13/3/2017 - aalatief - searchRetailerDB searchFilter = ' + searchFilter);
+          var words = searchFilter.toLowerCase().split(" ");
+          var matches = [];
+          for (var j = 0; j < searchArray.length; j++) {
+            var match = true;
+            for (var i = 0; i < words.length; i++) {
+              console.log("13/3/2017 - aalatief - searchRetailer searchArray[j] = " + JSON.stringify(searchArray[j]));
+              console.log("13/3/2017 - aalatief - Condition checked= " + JSON.stringify(searchArray[j].retailerName.toLowerCase().indexOf(words[i]) ));
+              if (searchArray[j].retailerName.toLowerCase().indexOf(words[i]) == -1 /*||
+                searchArray[j].language != lang*/
+              ) {
+                 console.log("13/3/2017 - aalatief - Match Falsed");  
+                match = false;
+                break;
+              }
+            }
+            if (match) {
+              matches.push(searchArray[j]);
+            }
+          }
+          deferred.resolve(matches);
+        } else {
+          deferred.resolve([]);
+        }
+        return deferred.promise;
+      }
 
       return {
         getAllRetailers: getAllRetailers,
-        addRetailer: addRetailer
+        addRetailer: addRetailer,
+        search:search
       };
-    }
-  );
+           });

@@ -4,7 +4,7 @@ angular.module('starter.controllers')
     $scope.items = [];
     $scope.selectedItems = [];
     $scope.checkedItems = [];
-
+    $scope.retailers = [];
 
     /*Drag to refresh functionality*/
     $scope.refresh = function () {
@@ -263,6 +263,7 @@ angular.module('starter.controllers')
         .then(function (result) {
           $scope.retailerList = result;
           console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList));
+          $scope.retailerList.selected =$scope.retailerList[0];
         }, function (error) {
 
         });
@@ -270,6 +271,24 @@ angular.module('starter.controllers')
     //Calling the function to load the data on pageload
     $scope.fillretListetailerList();
 
+/*------------------------------------------------------------------*/
+    /*Search for existing retailer*/
+    $scope.retailerData = {"retailers": [], "search": ''};
+    $scope.searchRetailer = function () {
+      /*console.log('Search pressed : ' + $scope.data.search);*/
+      localRetailerHandlerV2.search($scope.retailerData.search,$scope.retailerList).then(
+        function (matches) {
+
+          $scope.retailerData.retailers = matches;
+          console.log('13/3/2017 - aalatief -Search Result after promise: ' + JSON.stringify($scope.retailerData.retailers));
+        }
+      )
+    }; 
+    
+    
+    
+    
+    
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/
 
@@ -282,6 +301,13 @@ angular.module('starter.controllers')
       'key': 24,
       'value': 'Fiona'
     }];
+    
+    
+      $scope.processItem = function(tag){
+    return {
+      name:tag
+    }
+  };
     /* vm.selected = vm.values[0];*/
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
