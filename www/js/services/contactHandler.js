@@ -65,6 +65,7 @@ angular.module('starter.services')
       var deferred = $q.defer();
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
+          console.log("pickContact contact = " + contact);
           deferred.resolve(formatContact(contact));
         });
       } else {

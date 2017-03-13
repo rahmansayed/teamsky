@@ -142,7 +142,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
             var query = "select entry.*, list.listServerId, masterItem.itemServerId, masterItem.origin itemOrigin,retailer.retailerServerId, retailer.origin retailerOrigin, entry.language " +
               " from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
-              " where entry.flag = 'N'" +
+              " where entry.entryServerId = ''" +
               "and list.listServerId = ?";
             tx.executeSql(query, [listServerId], function (tx, result) {
                 console.log("syncListEntries result = " + JSON.stringify(result));
