@@ -1,6 +1,7 @@
 angular.module('starter.services')
 
-  .factory('contactHandler', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler, $cordovaContacts, $http, global) {
+  .factory('contactHandler', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler,
+                                       $cordovaContacts, $http, global) {
 
     var formatContact = function (contact) {
 
@@ -13,26 +14,34 @@ angular.module('starter.services')
 
     };
 
+    /******************************************************************************************************************
+     * this function will convert the phone number in the international format starting with +
+     * @param EnteredPhoneNumber
+     * @returns {string}
+     */
     var formatPhoneNumber = function (EnteredPhoneNumber) {
       var formattedNumber = ' ';
-      console.log('EnteredPhoneNumber' + EnteredPhoneNumber);
+      console.log('formatPhoneNumber EnteredPhoneNumber = ' + EnteredPhoneNumber);
       var phoneNumber = EnteredPhoneNumber.replace(/\s+/g, '');
       if (!(phoneNumber.substr(0, 1) == '+' || phoneNumber.substr(0, 2) == '00')) {
         if (phoneNumber.substr(0, 1) == '0') {
 
           formattedNumber = '+966'.concat(phoneNumber.substr(1));
-          console.log('11/2/2017 - contactHandler - aalatief : Formatted No' + formattedNumber)
+          console.log('formatPhoneNumber Formatted No' + formattedNumber)
         }
         else {
 
-          formattedNumber = '+966'.concat(phoneNumber);
-          console.log('11/2/2017 - contactHandler - aalatief : Formatted No' + formattedNumber)
+          formattedNumber = global.countryCode.concat(phoneNumber);
+          console.log('formatPhoneNumber Formatted No' + formattedNumber)
         }
-
       }
-      else {
+      else if (phoneNumber.substr(0, 2) == '00') {
+        formattedNumber = "+".concat(phoneNumber.substr(2));
+
+        console.log('formatPhoneNumber No is in international Format' + formattedNumber)
+      } else {
         formattedNumber = phoneNumber;
-        console.log('11/2/2017 - contactHandler - aalatief : No is in international Format' + formattedNumber)
+        console.log('formatPhoneNumber No is in international Format' + formattedNumber)
       }
 
       return formattedNumber
@@ -61,11 +70,28 @@ angular.module('starter.services')
 
     var pickContact = function () {
 
-      console.log("pickContact ");
       var deferred = $q.defer();
+
+      console.log("pickContact ");
+      /*      var onSuccess = function (contact) {
+       console.log("pickContact findContact contact = " + JSON.stringify(contact));
+       };
+
+       var onError = function (error) {
+       console.log("pickContact findContact error = " + JSON.stringify(error));
+       };
+       var options = new ContactFindOptions();
+       options.filter = "Marwa";
+       options.multiple = true;
+
+
+       var fields = ["displayName", "organizations"];
+
+       navigator.contacts.find(fields, onSuccess, onError, options);
+       */
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
-          console.log("pickContact contact = " + contact);
+          console.log("pickContact contact = " + JSON.stringify(contact));
           deferred.resolve(formatContact(contact));
         });
       } else {
@@ -247,5 +273,6 @@ angular.module('starter.services')
     };
 
 
-  });
+  })
+;
 
