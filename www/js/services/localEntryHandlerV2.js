@@ -177,8 +177,8 @@ angular.module('starter.services')
 
       global.db.transaction(function (tx) {
         var insert_query = "INSERT INTO entry " +
-          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, origin, flag, deliveredFlag, seenFlag, language) " +
-          "VALUES (null,?,?,0,'L', 'N', 0, 1, ?)";
+          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, entryServerId, origin, flag, deliveredFlag, seenFlag, language) " +
+          "VALUES (null,?,?,0,'','L', 'N', 0, 1, ?)";
 
         var mark_query = "update entry set deleted = 'Y' where entryLocalId = ?";
         tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language]);

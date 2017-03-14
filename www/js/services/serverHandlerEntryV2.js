@@ -895,7 +895,7 @@ angular.module('starter.services')
             "from entry, list " +
             "where entry.listLocalId = list.listLocalId " +
             "and entry.entryCrossedFlag = 1 " +
-            "and ifnull(entry.entryServerId,'-1') <> '-1' " +
+            "and ifnull(entry.entryServerId,'') <> '' " +
             "and entry.flag = 'E'" +
             "and list.listServerId = '" + listServerId.listServerId + "'";
 
@@ -936,6 +936,7 @@ angular.module('starter.services')
             "from entry, list " +
             "where entry.listLocalId = list.listLocalId " +
             "and entry.entryCrossedFlag = 1 " +
+            "and entry.entryServerId <> ''" +
             "and entry.flag = 'E'";
 
           console.log('syncCrossingsUptream query = ' + query);
