@@ -98,7 +98,7 @@ label.show {
 
 /*Header Color*/
 .theme-color {
-background-color: #900C3F !important;
+background-color: #941540/*9f0011*//*941540*/ !important;
 color: #ffffff;}
 
 
@@ -149,3 +149,11 @@ color: #ffffff;}
     display: block;
 }
 /*End of directive*/
+
+
+#wrapper{
+    margin-left:auto;
+    margin-right:auto;
+    height:auto; 
+    width:auto;
+}

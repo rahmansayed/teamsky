@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('verifyCtrl', function ($scope, global, $http, $state,userVerify, $ionicHistory, serverHandler) {
+  .controller('verifyCtrl', function ($scope, global, $http, $state,userVerify, $ionicHistory, serverHandler,localItemHandlerV2 ) {
     $scope.settings = {};
     var data = {};
 
@@ -40,7 +40,21 @@ angular.module('starter.controllers')
           userVerify.addUserSetting(userInfo,'deviceServerId',response.data.deviceServerId);
           userVerify.addUserSetting(userInfo,'countryCode',data.countryCode);
           
-          serverHandler.syncInit();
+          serverHandler.syncInit()
+          .then(function(response){
+            localItemHandlerV2.getAllMasterItem()
+              .then(function (result) {
+                  global.masterItems = result;
+                  console.log('13/03/2017 - aalatief - global.masterItems populated = ');
+                }
+                , function (error) {
+                  console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                });
+              
+          },
+                function(error){
+              
+          });
 
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification

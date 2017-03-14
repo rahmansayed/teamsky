@@ -308,6 +308,17 @@ angular.module('starter.controllers')
       name:tag
     }
   };
+    
+    function clear($event, $select){ 
+ //stops click event bubbling
+ $event.stopPropagation(); 
+ //to allow empty field, in order to force a selection remove the following line
+ $select.selected = undefined;
+ //reset search query
+ $select.search = undefined;
+ //focus and open dropdown
+ $select.activate();
+};
     /* vm.selected = vm.values[0];*/
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope

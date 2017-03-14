@@ -67,8 +67,8 @@ angular.module('starter.services')
             for (var i = 0; i < words.length; i++) {
               console.log("13/3/2017 - aalatief - searchRetailer searchArray[j] = " + JSON.stringify(searchArray[j]));
               console.log("13/3/2017 - aalatief - Condition checked= " + JSON.stringify(searchArray[j].retailerName.toLowerCase().indexOf(words[i]) ));
-              if (searchArray[j].retailerName.toLowerCase().indexOf(words[i]) == -1 /*||
-                searchArray[j].language != lang*/
+              if (searchArray[j].retailerName.toLowerCase().indexOf(words[i]) == -1 ||
+                searchArray[j].language != lang
               ) {
                  console.log("13/3/2017 - aalatief - Match Falsed");  
                 match = false;
