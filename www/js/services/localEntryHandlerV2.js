@@ -216,8 +216,8 @@ angular.module('starter.services')
       }
       ;
       var deferred = $q.defer();
-      var query = "DELETE FROM entry WHERE listLocalId = ? and itemLocalId = ?";
-      dbHandler.runQuery(query, [listItem.listLocalId, listItem.itemLocalId], function (response) {
+      var query = "DELETE FROM entry WHERE listLocalId = ? and entryLocalId = ?";
+      dbHandler.runQuery(query, [listItem.listLocalId, listItem.entryLocalId], function (response) {
         //Success Callback
         console.log(response);
         deferred.resolve(response);
