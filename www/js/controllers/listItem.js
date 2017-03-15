@@ -84,13 +84,13 @@ angular.module('starter.controllers')
           itemQuatity: 0,
           itemUom: "",
           itemRetailer: "",
-          entryCrossedFlag: item.entryCrossedFlag,
+          //entryCrossedFlag: item.entryCrossedFlag,
           language: item.language
         };
       console.log('Master Item Searched: ' + JSON.stringify($scope.selectedItem));
-      localEntryHandlerV2.addItemToList($scope.selectedItem)
+      localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems)
         .then(function (response) {
-          console.log('24/2/2017 - aalatief - Selected Item success: ' + JSON.stringify($scope.selectedItem));
+          console.log('selectItem $scope.listItems' + JSON.stringify($scope.listItems));
           serverHandlerEntryV2.syncEntriesUpstream();
           $state.reload();
         }, function (error) {
@@ -106,7 +106,10 @@ angular.module('starter.controllers')
     /*Check item in list*/
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
-      localEntryHandlerV2.checkItem(listItem);
+      localEntryHandlerV2.checkItem(listItem, $scope.listItems, $scope.checkedItems).then(function(){
+        console.log("listOpenEntries $scope.listItems = " + JSON.stringify($scope.listItems));
+        console.log("listOpenEntries $scope.checkedItems = " + JSON.stringify($scope.checkedItems));
+      });
 
       /*        .then(function (response) {
        $state.reload();
@@ -170,7 +173,7 @@ angular.module('starter.controllers')
                 itemRetailer: "",
                 language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN'
               };
-            localEntryHandlerV2.addItemToList($scope.selectedItem);
+            localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems);
             serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
               serverHandlerEntryV2.syncEntriesUpstream();
             }, function (err) {
@@ -263,7 +266,7 @@ angular.module('starter.controllers')
         .then(function (result) {
           $scope.retailerList = result;
           console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList));
-          $scope.retailerList.selected =$scope.retailerList[0];
+          $scope.retailerList.selected = $scope.retailerList[0];
         }, function (error) {
 
         });
@@ -271,28 +274,24 @@ angular.module('starter.controllers')
     //Calling the function to load the data on pageload
     $scope.fillretListetailerList();
 
-/*------------------------------------------------------------------*/
+    /*------------------------------------------------------------------*/
     /*Search for existing retailer*/
     $scope.retailerData = {"retailers": [], "search": ''};
     $scope.searchRetailer = function () {
       /*console.log('Search pressed : ' + $scope.data.search);*/
-      localRetailerHandlerV2.search($scope.retailerData.search,$scope.retailerList).then(
+      localRetailerHandlerV2.search($scope.retailerData.search, $scope.retailerList).then(
         function (matches) {
 
           $scope.retailerData.retailers = matches;
           console.log('13/3/2017 - aalatief -Search Result after promise: ' + JSON.stringify($scope.retailerData.retailers));
         }
       )
-    }; 
-    
-    
-    
-    
-    
+    };
+
+
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/
-    
-    
+
 
     /* vm.selected = vm.values[0];*/
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {

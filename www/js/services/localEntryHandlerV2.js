@@ -14,7 +14,9 @@ angular.module('starter.services')
         " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
         " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
         " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
-        " where l.listLocalId = ? and ifnull(e.deleted,'N')  !='Y'";
+        " where l.listLocalId = ? " +
+        " and ifnull(e.deleted,'N')  !='Y'" +
+        " and e.entryCrossedFlag = 0";
 
       global.db.transaction(function (tx) {
         tx.executeSql(query, [listId], function (tx, result) {
@@ -108,47 +110,122 @@ angular.module('starter.services')
       return false;
     };
     /*-------------------------------------------------------------------------------------*/
-    /*check if item exit already in a list*/
-    function itemExitInList(selectedItem) {
-      for (var j = 0; j < selectedItems.length; j++) {
-        if (selectedItems[j].listLocalId == selectedItem.listLocalId && selectedItems[j].itemName.toLowerCase() == selectedItem.itemName.toLowerCase()) {
-          return true;
+    /*check if item exit already in a list
+     function itemExitInList(selectedItem) {
+     for (var j = 0; j < selectedItems.length; j++) {
+     if (selectedItems[j].listLocalId == selectedItem.listLocalId && selectedItems[j].itemName.toLowerCase() == selectedItem.itemName.toLowerCase()) {
+     return true;
+     }
+     }
+     ;
+     return false;
+     };
+     */
+    function itemExitInList(itemLocalId, entryList) {
+      var idx = -1;
+      for (var i = 0; i < entryList.length; i++) {
+        if (entryList[i].itemLocalId == itemLocalId) {
+          idx = i;
+          break;
         }
       }
-      ;
-      return false;
-    };
+      return idx;
+    }
+
     /*******************************************************************************************************************
-     * add item to list and increment item usage
+     * add item to list and increment item usage, there are three cases:
+     * 1. there is no entry in either crossed or not crossed undeleted for the item.
+     * 2. there is a fresh entry for the item.
+     * 3. there is a crossed entry for the item.
      * @param mySelectedItem
      */
-    function addItemToList(mySelectedItem) {
-      console.log('Add Item to List Case: ' + JSON.stringify(mySelectedItem));
+    function addItemToList(mySelectedItem, listOpenEntries, listCrossedEntries) {
+      console.log('addItemToList mySelectedItem = ' + JSON.stringify(mySelectedItem));
+      console.log('addItemToList listOpenEntries = ' + JSON.stringify(listOpenEntries));
+      console.log('addItemToList listCrossedEntries = ' + JSON.stringify(listCrossedEntries));
       var deferred = $q.defer();
-      console.log('item added in list ' || mySelectedItem.categoryName);
+      //search the item in the listOpen Entries
+      var openIdx = itemExitInList(mySelectedItem.itemLocalId, listOpenEntries);
+      console.log("addItemToList openIdx = " + openIdx);
+      if (openIdx == -1) {
+        //SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId
+        global.db.transaction(function (tx) {
+          var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag, language) " +
+            "VALUES (null,?,?,'',1,'','',0,'', 'L', 'N', 0, 1, ?)";
+          //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
+          tx.executeSql(query, [mySelectedItem.listLocalId, mySelectedItem.itemLocalId, mySelectedItem.language], function (tx, res) {
+            listOpenEntries.push({
+              entryLocalId: res.insertId,
+              listLocalId: mySelectedItem.listLocalId,
+              itemLocalId: mySelectedItem.itemLocalId,
+              itemName: mySelectedItem.itemName,
+              categoryName: mySelectedItem.categoryName,
+              quantity: 0,
+              uom: '',
+              retailerLocalId: '',
+              language: mySelectedItem.language
+            });
+          }, function (err) {
+            console.error('addItemToList insert error  = ' + err.message);
+          });
+          var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
+          tx.executeSql(updateQuery, [mySelectedItem.itemLocalId]);
+        }, function (err) {
+          console.error('addItemToList db error  = ' + err.message);
+          deferred.reject(err);
+        }, function () {
+          deferred.resolve();
+        });
+      }
 
-      global.db.transaction(function (tx) {
-        var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag, language) " +
-          "VALUES (?,?,?,?,?,?,?,?,?, 'L', 'N', 0, 1, ?)";
+      var crossedIdx = itemExitInList(mySelectedItem.itemLocalId, listCrossedEntries);
+      console.log("addItemToList crossedIdx = " + crossedIdx);
 
-        tx.executeSql(query, [null/*new Date().getTime()*/, mySelectedItem.listLocalId, mySelectedItem.itemLocalId, '', 1, '', '', '0', new Date().getTime(), mySelectedItem.language]);
-        var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
-        tx.executeSql(updateQuery, [mySelectedItem.itemLocalId]);
-      }, function (err) {
-        deferred.reject(err);
-      }, function () {
-        deferred.resolve();
-      });
-
+      if (crossedIdx != -1) {
+        //SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId
+        global.db.transaction(function (tx) {
+          var query = "update entry set deleted = 'Y' " +
+            "where entryLocalId = ?";
+          //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
+          tx.executeSql(query, [listCrossedEntries[crossedIdx].entryLocalId]);
+          listCrossedEntries.splice(crossedIdx, 1);
+        }, function (err) {
+          console.error('addItemToList db error  = ' + err.message);
+          deferred.reject(err);
+        }, function () {
+          deferred.resolve();
+        });
+      }
       return deferred.promise;
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as crossed*/
-    function crossEntry(entry) {
+    function crossEntry(entry, listOpenEntries, listCrossedEntries) {
 //      console.log('crossEntry isItemChecked = ' + isItemChecked(entry));
       var deferred = $q.defer();
       var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
+// splicing the listOpenEntries
+      console.log("crossEntry listOpenEntries before = " + JSON.stringify(listOpenEntries));
+      for (var i = 0; i < listOpenEntries.length; i++) {
+        if (listOpenEntries[i].entryLocalId == entry.entryLocalId) {
+          listOpenEntries.splice(i, 1);
+        }
+      }
+      console.log("crossEntry listOpenEntries after = " + JSON.stringify(listOpenEntries));
+      //e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language" +
+      var newEntry = {
+        entryLocalId: entry.entryLocalId,
+        listLocalId: entry.listLocalId,
+        itemLocalId: entry.itemLocalId,
+        itemName: entry.itemName,
+        categoryName: entry.categoryName,
+        quantity: entry.quantity,
+        uom: entry.uom,
+        entryCrossedFlag: 1,
+        language: entry.language
+      };
 
+      listCrossedEntries.push(newEntry);
       global.db.transaction(function (tx) {
         tx.executeSql(query, [new Date().getTime(), entry.itemLocalId, entry.listLocalId], function (response) {
           //Success Callback

@@ -806,6 +806,7 @@ angular.module('starter.services')
           defer.reject(err);
         }, function () {
           console.log("syncCrossingsUptreamUpdateLocalAfterServer DB update OK ");
+          defer.resolve();
         });
 
         return defer.promise;
@@ -909,6 +910,7 @@ angular.module('starter.services')
             }
             console.log('syncCrossingsUptreamperList  crossedIds ' + JSON.stringify(crossedIds));
             syncCrossingsUptreamUpdateServer(listServerId.listServerId, crossedIds).then(function () {
+              console.log('syncCrossingsUptreamperList  called successfully');
               defer.resolve();
             }, function (err) {
               console.error('syncCrossingsUptreamperList  syncCrossingsUptreamUpdateServer ' + JSON.stringify(err));
@@ -932,46 +934,53 @@ angular.module('starter.services')
         var defer = $q.defer();
         console.log('syncCrossingsUptream started');
         global.db.transaction(function (tx) {
-          var query = "select distinct list.listServerId " +
-            "from entry, list " +
-            "where entry.listLocalId = list.listLocalId " +
-            "and entry.entryCrossedFlag = 1 " +
-            "and entry.entryServerId <> ''" +
-            "and entry.flag = 'E'";
+            var query = "select distinct list.listServerId " +
+              "from entry, list " +
+              "where entry.listLocalId = list.listLocalId " +
+              "and entry.entryCrossedFlag = 1 " +
+              "and entry.entryServerId <> ''" +
+              "and entry.flag = 'E'";
 
-          console.log('syncCrossingsUptream query = ' + query);
-          tx.executeSql(query, [], function (tx, res) {
-            var crossedListId = [];
-            console.log("syncCrossingsUptream res.rows.length = " + res.rows.length);
-            if (res.rows.length > 0) {
-              for (var i = 0; i < res.rows.length; i++) {
-                crossedListId.push(res.rows.item(i));
+            console.log('syncCrossingsUptream query = ' + query);
+            tx.executeSql(query, [], function (tx, res) {
+              var crossedListId = [];
+              console.log("syncCrossingsUptream res.rows.length = " + res.rows.length);
+              if (res.rows.length > 0) {
+                var promises = [];
+                for (var i = 0; i < res.rows.length; i++) {
+                  console.log('syncCrossingsUptream  crossedListId ' + JSON.stringify(res.rows.item(i)));
+                  promises.push(syncCrossingsUptreamperList(res.rows.item(i)));
+                }
+
+                console.log("syncCrossingsUptream promises = " + JSON.stringify(promises));
+                $q.all(promises).then(function (res) {
+                  console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(res));
+                  defer.resolve();
+                }, function (err) {
+                  console.error('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
+                  defer.reject();
+                });
               }
-              console.log('syncCrossingsUptream  crossedListId ' + JSON.stringify(crossedListId));
-              var promises = crossedListId.map(function (listServerId) {
-                return syncCrossingsUptreamperList(listServerId);
-              });
-
-              $q.all(promises, function (res) {
-                console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(resolved));
+              else {
                 defer.resolve();
-              }, function (err) {
-                console.error('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
-                defer.reject();
-              });
-            } else {
-              defer.resolve();
-            }
-          }, function (err) {
-            console.error('syncCrossingsUptream  db query err ' + JSON.stringify(err));
-            defer.reject();
-          });
-        }, function (err) {
-          console.error('syncCrossingsUptream  db err ' + JSON.stringify(err));
-          defer.reject();
-        }, function (res) {
+              }
+            }, function (err) {
+              console.error('syncCrossingsUptream  db query err ' + JSON.stringify(err));
+              defer.reject();
+            });
+          }
 
-        });
+          ,
+          function (err) {
+            console.error('syncCrossingsUptream  db err ' + JSON.stringify(err));
+            defer.reject();
+          }
+
+          ,
+          function (res) {
+
+          }
+        );
         return defer.promise;
       }
 
