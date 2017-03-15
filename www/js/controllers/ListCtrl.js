@@ -177,6 +177,7 @@ $scope.refresh = function() {
                     function(err){
                         console.log('11/02/2017 - listCtrl - aalatief: Api Call check Error:'+JSON.stringify(err));
                         contactHandler.updateContactStatus(contactLocalId,'P',null).then(function(response){
+                        $state.reload();
                         console.log('13/02/2017 - listCtrl - aalatief: Update Prospect User Status:'+JSON.stringify(response));
                         },function(error){
                             console.log('13/02/2017 - listCtrl - aalatief: Error Update Prospect User Status:'+JSON.stringify(Error));

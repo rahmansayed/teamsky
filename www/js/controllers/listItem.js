@@ -291,34 +291,9 @@ angular.module('starter.controllers')
     
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/
+    
+    
 
-    vm = this;
-    vm.isLoaded = false;
-    vm.values = [{
-      'key': 22,
-      'value': 'Kevin'
-    }, {
-      'key': 24,
-      'value': 'Fiona'
-    }];
-    
-    
-      $scope.processItem = function(tag){
-    return {
-      name:tag
-    }
-  };
-    
-    function clear($event, $select){ 
- //stops click event bubbling
- $event.stopPropagation(); 
- //to allow empty field, in order to force a selection remove the following line
- $select.selected = undefined;
- //reset search query
- $select.search = undefined;
- //focus and open dropdown
- $select.activate();
-};
     /* vm.selected = vm.values[0];*/
     /* $ionicModal.fromTemplateUrl('templates/searchItem.html', {
      scope: $scope
