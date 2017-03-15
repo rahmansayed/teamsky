@@ -2,7 +2,7 @@ angular.module('starter.controllers')
   .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2) {
 
     $scope.items = [];
-    $scope.selectedItems = [];
+    $scope.listItems = [];
     $scope.checkedItems = [];
     $scope.retailers = [];
 
@@ -87,12 +87,12 @@ angular.module('starter.controllers')
           //entryCrossedFlag: item.entryCrossedFlag,
           language: item.language
         };
-      console.log('Master Item Searched: ' + JSON.stringify($scope.selectedItem));
+      console.log('Master Item Searched: ' + JSON.stringify($scope.listItems));
       localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems)
         .then(function (res) {
           console.log('selectItem $scope.listItems' + JSON.stringify($scope.listItems));
           serverHandlerEntryV2.syncEntriesUpstream();
-          $scope.selectedItems = res.listOpenEntries;
+          $scope.listItems = res.listOpenEntries;
           $scope.checkedItems = res.listCrossedEntries;
           $state.reload();
         }, function (error) {
@@ -130,8 +130,13 @@ angular.module('starter.controllers')
     /*UnCheck item in list*/
     $scope.unCheckItem = function (checkedItem) {
       console.log('24/2/2017 - aalatief - uncheck item: ' + JSON.stringify(checkedItem));
-      localEntryHandlerV2.unCheckItem(checkedItem, $scope.selectedItems, $scope.checkedItems);
-      $state.reload();
+      localEntryHandlerV2.unCheckItem(checkedItem, $scope.listItems, $scope.checkedItems).then(function (res) {
+        console.log('unCheckItem res = ' + JSON.stringify(res));
+        $scope.listItems = res.listOpenEntries;
+        $scope.checkedItems = res.listCrossedEntries;
+        $state.reload();
+      });
+
     };
     /*------------------------------------------------------------------*/
 

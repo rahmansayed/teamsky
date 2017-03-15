@@ -265,7 +265,7 @@ angular.module('starter.services')
           "VALUES (null,?,?,0,'','L', 'N', 0, 1, ?)";
 
         var mark_query = "update entry set deleted = 'Y' where entryLocalId = ?";
-        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language], function(tx, res){
+        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language], function (tx, res) {
           var newEntry = {
             entryLocalId: res.insertId,
             listLocalId: entry.listLocalId,
@@ -277,6 +277,19 @@ angular.module('starter.services')
             language: entry.language
           };
           listOpenEntries.push(newEntry);
+
+          for (var k = 0; k < ListCrossedEntries.length; k++) {
+            if (ListCrossedEntries[k].entryLocalId == entry.entryLocalId) {
+              ListCrossedEntries.splice(k, 1);
+              break;
+            }
+          }
+
+          deferred.resolve({
+            listOpenEntries: listOpenEntries,
+            ListCrossedEntries: ListCrossedEntries
+          });
+
         });
         tx.executeSql(mark_query, [entry.entryLocalId]);
       }, function (error) {
@@ -286,19 +299,11 @@ angular.module('starter.services')
       }, function () {
         console.log('repeatEntry insert success');
         serverHandlerEntryV2.syncEntriesUpstream().then(function () {
-          deferred.resolve();
         }, function (err) {
           deferred.reject(err);
         });
 
       });
-
-      for (var k = 0; k < ListCrossedEntries.length; k++) {
-        if (ListCrossedEntries[k].entryLocalId == entry.entryLocalId) {
-          ListCrossedEntries.splice(k, 1);
-          break;
-        }
-      }
 
       return deferred.promise;
     };
