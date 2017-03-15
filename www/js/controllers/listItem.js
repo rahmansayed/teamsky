@@ -89,9 +89,11 @@ angular.module('starter.controllers')
         };
       console.log('Master Item Searched: ' + JSON.stringify($scope.selectedItem));
       localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems)
-        .then(function (response) {
+        .then(function (res) {
           console.log('selectItem $scope.listItems' + JSON.stringify($scope.listItems));
           serverHandlerEntryV2.syncEntriesUpstream();
+          $scope.selectedItems = res.listOpenEntries;
+          $scope.checkedItems = res.listCrossedEntries;
           $state.reload();
         }, function (error) {
           console.log('24/2/2017 - aalatief - Selected Item error: ' + JSON.stringify(error));
@@ -106,9 +108,13 @@ angular.module('starter.controllers')
     /*Check item in list*/
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
-      localEntryHandlerV2.checkItem(listItem, $scope.listItems, $scope.checkedItems).then(function(){
+      localEntryHandlerV2.checkItem(listItem, $scope.listItems, $scope.checkedItems).then(function (res) {
         console.log("listOpenEntries $scope.listItems = " + JSON.stringify($scope.listItems));
         console.log("listOpenEntries $scope.checkedItems = " + JSON.stringify($scope.checkedItems));
+        /*$scope.$apply(function () {
+         $scope.selectedItems = res.listOpenEntries;
+         $scope.checkedItems = res.listCrossedEntries;
+         });*/
       });
 
       /*        .then(function (response) {
@@ -117,7 +123,6 @@ angular.module('starter.controllers')
 
        });*/
 
-      $state.reload();
 
     };
     /*------------------------------------------------------------------*/
@@ -125,7 +130,7 @@ angular.module('starter.controllers')
     /*UnCheck item in list*/
     $scope.unCheckItem = function (checkedItem) {
       console.log('24/2/2017 - aalatief - uncheck item: ' + JSON.stringify(checkedItem));
-      localEntryHandlerV2.unCheckItem(checkedItem, $scope.checkedItems);
+      localEntryHandlerV2.unCheckItem(checkedItem, $scope.selectedItems, $scope.checkedItems);
       $state.reload();
     };
     /*------------------------------------------------------------------*/
@@ -180,7 +185,8 @@ angular.module('starter.controllers')
 
             });
 
-            $state.reload();
+            //$state.reload();
+            //$scope.$apply();
           },
           function (error) {
 
@@ -228,7 +234,8 @@ angular.module('starter.controllers')
             localEntryHandlerV2.deactivateItem(listItem)
               .then(function (ret) {
                 console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + JSON.stringify(ret));
-                $state.reload();
+                //$state.reload();
+                //$scope.$apply();
               }, function (err) {
                 console.log('25/02/2017 - listItem - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
               });

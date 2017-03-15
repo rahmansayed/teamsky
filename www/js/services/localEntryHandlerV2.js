@@ -8,7 +8,7 @@ angular.module('starter.services')
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
-      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId " +
+      var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId, e.language " +
         " FROM ( " +
         " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
         " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
@@ -74,6 +74,7 @@ angular.module('starter.services')
           for (var i = 0; i < res.rows.length; i++) {
             crossedEntries.push(res.rows.item(i));
           }
+          console.log("localEntryHandlerV2.getCheckedItem crossedEntries = " + JSON.stringify(crossedEntries));
           deferred.resolve(crossedEntries);
         }, function (err) {
           console.error("localEntryHandlerV2.getCheckedItem query err = " + err.message);
@@ -170,11 +171,14 @@ angular.module('starter.services')
           });
           var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
           tx.executeSql(updateQuery, [mySelectedItem.itemLocalId]);
+          deferred.resolve({
+            listOpenEntries: listOpenEntries,
+            listCrossedEntries: listCrossedEntries
+          });
         }, function (err) {
           console.error('addItemToList db error  = ' + err.message);
           deferred.reject(err);
         }, function () {
-          deferred.resolve();
         });
       }
 
@@ -201,7 +205,7 @@ angular.module('starter.services')
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as crossed*/
     function crossEntry(entry, listOpenEntries, listCrossedEntries) {
-//      console.log('crossEntry isItemChecked = ' + isItemChecked(entry));
+      console.log('crossEntry entry = ' + JSON.stringify(entry));
       var deferred = $q.defer();
       var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
 // splicing the listOpenEntries
@@ -232,7 +236,10 @@ angular.module('starter.services')
           console.log('Update Entry with Check Flag!!!' + JSON.stringify(response));
           //checkedItems.push(listItem);
           serverHandlerEntryV2.syncCrossingsUpstream().then(function () {
-            deferred.resolve(response);
+            deferred.resolve({
+              listOpenEntries: listOpenEntries,
+              listCrossedEntries: listCrossedEntries
+            });
           });
         }, function (err) {
           console.error(error);
@@ -247,7 +254,7 @@ angular.module('starter.services')
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as uncrossed*/
-    function repeatEntry(entry, AllCheckedItems) {
+    function repeatEntry(entry, listOpenEntries, ListCrossedEntries) {
       console.log('repeatEntry entry = ' + JSON.stringify(entry));
 
       var deferred = $q.defer();
@@ -258,7 +265,19 @@ angular.module('starter.services')
           "VALUES (null,?,?,0,'','L', 'N', 0, 1, ?)";
 
         var mark_query = "update entry set deleted = 'Y' where entryLocalId = ?";
-        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language]);
+        tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language], function(tx, res){
+          var newEntry = {
+            entryLocalId: res.insertId,
+            listLocalId: entry.listLocalId,
+            itemLocalId: entry.itemLocalId,
+            itemName: entry.itemName,
+            categoryName: entry.categoryName,
+            quantity: entry.quantity,
+            uom: entry.uom,
+            language: entry.language
+          };
+          listOpenEntries.push(newEntry);
+        });
         tx.executeSql(mark_query, [entry.entryLocalId]);
       }, function (error) {
         //Error Callback
@@ -274,9 +293,10 @@ angular.module('starter.services')
 
       });
 
-      for (var k = 0; k < AllCheckedItems.length; k++) {
-        if ((AllCheckedItems[k].entryLocalId == entry.entryLocalId) && (AllCheckedItems[k].listLocalId == entry.listLocalId)) {
-          AllCheckedItems.splice(k, 1);
+      for (var k = 0; k < ListCrossedEntries.length; k++) {
+        if (ListCrossedEntries[k].entryLocalId == entry.entryLocalId) {
+          ListCrossedEntries.splice(k, 1);
+          break;
         }
       }
 
