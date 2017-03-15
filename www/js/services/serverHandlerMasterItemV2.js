@@ -138,6 +138,8 @@ angular.module('starter.services')
                   else {
                     defer.resolve();
                   }
+                }, function(err){
+                  defer.reject(err);
                 });
               console.log("End Call Server");
               console.log("///////////////////////////////////////");

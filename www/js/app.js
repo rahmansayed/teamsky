@@ -33,17 +33,29 @@ angular.module('starter', ['ionic', 'ui.select',
                     global.deviceServerId = userVerify.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {
                       serverHandler.syncInit().then(function () {
-                        console.log('calling getAllMasterItem');
-                        localItemHandlerV2.getAllMasterItem()
-                          .then(function (result) {
-                              global.masterItems = result;
-                              console.log('global.masterItems populated = ');
-                            }
-                            , function (error) {
-                              console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
-                            });
+                          console.log('calling getAllMasterItem');
+                          localItemHandlerV2.getAllMasterItem()
+                            .then(function (result) {
+                                global.masterItems = result;
+                                console.log('global.masterItems populated = ');
+                              }
+                              , function (error) {
+                                console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                              });
 
-                      });
+                        }, function () {
+                          localItemHandlerV2.getAllMasterItem()
+                            .then(function (result) {
+                                global.masterItems = result;
+                                console.log('global.masterItems populated = ');
+                              }
+                              ,
+                              function (error) {
+                                console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                              }
+                            );
+                        }
+                      );
                     }
 
                     if (userVerify.isVerified()) {
@@ -61,11 +73,14 @@ angular.module('starter', ['ionic', 'ui.select',
                     console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
 
                   }
-                  , function (error) {
+
+                  ,
+                  function (error) {
                     userVerify.getUserSetErrorCB();
                     console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
                     ;
-                  });
+                  }
+                );
 
             },
             function (error) {
@@ -73,8 +88,8 @@ angular.module('starter', ['ionic', 'ui.select',
             });
       }
 
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
+// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+// for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
@@ -128,7 +143,8 @@ angular.module('starter', ['ionic', 'ui.select',
         global.dataKey = 'ZXCV';
         init();
       }
-    });
+    })
+    ;
 
     $ionicPlatform.on('resume', function (resumeEvent) {
 
@@ -159,4 +175,5 @@ angular.module('starter', ['ionic', 'ui.select',
       }
     );
 
-  });
+  })
+;
