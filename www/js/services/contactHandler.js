@@ -78,6 +78,7 @@ angular.module('starter.services')
       var deferred = $q.defer();
 
       console.log("pickContact ");
+/*
       var onSuccess = function (contact) {
         console.log("pickContact findContact contact = " + JSON.stringify(contact));
       };
@@ -86,13 +87,37 @@ angular.module('starter.services')
         console.log("pickContact findContact error = " + JSON.stringify(error));
       };
       var options = new ContactFindOptions();
-      options.filter = "Marwa";
+      options.filter = "0595976779";
       options.multiple = true;
+      //options.desiredFields = [navigator.contacts.fieldType.id];
 
 
-      var fields = ["displayName", "organizations"];
+      var fields = [navigator.contacts.fieldType.phoneNumbers];
 
-      navigator.contacts.find(fields, onSuccess, onError, options);
+      try {
+        navigator.contacts.find(fields, onSuccess, onError, options);
+      } catch (err) {
+        console.log("pickContact navigator.contacts.find contact = " + JSON.stringify(err));
+      }
+
+      var opts = {                                           //search options
+        filter: "0595976779",                                 // 'Bob'
+        multiple: true,                                      // Yes, return any contact that matches criteria
+        fields: ['*']                   // These are the fields to search for 'bob'.
+        //desiredFields: [id];    //return fields.
+      };
+*/
+
+
+/*
+      try {
+        $cordovaContacts.find(opts).then(function (contact) {
+          console.log("pickContact $cordovaContacts contact = " + JSON.stringify(contact));
+        });
+      } catch (err) {
+        console.err('$cordovaContacts.find err = ' + JSON.stringify(err));
+      }
+*/
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
           console.log("pickContact contact = " + JSON.stringify(contact));
