@@ -9,13 +9,11 @@ angular.module('starter.services')
     function getSpecificList(listLocalId) {
       var defer = $q.defer();
       var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
-        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId) " +
-        " left join entry as ec on ec.listLocalId = l.listLocalId ) " +
+        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0) " +
+        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1) " +
         " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
         " left join contact as c on c.contactLocalId = lu.contactLocalId " +
-        " where eo.entryCrossedFlag = 0 " +
-        " and ec.entryCrossedFlag = 1 " +
-        " and l.listLocalId = ? " +
+        " where l.listLocalId = ? " +
         " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount";
 
       global.db.transaction(function (tx) {
@@ -99,12 +97,10 @@ angular.module('starter.services')
     function getAllLists() {
       var defer = $q.defer();
       var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
-        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId) " +
-        " left join entry as ec on ec.listLocalId = l.listLocalId ) " +
+        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0) " +
+        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1) " +
         " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
         " left join contact as c on c.contactLocalId = lu.contactLocalId " +
-        " where eo.entryCrossedFlag = 0 " +
-        " and ec.entryCrossedFlag = 1 " +
         " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount";
 
       var lists = [];

@@ -78,22 +78,21 @@ angular.module('starter.services')
       var deferred = $q.defer();
 
       console.log("pickContact ");
-      /*      var onSuccess = function (contact) {
-       console.log("pickContact findContact contact = " + JSON.stringify(contact));
-       };
+      var onSuccess = function (contact) {
+        console.log("pickContact findContact contact = " + JSON.stringify(contact));
+      };
 
-       var onError = function (error) {
-       console.log("pickContact findContact error = " + JSON.stringify(error));
-       };
-       var options = new ContactFindOptions();
-       options.filter = "Marwa";
-       options.multiple = true;
+      var onError = function (error) {
+        console.log("pickContact findContact error = " + JSON.stringify(error));
+      };
+      var options = new ContactFindOptions();
+      options.filter = "Marwa";
+      options.multiple = true;
 
 
-       var fields = ["displayName", "organizations"];
+      var fields = ["displayName", "organizations"];
 
-       navigator.contacts.find(fields, onSuccess, onError, options);
-       */
+      navigator.contacts.find(fields, onSuccess, onError, options);
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
           console.log("pickContact contact = " + JSON.stringify(contact));
