@@ -1,10 +1,10 @@
-<ion-view>
+   <ion-view>
  <ion-nav-bar class="theme-color">
  <!--   <ion-nav-back-button></ion-nav-back-button>-->
   </ion-nav-bar>
     
     
-    <ion-nav-title> My Lists</ion-nav-title>
+    <ion-nav-title> My Lists</ion-nav-title> 
     <ion-content>
       
        <ion-refresher on-refresh="refresh()">
@@ -16,22 +16,29 @@
               ng-repeat = "list in lists |orderBy:'listName' | unique: 'listName'" ng-click = "addItem(list.listLocalId)" ng-class="'classA'"
               ng-hide = "list.deleted=='Y'">
               <div style="display=inline;">
-              <h2>{{list.listName}}</h2>
-              <p>{{list.listDescription}}</p>
               
-               <span ng-hide = "list.newCount=='0'||list.newCount==null" 
-                     style="display:inline;height: 22px;width: 22px;line-height: 22px;
+              <h2>{{list.listName}}</h2>
+              <p style="display:inline;">{{list.listDescription}}</p>
+              
+               <div align="center" 
+                    ng-hide = "list.newCount=='0'||list.newCount==null" 
+                    style="display:inline;height: 28px;width: 28px;line-height: 28px;
                             -moz-border-radius: 10px;border-radius:20px;background-color: #09d261;
-                            color: white;text-align: center;font-size: 15px;">
+                            color: white;text-align: center;font-size: 15px;float:right;margin-right: 30px;" >
                    {{list.newCount}}
            
-           </span>
+           </div>
            </div>
            
-              <div ng-repeat="listUser in lists | filter:{listName: list.listName }"
-                   ng-style="list.contactStatus == 'S' ? {color:'blue'} :list.contactStatus == 'P' ? {color:'red' } : {color:'greys' } ">
-                  {{listUser.contactName}} - {{listUser.contactStatus }}
-              </div>
+              
+
+       
+               <p ng-repeat="listUser in lists | filter:{listName: list.listName }" 
+                  ng-style="setColor(listUser.contactStatus )" style="display:inline;">
+                   {{listUser.contactName}} &emsp;</p>
+      
+            
+              
              
            <i class="icon ion-chevron-right"></i>
               
@@ -61,4 +68,10 @@
         <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-ios-information-outline ">About</a>
 </div>
     </div>
+       
+
 </ion-view>
+
+
+
+

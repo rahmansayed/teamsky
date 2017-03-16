@@ -207,4 +207,18 @@ $scope.refresh = function() {
   });
        };
 /*----------------------------------------------------------------------------------------*/
+  /*set the color of the contact shown based on status*/  
+    $scope.setColor = function (status) {
+      if (status =='S') {
+        return { color: "blue" };
+      }
+      else if (status =='P') {
+        return { color: "red" };
+      } 
+    else{
+          return { color: "grey" };
+    }
+        
+    };
+/*-----------------------------------------------------------------------------------------*/    
 });

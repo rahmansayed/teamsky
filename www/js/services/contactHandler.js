@@ -60,6 +60,7 @@ angular.module('starter.services')
           displayName: contacts.displayName,
           phoneValue: formatPhoneNumber(contacts.phones[j].value),
           phoneType: contacts.phones[j].type,
+          photo:contacts.photos[i].value
         });
 
       }
@@ -105,13 +106,13 @@ angular.module('starter.services')
 
       var deferred = $q.defer();
 
-      var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactServerId,contactStatus,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?,?)";
+      var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactServerId,contactStatus,photo,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?,?)";
       getMaxContactLocalId()
         .then(function (response) {
             maxContactId = response.rows.item(0).maxId + 1;
             console.log('11/2/2017 - contactHandler - aalatief :maxContactId ' + JSON.stringify(maxContactId));
             for (var i = 0; i < (contact || []).length; i++) {
-              dbHandler.runQuery(query, [maxContactId, contact[i].displayName, contact[i].phoneValue, contact[i].phoneType, '', 'N', new Date().getTime(), 'U'], function (response) {
+              dbHandler.runQuery(query, [maxContactId, contact[i].displayName, contact[i].phoneValue, contact[i].phoneType, '', 'N',contact[i].photo ,new Date().getTime(), 'U'], function (response) {
                 //Success Callback
                 console.log(response);
                 deferred.resolve(response.insertId);
