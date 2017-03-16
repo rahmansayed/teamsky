@@ -5,6 +5,11 @@ angular.module('starter.services')
     var selected = [];
     var items = [];
 
+    function pushUnique(categoryList, category) {
+      if (categoryList.indexOf(category) == -1)
+        categoryList.push(category);
+    }
+
     /*Return all entries in array selectedItems*/
     function getAllEntry(listId) {
       var defer = $q.defer();
@@ -21,11 +26,17 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
         tx.executeSql(query, [listId], function (tx, result) {
           console.log("localEntryHandlerV2.getAllEntry query res = " + JSON.stringify(result));
-          var entries = [];
+          var openEntryList = {
+            entries: [],
+            categories: []
+          };
+
           for (var i = 0; i < result.rows.length; i++) {
-            entries.push(result.rows.item(i));
+            if (openEntryList.categories.indexOf(result.rows.item(i).categoryName) == -1)
+              openEntryList.categories.push(result.rows.item(i).categoryName);
+            openEntryList.entries.push(result.rows.item(i));
           }
-          defer.resolve(entries);
+          defer.resolve(openEntryList);
         }, function (err) {
           console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
           defer.reject();
@@ -140,22 +151,22 @@ angular.module('starter.services')
      * 3. there is a crossed entry for the item.
      * @param mySelectedItem
      */
-    function addItemToList(mySelectedItem, listOpenEntries, listCrossedEntries) {
+    function addItemToList(mySelectedItem, entries) {
       console.log('addItemToList mySelectedItem = ' + JSON.stringify(mySelectedItem));
-      console.log('addItemToList listOpenEntries = ' + JSON.stringify(listOpenEntries));
-      console.log('addItemToList listCrossedEntries = ' + JSON.stringify(listCrossedEntries));
+      console.log('addItemToList listOpenEntries = ' + JSON.stringify(entries.listOpenEntries));
+      console.log('addItemToList listCrossedEntries = ' + JSON.stringify(entries.listCrossedEntries));
       var deferred = $q.defer();
       //search the item in the listOpen Entries
-      var openIdx = itemExitInList(mySelectedItem.itemLocalId, listOpenEntries);
+      var openIdx = itemExitInList(mySelectedItem.itemLocalId, entries.listOpenEntries);
       console.log("addItemToList openIdx = " + openIdx);
       if (openIdx == -1) {
         //SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId
         global.db.transaction(function (tx) {
-          var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag, language) " +
-            "VALUES (null,?,?,'',1,'','',0,'', 'L', 'N', 0, 1, ?)";
+          var query = "INSERT INTO entry (entryLocalId,listLocalId,itemLocalId,entryServerId,quantity,uom,retailerLocalId,entryCrossedFlag,lastUpdateDate, origin, flag, deliveredFlag, seenFlag, language, deleted) " +
+            "VALUES (null,?,?,'',1,'','',0,'', 'L', 'N', 0, 1, ?, 'N')";
           //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
           tx.executeSql(query, [mySelectedItem.listLocalId, mySelectedItem.itemLocalId, mySelectedItem.language], function (tx, res) {
-            listOpenEntries.push({
+            entries.listOpenEntries.entries.push({
               entryLocalId: res.insertId,
               listLocalId: mySelectedItem.listLocalId,
               itemLocalId: mySelectedItem.itemLocalId,
@@ -164,17 +175,18 @@ angular.module('starter.services')
               quantity: 0,
               uom: '',
               retailerLocalId: '',
-              language: mySelectedItem.language
+              language: mySelectedItem.language,
+              deleted: 'N'
             });
+            if (entries.listOpenEntries.categories.indexOf(mySelectedItem.categoryName) == -1) {
+              entries.listOpenEntries.categories.push(mySelectedItem.categoryName);
+            }
           }, function (err) {
             console.error('addItemToList insert error  = ' + err.message);
           });
           var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
           tx.executeSql(updateQuery, [mySelectedItem.itemLocalId]);
-          deferred.resolve({
-            listOpenEntries: listOpenEntries,
-            listCrossedEntries: listCrossedEntries
-          });
+          deferred.resolve(entries);
         }, function (err) {
           console.error('addItemToList db error  = ' + err.message);
           deferred.reject(err);
@@ -182,7 +194,7 @@ angular.module('starter.services')
         });
       }
 
-      var crossedIdx = itemExitInList(mySelectedItem.itemLocalId, listCrossedEntries);
+      var crossedIdx = itemExitInList(mySelectedItem.itemLocalId, entries.listCrossedEntries);
       console.log("addItemToList crossedIdx = " + crossedIdx);
 
       if (crossedIdx != -1) {
@@ -191,8 +203,8 @@ angular.module('starter.services')
           var query = "update entry set deleted = 'Y' " +
             "where entryLocalId = ?";
           //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-          tx.executeSql(query, [listCrossedEntries[crossedIdx].entryLocalId]);
-          listCrossedEntries.splice(crossedIdx, 1);
+          tx.executeSql(query, [entries.listCrossedEntries[crossedIdx].entryLocalId]);
+          entries.listCrossedEntries.splice(crossedIdx, 1);
         }, function (err) {
           console.error('addItemToList db error  = ' + err.message);
           deferred.reject(err);
@@ -204,18 +216,29 @@ angular.module('starter.services')
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as crossed*/
-    function crossEntry(entry, listOpenEntries, listCrossedEntries) {
+    function crossEntry(entry, entries) {
       console.log('crossEntry entry = ' + JSON.stringify(entry));
       var deferred = $q.defer();
       var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
 // splicing the listOpenEntries
-      console.log("crossEntry listOpenEntries before = " + JSON.stringify(listOpenEntries));
-      for (var i = 0; i < listOpenEntries.length; i++) {
-        if (listOpenEntries[i].entryLocalId == entry.entryLocalId) {
-          listOpenEntries.splice(i, 1);
+      console.log("crossEntry listOpenEntries before = " + JSON.stringify(entries.listOpenEntries));
+      var cat = entry.categoryName;
+      var catCount = 0;
+      console.log("crossEntry cat = " + cat);
+      for (var i = 0; i < entries.listOpenEntries.entries.length; i++) {
+        if (entries.listOpenEntries.entries[i].categoryName == cat) {
+          catCount++;
+        }
+        if (entries.listOpenEntries.entries[i].entryLocalId == entry.entryLocalId) {
+          entries.listOpenEntries.entries.splice(i, 1);
         }
       }
-      console.log("crossEntry listOpenEntries after = " + JSON.stringify(listOpenEntries));
+      console.log("crossEntry cat = " + catCount);
+      if (catCount == 1) {
+        var idx = entries.listOpenEntries.categories.indexOf(cat);
+        entries.listOpenEntries.categories.splice(idx, 1);
+      }
+      console.log("crossEntry listOpenEntries after = " + JSON.stringify(entries.listOpenEntries));
       //e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language" +
       var newEntry = {
         entryLocalId: entry.entryLocalId,
@@ -229,17 +252,14 @@ angular.module('starter.services')
         language: entry.language
       };
 
-      listCrossedEntries.push(newEntry);
+      entries.listCrossedEntries.push(newEntry);
       global.db.transaction(function (tx) {
         tx.executeSql(query, [new Date().getTime(), entry.itemLocalId, entry.listLocalId], function (response) {
           //Success Callback
           console.log('Update Entry with Check Flag!!!' + JSON.stringify(response));
           //checkedItems.push(listItem);
           serverHandlerEntryV2.syncCrossingsUpstream().then(function () {
-            deferred.resolve({
-              listOpenEntries: listOpenEntries,
-              listCrossedEntries: listCrossedEntries
-            });
+            deferred.resolve(entries);
           });
         }, function (err) {
           console.error(error);
@@ -254,15 +274,15 @@ angular.module('starter.services')
     };
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as uncrossed*/
-    function repeatEntry(entry, listOpenEntries, ListCrossedEntries) {
+    function repeatEntry(entry, entries) {
       console.log('repeatEntry entry = ' + JSON.stringify(entry));
 
       var deferred = $q.defer();
 
       global.db.transaction(function (tx) {
         var insert_query = "INSERT INTO entry " +
-          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, entryServerId, origin, flag, deliveredFlag, seenFlag, language) " +
-          "VALUES (null,?,?,0,'','L', 'N', 0, 1, ?)";
+          "(entryLocalId,listLocalId,itemLocalId,entryCrossedFlag, entryServerId, origin, flag, deliveredFlag, seenFlag, language, deleted) " +
+          "VALUES (null,?,?,0,'','L', 'N', 0, 1, ?, 'N')";
 
         var mark_query = "update entry set deleted = 'Y' where entryLocalId = ?";
         tx.executeSql(insert_query, [entry.listLocalId, entry.itemLocalId, entry.language], function (tx, res) {
@@ -274,27 +294,28 @@ angular.module('starter.services')
             categoryName: entry.categoryName,
             quantity: entry.quantity,
             uom: entry.uom,
-            language: entry.language
+            language: entry.language,
+            deleted: 'N'
           };
-          listOpenEntries.push(newEntry);
+          entries.listOpenEntries.entries.push(newEntry);
+          if (entries.listOpenEntries.categories.indexOf(entry.categoryName) == -1) {
+            entries.listOpenEntries.categories.push(entry.categoryName);
+          }
 
-          for (var k = 0; k < ListCrossedEntries.length; k++) {
-            if (ListCrossedEntries[k].entryLocalId == entry.entryLocalId) {
-              ListCrossedEntries.splice(k, 1);
+          for (var k = 0; k < entries.listCrossedEntries.length; k++) {
+            if (entries.listCrossedEntries[k].entryLocalId == entry.entryLocalId) {
+              entries.listCrossedEntries.splice(k, 1);
               break;
             }
           }
 
-          deferred.resolve({
-            listOpenEntries: listOpenEntries,
-            ListCrossedEntries: ListCrossedEntries
-          });
+          deferred.resolve(entries);
 
         });
         tx.executeSql(mark_query, [entry.entryLocalId]);
       }, function (error) {
         //Error Callback
-        console.error('repeatEntry db error = ' + error);
+        console.error('repeatEntry db error = ' + error.message);
         deferred.reject(error);
       }, function () {
         console.log('repeatEntry insert success');
@@ -342,18 +363,19 @@ angular.module('starter.services')
       return getCheckedItem(listLocalId);
     }
 
-    /*-------------------------------------------------------------------------------------*/
-    function allListItemCategoryCrossed(selectedItems, category) {
+    /**************************************************************************************************
+     * this function checks if all the entries belonging to the category are crossed
+     * @param selectedItems
+     * @param category
+     * @returns {boolean}
+     */
+    function allCategoryEntriesCrossed(entryList, category) {
 
-      for (var i = 0; i < selectedItems.length; i++) {
-        if (selectedItems[i].categoryName != category) {
-          continue;
-        }
-        if (selectedItems[i].categoryName == category && selectedItems[i].entryCrossedFlag == 0) {
+      for (var i = 0; i < entryList.length; i++) {
+        if (entryList[i].categoryName == category && entryList[i].entryCrossedFlag == 0) {
           return false;
           break;
         }
-
       }
       return true;
     }
@@ -411,7 +433,7 @@ angular.module('starter.services')
       selectedItem: selectedItem,
       checkedItem: checkedItem,
       addItemToList: addItemToList,
-      allListItemCategoryCrossed: allListItemCategoryCrossed,
+      allListItemCategoryCrossed: allCategoryEntriesCrossed,
       checkItem: crossEntry,
       unCheckItem: repeatEntry,
       deactivateItem: deactivateItem,

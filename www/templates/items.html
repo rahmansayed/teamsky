@@ -1,279 +1,290 @@
 <ion-view>
-    
-     <ion-nav-bar class="theme-color">
-        <ion-nav-back-button></ion-nav-back-button>
+
+  <ion-nav-bar class="theme-color">
+    <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
-<ion-nav-title> {{dynamicListTitle}} </ion-nav-title>
-    <ion-header-bar class="bar-subheader item-input-inset" >
-              <label class="item-input-wrapper">
-                <i class="icon placeholder-icon ion-android-search"></i>
-                <input type="search" placeholder="Search" ng-change="search()" ng-model="data.search">
+  <ion-nav-title> {{dynamicListTitle}}</ion-nav-title>
+  <ion-header-bar class="bar-subheader item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon placeholder-icon ion-android-search"></i>
+      <input type="search" placeholder="Search" ng-change="search()" ng-model="data.search">
 
-              </label>
-                <div class="buttons">
-                    <button class="button button-light icon-left ion-plus-round"  ng-click="addMasterItem(data.search)" ng-show="data.search !== data.items">Add</button>
-                    <button class="button button-clear">Cancel</button>  
-                </div>
-    
-    </ion-header-bar>
-<!--   
-<ion-floating-button click="modal.show()" has-footer="false" button-color="#941540" icon="ion-plus" icon-color="#fff">
-</ion-floating-button>-->
-    
-    <ion-content >
-        <!--   
-        <ion-list>
-            <ion-item ng-repeat = "list in listItems">
-                My List: {{list.categoryName}}
-               
-            </ion-item>
-           </ion-list>   
-        -->
-     <ion-refresher on-refresh="refresh()">
-                     
-      </ion-refresher>
-        <div>
-          <ion-list>
-            <ion-item  class="item" 
-                       ng-repeat="item in data.items" 
-                       ng-click="selectItems(item)">{{item.itemName}}</ion-item >
+    </label>
+    <div class="buttons">
+      <button class="button button-light icon-left ion-plus-round" ng-click="addMasterItem(data.search)"
+              ng-show="data.search !== data.items">Add
+      </button>
+      <button class="button button-clear">Cancel</button>
+    </div>
 
-          </ion-list>
-        </div>
+  </ion-header-bar>
+  <!--
+  <ion-floating-button click="modal.show()" has-footer="false" button-color="#941540" icon="ion-plus" icon-color="#fff">
+  </ion-floating-button>-->
+
+  <ion-content>
+    <!--
+    <ion-list>
+        <ion-item ng-repeat = "list in listItems">
+            My List: {{list.categoryName}}
+
+        </ion-item>
+       </ion-list>
+    -->
+    <ion-refresher on-refresh="refresh()">
+
+    </ion-refresher>
+    <div>
+      <ion-list>
+        <ion-item class="item"
+                  ng-repeat="item in data.items"
+                  ng-click="selectItems(item)">{{item.itemName}}
+        </ion-item>
+
+      </ion-list>
+    </div>
 
 
-            
-            
-        <ion-list show-reorder="reorderFlag"> 
+    <ion-list show-reorder="reorderFlag">
 
-            
+
       <div class="list">
-        <ion-list show-reorder="reorderFlag"> 
-            
-        <div class="item item-divider"
-             ng-repeat="item in listItems |orderBy:'categoryName' | unique: 'categoryName'" 
-             ng-show="!allListItemCategoryCrossed(item.categoryName)" 
-             style="padding-bottom:20px;">
-            <p >  <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;" 
-                      align="center">{{item.categoryName}}</h2></p>
-              
-         <ion-item class="no-padding item-profile item-remove-animate item-icon-right item calm-bg" 
-                   ng-repeat = "listItem in listItems  | filter:{categoryName: item.categoryName }" 
-                   ng-click = "showDetails = true" 
-                   ng-show="listItem.entryCrossedFlag == '0' && listItem.deleted!='Y'" 
-                   style=" border-radius:15px;">
+        <ion-list show-reorder="reorderFlag">
 
-               
-                <div style="display:inline; float:left;">        
-                <h2 style="display:inline;text-align:left;white-space: normal;">{{listItem.itemName}}   - {{listItem.seenFlag}}</h2>
-                <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeFromList(listItem)"></ion-option-button>
-                <ion-option-button class="button-calm icon-right ion-edit" ng-click="editListItem(listItem)"></ion-option-button>
-                <ion-option-button class="button-balanced ion-checkmark-round" ng-click="itemChecked(listItem)"></ion-option-button>
-                    
-    
+          <div class="item item-divider"
+               ng-repeat="category in entries.listOpenEntries.categories | orderBy"
+               style="padding-bottom:20px;">
+            <p>
+            <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;"
+                align="center">{{category}}</h2></p>
+
+            <ion-item class="no-padding item-profile item-remove-animate item-icon-right item calm-bg"
+                      ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category }"
+                      ng-click="showDetails = true"
+                      style=" border-radius:15px;">
+
+
+              <div style="display:inline; float:left;">
+                <h2 style="display:inline;text-align:left;white-space: normal;">{{listItem.itemName}} -
+                  {{listItem.seenFlag}}</h2>
+                <ion-option-button class="button-assertive icon-left ion-trash-a"
+                                   ng-click="removeFromList(listItem)"></ion-option-button>
+                <ion-option-button class="button-calm icon-right ion-edit"
+                                   ng-click="editListItem(listItem)"></ion-option-button>
+                <ion-option-button class="button-balanced ion-checkmark-round"
+                                   ng-click="itemChecked(listItem)"></ion-option-button>
+
+
                 <div class="item-details " ng-show="showDetails">
-                    <br>
-                    <div class="item item-input" autofocus="autofocus">Quantity &emsp;
-                    <input type="tel"   placeholder="Enter Quantity" ng-model="listItem.quantity">
-               
-                    </div>
-                                        <!--<div class="item item-input" >UOMM &emsp;
-                    <input-dropdown ng-model="listItem.uom" list="values" on-select="pick(value)"></input-dropdown>
-                                            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                     </div>-->
+                  <br>
+                  <div class="item item-input" autofocus="autofocus">Quantity &emsp;
+                    <input type="tel" placeholder="Enter Quantity" ng-model="listItem.quantity">
 
-                    <div class="item item-input">Unit  &emsp;
-                       <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
-                            <select type="text"
-                                    ng-model="listItem.uom" 
-                                    style="width:200px;"
-                                >
-                              <option>Kilogram</option>
-                              <option>Pound</option>
-                              <option>Piece</option>
-                              <option>Each</option>    
-                              <option>Litre</option>  
-                              <option>Ml</option>  
-                            </select>
-                    </div>
-<!--                    <div class="item item-input">Retailer  &emsp;
-                        <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
-                    </div>-->
-                    
-                    <div class="item item-input">Retailer  &emsp;
-                    <select  type="text" ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList" ng-model="listItem.retailerLocalId">
-                       
+                  </div>
+                  <!--<div class="item item-input" >UOMM &emsp;
+<input-dropdown ng-model="listItem.uom" list="values" on-select="pick(value)"></input-dropdown>
+                      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>-->
+
+                  <div class="item item-input">Unit &emsp;
+                    <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
+                    <select type="text"
+                            ng-model="listItem.uom"
+                            style="width:200px;"
+                    >
+                      <option>Kilogram</option>
+                      <option>Pound</option>
+                      <option>Piece</option>
+                      <option>Each</option>
+                      <option>Litre</option>
+                      <option>Ml</option>
                     </select>
-                    </div>
-                    
-<!--                         <div id="wrapper" class="item item-input">Retailer  &emsp;
-                        <div class="item-input-wrapper">
-                         <label class="item-input-wrapper">
-                            <i class="icon placeholder-icon ion-android-search"></i>
-                            <input type="search" placeholder="Pick Retailer" ng-change="searchRetailer()" ng-model="retailerData.search">
+                  </div>
+                  <!--                    <div class="item item-input">Retailer  &emsp;
+                                          <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
+                                      </div>-->
 
-                          </label>
-                            <div class="padding buttons">
-                                <button class="button button-positive icon ion-plus-round"  ng-click="addRetailer(retailerData.search)" ng-show="retailerData.search !== retailerData.retialers"></button>
-                             
-                            </div>
-                            </div>
-                             
+                  <div class="item item-input">Retailer &emsp;
+                    <select type="text"
+                            ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList"
+                            ng-model="listItem.retailerLocalId">
 
-                    </div>
-                    -->
-                    
-                    
-<!--                        <div class="row col-md-5">
-                            <h1>Pick Retailer</h1>
-                            <form name="form" novalidate>
-                              <div class="form-group">
-                                <label>Select table or add:</label>
-                                <ui-select tagging="processItem" tagging-label="(new)" ng-model="retailerList.selected" reset-search-input="false" required="true" ng-maxlength="40">
-                                  <ui-select-match placeholder="Select or Add retailer">
-                                    <span>{{$select.selected.retailerName || $select.search}}</span>
-                                    <a class="btn btn-xs btn-link pull-right" ng-click="main.clear($event, $select)"><i class="glyphicon glyphicon-remove"></i></a>
-                                  </ui-select-match>
-                                  <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName" refresh="main.refreshResults($select)" refresh-delay="0">
-                                    <span>{{retailer.retailerName}}</span>
-                                  </ui-select-choices>
-                                </ui-select>
-                                <label>Select drink or add:</label>
-                                <ui-select ng-model="main.order.drink" reset-search-input="false" required="true" ng-maxlength="40">
-                                  <ui-select-match placeholder="Select drink or add new one...">
-                                    <span>{{$select.selected.description || $select.search}}</span>
-                                    <a class="btn btn-xs btn-link pull-right" ng-click="main.clear($event, $select)"><i class="glyphicon glyphicon-remove"></i></a>
-                                  </ui-select-match>
-                                  <ui-select-choices repeat="drink in (main.drinksList | filter: { description: $select.search }) track by drink.id" refresh="main.refreshResults($select)" refresh-delay="0">
-                                    <span>{{drink.description}}</span>
-                                  </ui-select-choices>
-                                </ui-select>
-                              </div>
-                              <button class="btn btn-primary">Submit</button>
-                            </form>
-                            <br/>
-                            <pre>{{main.order|json}}</pre>
-                            </div>
-                    -->
-<!--                      <div>
-                        <ui-select tagging="processItem" tagging-label="(new)" ng-model="retailerList.selected" theme="bootstrap"  >
-                            <ui-select-match placeholder="Pick Retailer">{{$select.selected.retailerName}} -   {{listItem.retailerLocalId}}</ui-select-match>
-                            <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
-                                
-                                      <span ng-bind-html="retailer.retailerName | highlight: $select.search"></span>
-                                      <small ng-bind-html="retailer.retailerLocalId| highlight: $select.search"></small>
-                                <div ng-bind="retailer.retailerName| highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                      </div>
-                    
-                    
-                      <h3>Selectize theme</h3>
-                      <p>Selected: {{retailer.selected}}</p>
-                      <ui-select tagging="processItem" ng-model="retailerList.selected" theme="selectize" ng-disabled="disabled" style="width: 300px;">
-                        <ui-select-match placeholder="Select Retailer">{{$select.selected.retailerName}}</ui-select-match>
-                        <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
-                          <span ng-bind-html="retailer.retailerName | highlight: $select.search"></span>
-                          <small ng-bind-html="retailer.retailerLocalId | highlight: $select.search"></small>
-                        </ui-select-choices>
-                      </ui-select>
-                       
-                    <div ng-controller="listItem as vm">
-                            <ui-select tagging ng-model="vm.selected" theme="bootstrap">
-                                <ui-select-match placeholder="Pick Retailer">{{$select.selected.value}}</ui-select-match>
-                                <ui-select-choices repeat="val in vm.values | filter: $select.search track by val.value">
-                                    <div ng-bind="val.value | highlight: $select.search"></div>
-                                </ui-select-choices>
+                    </select>
+                  </div>
 
-                            </ui-select>
-                        </div>-->
-<!--                      <div class="select-box">
-                            <h3>Select2 theme</h3>
-                            <p>Selected: {{ctrl.person.selected}}</p>
-                            <ui-select ng-model="listItem.retailerLocalId" theme="bootstrap" ng-disabled="disabled" title="Pick Retailer" append-to-body="true">
-                              <ui-select-match placeholder="Pick Retailer">{{$select.selected.name}}</ui-select-match>
-                              <ui-select-choices repeat="retailer in retailerList | propsFilter: {retailerName: $select.search}">
-                                <div ng-bind-html="listItem.retailerLocalId| highlight: $select.search"></div>
-                                <small>
-                                  Retailer: {{listItem.retailerName}}
-                                  age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
-                                </small>
-                              </ui-select-choices>
-                            </ui-select>
-                            <p class="alert alert-info positioned">The select dropdown menu should be displayed above this element.</p>
-                          </div>-->
-<!--                        <div class="padding">
-                          <ion-list>
-                            <ion-item  class="item" 
-                                       ng-repeat="retailer in retailerData.retailers" 
-                                       ng-click="selectRetailer(retailer)">{{retailer.retailerName}}</ion-item >
+                  <!--                         <div id="wrapper" class="item item-input">Retailer  &emsp;
+                                          <div class="item-input-wrapper">
+                                           <label class="item-input-wrapper">
+                                              <i class="icon placeholder-icon ion-android-search"></i>
+                                              <input type="search" placeholder="Pick Retailer" ng-change="searchRetailer()" ng-model="retailerData.search">
 
-                          </ion-list>
-                        </div>-->
-                <div class="padding button-bar" ng-show="showDetails">
-                        <a style="background-color:#941540;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
-                 </div>  
+                                            </label>
+                                              <div class="padding buttons">
+                                                  <button class="button button-positive icon ion-plus-round"  ng-click="addRetailer(retailerData.search)" ng-show="retailerData.search !== retailerData.retialers"></button>
 
-                 </div>    
+                                              </div>
+                                              </div>
+
+
+                                      </div>
+                                      -->
+
+
+                  <!--                        <div class="row col-md-5">
+                                              <h1>Pick Retailer</h1>
+                                              <form name="form" novalidate>
+                                                <div class="form-group">
+                                                  <label>Select table or add:</label>
+                                                  <ui-select tagging="processItem" tagging-label="(new)" ng-model="retailerList.selected" reset-search-input="false" required="true" ng-maxlength="40">
+                                                    <ui-select-match placeholder="Select or Add retailer">
+                                                      <span>{{$select.selected.retailerName || $select.search}}</span>
+                                                      <a class="btn btn-xs btn-link pull-right" ng-click="main.clear($event, $select)"><i class="glyphicon glyphicon-remove"></i></a>
+                                                    </ui-select-match>
+                                                    <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName" refresh="main.refreshResults($select)" refresh-delay="0">
+                                                      <span>{{retailer.retailerName}}</span>
+                                                    </ui-select-choices>
+                                                  </ui-select>
+                                                  <label>Select drink or add:</label>
+                                                  <ui-select ng-model="main.order.drink" reset-search-input="false" required="true" ng-maxlength="40">
+                                                    <ui-select-match placeholder="Select drink or add new one...">
+                                                      <span>{{$select.selected.description || $select.search}}</span>
+                                                      <a class="btn btn-xs btn-link pull-right" ng-click="main.clear($event, $select)"><i class="glyphicon glyphicon-remove"></i></a>
+                                                    </ui-select-match>
+                                                    <ui-select-choices repeat="drink in (main.drinksList | filter: { description: $select.search }) track by drink.id" refresh="main.refreshResults($select)" refresh-delay="0">
+                                                      <span>{{drink.description}}</span>
+                                                    </ui-select-choices>
+                                                  </ui-select>
+                                                </div>
+                                                <button class="btn btn-primary">Submit</button>
+                                              </form>
+                                              <br/>
+                                              <pre>{{main.order|json}}</pre>
+                                              </div>
+                                      -->
+                  <!--                      <div>
+                                          <ui-select tagging="processItem" tagging-label="(new)" ng-model="retailerList.selected" theme="bootstrap"  >
+                                              <ui-select-match placeholder="Pick Retailer">{{$select.selected.retailerName}} -   {{listItem.retailerLocalId}}</ui-select-match>
+                                              <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
+
+                                                        <span ng-bind-html="retailer.retailerName | highlight: $select.search"></span>
+                                                        <small ng-bind-html="retailer.retailerLocalId| highlight: $select.search"></small>
+                                                  <div ng-bind="retailer.retailerName| highlight: $select.search"></div>
+                                              </ui-select-choices>
+                                          </ui-select>
+                                        </div>
+
+
+                                        <h3>Selectize theme</h3>
+                                        <p>Selected: {{retailer.selected}}</p>
+                                        <ui-select tagging="processItem" ng-model="retailerList.selected" theme="selectize" ng-disabled="disabled" style="width: 300px;">
+                                          <ui-select-match placeholder="Select Retailer">{{$select.selected.retailerName}}</ui-select-match>
+                                          <ui-select-choices repeat="retailer in retailerList | filter: $select.search track by retailer.retailerName">
+                                            <span ng-bind-html="retailer.retailerName | highlight: $select.search"></span>
+                                            <small ng-bind-html="retailer.retailerLocalId | highlight: $select.search"></small>
+                                          </ui-select-choices>
+                                        </ui-select>
+
+                                      <div ng-controller="listItem as vm">
+                                              <ui-select tagging ng-model="vm.selected" theme="bootstrap">
+                                                  <ui-select-match placeholder="Pick Retailer">{{$select.selected.value}}</ui-select-match>
+                                                  <ui-select-choices repeat="val in vm.values | filter: $select.search track by val.value">
+                                                      <div ng-bind="val.value | highlight: $select.search"></div>
+                                                  </ui-select-choices>
+
+                                              </ui-select>
+                                          </div>-->
+                  <!--                      <div class="select-box">
+                                              <h3>Select2 theme</h3>
+                                              <p>Selected: {{ctrl.person.selected}}</p>
+                                              <ui-select ng-model="listItem.retailerLocalId" theme="bootstrap" ng-disabled="disabled" title="Pick Retailer" append-to-body="true">
+                                                <ui-select-match placeholder="Pick Retailer">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="retailer in retailerList | propsFilter: {retailerName: $select.search}">
+                                                  <div ng-bind-html="listItem.retailerLocalId| highlight: $select.search"></div>
+                                                  <small>
+                                                    Retailer: {{listItem.retailerName}}
+                                                    age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                  </small>
+                                                </ui-select-choices>
+                                              </ui-select>
+                                              <p class="alert alert-info positioned">The select dropdown menu should be displayed above this element.</p>
+                                            </div>-->
+                  <!--                        <div class="padding">
+                                            <ion-list>
+                                              <ion-item  class="item"
+                                                         ng-repeat="retailer in retailerData.retailers"
+                                                         ng-click="selectRetailer(retailer)">{{retailer.retailerName}}</ion-item >
+
+                                            </ion-list>
+                                          </div>-->
+                  <div class="padding button-bar" ng-show="showDetails">
+                    <a style="background-color:#941540;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
+                  </div>
+
                 </div>
-    
-             
-             <div class="no-padding" style="display:inline; float:right; " >
-            <div align="right" ng-show= "listItem.seenFlag==0" style="display:inline;">
-              <p style="display:inline;">&#x25CB;</p>
-             </div>
-             
-             <div align="right" ng-show= "listItem.seenFlag==1" style="display:inline;">
-              <p style="display:inline; ">&#10008;</p>
-             </div>
-             
-             <div align="right" ng-show= "listItem.seenFlag==2" style="display:inline;">
-              <p style="display:inline;">&#10004;</p>
-             </div>
-             
-            <div align="right" ng-show= "listItem.seenFlag==3" style="display:inline;">
-              <p style="display:inline;">&#10004;&#10004;</p>
-             </div>
-            </div>     
+              </div>
 
-             
-          </ion-item>
 
-        </div>
+              <div class="no-padding" style="display:inline; float:right; ">
+                <div align="right" ng-show="listItem.seenFlag==0" style="display:inline;">
+                  <p style="display:inline;">&#x25CB;</p>
+                </div>
+
+                <div align="right" ng-show="listItem.seenFlag==1" style="display:inline;">
+                  <p style="display:inline; ">&#10008;</p>
+                </div>
+
+                <div align="right" ng-show="listItem.seenFlag==2" style="display:inline;">
+                  <p style="display:inline;">&#10004;</p>
+                </div>
+
+                <div align="right" ng-show="listItem.seenFlag==3" style="display:inline;">
+                  <p style="display:inline;">&#10004;&#10004;</p>
+                </div>
+              </div>
+
+
+            </ion-item>
+
+          </div>
         </ion-list>
       </div>
-        <div class="list">
-            <ion-list show-reorder="reorderFlag">   
-                <button class="button button-block button-balanced" ng-show="checkedItems.length !== 0"style="background-color:#941540;color:white;">
-                  Crossed Items
-                </button>
+      <div class="list">
+        <ion-list show-reorder="reorderFlag">
+          <button class="button button-block button-balanced" ng-show="checkedItems.length !== 0"
+                  style="background-color:#941540;color:white;">
+            Crossed Items
+          </button>
 
-                <div>
-                <ion-item class="item-remove-animate item-icon-right" ng-repeat = "checkedItem in checkedItems" ng-click = unCheckItem(checkedItem)>
-                  
-                    <h2><s>{{checkedItem.itemName}}</s></h2>
-                </ion-item>
-                </div>
-            </ion-list>
-        </div> 
-            
+          <div>
+            <ion-item class="item-remove-animate item-icon-right" ng-repeat="checkedItem in entries.listCrossedEntries"
+                      ng-click=unCheckItem(checkedItem)>
+
+              <h2><s>{{checkedItem.itemName}}</s></h2>
+            </ion-item>
+          </div>
         </ion-list>
-        </div>
+      </div>
 
-
-    </ion-content>
-    <div class="bar bar-footer">
-            <div id="footer" class="button-bar"  >    
-<!--        <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
-        <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
-        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person" >Profile</a>
-        
-        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel " ng-click="showSearchDetails = !showSearchDetails">Add</a>
-       <a style="min-width: 25%;border-radius: 0px; "  class="button button-lite icon ion-shuffle" ng-click="toggleReorder()">Order</a>
-        
-    
-        <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-ios-information-outline ">About</a>
-</div>
-      
+    </ion-list>
     </div>
+
+
+  </ion-content>
+  <div class="bar bar-footer">
+    <div id="footer" class="button-bar">
+      <!--        <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
+              <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
+      <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person">Profile</a>
+
+      <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel "
+         ng-click="showSearchDetails = !showSearchDetails">Add</a>
+      <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-shuffle"
+         ng-click="toggleReorder()">Order</a>
+
+
+      <a style="min-width: 25%;border-radius: 0px; "
+         class="button button-lite icon ion-ios-information-outline ">About</a>
+    </div>
+
+  </div>
 </ion-view>

@@ -2,14 +2,19 @@ angular.module('starter.controllers')
   .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2) {
 
     $scope.items = [];
-    $scope.listItems = [];
-    $scope.checkedItems = [];
+    $scope.entries = {
+      listOpenEntries: {},
+      listCrossedEntries : []
+    };
+    // $scope.listItems = [];
+    // $scope.checkedItems = [];
     $scope.retailers = [];
 
     /*Drag to refresh functionality*/
     $scope.refresh = function () {
 
       console.log('Refreshing!');
+      console.log('$scope.entries = ' + JSON.stringify($scope.entries));
       $timeout(function () {
         $state.reload();
         //Stop the ion-refresher from spinning
@@ -39,14 +44,14 @@ angular.module('starter.controllers')
     /*------------------------------------------------------------------*/
     /*Load all entries related to specfi list*/
     localEntryHandlerV2.selectedItem($state.params.listId).then(function (res) {
-      $scope.listItems = res;
+      $scope.entries.listOpenEntries = res;
     });
 
 
     /*------------------------------------------------------------------*/
     /*Load all checked entries related to specfi list*/
     localEntryHandlerV2.checkedItem($state.params.listId).then(function (res) {
-      $scope.checkedItems = res;
+      $scope.entries.listCrossedEntries = res;
     });
 
 
@@ -87,28 +92,28 @@ angular.module('starter.controllers')
           //entryCrossedFlag: item.entryCrossedFlag,
           language: item.language
         };
-      console.log('Master Item Searched: ' + JSON.stringify($scope.listItems));
-      localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems)
+      console.log('Master Item Searched: ' + JSON.stringify($scope.entries.listOpenEntries));
+      localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.entries)
         .then(function (res) {
-          console.log('selectItem $scope.listItems' + JSON.stringify($scope.listItems));
+          console.log('selectItem $scope.entries.listOpenEntries' + JSON.stringify($scope.entries.listOpenEntries));
           serverHandlerEntryV2.syncEntriesUpstream();
-          $scope.listItems = res.listOpenEntries;
-          $scope.checkedItems = res.listCrossedEntries;
-          $state.reload();
+          //$scope.listItems = res.listOpenEntries;
+          //$scope.checkedItems = res.listCrossedEntries;
+          //$state.reload();
         }, function (error) {
-          console.log('24/2/2017 - aalatief - Selected Item error: ' + JSON.stringify(error));
+          console.error('24/2/2017 - aalatief - Selected Item error: ' + JSON.stringify(error));
         });
     };
     /*------------------------------------------------------------------*/
     /*Check if all items in category are checked*/
     $scope.allListItemCategoryCrossed = function (category) {
-      return localEntryHandlerV2.allListItemCategoryCrossed($scope.listItems, category);
+      return localEntryHandlerV2.allListItemCategoryCrossed($scope.entries.listOpenEntries, category);
     };
     /*------------------------------------------------------------------*/
     /*Check item in list*/
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
-      localEntryHandlerV2.checkItem(listItem, $scope.listItems, $scope.checkedItems).then(function (res) {
+      localEntryHandlerV2.checkItem(listItem, $scope.entries).then(function (res) {
         console.log("listOpenEntries $scope.listItems = " + JSON.stringify($scope.listItems));
         console.log("listOpenEntries $scope.checkedItems = " + JSON.stringify($scope.checkedItems));
         /*$scope.$apply(function () {
@@ -130,11 +135,11 @@ angular.module('starter.controllers')
     /*UnCheck item in list*/
     $scope.unCheckItem = function (checkedItem) {
       console.log('24/2/2017 - aalatief - uncheck item: ' + JSON.stringify(checkedItem));
-      localEntryHandlerV2.unCheckItem(checkedItem, $scope.listItems, $scope.checkedItems).then(function (res) {
+      localEntryHandlerV2.unCheckItem(checkedItem, $scope.entries).then(function (res) {
         console.log('unCheckItem res = ' + JSON.stringify(res));
-        $scope.listItems = res.listOpenEntries;
+        /*$scope.listItems = res.listOpenEntries;
         $scope.checkedItems = res.listCrossedEntries;
-        $state.reload();
+        $state.reload();*/
       });
 
     };

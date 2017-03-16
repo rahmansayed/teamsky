@@ -509,8 +509,8 @@ angular.module('starter.services')
                         console.log("serverHandlerEntry.syncEntriesDownstream localValues qty = " + qty);
                         console.log("serverHandlerEntry.syncEntriesDownstream localValues uom = " + uom);
                         var query = "insert into entry " +
-                          "(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom, retailerLocalId, lastUpdateBy, entryCrossedFlag, origin, flag, seenFlag, language) values " +
-                          "(null,?,?,?,?,?,?,'',0,'S', 'S', 0, ?)";
+                          "(entryLocalId, listLocalId, itemLocalId, entryServerId, quantity, uom, retailerLocalId, lastUpdateBy, entryCrossedFlag, origin, flag, seenFlag, language, deleted) values " +
+                          "(null,?,?,?,?,?,?,'',0,'S', 'S', 0, ?, 'N')";
 
                         tx.executeSql(query, [localIds.listLocalId, localIds.itemLocalId, response.data.entries[i]._id, qty, uom, localIds.retailerLocalId, response.data.entries[i].language]);
 

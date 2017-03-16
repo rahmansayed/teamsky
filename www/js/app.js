@@ -25,6 +25,17 @@ angular.module('starter', ['ionic', 'ui.select',
       function init() {
         dbHandler.initDB()
           .then(function (result) {
+              localItemHandlerV2.getAllMasterItem()
+                .then(function (result) {
+                    global.masterItems = result;
+                    console.log('global.masterItems populated = ');
+                  }
+                  ,
+                  function (error) {
+                    console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                  }
+                );
+
               userVerify.getUserSetting()
                 .then(function (result) {
                     userVerify.getUserSetSuccessCB(result);
@@ -42,18 +53,7 @@ angular.module('starter', ['ionic', 'ui.select',
                               , function (error) {
                                 console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
                               });
-
                         }, function () {
-                          localItemHandlerV2.getAllMasterItem()
-                            .then(function (result) {
-                                global.masterItems = result;
-                                console.log('global.masterItems populated = ');
-                              }
-                              ,
-                              function (error) {
-                                console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
-                              }
-                            );
                         }
                       );
                     }
