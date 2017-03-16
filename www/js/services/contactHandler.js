@@ -56,13 +56,17 @@ angular.module('starter.services')
 
       console.log('06/02/2017 - contactHandler - aalatief:test phone no. array' + ' length: ' + (contacts.phones || []).length + ' Array: ' + JSON.stringify(contacts.phones));
       for (var j = 0; j < (contacts.phones || []).length; j++) {
-        arrangedContact.push({
+
+        var newContact = {
           displayName: contacts.displayName,
           phoneValue: formatPhoneNumber(contacts.phones[j].value),
-          phoneType: contacts.phones[j].type,
-          photo:contacts.photos[i].value
-        });
-
+          phoneType: contacts.phones[j].type
+        };
+        if (contacts.photos.length > 0) {
+          newContact.photo = contacts.photos[0].value
+        }
+        if (contacts)
+          arrangedContact.push(newContact);
       }
       /*}*/
       return arrangedContact;
@@ -112,7 +116,7 @@ angular.module('starter.services')
             maxContactId = response.rows.item(0).maxId + 1;
             console.log('11/2/2017 - contactHandler - aalatief :maxContactId ' + JSON.stringify(maxContactId));
             for (var i = 0; i < (contact || []).length; i++) {
-              dbHandler.runQuery(query, [maxContactId, contact[i].displayName, contact[i].phoneValue, contact[i].phoneType, '', 'N',contact[i].photo ,new Date().getTime(), 'U'], function (response) {
+              dbHandler.runQuery(query, [maxContactId, contact[i].displayName, contact[i].phoneValue, contact[i].phoneType, '', 'N', contact[i].photo, new Date().getTime(), 'U'], function (response) {
                 //Success Callback
                 console.log(response);
                 deferred.resolve(response.insertId);
