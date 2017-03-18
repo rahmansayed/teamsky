@@ -134,7 +134,7 @@ angular.module('starter.services')
 
       var deferred = $q.defer();
 
-      var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactServerId,contactStatus,photo,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?,?)";
+      var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactServerId,contactStatus,photo,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?,?,?)";
       getMaxContactLocalId()
         .then(function (response) {
             maxContactId = response.rows.item(0).maxId + 1;
