@@ -10,7 +10,7 @@ angular.module('starter.services')
       var defer = $q.defer();
       var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.photo,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
         " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0) " +
-        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1) " +
+        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' ) " +
         " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
         " left join contact as c on c.contactLocalId = lu.contactLocalId " +
         " where l.listLocalId = ? " +
@@ -98,10 +98,10 @@ angular.module('starter.services')
       var defer = $q.defer();
 
 /*      var query = "select distinct l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount,c.photo from (list as l left join listUser as lu on l.listLocalId = lu.listLocalId) left join contact as c on c.contactLocalId = lu.contactLocalId";*/
-      
+
         var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.photo,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
         " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0) " +
-        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1) " +
+        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N') " +
         " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
         " left join contact as c on c.contactLocalId = lu.contactLocalId " +
         " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount";
