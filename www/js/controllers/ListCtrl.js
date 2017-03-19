@@ -220,5 +220,19 @@ $scope.refresh = function() {
     }
         
     };
+    
+/*set the border color of the contact shown based on status*/  
+    $scope.setBorderColor = function (status) {
+      if (status =='S') {
+        return {  border: "3px solid blue" };
+      }
+      else if (status =='P') {
+        return { border: "3px solid red"  };
+      } 
+    else{
+          return { border: "3px solid grey"  };
+    }
+        
+    };
 /*-----------------------------------------------------------------------------------------*/    
 });

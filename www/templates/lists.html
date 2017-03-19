@@ -19,7 +19,7 @@
               
               <h2>{{list.listName}}</h2>
               <p style="display:inline;">{{list.listDescription}}</p>
-              
+
                <div align="center" 
                     ng-hide = "list.newCount=='0'||list.newCount==null" 
                     style="display:inline;height: 28px;width: 28px;line-height: 28px;
@@ -30,12 +30,22 @@
            </div>
            </div>
            
-              
-
+           <div>
+             <p ng-show="list.totalOpen!=0"> Total Item: {{list.totalOpen}} - Total Crossed: {{list.totalCrossed}} - Remaining: {{list.totalOpen - list.totalCrossed }}</p>
+               
+           </div>
           
                <p ng-repeat="listUser in lists | filter:{listName: list.listName }" 
-                  ng-style="setColor(listUser.contactStatus )" style="display:inline;">
-                   {{listUser.contactName}} &emsp;</p>
+                  ng-style="setColor(listUser.contactStatus )" style="display:inline;" 
+                  ng-show=listUser.contactName
+                  style="text-align:left;white-space: normal;">
+                   {{listUser.contactName}}  &emsp;
+<!--              <p>
+              <img class="img-circle" ng-src="{{ listUser.photo }}"
+                   ng-style="setBorderColor(listUser.contactStatus)">
+              </p>-->
+           </p>
+
               <!--<p class = "padding" style="display=block;">
             <div class="item-profile clear" >
               <div class="item-avatar">

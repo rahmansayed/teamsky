@@ -19,6 +19,8 @@ angular.module('starter', ['ionic', 'ui.select',
 ])
 /*var db = null;*/
 
+
+
   .run(function ($ionicPlatform, global, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
 
@@ -176,4 +178,8 @@ angular.module('starter', ['ionic', 'ui.select',
     );
 
   })
-;
+
+.config(['$compileProvider', function($compileProvider) {
+            $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|cdvfile|content):|data:image\//);
+            console.log('19/3/2017 - aalatief - compile provider run');
+        }])
