@@ -182,11 +182,13 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
             var query = "select count(*) as cnt from list where listServerId = ?";
 
-            tx.executeSql(query, [list.listServerId], function (tx, result) {
+            tx.executeSql(query, [list._id], function (tx, result) {
                 if (result.rows.item(0).cnt == 0) {
                   console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
                   var insertQuery = "insert into list(listLocalId,listName,listServerId, flag, origin) values (null,?,?, 'S', 'S')";
-                  tx.executeSql(insertQuery, [list.listName, list.listServerId]);
+                  tx.executeSql(insertQuery, [list.listName, list.listServerId], function(tx, res){
+
+                  });
                   defer.resolve({status: 'Y'});
                 }
                 else {
@@ -233,12 +235,7 @@ angular.module('starter.services')
             console.log("serverHandlerListV2.syncListsDownstream http Response Result =  " + JSON.stringify(response));
             // will check if the list already exist in the local table if not then create it
             for (var i = 0; i < response.data.length; i++) {
-              var list = {
-                listServerId: response.data[i]._id,
-                listName: response.data[i].listname
-              };
-
-              promises.push(upsertServerList(list));
+              promises.push(upsertServerList(response.data[i]));
             }
             $q.all(promises).then(function (res) {
               var anyNew = false;
