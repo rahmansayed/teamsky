@@ -151,8 +151,11 @@ $scope.refresh = function() {
                             userServerId:global.userServerId,
                             contact:$scope.phoneNumbers,
                             listServerId:$scope.listServerId,
-                            contactLocalId:contactLocalId
+                            contactLocalId:contactLocalId,
+                            contactName:$scope.contact[0].displayName
                         };
+                            
+                        console.log('20/03/2017 - listCtrl - aalatief: List User:'+JSON.stringify(listUser));        
                         $http.post( global.serverIP+ "/api/user/check" , listUser).then(function(response){
                             console.log('11/02/2017 - listCtrl - aalatief: Api Call check User:'+JSON.stringify(response));
                             $scope.invitedUserServerId = response.data.userServerId;
