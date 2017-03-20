@@ -2,65 +2,65 @@
  <ion-nav-bar class="theme-color">
  <!--   <ion-nav-back-button></ion-nav-back-button>-->
   </ion-nav-bar>
-    
-    
-    <ion-nav-title> My Lists</ion-nav-title> 
+
+
+    <ion-nav-title> My Lists</ion-nav-title>
     <ion-content>
-      
+
        <ion-refresher on-refresh="refresh()">
-                     
+
       </ion-refresher>
-       <ion-list  show-reorder="reorderFlag">     
-    
-       <ion-item ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"   class="item-remove-animate item-icon-right" 
+       <ion-list  show-reorder="reorderFlag">
+
+       <ion-item ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"   class="item-remove-animate item-icon-right"
               ng-repeat = "list in lists |orderBy:'listName' | unique: 'listName'" ng-click = "addItem(list.listLocalId)" ng-class="'classA'"
               ng-hide = "list.deleted=='Y'"
               >
               <div style="display=inline;">
-              
+
               <h2>{{list.listName}}</h2>
               <p style="display:inline;">{{list.listDescription}}</p>
 
-               <div align="center" 
-                    ng-hide = "list.newCount=='0'||list.newCount==null" 
+               <div align="center"
+                    ng-hide = "list.newCount=='0'||list.newCount==null"
                     style="display:inline;height: 28px;width: 28px;line-height: 28px;
                             -moz-border-radius: 10px;border-radius:20px;background-color: #09d261;
                             color: white;text-align: center;font-size: 15px;float:right;margin-right: 30px;" >
                    {{list.newCount}}
-           
+
            </div>
            </div>
-           
+
            <div>
              <p ng-show="list.totalOpen!=0"> Total Item: {{list.totalOpen + list.totalCrossed }} - Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}</p>
-               
+
            </div>
-          
-               <div ng-repeat="listUser in lists | filter:{listName: list.listName }" 
-                  ng-style="setColor(listUser.contactStatus )" style="display:inline;" 
+
+               <div ng-repeat="listUser in lists | filter:{listName: list.listName }"
+                  ng-style="setColor(listUser.contactStatus )" style="display:inline;"
                   ng-show=listUser.contactName>
             <p ng-style="setColor(listUser.contactStatus )">
                    {{listUser.contactName}}  &emsp;<!--</p>
               <p>-->
-    
+
               <img class="img-circle" ng-src="{{ listUser.photo }}"
-                  ng-show="{{listUser.photo}}" ng-style="setBorderColor(listUser.contactStatus)">
+                  ng-show="listUser.photo" ng-style="setBorderColor(listUser.contactStatus)">
               </p>
            </div>
 
               <!--<p class = "padding" style="display=block;">
             <div class="item-profile clear" >
               <div class="item-avatar">
-                            <img style="background-image:url('img/cordova_bot.png'); border-radius:50%; background-position:center center; background-size:cover; width:20%; height:20%;">       
+                            <img style="background-image:url('img/cordova_bot.png'); border-radius:50%; background-position:center center; background-size:cover; width:20%; height:20%;">
               </div>
             </div>
             </p>  -->
-             
+
            <i class="icon ion-chevron-right"></i>
-              
+
            <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">
               </ion-reorder-button>
-              
+
               <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeList(list)"></ion-option-button>
               <ion-option-button class="button-calm icon-left ion-edit" ng-click="editList(list.listLocalId)"></ion-option-button>
               <ion-option-button class="button-balanced ion-android-person-add" ng-click="getAllContacts(list.listLocalId)"></ion-option-button>
@@ -68,23 +68,23 @@
             </ion-item>
 
         </ion-list>
-        
-      
+
+
     </ion-content>
     <div class="bar bar-footer ">
-    <div id="footer" class="button-bar"  >    
+    <div id="footer" class="button-bar"  >
 <!--        <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
         <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
         <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person" >Profile</a>
-        
+
         <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-plus-round " href="#/add">Add</a>
        <a style="min-width: 25%;border-radius: 0px; "  class="button button-lite icon ion-shuffle" ng-click="toggleReorder()">Order</a>
-        
-    
+
+
         <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-ios-information-outline ">About</a>
 </div>
     </div>
-       
+
 
 </ion-view>
 
