@@ -223,10 +223,10 @@ $scope.refresh = function() {
     
 /*set the border color of the contact shown based on status*/  
     $scope.setBorderColor = function (status) {
-      if (status =='S') {
+      if (status||'N' =='S') {
         return {  border: "3px solid blue" };
       }
-      else if (status =='P') {
+      else if (status||'N'  =='P') {
         return { border: "3px solid red"  };
       } 
     else{

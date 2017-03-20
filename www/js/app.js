@@ -179,7 +179,8 @@ angular.module('starter', ['ionic', 'ui.select',
 
   })
 
-.config(['$compileProvider', function($compileProvider) {
+.config( function($compileProvider,$ionicConfigProvider) {
             $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|cdvfile|content):|data:image\//);
+            $ionicConfigProvider.navBar.alignTitle('center');
             console.log('19/3/2017 - aalatief - compile provider run');
-        }])
+        })

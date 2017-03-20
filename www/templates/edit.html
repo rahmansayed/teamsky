@@ -7,12 +7,22 @@
     <ion-content >
         <div class="list card">
             <div class="item item-input" style="font-size:100%">
-                <input type="text"  ng-model="list.listName" placeholder="Enter list name.">
+                <input type="text"  ng-model="list.listName" placeholder="Enter list name">
             </div>
             <div class="item item-input" style="font-size:100%">
-                <textarea rows="5" ng-model="list.listDescription" placeholder="Add Notes."></textarea> 
+                <textarea rows="5" ng-model="list.listDescription" placeholder="Add notes to describe your list"></textarea> 
             </div>
         </div>
+        
+<!--            <div ng-repeat ="listUser in list" class="item" style="font-size:100%">
+                  {{list.contactName}}  
+            </div>
+            -->
+                 
+    
+          
+     
+        
         <div class="padding button-bar">
             <a style="background-color:#941540; " class="button button-block button-positive" ng-click="saveList(list)">Save</a>
         </div>

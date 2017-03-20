@@ -10,11 +10,12 @@
        <ion-refresher on-refresh="refresh()">
                      
       </ion-refresher>
-       <ion-list show-reorder="reorderFlag">     
+       <ion-list  show-reorder="reorderFlag">     
     
        <ion-item ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"   class="item-remove-animate item-icon-right" 
               ng-repeat = "list in lists |orderBy:'listName' | unique: 'listName'" ng-click = "addItem(list.listLocalId)" ng-class="'classA'"
-              ng-hide = "list.deleted=='Y'">
+              ng-hide = "list.deleted=='Y'"
+              >
               <div style="display=inline;">
               
               <h2>{{list.listName}}</h2>
@@ -31,20 +32,21 @@
            </div>
            
            <div>
-             <p ng-show="list.totalOpen!=0"> Total Item: {{list.totalOpen}} - Total Crossed: {{list.totalCrossed}} - Remaining: {{list.totalOpen - list.totalCrossed }}</p>
+             <p ng-show="list.totalOpen!=0"> Total Item: {{list.totalOpen + list.totalCrossed }} - Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}</p>
                
            </div>
           
-               <p ng-repeat="listUser in lists | filter:{listName: list.listName }" 
+               <div ng-repeat="listUser in lists | filter:{listName: list.listName }" 
                   ng-style="setColor(listUser.contactStatus )" style="display:inline;" 
-                  ng-show=listUser.contactName
-                  style="text-align:left;white-space: normal;">
-                   {{listUser.contactName}}  &emsp;
-<!--              <p>
+                  ng-show=listUser.contactName>
+            <p ng-style="setColor(listUser.contactStatus )">
+                   {{listUser.contactName}}  &emsp;<!--</p>
+              <p>-->
+    
               <img class="img-circle" ng-src="{{ listUser.photo }}"
-                   ng-style="setBorderColor(listUser.contactStatus)">
-              </p>-->
-           </p>
+                  ng-show="{{listUser.photo}}" ng-style="setBorderColor(listUser.contactStatus)">
+              </p>
+           </div>
 
               <!--<p class = "padding" style="display=block;">
             <div class="item-profile clear" >

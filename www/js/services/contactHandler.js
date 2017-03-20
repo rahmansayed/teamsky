@@ -63,7 +63,11 @@ angular.module('starter.services')
           phoneType: contacts.phones[j].type
         };
         if (contacts.photos.length > 0) {
-          newContact.photo = contacts.photos[0].value
+          newContact.photo = contacts.photos[0].value;
+          console.log('20/03/2017 - contactHandler - aalatief'|| JSON.stringify(newContact.photo));
+        }
+        else{
+            newContact.photo = null;
         }
         if (contacts)
           arrangedContact.push(newContact);
