@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory,$ionicSideMenuDelegate) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -113,104 +113,9 @@ angular.module('starter.controllers')
 
     /*Share with Contact */
 
-    $scope.getAllContacts = function (listLocalId) {
+    $scope.getAllContacts = function (list) {
       /* $state.go('contact');*/
-
-      contactHandler.pickContact()
-        .then(function (response) {
-          $scope.phoneNumbers = [];
-
-          $scope.contact = contactHandler.reorderContact(response);
-
-
-          /*                [{"displayName":"Wipro - M 1","phoneValue":"+966565508736","phoneType":"mobile"},{"displayName":"Wipro - M 1","phoneValue":"+966549183476","phoneType":"mobile"}];*/
-
-          for (var i = 0; i < $scope.contact.length; i++) {
-            $scope.phoneNumbers.push($scope.contact[i].phoneValue);
-          }
-          console.log('12/02/2017 - listCtrl -aalatief - show selected contact/phone no.' + JSON.stringify($scope.phoneNumbers));
-          console.log('07/02/2017 - listCtrl -aalatief - show selected contact' + JSON.stringify($scope.contact));
-          contactHandler.addLocalContact($scope.contact)
-            .then(function (res) {
-                console.log('08/02/2017 - listCtrl - aalatief: Local Contact Intserted successfully: ' + JSON.stringify(res));
-
-
-                contactHandler.getContactLocalId(contactHandler.formatPhoneNumber($scope.contact[0].phoneValue))
-                  .then(function (result) {
-                      console.log('08/02/2017 - listCtrl - aalatief: Local Contact Id: ' + JSON.stringify(result.rows.item(0)));
-                      contactLocalId = result.rows.item(0).contactLocalId;
-                      contactHandler.addListContact(listLocalId, contactLocalId)
-                        .then
-                        (function (res) {
-
-                          localListHandlerV2.getSpecificList(listLocalId)
-                            .then(function (response) {
-                              console.log('12/02/2017 - listCtrl - aalatief: Return My List:' + JSON.stringify(response));
-                              $scope.listServerId = response.listServerId;
-                              listUser = {
-                                userServerId: global.userServerId,
-                                contact: {
-                                  numbers: $scope.phoneNumbers,
-                                  name: $scope.contact[0].displayName
-                                },
-                                listServerId: $scope.listServerId,
-                                contactLocalId: contactLocalId
-                              };
-
-                              console.log('20/03/2017 - listCtrl - aalatief: List User:' + JSON.stringify(listUser));
-                              $http.post(global.serverIP + "/api/user/check", listUser).then(function (response) {
-                                  console.log('11/02/2017 - listCtrl - aalatief: Api Call check User:' + JSON.stringify(response));
-                                  $scope.invitedUserServerId = response.data.userServerId;
-                                  console.log('13/02/2017 - listCtrl - aalatief: invitedUserServerId:' + JSON.stringify($scope.invitedUserServerId));
-
-                                  contactHandler.updateContactStatus(contactLocalId, 'S', $scope.invitedUserServerId).then(function (response) {
-                                    console.log('13/02/2017 - listCtrl - aalatief: Update Subscribed User Status:' + JSON.stringify(response));
-                                  }, function (error) {
-                                    console.log('13/02/2017 - listCtrl - aalatief: Error Update Subscribed User Status:' + JSON.stringify(Error));
-                                  });
-
-                                  listDetail = {
-                                    listServerId: $scope.listServerId,
-                                    invitedUserServerId: $scope.invitedUserServerId
-                                  }
-                                  $http.post(global.serverIP + "/api/list/invite", listDetail).then(function (response) {
-                                    console.log('11/02/2017 - listCtrl - aalatief: Invite Api Call check:' + JSON.stringify(response));
-                                    $state.reload();
-
-                                  }, function (error) {
-                                  });
-                                },
-                                function (err) {
-                                  console.log('11/02/2017 - listCtrl - aalatief: Api Call check Error:' + JSON.stringify(err));
-                                  contactHandler.updateContactStatus(contactLocalId, 'P', null).then(function (response) {
-                                    $state.reload();
-                                    console.log('13/02/2017 - listCtrl - aalatief: Update Prospect User Status:' + JSON.stringify(response));
-                                  }, function (error) {
-                                    console.log('13/02/2017 - listCtrl - aalatief: Error Update Prospect User Status:' + JSON.stringify(Error));
-                                  });
-                                });
-
-
-                            }, function (error) {
-                              console.log('13/02/2017 - listCtrl - aalatief: Return My List error:' + JSON.stringify(error));
-                            });
-
-                        }, function (error) {
-
-                          console.log('13/02/2017 - listCtrl - aalatief: Return My List error:' + JSON.stringify(error));
-                        });
-                    },
-                    function (error) {
-                      console.log('08/02/2017 - listCtrl - aalatief: Local Contact insert in error');
-                    });
-              },
-              function (error) {
-                console.log('07/02/2017 - listCtrl -aalatief - error show selected contact');
-
-              });
-
-
-        });
+      contactHandler.pickContact(list);
     };
     /*----------------------------------------------------------------------------------------*/
     /*set the color of the contact shown based on status*/
@@ -241,11 +146,11 @@ angular.module('starter.controllers')
 
     };
     /*-----------------------------------------------------------------------------------------*/
-    
-        /*set the border color of the contact shown based on status*/
-    $scope.toggleLeft = function() {
-     $ionicSideMenuDelegate.toggleLeft();
-        console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
-  };
+
+    /*set the border color of the contact shown based on status*/
+    $scope.toggleLeft = function () {
+      $ionicSideMenuDelegate.toggleLeft();
+      console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
+    };
     /*-----------------------------------------------------------------------------------------*/
   });

@@ -6,10 +6,10 @@ angular.module('starter.services')
     var formatContact = function (contact) {
 
       return {
-        "displayName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
+        "name": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
         "emails": contact.emails || [],
-        "phones": contact.phoneNumbers || [],
-        "photos": contact.photos || []
+        "numbers": ';' + (contact.phoneNumbers || []).join(';') + ';',
+        "photos": contact.photos.length == 0 ? null : contact.photos[0]
       };
 
     };
@@ -48,83 +48,100 @@ angular.module('starter.services')
 
     };
 
-    var reorderContact = function (contacts) {
-
-      var arrangedContact = [];
-      console.log('06/02/2017 - contactHandler - aalatief: contact passed' + JSON.stringify(contacts));
-      /*for (var i = 0; i < contacts.length; i++) {*/
-
-      console.log('06/02/2017 - contactHandler - aalatief:test phone no. array' + ' length: ' + (contacts.phones || []).length + ' Array: ' + JSON.stringify(contacts.phones));
-      for (var j = 0; j < (contacts.phones || []).length; j++) {
-
-        var newContact = {
-          displayName: contacts.displayName,
-          phoneValue: formatPhoneNumber(contacts.phones[j].value),
-          phoneType: contacts.phones[j].type
-        };
-        if (contacts.photos.length > 0) {
-          newContact.photo = contacts.photos[0].value;
-          console.log('20/03/2017 - contactHandler - aalatief'|| JSON.stringify(newContact.photo));
-        }
-        else{
-            newContact.photo = null;
-        }
-        if (contacts)
-          arrangedContact.push(newContact);
-      }
-      /*}*/
-      return arrangedContact;
-    };
-
-
-    var pickContact = function () {
+    var pickContact = function (list) {
 
       var deferred = $q.defer();
 
       console.log("pickContact ");
-/*
-      var onSuccess = function (contact) {
-        console.log("pickContact findContact contact = " + JSON.stringify(contact));
-      };
+      /*
+       var onSuccess = function (contact) {
+       console.log("pickContact findContact contact = " + JSON.stringify(contact));
+       };
 
-      var onError = function (error) {
-        console.log("pickContact findContact error = " + JSON.stringify(error));
-      };
-      var options = new ContactFindOptions();
-      options.filter = "0595976779";
-      options.multiple = true;
-      //options.desiredFields = [navigator.contacts.fieldType.id];
-
-
-      var fields = [navigator.contacts.fieldType.phoneNumbers];
-
-      try {
-        navigator.contacts.find(fields, onSuccess, onError, options);
-      } catch (err) {
-        console.log("pickContact navigator.contacts.find contact = " + JSON.stringify(err));
-      }
-
-      var opts = {                                           //search options
-        filter: "0595976779",                                 // 'Bob'
-        multiple: true,                                      // Yes, return any contact that matches criteria
-        fields: ['*']                   // These are the fields to search for 'bob'.
-        //desiredFields: [id];    //return fields.
-      };
-*/
+       var onError = function (error) {
+       console.log("pickContact findContact error = " + JSON.stringify(error));
+       };
+       var options = new ContactFindOptions();
+       options.filter = "0595976779";
+       options.multiple = true;
+       //options.desiredFields = [navigator.contacts.fieldType.id];
 
 
-/*
-      try {
-        $cordovaContacts.find(opts).then(function (contact) {
-          console.log("pickContact $cordovaContacts contact = " + JSON.stringify(contact));
-        });
-      } catch (err) {
-        console.err('$cordovaContacts.find err = ' + JSON.stringify(err));
-      }
-*/
+       var fields = [navigator.contacts.fieldType.phoneNumbers];
+
+       try {
+       navigator.contacts.find(fields, onSuccess, onError, options);
+       } catch (err) {
+       console.log("pickContact navigator.contacts.find contact = " + JSON.stringify(err));
+       }
+
+       var opts = {                                           //search options
+       filter: "0595976779",                                 // 'Bob'
+       multiple: true,                                      // Yes, return any contact that matches criteria
+       fields: ['*']                   // These are the fields to search for 'bob'.
+       //desiredFields: [id];    //return fields.
+       };
+       */
+
+
+      /*
+       try {
+       $cordovaContacts.find(opts).then(function (contact) {
+       console.log("pickContact $cordovaContacts contact = " + JSON.stringify(contact));
+       });
+       } catch (err) {
+       console.err('$cordovaContacts.find err = ' + JSON.stringify(err));
+       }
+       */
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
           console.log("pickContact contact = " + JSON.stringify(contact));
+          var newContact = {
+            "name": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
+            "emails": contact.emails || [],
+            "numbers": ';' + (contact.phoneNumbers || []).join(';') + ';',
+            "photos": contact.photos.length == 0 ? null : contact.photos[0]
+          };
+
+          // checking if the contact in the local db
+          getContactLocalId(newContact).then(function (contactLocalId) {
+            if (contactLocalId != -1) {
+              addListContact(listLocalId, contactLocalId);
+            }
+            else {
+              // check the contact status from the server
+              var prospect = {
+                name: newContact.name
+              };
+
+              prospect.numbers = contact.phoneNumbers.map(function (phoneNumber) {
+                return formatPhoneNumber(phoneNumber);
+              });
+
+              checkProspect(prospect).then(function (contactServerId) {
+                newContact.userServerId = contactServerId;
+                insertContact(newContact).then(function (contactLocalId) {
+                  addListContact(list.listLocalId, contactLocalId);
+                  //call the server invite API
+                  listDetail = {
+                    listServerId: list.listServerId,
+                    invitedUserServerId: contactServerId,
+                    contactName: newContact.name
+                  }
+                  $http.post(global.serverIP + "/api/list/invite", listDetail).then(function (response) {
+                    console.log('pickContact invite server response = ' + JSON.stringify(response));
+                    $state.reload();
+                  }, function (error) {
+                  });
+
+                });
+              }, function () {
+                insertContact(newContact).then(function (contactLocalId) {
+                  addListContact(list.listLocalId, contactLocalId);
+                });
+              });
+            }
+          });
           deferred.resolve(formatContact(contact));
         });
       } else {
@@ -206,25 +223,6 @@ angular.module('starter.services')
       return deferred.promise;
     };
 
-    function getContactLocalId(phoneNumber) {
-      var deferred = $q.defer();
-      var query = "select c.contactLocalId from contact as c where c.phoneNumber=?";
-      //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
-      dbHandler.runQuery(query, [phoneNumber], function (response) {
-        //Success Callback
-        console.log('Success local contact Id ' + JSON.stringify(response.rows));
-        contact = response.rows.item(0);
-        console.log('contact: ' + JSON.stringify(contact));
-        deferred.resolve(response);
-      }, function (error) {
-        //Error Callback
-        console.error('fail Master query ' + error);
-        deferred.reject(error);
-      });
-      /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
-      return deferred.promise;
-    };
-
     function updateContactStatus(contactLocalId, status, contactServerId) {
 
       var deferred = $q.defer();
@@ -251,14 +249,18 @@ angular.module('starter.services')
       var defer = $q.defer();
       var data = {
         userServerId: global.userServerId,
-        contact: prospect.prospectNumbers
+        contact: prospect
       };
 
       $http.post(global.serverIP + '/api/user/check', data).then(function (res) {
         console.log("checkProspect " + JSON.stringify(prospect) + " server response " + JSON.stringify(res));
-        updateContactStatus(prospect.prospectLocalId, 'S', res.userServerId);
+        if (prospect.prospectLocalId) {
+          updateContactStatus(prospect.prospectLocalId, 'S', res.userServerId);
+        }
+        defer.resolve(res.userServerId);
       }, function (err) {
-
+        console.log("checkProspect prospect = " + JSON.stringify(prospect));
+        defer.reject('0000');
       });
       return defer.promise;
     };
@@ -266,42 +268,113 @@ angular.module('starter.services')
     function checkProspects() {
       var defer = $q.defer();
 
-      var query = "select distinct contactLocalId from contact where contactStatus = 'P'";
+      var query = "select * from contact where contactStatus = 'P'";
       global.db.transaction(function (tx) {
         tx.executeSql(query, [], function (tx, res) {
           for (var i = 0; i < res.rows.length; i++) {
-            var numbersQuery = "select * from contact where contactLocalId = ?";
-            tx.executeSql(numbersQuery, [res.rows.item(i).contactLocalId], function (tx, res2) {
-              var prospect = {
-                prospectLocalId: res2.rows.item(0).contactLocalId,
-                prospectNumbers: []
-              };
-              for (var j = 0; j < res2.rows.length; j++) {
-                prospect.prospectNumbers.push(res2.rows.item(j).phoneNumber);
-              }
-              checkProspect(prospect);
-            }, function (err) {
-              console.log("checkProspects numbersQuery err " + err);
-            });
+            var prospect = {
+              name: res.rows.item(0).contactName,
+              numbers: [],
+              prospectLocalId: res.rows.item(i).contactLocalId
+            };
+            prospect.numbers = res2.rows.item(i).phoneNumber.split(';');
+            checkProspect(prospect);
           }
         }, function (err) {
-          console.error("checkProspects query err " + err);
+          console.log("checkProspects Query err " + err);
+          defer.reject();
         });
+      }, function (err) {
+        console.error("checkProspects db err " + err);
+      }, function () {
+        defer.resolve();
       });
       return defer.promise;
     }
 
+    function getContactLocalId(contact) {
+      var defer = $q.defer();
+      console.log("getContactLocalId contact = " + JSON.stringify(contact));
+      global.db.transaction(function (tx) {
+        var query = "select contactLocalId from contact where ";
+        query = contact.numbers.reduce(function (query, number) {
+          return query + "( phoneNumber like '%;" + number + ";%' ) or ";
+        }, query);
+        query = query.substr(0, query.length - 3);
+        console.log("getContactLocalId query = " + query);
+
+        tx.executeSql(query, [], function (tx, res) {
+          if (res.rows.length > 0) {
+            console.log("getContactLocalId res.rows.item(0).contactLocalId = " + res.rows.item(0).contactLocalId);
+            defer.resolve(res.rows.item(0).contactLocalId);
+          } else {
+            defer.resolve(-1);
+          }
+        }, function (err) {
+          console.error("getContactLocalId err = " + err.message);
+          defer.reject();
+        });
+      });
+
+      return defer.promise;
+    }
+
+    function insertContact(contact) {
+      var defer = $q.defer();
+
+      global.db.transaction(function (tx) {
+          var insertQuery = "insert into contact (contactLocalId, contactName, phoneNumber, contactStatus, contactServerId, photo) " +
+            " values (null, ?, ?, ?, ?, ?) ";
+
+          var numberList = ';' + contact.numbers.join(';') + ';';
+          var contactServerId = contact.userServerId || '';
+          var contactPhoto = contact.photo || '';
+          var contactStatus = (contact.userServerId) ? 'S' : 'P';
+          tx.executeSql(insertQuery, [contact.name, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
+            console.log("insertContact res.insertId = " + res.insertId);
+            defer.resolve(res.insertId);
+          }, function (err) {
+            console.error("insertContact insertQuery err = " + err.message);
+            defer.reject(err);
+          });
+        }
+        , function (err) {
+          console.error("insertContact query err = " + err.message);
+          defer.reject(err);
+        });
+
+      return defer.promise;
+    }
+
+    function upsertContact(contact) {
+      var defer = $q.defer();
+      console.log("upsertContact contact = " + JSON.stringify(contact));
+      getContactLocalId(contact).then(function (res) {
+        if (res != -1) {
+          defer.resolve(res);
+        }
+        else {
+          insertContact(contact).then(function (res) {
+            defer.resolve(res);
+          }, function (err) {
+            defer.reject(err);
+          });
+
+        }
+      });
+      return defer.promise;
+    }
+
+
     return {
       pickContact: pickContact,
-      formatContact: formatContact,
-      reorderContact: reorderContact,
       addLocalContact: addLocalContact,
-      getMaxContactLocalId: getMaxContactLocalId,
       formatPhoneNumber: formatPhoneNumber,
       addListContact: addListContact,
       getContactLocalId: getContactLocalId,
       updateContactStatus: updateContactStatus,
-      checkProspects: checkProspects
+      checkProspects: checkProspects,
+      upsertContact: upsertContact
 
     };
 

@@ -6,7 +6,7 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('serverHandlerListV2', function ($http, global, $q) {
+  .factory('serverHandlerListV2', function ($http, global, $q, contactHandler) {
 
       //------------------------consoleLog
 
@@ -172,6 +172,50 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+
+      function upsertContacts(contactList, listLocalId) {
+        var defer = $q.defer();
+        var promises = contactList.map(function (contact) {
+          return contactHandler.upsertContact(contact);
+        });
+
+        $q.all(promises).then(function (res) {
+          console.log("upsertContacts resolved res = " + res);
+          global.db.transaction(function (tx) {
+            var query = 'insert or ignore into listUser (listLocalId, contactLocalId) values (?,?)';
+            res.forEach(function (contactLocalId) {
+              tx.executeSql(query, [listLocalId, contactLocalId]);
+            });
+          }, function (err) {
+
+          }, function () {
+
+          });
+          defer.resolve(res);
+        }, function () {
+          console.log("upsertContacts error");
+          defer.reject();
+        });
+
+        return defer.promise;
+      }
+
+      function upsertProspects(prospectList, listLocalId) {
+        upsertContacts(prospectList, listLocalId);
+      }
+
+      function upsertRelatedUsers(relatedUsers, listLocalId) {
+        var contactList = relatedUsers.map(function (relatedUser) {
+          return {
+            name: relatedUser.name,
+            numbers: [relatedUser.username],
+            userServerId: relatedUser.userid
+          };
+        });
+
+        upsertContacts(contactList, listLocalId);
+      }
+
       /******************************************************************************************************************
        * this function is checks if the serverlist exist locally if not it inserts it
        * @param list
@@ -180,18 +224,22 @@ angular.module('starter.services')
         var defer = $q.defer();
 
         global.db.transaction(function (tx) {
-            var query = "select count(*) as cnt from list where listServerId = ?";
-
+            var query = "select listLocalId from list where listServerId = ?";
+            // check if list exists
+            var listLocalId;
             tx.executeSql(query, [list._id], function (tx, result) {
-                if (result.rows.item(0).cnt == 0) {
+                if (result.rows.length == 0) {
                   console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
-                  var insertQuery = "insert into list(listLocalId,listName,listServerId, flag, origin) values (null,?,?, 'S', 'S')";
-                  tx.executeSql(insertQuery, [list.listName, list.listServerId], function(tx, res){
-
+                  var insertQuery = "insert into list(listLocalId,listname,listServerId, flag, origin) values (null,?,?, 'S', 'S')";
+                  tx.executeSql(insertQuery, [list.listname, list._id], function (tx, res) {
+                    upsertProspects(list.prospectusers, res.insertId);
+                    upsertRelatedUsers(list.relatedusers, res.insertId);
                   });
                   defer.resolve({status: 'Y'});
                 }
                 else {
+                  upsertProspects(list.prospectusers, result.rows.item(0).listLocalId);
+                  upsertRelatedUsers(list.relatedusers, result.rows.item(0).listLocalId);
                   defer.resolve({status: 'N'});
                 }
               }
