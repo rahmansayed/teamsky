@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory,$ionicSideMenuDelegate) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -229,16 +229,23 @@ angular.module('starter.controllers')
 
     /*set the border color of the contact shown based on status*/
     $scope.setBorderColor = function (status) {
-      if (status || 'N' == 'S') {
-        return {border: "3px solid blue"};
+      if (status == 'S') {
+        return {border: "1px solid blue"};
       }
-      else if (status || 'N' == 'P') {
-        return {border: "3px solid red"};
+      else if (status == 'P') {
+        return {border: "1px solid red"};
       }
       else {
-        return {border: "3px solid grey"};
+        return {border: "1px solid grey"};
       }
 
     };
+    /*-----------------------------------------------------------------------------------------*/
+    
+        /*set the border color of the contact shown based on status*/
+    $scope.toggleLeft = function() {
+     $ionicSideMenuDelegate.toggleLeft();
+        console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
+  };
     /*-----------------------------------------------------------------------------------------*/
   });
