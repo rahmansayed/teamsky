@@ -37,7 +37,8 @@
               style=" border-radius:15px;"
               on-swipe-down="onGesture('Swipe Down')"
               on-swipe-right="onGesture('Swipe Right')"
-              on-hold="onGesture('Hold')">
+              on-hold="onGesture('Hold')"
+              on-double-tap="onGesture('Double-Tap')">
               <div style="display=inline;">
                   
               <h2 style="font-size:20px; text-align: center;font-weight: bold;">
@@ -58,6 +59,7 @@
 
            </div>
            <br>
+           <div ng-show="showListDetails">
            <div>
              <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Item: {{list.totalOpen + list.totalCrossed }} - Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}</p>
 
@@ -77,7 +79,7 @@
 
               </p>
            </div>
-
+         </div>
 
 
            <i class="icon ion-chevron-right"></i>
