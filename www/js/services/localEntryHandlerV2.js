@@ -157,7 +157,7 @@ angular.module('starter.services')
       console.log('addItemToList listCrossedEntries = ' + JSON.stringify(entries.listCrossedEntries));
       var deferred = $q.defer();
       //search the item in the listOpen Entries
-      var openIdx = itemExitInList(mySelectedItem.itemLocalId, entries.listOpenEntries);
+      var openIdx = itemExitInList(mySelectedItem.itemLocalId, entries.listOpenEntries.entries);
       console.log("addItemToList openIdx = " + openIdx);
       if (openIdx == -1) {
         //SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId
