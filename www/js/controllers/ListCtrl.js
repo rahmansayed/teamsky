@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate,$ionicGesture) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -11,10 +11,10 @@ angular.module('starter.controllers')
     localListHandlerV2.getAllLists()
       .then(function (lists) {
           $scope.lists = lists;
-          console.log('21/02/2017 - listCtrl - localListHandlerV2 get all lists:' + $scope.lists);
+          console.log('21/02/2017 - listCtrl - localListHandlerV2 $scope.lists :' + JSON.stringify($scope.lists));
         },
         function (error) {
-          console.log('21/02/2017 - listCtrl - localListHandlerV2 ERROR get all lists:' + JSON.stringify(error));
+          console.log('21/02/2017 - listCtrl - localListHandlerV2 ERROR $scope.lists:' + JSON.stringify(error));
         });
 
 
@@ -26,15 +26,15 @@ angular.module('starter.controllers')
 
       $state.go('edit', {'listId': listLocalId});
     }
-/*-----------------------------------------------------------------------------------
+    /*-----------------------------------------------------------------------------------
 
      /*Route to Add List Page*/
     $scope.addList = function () {
 
       $state.go('add');
     }
-      
-    
+
+
     /*-------------------------------------------------------------------------------------
 
      /*Pull to refresh */
@@ -162,12 +162,12 @@ angular.module('starter.controllers')
       console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
     };
     /*-----------------------------------------------------------------------------------------*/
-  /*set the border color of the contact shown based on status*/ 
-    $scope.onGesture = function(gesture) {
-     $scope.gesture.used = gesture;
-     alert(gesture);
-     console.log(gesture);
-  }
-    
-    
+    /*set the border color of the contact shown based on status*/
+    $scope.onGesture = function (gesture) {
+      $scope.gesture.used = gesture;
+      alert(gesture);
+      console.log(gesture);
+    }
+
+
   });

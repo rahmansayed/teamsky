@@ -8,9 +8,9 @@ angular.module('starter.services')
      */
     function getSpecificList(listLocalId) {
       var defer = $q.defer();
-       /* var specificList = [];*/
+      /* var specificList = [];*/
       var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.photo,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
-        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0) " +
+        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and ifnull(eo.deleted,'N') = 'N') " +
         " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' ) " +
         " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
         " left join contact as c on c.contactLocalId = lu.contactLocalId " +
@@ -22,10 +22,10 @@ angular.module('starter.services')
         tx.executeSql(query, [listLocalId], function (tx, res) {
           console.log("localListHandlerV2.getList + res.rows.item(0) " + JSON.stringify(res.rows.item(0)));
           specificList = res.rows.item(0);
-/*          for (var i = 0; i < res.rows.length; i++) {
-            specificList.push(res.rows.item(i));
-          }    */
-            
+          /*          for (var i = 0; i < res.rows.length; i++) {
+           specificList.push(res.rows.item(i));
+           }    */
+
           defer.resolve(specificList);
         }, function (err) {
           defer.reject(err);
@@ -75,11 +75,11 @@ angular.module('starter.services')
     function addNewList(list) {
 
       var deferred = $q.defer();
-      var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,lastUpdateDate, lastUpdateBy, origin, flag) " +
-        "VALUES (null,?,?,?,?,?,?,?,?,'L', 'N')";
+      var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,lastUpdateDate, lastUpdateBy, origin, flag, listOwnerServerId) " +
+        "VALUES (null,?,?,?,?,?,?,?,?,'L', 'N', ?)";
 
       global.db.transaction(function (tx) {
-        tx.executeSql(query, [list.listName, list.listDescription, '', '', '', '', new Date().getTime(), 'L'], function (tx, response) {
+        tx.executeSql(query, [list.listName, list.listDescription, '', '', '', '', new Date().getTime(), 'L', global.userServerId], function (tx, response) {
           //Success Callback
           console.log("localListHandlerV2.addNewList  res " + JSON.stringify(response));
           deferred.resolve(response.insertId);
@@ -102,10 +102,10 @@ angular.module('starter.services')
     function getAllLists() {
       var defer = $q.defer();
 
-/*      var query = "select distinct l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount,c.photo from (list as l left join listUser as lu on l.listLocalId = lu.listLocalId) left join contact as c on c.contactLocalId = lu.contactLocalId";*/
+      /*      var query = "select distinct l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount,c.photo from (list as l left join listUser as lu on l.listLocalId = lu.listLocalId) left join contact as c on c.contactLocalId = lu.contactLocalId";*/
 
-        var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.photo,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
-        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0) " +
+      var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.photo,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
+        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and ifnull(eo.deleted,'N') = 'N') " +
         " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N') " +
         " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
         " left join contact as c on c.contactLocalId = lu.contactLocalId " +

@@ -13,7 +13,8 @@ angular.module('starter.controllers')
     $scope.subscribe = function () {
       var data = {
         userName: $scope.settings.mobile,
-        datakey: global.dataKey
+        datakey: global.dataKey,
+        deviceUUID: global.deviceUUID
       };
       userMgmt.subscribe(data);
     }

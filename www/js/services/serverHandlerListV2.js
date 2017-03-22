@@ -227,19 +227,19 @@ angular.module('starter.services')
             var query = "select listLocalId from list where listServerId = ?";
             // check if list exists
             var listLocalId;
-            tx.executeSql(query, [list._id], function (tx, result) {
+            tx.executeSql(query, [list.list._id], function (tx, result) {
                 if (result.rows.length == 0) {
                   console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
-                  var insertQuery = "insert into list(listLocalId,listname,listServerId, flag, origin) values (null,?,?, 'S', 'S')";
-                  tx.executeSql(insertQuery, [list.listname, list._id], function (tx, res) {
-                    upsertProspects(list.prospectusers, res.insertId);
-                    upsertRelatedUsers(list.relatedusers, res.insertId);
+                  var insertQuery = "insert into list(listLocalId,listname,listServerId, flag, origin, listOwnerServerId) values (null,?,?, 'S', 'S', ?)";
+                  tx.executeSql(insertQuery, [list.list.listname, list.list._id, list.ownerServerId], function (tx, res) {
+                    upsertProspects(list.list.prospectusers, res.insertId);
+                    upsertRelatedUsers(list.list.relatedusers, res.insertId);
                   });
                   defer.resolve({status: 'Y'});
                 }
                 else {
-                  upsertProspects(list.prospectusers, result.rows.item(0).listLocalId);
-                  upsertRelatedUsers(list.relatedusers, result.rows.item(0).listLocalId);
+                  upsertProspects(list.list.prospectusers, result.rows.item(0).listLocalId);
+                  upsertRelatedUsers(list.list.relatedusers, result.rows.item(0).listLocalId);
                   defer.resolve({status: 'N'});
                 }
               }

@@ -20,14 +20,12 @@ angular.module('starter', ['ionic', 'ui.select',
 /*var db = null;*/
 
 
-
   .run(function ($ionicPlatform, global, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
-        
-    if (window.cordova && StatusBar)
-        {
-            StatusBar.backgroundColorByHexString('#72082b');
-        }    
+
+      if (window.cordova && StatusBar) {
+        StatusBar.backgroundColorByHexString('#72082b');
+      }
 
       function init() {
         dbHandler.initDB()
@@ -123,6 +121,9 @@ angular.module('starter', ['ionic', 'ui.select',
       document.addEventListener("deviceready", function () {
         alert('just to wait');
 
+        global.deviceUUID = device.uuid;
+        console.log('global.deviceUUID = ' + global.deviceUUID);
+
         /* if (typeof PushNotification === "defined") {*/
         var push = PushNotification.init({
           "android": {"senderID": "992783511835"},
@@ -184,8 +185,8 @@ angular.module('starter', ['ionic', 'ui.select',
 
   })
 
-.config( function($compileProvider,$ionicConfigProvider) {
-            $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|cdvfile|content):|data:image\//);
-            $ionicConfigProvider.navBar.alignTitle('center');
-            console.log('19/3/2017 - aalatief - compile provider run');
-        })
+  .config(function ($compileProvider, $ionicConfigProvider) {
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|cdvfile|content):|data:image\//);
+    $ionicConfigProvider.navBar.alignTitle('center');
+    console.log('19/3/2017 - aalatief - compile provider run');
+  })
