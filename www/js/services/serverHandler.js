@@ -11,6 +11,7 @@ angular.module('starter.services')
         console.log('syncInit calling syncMasterItemsDownstream');
         serverHandlerItemsV2.syncMasterItemsDownstream().then(function () {
           console.log('syncInit resolved');
+          handleNotification();
           defer.resolve();
         });
       });
@@ -25,7 +26,6 @@ angular.module('starter.services')
       serverHandlerRetailerV2.syncMasterRetailersDownstream().then(function () {
         console.log('serverHandler syncMasterRetailersDownstream done');
       });
-      handleNotification();
       return defer.promise;
     }
 
