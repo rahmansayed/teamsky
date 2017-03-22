@@ -4,7 +4,7 @@ angular.module('starter.controllers')
     $scope.items = [];
     $scope.entries = {
       listOpenEntries: {},
-      listCrossedEntries : []
+      listCrossedEntries: []
     };
     // $scope.listItems = [];
     // $scope.checkedItems = [];
@@ -99,7 +99,7 @@ angular.module('starter.controllers')
           serverHandlerEntryV2.syncEntriesUpstream();
           //$scope.listItems = res.listOpenEntries;
           //$scope.checkedItems = res.listCrossedEntries;
-          //$state.reload();
+          $state.reload();
         }, function (error) {
           console.error('24/2/2017 - aalatief - Selected Item error: ' + JSON.stringify(error));
         });
@@ -138,8 +138,8 @@ angular.module('starter.controllers')
       localEntryHandlerV2.unCheckItem(checkedItem, $scope.entries).then(function (res) {
         console.log('unCheckItem res = ' + JSON.stringify(res));
         /*$scope.listItems = res.listOpenEntries;
-        $scope.checkedItems = res.listCrossedEntries;
-        $state.reload();*/
+         $scope.checkedItems = res.listCrossedEntries;
+         $state.reload();*/
       });
 
     };
@@ -191,6 +191,7 @@ angular.module('starter.controllers')
             localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems);
             serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
               serverHandlerEntryV2.syncEntriesUpstream();
+              $state.reload();
             }, function (err) {
 
             });
