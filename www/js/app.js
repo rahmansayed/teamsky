@@ -23,6 +23,11 @@ angular.module('starter', ['ionic', 'ui.select',
 
   .run(function ($ionicPlatform, global, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
+        
+    if (window.cordova && StatusBar)
+        {
+            StatusBar.backgroundColorByHexString('#72082b');
+        }    
 
       function init() {
         dbHandler.initDB()

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate,$ionicGesture) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -26,6 +26,15 @@ angular.module('starter.controllers')
 
       $state.go('edit', {'listId': listLocalId});
     }
+/*-----------------------------------------------------------------------------------
+
+     /*Route to Add List Page*/
+    $scope.addList = function () {
+
+      $state.go('add');
+    }
+      
+    
     /*-------------------------------------------------------------------------------------
 
      /*Pull to refresh */
@@ -153,4 +162,12 @@ angular.module('starter.controllers')
       console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
     };
     /*-----------------------------------------------------------------------------------------*/
+  /*set the border color of the contact shown based on status*/ 
+    $scope.onGesture = function(gesture) {
+     $scope.gesture.used = gesture;
+     alert(gesture);
+     console.log(gesture);
+  }
+    
+    
   });

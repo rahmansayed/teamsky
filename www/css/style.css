@@ -99,7 +99,7 @@ label.show {
 /*Header Color*/
 .theme-color {
 background-color: #941540/*9f0011*//*941540*/ !important;
-color: #ffffff;}
+color: #ffffff !important;}
 
 
 /*Back Button color*/
@@ -165,4 +165,9 @@ color: #ffffff;}
     width:40px;
     height:40px;
    
+}
+
+
+.larger {
+    font-size: 20px;
 }
