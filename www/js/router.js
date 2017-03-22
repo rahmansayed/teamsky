@@ -3,12 +3,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider
     
-    .state('app', {
-      url: "/app",
-      abstract: true,
-      templateUrl: "templates/list-menu.html"
-      
-    })
+
       
     .state('config', {
       cache: false,
