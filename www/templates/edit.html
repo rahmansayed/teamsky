@@ -14,12 +14,26 @@
             </div>
         </div>
         
-<!--            <div ng-repeat ="listUser in list" class="item" style="font-size:100%">
-                  {{list.contactName}}  
-            </div>
-            -->
+            <div >
+             <p class="padding text-left " style="text-align:left;white-space: normal;"> {{list.listName}} is currently shared with:</p>
+              {{listUsers.contactName}}
+            </div>  
+        
+        <ion-list  >
+
                  
-    
+            <ion-item ng-repeat = "listUser in listUsers | filter:{listName: list.listName }"
+                      style=" border-radius:15px;"
+                      ng-show="listUser.contactName"> 
+            <img class="img-circle" 
+                 ng-src="{{ listUser.photo }}"
+                ng-show="listUser.photo" 
+                ng-style="setBorderColor(listUser.contactStatus)"> 
+                
+                {{listUser.contactName}}
+                
+            </ion-item>
+        </ion-list>
           
      
         

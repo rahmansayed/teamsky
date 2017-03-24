@@ -15,6 +15,16 @@ angular.module('starter.controllers')
         
     });
 
+    localListHandlerV2.getListUsers($state.params.listId)
+    .then(function(res){
+        console.log('23/03/2017 - aalatief: List userssuccess:'+JSON.stringify(res));
+        $scope.listUsers=angular.copy(res);
+    },
+    function(error){
+        console.log('aalatief: specific List fail:'+JSON.stringify(error));
+        
+    });    
+    
     $scope.saveList=function(){
 
         localListHandlerV2.update($scope.list)

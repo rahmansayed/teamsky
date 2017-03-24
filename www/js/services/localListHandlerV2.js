@@ -36,7 +36,42 @@ angular.module('starter.services')
       });
       return defer.promise;
     };
+    /******************************************************************************************************************
+     * returns the list users by listLocalId
+     * @param listLocalId
+     */
+    function getListUsers(listLocalId) {
+      var defer = $q.defer();
+       var listUsers = [];
+      var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.photo,c.contactStatus,l.newCount , count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
+        " from (((list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and ifnull(eo.deleted,'N') = 'N') " +
+        " left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' ) " +
+        " left join listUser as lu on l.listLocalId = lu.listLocalId) " +
+        " left join contact as c on c.contactLocalId = lu.contactLocalId " +
+        " where l.listLocalId = ? " +
+        " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount";
 
+      global.db.transaction(function (tx) {
+
+        tx.executeSql(query, [listLocalId], function (tx, res) {
+          console.log("localListHandlerV2.getList + res.rows.item(0) " + JSON.stringify(res.rows.item(0)));
+          /*specificList = res.rows.item(0);*/
+           for (var i = 0; i < res.rows.length; i++) {
+              listUsers.push(res.rows.item(i));
+           }    
+
+          defer.resolve(listUsers);
+        }, function (err) {
+          defer.reject(err);
+        })
+      }, function (err) {
+        defer.reject(err);
+      }, function () {
+      });
+      return defer.promise;
+    };
+
+    /******************************************************************************************************************
     /******************************************************************************************************************
      * updates a specific list with the new values
      * @param list
@@ -223,7 +258,8 @@ angular.module('starter.services')
       addNewList: addNewList,
       updateList: update,
       getSpecificList: getSpecificList,
-      deactivateList: deactivateList
+      deactivateList: deactivateList,
+      getListUsers:getListUsers
     };
   });
 

@@ -163,28 +163,28 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------------*/
     /*set the border color of the contact shown based on status*/
-    $scope.onGesture = function (gesture) {
+  /*  $scope.onGesture = function (gesture) {
       $scope.gesture.used = gesture;
       alert(gesture);
       console.log(gesture);
     }
 
-    /*set the border color of the contact shown based on status*/
+    set the border color of the contact shown based on status
       $scope.gesture = {
           used: ''
-    };
-
-    $scope.showListDetails = true/*false*/;
-    $scope.onGesture = function(gesture) {
-     $scope.gesture.used = gesture;
-    /* alert(gesture);
-     console.log(gesture);*/
-
-/*    if  (gesture == 'Double-Tap'){
-      $scope.showListDetails = !$scope.showListDetails;
     };*/
 
+    $scope.showListDetails = true/*false*/;
+/*    $scope.onGesture = function(gesture) {
+     $scope.gesture.used = gesture;
+     alert(gesture);
+     console.log(gesture);
+
+    if  (gesture == 'Double-Tap'){
+      $scope.showListDetails = !$scope.showListDetails;
     };
+
+    };*/
 
 
   });
