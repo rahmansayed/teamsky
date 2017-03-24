@@ -188,7 +188,7 @@ angular.module('starter.controllers')
                 itemRetailer: "",
                 language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN'
               };
-            localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.listItems, $scope.checkedItems);
+            localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.entries);
             serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
               serverHandlerEntryV2.syncEntriesUpstream();
               $state.reload();

@@ -382,7 +382,7 @@ angular.module('starter.services')
 
     /*-------------------------------------------------------------------------------------*/
     /* deactivate item from list from the local db*/
-    function deactivateItem(entry) {
+    function deleteEntry(entry) {
       var deferred = $q.defer();
       global.db.transaction(function (tx) {
 
@@ -436,7 +436,7 @@ angular.module('starter.services')
       allListItemCategoryCrossed: allCategoryEntriesCrossed,
       checkItem: crossEntry,
       unCheckItem: repeatEntry,
-      deactivateItem: deactivateItem,
+      deactivateItem: deleteEntry,
       updateEntry: updateEntry
 
     };
