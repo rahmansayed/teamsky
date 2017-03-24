@@ -14,14 +14,14 @@
             </div>
         </div>
         
-            <div >
+          <div >
              <p class="padding text-left " style="text-align:left;white-space: normal;"> {{list.listName}} is currently shared with:</p>
               {{listUsers.contactName}}
-            </div>  
+            </div> 
         
         <ion-list  >
 
-                 
+     
             <ion-item ng-repeat = "listUser in listUsers | filter:{listName: list.listName }"
                       style=" border-radius:15px;"
                       ng-show="listUser.contactName"> 
@@ -34,7 +34,9 @@
                 
             </ion-item>
         </ion-list>
-          
+          <div ng-show="!listUsers[0].contactName">
+              <p class="padding text-center ">Nobody</p>
+        </div>
      
         
         <div class="padding button-bar">
