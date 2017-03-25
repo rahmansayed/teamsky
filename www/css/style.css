@@ -204,3 +204,7 @@ em,i{
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
   transform: translate3d(0, 0, 0);
 }
+
+
+#bar1, #bar3 {
+    margin-right: 25%;
