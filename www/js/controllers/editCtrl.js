@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2) {
+  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler) {
 
     $scope.dynamicTitle = 'Edit List';
     console.log('Edit List: ' + 'List Id:' + $state.params.listId);
@@ -18,13 +18,13 @@ angular.module('starter.controllers')
     localListHandlerV2.getListUsers($state.params.listId)
     .then(function(res){
         console.log('23/03/2017 - aalatief: List userssuccess:'+JSON.stringify(res));
-        $scope.listUsers=angular.copy(res);
+        $scope.listUsers=/*angular.copy(*/res/*)*/;
     },
     function(error){
         console.log('aalatief: specific List fail:'+JSON.stringify(error));
         
     });    
-    
+    /*Save List */
     $scope.saveList=function(){
 
         localListHandlerV2.update($scope.list)
@@ -47,6 +47,64 @@ angular.module('starter.controllers')
 
         
     };
+    /*-----------------------------------------------------------------------------------*/
+    /*Remove list user Function*/
+    $scope.removeListUser = function (list) {
+      /*Handle the case of elete from Device*/
+      document.addEventListener("deviceready", function () {
+        navigator.notification.confirm(
+          "Are you sure you want to remove this contact from list " + list.listName + "?", // the message
+          function (index) {
+            switch (index) {
+              case 1:
+/*                localListHandlerV2.deactivateList(list.listLocalId)
+                  .then(function (ret) {
+                    console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
+                    $state.reload();
+                  }, function (err) {
+                    console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                  });*/
+                    alert('delete'+list.contactName);
+                break;
+              case 2:
+                // The second button was pressed
+                break;
+            }
+          },
+          "Delete user from list", // a title
+          ["Delete", "Cancel"]    // text of the buttons
+        );
+      });
+      /*Handle the case for delete from Browser*/
+      if (!(window.cordova)) {
+        var confirmPopup = $ionicPopup.confirm({
+          title: 'Delete user from list',
+          template: 'Are you sure you want to remove this contact from list  ' + list.listName + "?"
+        });
 
+        confirmPopup.then(function (res) {
+            alert('delete'+list.contactName);
+/*          if (res) {
+            localListHandlerV2.deactivateList(list.listLocalId)
+              .then(function (ret) {
+                console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
+                $state.reload();
+              }, function (err) {
+                console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+              });
+
+          }*/
+        })
+      }
+      ;
+    };
+    
+/*Share with Contact */
+
+    $scope.getAllContacts = function (list) {
+      /* $state.go('contact');*/
+      contactHandler.pickContact(list);
+        state.reload();
+    };
 
   });

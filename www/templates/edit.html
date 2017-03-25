@@ -4,7 +4,7 @@
   </ion-nav-bar>
     
     <ion-nav-title>{{dynamicTitle}} </ion-nav-title>
-    <ion-content >
+    <ion-content class="padding">
         <div class="list card">
             <div class="item item-input" style="font-size:100%">
                 <input type="text"  ng-model="list.listName" placeholder="Enter list name">
@@ -14,8 +14,8 @@
             </div>
         </div>
         
-          <div >
-             <p class="padding text-left " style="text-align:left;white-space: normal;"> {{list.listName}} is currently shared with:</p>
+          <div  ng-style="setColor(listUser.contactStatus,'color')">
+              <p class="padding text-left " style="text-align:left;white-space: normal;"> The List <b>{{list.listName}}</b> is currently shared with:</p>
               {{listUsers.contactName}}
             </div> 
         
@@ -28,14 +28,20 @@
             <img class="img-circle" 
                  ng-src="{{ listUser.photo }}"
                 ng-show="listUser.photo" 
-                ng-style="setBorderColor(listUser.contactStatus)"> 
+                ng-style="setColor(listUser.contactStatus,'border')"> 
                 
                 {{listUser.contactName}}
-                
+               
+                <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeListUser(listUser)"></ion-option-button>
             </ion-item>
+            
         </ion-list>
-          <div ng-show="!listUsers[0].contactName">
-              <p class="padding text-center ">Nobody</p>
+        
+        <div style="text-align: center;">
+            
+            <i><p class="padding text-center "  ng-show="!listUsers[0].contactName" >Not shared yet!</p></i>
+            
+            <button class="button button-balanced ion-android-person-add padding text-center" ng-click="getAllContacts(list)"></button>
         </div>
      
         

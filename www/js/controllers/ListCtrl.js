@@ -128,8 +128,10 @@ angular.module('starter.controllers')
     };
     /*----------------------------------------------------------------------------------------*/
     /*set the color of the contact shown based on status*/
-    $scope.setColor = function (status) {
-      if (status == 'S') {
+    $scope.setColor = function (status,element) {
+      
+    if (element =='color') {
+     if (status == 'S') {
         return {color: "blue"};
       }
       else if (status == 'P') {
@@ -138,7 +140,18 @@ angular.module('starter.controllers')
       else {
         return {color: "grey"};
       }
-
+    } 
+    else if (element =='border') {
+        if (status == 'S') {
+        return {border: "1px solid blue"};
+      }
+      else if (status == 'P') {
+        return {border: "1px solid red"};
+      }
+      else {
+        return {border: "1px solid grey"};
+      }   
+    }      
     };
 
     /*set the border color of the contact shown based on status*/
@@ -162,29 +175,7 @@ angular.module('starter.controllers')
       console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
     };
     /*-----------------------------------------------------------------------------------------*/
-    /*set the border color of the contact shown based on status*/
-  /*  $scope.onGesture = function (gesture) {
-      $scope.gesture.used = gesture;
-      alert(gesture);
-      console.log(gesture);
-    }
-
-    set the border color of the contact shown based on status
-      $scope.gesture = {
-          used: ''
-    };*/
-
     $scope.showListDetails = true/*false*/;
-/*    $scope.onGesture = function(gesture) {
-     $scope.gesture.used = gesture;
-     alert(gesture);
-     console.log(gesture);
-
-    if  (gesture == 'Double-Tap'){
-      $scope.showListDetails = !$scope.showListDetails;
-    };
-
-    };*/
 
 
   });

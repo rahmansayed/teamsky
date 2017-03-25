@@ -66,12 +66,12 @@
            </div>
 
             <div ng-repeat="listUser in lists | filter:{listName: list.listName }"
-                  ng-style="setColor(listUser.contactStatus )" style="display:inline;"
+                  ng-style="setColor(listUser.contactStatus,'color' )" style="display:inline;"
                   ng-show=listUser.contactName>
-             <p ng-style="setColor(listUser.contactStatus )">
+             <p ng-style="setColor(listUser.contactStatus,'color' )">
 
                 <img class="img-circle" ng-src="{{ listUser.photo }}"
-                  ng-show="listUser.photo" ng-style="setBorderColor(listUser.contactStatus)">
+                  ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')">
 
                  {{listUser.contactName}}  &emsp;
 
@@ -79,7 +79,7 @@
 
               </p>
            </div>
-         </div>
+     </div>
 
 
            <i class="icon ion-chevron-right"></i>

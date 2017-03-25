@@ -1,8 +1,16 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2) {
+  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2,contactHandler) {
     $scope.dynamicTitle = 'Create new list';
 
+    
+     /*Share with Contact */
 
+    $scope.getAllContacts = function (list) {
+      /* $state.go('contact');*/
+      contactHandler.pickContact(list);
+        state.reload();
+    };
+/**-------------------------------------------------------*/
     $scope.saveList = function (list) {
 
       localListHandlerV2.addNewList(list)
