@@ -48,6 +48,15 @@ angular.module('starter.services')
 
     };
 
+    function addListContactUpstream(list, contact) {
+      listDetail = {
+        listServerId: list.listServerId,
+        invitedUserServerId: contact.contactServerId,
+        contactName: contact.contactName
+      };
+      return $http.post(global.serverIP + "/api/list/invite", listDetail);
+    }
+
     var pickContact = function (list) {
 
       var deferred = $q.defer();
@@ -105,9 +114,12 @@ angular.module('starter.services')
               return formatPhoneNumber(phoneNumber.value);
             });
             // checking if the contact in the local db
-            getContactLocalId(newContact).then(function (contactLocalId) {
-              if (contactLocalId != -1) {
-                addListContact(list.listLocalId, contactLocalId).then(function () {
+            getContactLocalId(newContact).then(function (resultContact) {
+              if (resultContact.contactLocalId != -1) {
+                addListContact(list.listLocalId, resultContact.contactLocalId).then(function () {
+                  addListContactUpstream(list, resultContact).then(function () {
+                    $state.reload();
+                  });
                   deferred.resolve();
                 });
               }
@@ -120,20 +132,12 @@ angular.module('starter.services')
 
                 checkProspect(prospect, list.listServerId).then(function (contactServerId) {
                   newContact.userServerId = contactServerId;
-                  insertContact(newContact).then(function (contactLocalId) {
-                    addListContact(list.listLocalId, contactLocalId);
+                  insertContact(newContact).then(function (resultContact2) {
+                    addListContact(list.listLocalId, resultContact2.contactLocalId);
                     //call the server invite API
-                    listDetail = {
-                      listServerId: list.listServerId,
-                      invitedUserServerId: contactServerId,
-                      contactName: newContact.name
-                    };
-                    $http.post(global.serverIP + "/api/list/invite", listDetail).then(function (response) {
-                      console.log('pickContact invite server response = ' + JSON.stringify(response));
+                    addListContactUpstream(list, resultContact2).then(function () {
                       $state.reload();
-                    }, function (error) {
                     });
-
                   });
                 }, function () {
                   insertContact(newContact).then(function (contactLocalId) {
@@ -164,25 +168,6 @@ angular.module('starter.services')
         console.log('11/2/2017 - ContactHandler - aalatief : Success List Contact Added' + JSON.stringify(response.rows));
         listUserId = response.insertId;
         console.log('contact: ' + JSON.stringify(listUserId));
-        deferred.resolve(response);
-      }, function (error) {
-        //Error Callback
-        console.error('fail Master query ' + error);
-        deferred.reject(error);
-      });
-      /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
-      return deferred.promise;
-    };
-
-    function getMaxContactLocalId() {
-      var deferred = $q.defer();
-      var query = "select max(c.contactLocalId) maxId from contact as c ";
-      //var query = "SELECT i.itemLocalId, i.itemName, i.categoryLocalId FROM masterItem ";
-      dbHandler.runQuery(query, [], function (response) {
-        //Success Callback
-        console.log('Success local contact Id ' + JSON.stringify(response.rows));
-        contact = response.rows.item(0);
-        console.log('contact: ' + JSON.stringify(contact));
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
@@ -267,7 +252,7 @@ angular.module('starter.services')
       var defer = $q.defer();
       console.log("getContactLocalId contact = " + JSON.stringify(contact));
       global.db.transaction(function (tx) {
-        var query = "select contactLocalId from contact where ";
+        var query = "select contactLocalId, contactServerId, contactName from contact where ";
         query = contact.numbers.reduce(function (query, number) {
           return query + "( phoneNumber like '%;" + number + ";%' ) or ";
         }, query);
@@ -277,9 +262,13 @@ angular.module('starter.services')
         tx.executeSql(query, [], function (tx, res) {
           if (res.rows.length > 0) {
             console.log("getContactLocalId res.rows.item(0).contactLocalId = " + res.rows.item(0).contactLocalId);
-            defer.resolve(res.rows.item(0).contactLocalId);
+            defer.resolve(res.rows.item(0));
           } else {
-            defer.resolve(-1);
+            defer.resolve({
+              contactLocalId: -1,
+              contactServerId: -1,
+              contactName: ''
+            });
           }
         }, function (err) {
           console.error("getContactLocalId err = " + err.message);
@@ -337,14 +326,14 @@ angular.module('starter.services')
       return defer.promise;
     }
 
-/*----------------------------------------------------------------------------------------*/
-
+    /*----------------------------------------------------------------------------------------*/
 
 
     return {
       pickContact: pickContact,
       formatPhoneNumber: formatPhoneNumber,
       addListContact: addListContact,
+      addListContactUpstream: addListContactUpstream,
       getContactLocalId: getContactLocalId,
       updateContactStatus: updateContactStatus,
       checkProspects: checkProspects,
