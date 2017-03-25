@@ -25,23 +25,24 @@
 
 
 
-       <ion-refresher on-refresh="refresh()">
+<!--       <ion-refresher on-refresh="refresh()">
 
-      </ion-refresher>
+      </ion-refresher>-->
 
         <ion-list  show-reorder="reorderFlag">
 
-       <ion-item ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"   class="item-remove-animate item-icon-right"
+       <ion-item 
+                 ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"   class="item-remove-animate item-icon-right"
               ng-repeat = "list in lists |orderBy:'listName' | unique: 'listName'" ng-click = "addItem(list.listLocalId)" ng-class="'classA'"
               ng-hide = "list.deleted=='Y'"
-              style=" border-radius:15px;"
-              on-swipe-down="onGesture('Swipe Down')"
+              style=" border-radius:15px;  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);"
+              on-swipe-down="onGesture('Swipe Down',list.listName)"
               on-swipe-right="onGesture('Swipe Right')"
               on-hold="onGesture('Hold')"
               on-double-tap="onGesture('Double-Tap')">
               <div style="display=inline;">
                   
-              <h2 style="font-size:20px; text-align: center;font-weight: bold;">
+              <h2 class="padding"style="font-size:20px; text-align: center;font-weight: bold;color:#0d98ba;">
                   
                   {{list.listName}}
                   
@@ -59,7 +60,7 @@
 
            </div>
            <br>
-           <div ng-show="showListDetails">
+           <div ng-show="showListDetails && list.listName == showList">
            <div>
              <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Item: {{list.totalOpen + list.totalCrossed }} - Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}</p>
 
@@ -89,7 +90,7 @@
 
               <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeList(list)"></ion-option-button>
               <ion-option-button class="button-calm icon-left ion-edit" ng-click="editList(list.listLocalId)"></ion-option-button>
-              <ion-option-button class="button-balanced ion-android-person-add" ng-click="getAllContacts(list)"></ion-option-button>
+              <ion-option-button class="button-balanced ion-android-person-add larger" ng-click="getAllContacts(list)"></ion-option-button>
     
             </ion-item>
 

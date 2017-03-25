@@ -58,7 +58,7 @@
             <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;"
                 align="center">{{category}}</h2></p>
 
-            <ion-item class="no-padding item-profile item-remove-animate item-icon-right item calm-bg"
+            <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
                       ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category }"
                       ng-click="showDetails = true"
                       style=" border-radius:15px;">
@@ -75,7 +75,7 @@
                                    ng-click="itemChecked(listItem)"></ion-option-button>
 
 
-                <div class="item-details " ng-show="showDetails">
+                <div class="item-details " ng-show="showDetails" style="text-align: right;">
                   <br>
                   <div class="item item-input" autofocus="autofocus">Quantity &emsp;
                     <input type="tel" placeholder="Enter Quantity" ng-model="listItem.quantity">
@@ -270,10 +270,10 @@
 
 
   </ion-content>
-  <div class="bar bar-footer">
+<!--  <div class="bar bar-footer">
     <div id="footer" class="button-bar">
-      <!--        <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
-              <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>-->
+              <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
+              <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>
       <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person">Profile</a>
 
       <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel "
@@ -286,5 +286,5 @@
          class="button button-lite icon ion-ios-information-outline ">About</a>
     </div>
 
-  </div>
+  </div>-->
 </ion-view>

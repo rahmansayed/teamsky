@@ -163,7 +163,24 @@ angular.module('starter.controllers')
       console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
     };
     /*-----------------------------------------------------------------------------------------*/
-    $scope.showListDetails = true/*false*/;
+    $scope.showListDetails = false;
+   
+      $scope.gesture = {
+          used: ''
+    };
 
+
+/*    $scope.showListDetails = true;*/
+    $scope.onGesture = function(gesture,listName) {
+     $scope.gesture.used = gesture;
+     alert(gesture+' '+listName);
+     console.log(gesture);
+        
+    if  (gesture == 'Swipe Down'){
+      $scope.showListDetails = !$scope.showListDetails;
+      $scope.showList =  listName;
+    };
+
+    };
 
   });
