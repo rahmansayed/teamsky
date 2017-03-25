@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/style.css" afterPath="$PROJECT_DIR$/www/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/ListCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/ListCtrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/editCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/editCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/edit.html" afterPath="$PROJECT_DIR$/www/templates/edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/items.html" afterPath="$PROJECT_DIR$/www/templates/items.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/lists.html" afterPath="$PROJECT_DIR$/www/templates/lists.html" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,8 +42,8 @@
       <file leaf-file-name="addListCtrl.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/controllers/addListCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="60" column="31" lean-forward="false" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
+            <state relative-caret-position="549">
+              <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -87,16 +93,16 @@
         <entry file="file://$PROJECT_DIR$/www/templates/lists.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="191">
-              <caret line="106" column="85" lean-forward="false" selection-start-line="106" selection-start-column="85" selection-end-line="106" selection-end-column="85" />
+              <caret line="107" column="85" lean-forward="false" selection-start-line="107" selection-start-column="85" selection-end-line="107" selection-end-column="85" />
               <folding>
-                <marker date="1490438025479" expanded="true" signature="3443:3479" ph="..." />
-                <marker date="1490438025479" expanded="true" signature="4011:4528" ph="..." />
-                <marker date="1490438025479" expanded="true" signature="4105:4509" ph="..." />
-                <marker date="1490438025479" expanded="true" signature="4122:4488" ph="..." />
-                <marker date="1490438025479" expanded="true" signature="4204:4210" ph=" " />
-                <marker date="1490438025479" expanded="false" signature="4324:4330" ph=" " />
-                <marker date="1490438025479" expanded="true" signature="4535:4714" ph="..." />
-                <marker date="1490438025479" expanded="true" signature="4744:5538" ph="..." />
+                <marker date="1490440645708" expanded="true" signature="4002:4084" ph="..." />
+                <marker date="1490440645708" expanded="true" signature="4193:4710" ph="..." />
+                <marker date="1490440645708" expanded="true" signature="4287:4691" ph="..." />
+                <marker date="1490440645708" expanded="true" signature="4304:4670" ph="..." />
+                <marker date="1490440645708" expanded="true" signature="4386:4392" ph=" " />
+                <marker date="1490440645708" expanded="false" signature="4506:4512" ph=" " />
+                <marker date="1490440645708" expanded="true" signature="4717:4896" ph="..." />
+                <marker date="1490440645708" expanded="true" signature="4926:5720" ph="..." />
               </folding>
             </state>
           </provider>
@@ -518,7 +524,7 @@
       <workItem from="1488872703306" duration="75344000" />
       <workItem from="1489254928956" duration="7000" />
       <workItem from="1489255250333" duration="71238000" />
-      <workItem from="1489908663906" duration="48770000" />
+      <workItem from="1489908663906" duration="48877000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -531,7 +537,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="704228000" />
+    <option name="totallyTimeSpent" value="704335000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -955,16 +961,16 @@
     <entry file="file://$PROJECT_DIR$/www/templates/lists.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
-          <caret line="106" column="85" lean-forward="false" selection-start-line="106" selection-start-column="85" selection-end-line="106" selection-end-column="85" />
+          <caret line="107" column="85" lean-forward="false" selection-start-line="107" selection-start-column="85" selection-end-line="107" selection-end-column="85" />
           <folding>
-            <marker date="1490438025479" expanded="true" signature="3443:3479" ph="..." />
-            <marker date="1490438025479" expanded="true" signature="4011:4528" ph="..." />
-            <marker date="1490438025479" expanded="true" signature="4105:4509" ph="..." />
-            <marker date="1490438025479" expanded="true" signature="4122:4488" ph="..." />
-            <marker date="1490438025479" expanded="true" signature="4204:4210" ph=" " />
-            <marker date="1490438025479" expanded="false" signature="4324:4330" ph=" " />
-            <marker date="1490438025479" expanded="true" signature="4535:4714" ph="..." />
-            <marker date="1490438025479" expanded="true" signature="4744:5538" ph="..." />
+            <marker date="1490440645708" expanded="true" signature="4002:4084" ph="..." />
+            <marker date="1490440645708" expanded="true" signature="4193:4710" ph="..." />
+            <marker date="1490440645708" expanded="true" signature="4287:4691" ph="..." />
+            <marker date="1490440645708" expanded="true" signature="4304:4670" ph="..." />
+            <marker date="1490440645708" expanded="true" signature="4386:4392" ph=" " />
+            <marker date="1490440645708" expanded="false" signature="4506:4512" ph=" " />
+            <marker date="1490440645708" expanded="true" signature="4717:4896" ph="..." />
+            <marker date="1490440645708" expanded="true" signature="4926:5720" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1019,8 +1025,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/controllers/addListCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="60" column="31" lean-forward="false" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
+        <state relative-caret-position="549">
+          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding />
         </state>
       </provider>

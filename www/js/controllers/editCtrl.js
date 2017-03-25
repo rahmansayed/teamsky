@@ -104,7 +104,7 @@ angular.module('starter.controllers')
     $scope.getAllContacts = function (list) {
       /* $state.go('contact');*/
       contactHandler.pickContact(list);
-        state.reload();
+        $state.reload();
     };
     /*----------------------------------------------------------------------------------------*/
     /*set the color of the contact shown based on status*/
