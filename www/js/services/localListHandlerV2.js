@@ -58,7 +58,7 @@ angular.module('starter.services')
           /*specificList = res.rows.item(0);*/
            for (var i = 0; i < res.rows.length; i++) {
               listUsers.push(res.rows.item(i));
-           }    
+           }
 
           defer.resolve(listUsers);
         }, function (err) {
@@ -252,7 +252,6 @@ angular.module('starter.services')
 
 
     return {
-      create: addNewList,
       update: update,
       deleteList: deleteList,
       getAllLists: getAllLists,

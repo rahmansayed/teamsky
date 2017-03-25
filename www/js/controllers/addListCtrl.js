@@ -1,46 +1,46 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2,contactHandler) {
+  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler) {
     $scope.dynamicTitle = 'Create new list';
 
-    
-     /*Share with Contact */
+
+    /*Share with Contact */
 
     $scope.getAllContacts = function (list) {
       /* $state.go('contact');*/
       contactHandler.pickContact(list);
-        state.reload();
+      state.reload();
     };
-        /*----------------------------------------------------------------------------------------*/
+    /*----------------------------------------------------------------------------------------*/
     /*set the color of the contact shown based on status*/
-    $scope.setColor = function (status,element) {
-      
-    if (element =='color') {
-     if (status == 'S') {
-        return {color: "blue"};
-      }
-      else if (status == 'P') {
-        return {color: "red"};
-      }
-      else {
-        return {color: "grey"};
-      }
-    } 
-    else if (element =='border') {
+    $scope.setColor = function (status, element) {
+
+      if (element == 'color') {
         if (status == 'S') {
-        return {border: "1px solid blue"};
+          return {color: "blue"};
+        }
+        else if (status == 'P') {
+          return {color: "red"};
+        }
+        else {
+          return {color: "grey"};
+        }
       }
-      else if (status == 'P') {
-        return {border: "1px solid red"};
+      else if (element == 'border') {
+        if (status == 'S') {
+          return {border: "1px solid blue"};
+        }
+        else if (status == 'P') {
+          return {border: "1px solid red"};
+        }
+        else {
+          return {border: "1px solid grey"};
+        }
       }
-      else {
-        return {border: "1px solid grey"};
-      }   
-    }      
     };
 
 
     /*-----------------------------------------------------------------------------------------*/
-/**-------------------------------------------------------*/
+    /**-------------------------------------------------------*/
     $scope.saveList = function (list) {
 
       localListHandlerV2.addNewList(list)
@@ -51,6 +51,7 @@ angular.module('starter.controllers')
             serverHandlerListV2.createList(list)
               .then(function (result) {
                   console.log('aalatief: List Server create success:' + JSON.stringify(result));
+                  $state.reload();
                 },
                 function (error) {
                   console.log('aalatief: List Server create fail:' + JSON.stringify(error));
