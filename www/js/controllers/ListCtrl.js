@@ -173,14 +173,14 @@ angular.module('starter.controllers')
 /*    $scope.showListDetails = true;*/
     $scope.onGesture = function(gesture,listName) {
      $scope.gesture.used = gesture;
-     alert(gesture+' '+listName);
+   /*  alert(gesture+' '+listName);*/
      console.log(gesture);
         
-    if  (gesture == 'Swipe Down'){
+    if  (gesture == 'Swipe Down'||gesture == 'Swipe Up'){
       $scope.showListDetails = !$scope.showListDetails;
-  $scope.showList =  listName;
+      $scope.showList =  listName;
     };
-
+    
     };
 
   });

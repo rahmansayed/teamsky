@@ -19,7 +19,9 @@
     <ion-nav-bar class="theme-color" animation="nav-title-slide-ios7" title="Setting">
       <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
         <ion-nav-buttons side="right">
-        <button class="padding theme-color button button-clear icon-left ion-loop" ng-click="refresh()">
+        <button class="theme-color button button-clear icon-left ion-loop" 
+                ng-click="refresh()"
+                style="padding-right:7px;">
            
         </button>
     </ion-nav-buttons>
@@ -42,7 +44,7 @@
               ng-hide = "list.deleted=='Y'"
               style=" border-radius:15px;  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);"
               on-swipe-down="onGesture('Swipe Down',list.listName)"
-              on-swipe-right="onGesture('Swipe Right')"
+              on-swipe-up="onGesture('Swipe Up',list.listName)"
               on-hold="onGesture('Hold')"
               on-double-tap="onGesture('Double-Tap')">
               <div style="display=inline;">
