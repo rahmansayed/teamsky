@@ -6,6 +6,9 @@ angular.module('starter.controllers')
      disableBack: true
 
      });*/
+    
+    $scope.myUserId = global.userServerId;
+    
     /*Retrieve all lists from localListHandlerV2*/
 
     localListHandlerV2.getAllLists()
