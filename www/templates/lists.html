@@ -81,10 +81,9 @@
                 <img class="img-circle" ng-src="{{ listUser.photo }}"
                   ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')">
 
-                 {{listUser.contactName}}  &emsp;
-                 
-                 <br>{{listUser.contactServerId}} -<br> {{myUserId}}
-                 
+                 <p ng-show="listUser.contactServerId!=myUserId">{{listUser.contactName}}</p>  &emsp;
+                <p ng-show="listUser.contactServerId==myUserId"><i>You</i></p>
+               <!--  {{myUserId}}  - <br>- {{listUser.contactServerId}}-->
 
 
               </p>
