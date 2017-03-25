@@ -137,6 +137,10 @@ angular.module('starter.controllers')
       console.log('24/2/2017 - aalatief - uncheck item: ' + JSON.stringify(checkedItem));
       localEntryHandlerV2.unCheckItem(checkedItem, $scope.entries).then(function (res) {
         console.log('unCheckItem res = ' + JSON.stringify(res));
+        serverHandlerEntryV2.syncEntriesUpstream();
+        //$scope.listItems = res.listOpenEntries;
+        //$scope.checkedItems = res.listCrossedEntries;
+        $state.reload();
         /*$scope.listItems = res.listOpenEntries;
          $scope.checkedItems = res.listCrossedEntries;
          $state.reload();*/
