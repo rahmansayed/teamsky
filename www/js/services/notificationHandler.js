@@ -8,11 +8,12 @@ angular.module('starter.services')
             console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
             console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
             console.log("$state.params = " + JSON.stringify($state.params));
-            if ($location.url() == '/lists') {
+            console.log("$state.current = " + JSON.stringify($state.current));
+            if ($state.current.name == "lists") {
               $state.reload();
             }
             serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-              if ($location.url().toString().startsWith('/item')) {
+              if ($state.current.name == "item") {
                 console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
                 for (var i = 0; i < res.length; i++) {
                   console.log("$state.listId = " + $state.params.listId);
@@ -40,6 +41,7 @@ angular.module('starter.services')
 
             });
           }
+
           ,
           function () {
             console.log("SERVER HANDLER ERROR")
