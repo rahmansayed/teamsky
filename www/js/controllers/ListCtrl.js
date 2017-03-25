@@ -154,19 +154,7 @@ angular.module('starter.controllers')
     }      
     };
 
-    /*set the border color of the contact shown based on status*/
-    $scope.setBorderColor = function (status) {
-      if (status == 'S') {
-        return {border: "1px solid blue"};
-      }
-      else if (status == 'P') {
-        return {border: "1px solid red"};
-      }
-      else {
-        return {border: "1px solid grey"};
-      }
 
-    };
     /*-----------------------------------------------------------------------------------------*/
 
     /*set the border color of the contact shown based on status*/

@@ -106,5 +106,34 @@ angular.module('starter.controllers')
       contactHandler.pickContact(list);
         state.reload();
     };
+    /*----------------------------------------------------------------------------------------*/
+    /*set the color of the contact shown based on status*/
+    $scope.setColor = function (status,element) {
+      
+    if (element =='color') {
+     if (status == 'S') {
+        return {color: "blue"};
+      }
+      else if (status == 'P') {
+        return {color: "red"};
+      }
+      else {
+        return {color: "grey"};
+      }
+    } 
+    else if (element =='border') {
+        if (status == 'S') {
+        return {border: "1px solid blue"};
+      }
+      else if (status == 'P') {
+        return {border: "1px solid red"};
+      }
+      else {
+        return {border: "1px solid grey"};
+      }   
+    }      
+    };
 
+
+    /*-----------------------------------------------------------------------------------------*/
   });

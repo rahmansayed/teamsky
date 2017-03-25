@@ -30,7 +30,7 @@
                 ng-show="listUser.photo" 
                 ng-style="setColor(listUser.contactStatus,'border')"> 
                 
-                {{listUser.contactName}}
+                <p ng-style="setColor(listUser.contactStatus,'color')">{{listUser.contactName}}</p>
                
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeListUser(listUser)"></ion-option-button>
             </ion-item>
@@ -40,8 +40,14 @@
         <div style="text-align: center;">
             
             <i><p class="padding text-center "  ng-show="!listUsers[0].contactName" >Not shared yet!</p></i>
-            
-            <button class="button button-balanced ion-android-person-add padding text-center" ng-click="getAllContacts(list)"></button>
+            <div style="text-align: right;">
+             <button class="button button-balanced ion-android-person-add padding text-center" 
+                     ng-click="getAllContacts(list)"
+                     style=" border-radius: 50%;height:60px;width:60px"></button>
+                
+                    <ion-floating-button click="addList()" has-footer="false" button-color="#09d261" icon="ion-android-list larger" icon-color="#fff">
+    </ion-floating-button>
+            </div>
         </div>
      
         

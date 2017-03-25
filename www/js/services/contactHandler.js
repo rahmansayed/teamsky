@@ -369,6 +369,9 @@ angular.module('starter.services')
       return defer.promise;
     }
 
+/*----------------------------------------------------------------------------------------*/
+
+
 
     return {
       pickContact: pickContact,
