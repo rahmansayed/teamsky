@@ -12,7 +12,7 @@ angular.module('starter.services')
               $state.reload();
             }
             serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
-              if ($location.url().startsWith('/item')) {
+              if ($location.url().toString().startsWith('/item')) {
                 console.log('NOTIFICATION ENTRY RES ' + JSON.stringify(res));
                 for (var i = 0; i < res.length; i++) {
                   console.log("$state.listId = " + $state.params.listId);

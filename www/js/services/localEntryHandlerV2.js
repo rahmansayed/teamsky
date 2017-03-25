@@ -25,7 +25,7 @@ angular.module('starter.services')
 
       global.db.transaction(function (tx) {
         tx.executeSql(query, [listId], function (tx, result) {
-          console.log("localEntryHandlerV2.getAllEntry query res = " + JSON.stringify(result));
+//          console.log("localEntryHandlerV2.getAllEntry query res = " + JSON.stringify(result));
           var openEntryList = {
             entries: [],
             categories: []
@@ -80,12 +80,12 @@ angular.module('starter.services')
           " and entryCrossedFlag = 1";
 
         tx.executeSql(query, [listLocalId], function (tx, res) {
-          console.log("localEntryHandlerV2.getCheckedItem query res = " + JSON.stringify(res));
+//          console.log("localEntryHandlerV2.getCheckedItem query res = " + JSON.stringify(res));
           var crossedEntries = [];
           for (var i = 0; i < res.rows.length; i++) {
             crossedEntries.push(res.rows.item(i));
           }
-          console.log("localEntryHandlerV2.getCheckedItem crossedEntries = " + JSON.stringify(crossedEntries));
+//          console.log("localEntryHandlerV2.getCheckedItem crossedEntries = " + JSON.stringify(crossedEntries));
           deferred.resolve(crossedEntries);
         }, function (err) {
           console.error("localEntryHandlerV2.getCheckedItem query err = " + err.message);
@@ -152,9 +152,9 @@ angular.module('starter.services')
      * @param mySelectedItem
      */
     function addItemToList(mySelectedItem, entries) {
-      console.log('addItemToList mySelectedItem = ' + JSON.stringify(mySelectedItem));
-      console.log('addItemToList listOpenEntries = ' + JSON.stringify(entries.listOpenEntries));
-      console.log('addItemToList listCrossedEntries = ' + JSON.stringify(entries.listCrossedEntries));
+      //console.log('addItemToList mySelectedItem = ' + JSON.stringify(mySelectedItem));
+      //console.log('addItemToList listOpenEntries = ' + JSON.stringify(entries.listOpenEntries));
+      //console.log('addItemToList listCrossedEntries = ' + JSON.stringify(entries.listCrossedEntries));
       var deferred = $q.defer();
       //search the item in the listOpen Entries
       var openIdx = itemExitInList(mySelectedItem.itemLocalId, entries.listOpenEntries.entries);
@@ -217,11 +217,11 @@ angular.module('starter.services')
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as crossed*/
     function crossEntry(entry, entries) {
-      console.log('crossEntry entry = ' + JSON.stringify(entry));
+      //console.log('crossEntry entry = ' + JSON.stringify(entry));
       var deferred = $q.defer();
       var query = "update entry  set entryCrossedFlag='1', flag = 'E', lastUpdateDate=? where itemLocalId =? and listLocalId = ?";
 // splicing the listOpenEntries
-      console.log("crossEntry listOpenEntries before = " + JSON.stringify(entries.listOpenEntries));
+      //console.log("crossEntry listOpenEntries before = " + JSON.stringify(entries.listOpenEntries));
       var cat = entry.categoryName;
       var catCount = 0;
       console.log("crossEntry cat = " + cat);
@@ -238,7 +238,7 @@ angular.module('starter.services')
         var idx = entries.listOpenEntries.categories.indexOf(cat);
         entries.listOpenEntries.categories.splice(idx, 1);
       }
-      console.log("crossEntry listOpenEntries after = " + JSON.stringify(entries.listOpenEntries));
+      //console.log("crossEntry listOpenEntries after = " + JSON.stringify(entries.listOpenEntries));
       //e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language" +
       var newEntry = {
         entryLocalId: entry.entryLocalId,
@@ -256,7 +256,7 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
         tx.executeSql(query, [new Date().getTime(), entry.itemLocalId, entry.listLocalId], function (response) {
           //Success Callback
-          console.log('Update Entry with Check Flag!!!' + JSON.stringify(response));
+          //console.log('Update Entry with Check Flag!!!' + JSON.stringify(response));
           //checkedItems.push(listItem);
           serverHandlerEntryV2.syncCrossingsUpstream().then(function () {
             deferred.resolve(entries);
@@ -275,7 +275,7 @@ angular.module('starter.services')
     /*-------------------------------------------------------------------------------------*/
     /*Mark item as uncrossed*/
     function repeatEntry(entry, entries) {
-      console.log('repeatEntry entry = ' + JSON.stringify(entry));
+      //console.log('repeatEntry entry = ' + JSON.stringify(entry));
 
       var deferred = $q.defer();
 
@@ -388,7 +388,7 @@ angular.module('starter.services')
 
           var deleteQuery = "update entry set deleted = 'Y' where entryLocalId = ?";
           tx.executeSql(deleteQuery, [entry.entryLocalId], function (tx, res) {
-            console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
+            //console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
             /* ret.rowsAffected = res.rowsAffected;*/
             deferred.resolve(res);
           }, function (err) {
@@ -413,7 +413,7 @@ angular.module('starter.services')
 
           var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, flag = 'E' where entryLocalId = ?";
           tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId], function (tx, res) {
-            console.log("updateEntry res " + JSON.stringify(res));
+            //console.log("updateEntry res " + JSON.stringify(res));
             deferred.resolve(res);
             serverHandlerEntryV2.syncUpdatesUpstream();
           }, function (err) {

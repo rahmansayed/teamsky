@@ -513,7 +513,9 @@ angular.module('starter.services')
                           "(null,?,?,?,?,?,?,'',0,'S', 'S', 0, ?, 'N')";
 
                         tx.executeSql(query, [localIds.listLocalId, localIds.itemLocalId, response.data.entries[i]._id, qty, uom, localIds.retailerLocalId, response.data.entries[i].language]);
-
+                        // we have to cover the case of the new entry being an un-crossed entry
+                        var update_query = "update entry set deleted = 'Y' where itemLocalId = ? and entryCrossedFlag = 1";
+                        tx.executeSql(update_query, [localIds.itemLocalId]);
                       }
                     }, function (err) {
                       console.error("serverHandlerEntry.syncEntriesDownstream db insert error = " + JSON.stringify(err.message));
