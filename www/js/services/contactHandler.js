@@ -153,38 +153,6 @@ angular.module('starter.services')
       return deferred.promise;
     }
 
-    function addLocalContact(contact) {
-
-      var deferred = $q.defer();
-
-      var query = "insert or ignore into contact(contactLocalId,contactName,phoneNumber,phoneType,contactServerId,contactStatus,photo,lastUpdateDate,lastUpdateBy) values (?,?,?,?,?,?,?,?,?)";
-      getMaxContactLocalId()
-        .then(function (response) {
-            maxContactId = response.rows.item(0).maxId + 1;
-            console.log('11/2/2017 - contactHandler - aalatief :maxContactId ' + JSON.stringify(maxContactId));
-            for (var i = 0; i < (contact || []).length; i++) {
-              dbHandler.runQuery(query, [maxContactId, contact[i].displayName, contact[i].phoneValue, contact[i].phoneType, '', 'N', contact[i].photo, new Date().getTime(), 'U'], function (response) {
-                //Success Callback
-                console.log(response);
-                deferred.resolve(response.insertId);
-              }, function (error) {
-                //Error Callback
-                console.log(error);
-                deferred.reject(error);
-              });
-            }
-            ;
-
-          },
-
-          function (error) {
-            console.log('11/2/2017 - contactHandler - aalatief :error ');
-          });
-
-
-      return deferred.promise;
-    };
-
     function addListContact(listLocalId, contactLocalId) {
 
       var deferred = $q.defer();
@@ -375,7 +343,6 @@ angular.module('starter.services')
 
     return {
       pickContact: pickContact,
-      addLocalContact: addLocalContact,
       formatPhoneNumber: formatPhoneNumber,
       addListContact: addListContact,
       getContactLocalId: getContactLocalId,
