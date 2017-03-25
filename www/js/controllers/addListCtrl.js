@@ -38,9 +38,6 @@ angular.module('starter.controllers')
       }
     };
 
-
-    /*-----------------------------------------------------------------------------------------*/
-    /**-------------------------------------------------------*/
     $scope.saveList = function (list) {
 
       localListHandlerV2.addNewList(list)

@@ -178,7 +178,7 @@ angular.module('starter.controllers')
         
     if  (gesture == 'Swipe Down'){
       $scope.showListDetails = !$scope.showListDetails;
-      $scope.showList =  listName;
+  $scope.showList =  listName;
     };
 
     };
