@@ -21,6 +21,8 @@ angular.module('starter.services')
       countryCode: ''
     };
 
+    var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
+    var currentListLocalId;
 
     function initialize() {
       global.db.transaction(function (tx) {
@@ -41,7 +43,9 @@ angular.module('starter.services')
       initialize: initialize,
       verificationData: verificationData,
       masterItems: masterItems,
-      deviceUUID: deviceUUID
+      deviceUUID: deviceUUID,
+      currentListEntries: currentListEntries,
+      currentListLocalId: currentListLocalId
     };
   });
 

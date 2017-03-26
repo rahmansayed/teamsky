@@ -41,19 +41,10 @@ angular.module('starter.controllers')
         $scope.items = res;
       })
     }
-    /*------------------------------------------------------------------*/
-    /*Load all entries related to specfi list*/
-    localEntryHandlerV2.selectedItem($state.params.listId).then(function (res) {
-      $scope.entries.listOpenEntries = res;
+
+    localEntryHandlerV2.buildListEntries($state.params.listId).then(function () {
+      $scope.entries = global.currentListEntries;
     });
-
-
-    /*------------------------------------------------------------------*/
-    /*Load all checked entries related to specfi list*/
-    localEntryHandlerV2.checkedItem($state.params.listId).then(function (res) {
-      $scope.entries.listCrossedEntries = res;
-    });
-
 
     /*------------------------------------------------------------------*/
     /*Search for existing master item*/
@@ -93,13 +84,15 @@ angular.module('starter.controllers')
           language: item.language
         };
       console.log('Master Item Searched: ' + JSON.stringify($scope.entries.listOpenEntries));
-      localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.entries)
+      localEntryHandlerV2.addItemToList($scope.selectedItem, 'L')
         .then(function (res) {
+          $scope.data.items = [];
+          $scope.data.search = '';
           console.log('selectItem $scope.entries.listOpenEntries' + JSON.stringify($scope.entries.listOpenEntries));
           serverHandlerEntryV2.syncEntriesUpstream();
           //$scope.listItems = res.listOpenEntries;
           //$scope.checkedItems = res.listCrossedEntries;
-          $state.reload();
+          //$state.reload();
         }, function (error) {
           console.error('24/2/2017 - aalatief - Selected Item error: ' + JSON.stringify(error));
         });
@@ -114,8 +107,7 @@ angular.module('starter.controllers')
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
       localEntryHandlerV2.checkItem(listItem, $scope.entries).then(function (res) {
-        console.log("listOpenEntries $scope.listItems = " + JSON.stringify($scope.listItems));
-        console.log("listOpenEntries $scope.checkedItems = " + JSON.stringify($scope.checkedItems));
+        console.log("listOpenEntries global.currentListEntries = " + JSON.stringify(global.currentListEntries));
         /*$scope.$apply(function () {
          $scope.selectedItems = res.listOpenEntries;
          $scope.checkedItems = res.listCrossedEntries;
@@ -140,7 +132,7 @@ angular.module('starter.controllers')
         serverHandlerEntryV2.syncEntriesUpstream();
         //$scope.listItems = res.listOpenEntries;
         //$scope.checkedItems = res.listCrossedEntries;
-        $state.reload();
+        //$state.reload();
         /*$scope.listItems = res.listOpenEntries;
          $scope.checkedItems = res.listCrossedEntries;
          $state.reload();*/
@@ -192,10 +184,12 @@ angular.module('starter.controllers')
                 itemRetailer: "",
                 language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN'
               };
-            localEntryHandlerV2.addItemToList($scope.selectedItem, $scope.entries);
+            localEntryHandlerV2.addItemToList($scope.selectedItem, 'L');
+            $scope.data.items = [];
+            $scope.data.search = '';
             serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
               serverHandlerEntryV2.syncEntriesUpstream();
-              $state.reload();
+//              $state.reload();
             }, function (err) {
 
             });

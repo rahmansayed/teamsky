@@ -17,7 +17,12 @@ angular.module('starter.services')
         console.log("dbHelper getItemslocalIds " + JSON.stringify(items));
         var itemsRet = [];
         var defer = $q.defer();
-        var query = "select * from masterItem where itemServerId in ( ";
+        var query = "select mi.itemServerId,  mi.itemLocalId, mtl.itemName, ctl.categoryName, mtl.language itemLang, ctl.language catLang" +
+          " from masterItem mi, masterItem_tl mtl, category c, category_tl  ctl " +
+          " where mi.itemLocalId = mtl.itemLocalId " +
+          " and mi.categoryLocalId = c.categoryLocalId " +
+          " and ctl.categoryLocalId = c.categoryLocalId " +
+          " and mi.itemServerId in ( ";
         for (var i = 0; i < items.length; i++) {
           query = query + "'" + items[i] + "'";
           if (i != items.length - 1)
@@ -29,10 +34,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           tx.executeSql(query, [], function (tx, result) {
             for (var i = 0; i < result.rows.length; i++) {
-              itemsRet.push({
-                itemServerId: result.rows.item(i).itemServerId,
-                itemLocalId: result.rows.item(i).itemLocalId
-              })
+              itemsRet.push(result.rows.item(i));
             }
             console.log('dbHelper getItemslocalIds itemsRet ' + JSON.stringify(itemsRet));
             defer.resolve(itemsRet);
@@ -226,14 +228,20 @@ angular.module('starter.services')
 
         for (var i = 0; i < localIdsMap.items.length; i++) {
           if (entry.itemServerId) {
-            if (localIdsMap.items[i].itemServerId == entry.itemServerId) {
+            if ((localIdsMap.items[i].itemServerId == entry.itemServerId) &&
+              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == 'US')) {
               result.itemLocalId = localIdsMap.items[i].itemLocalId;
+              result.itemName = localIdsMap.items[i].itemName;
+              result.categoryName = localIdsMap.items[i].categoryName;
               break;
             }
           }
           else {
-            if (localIdsMap.items[i].itemServerId == entry.userItemServerId) {
+            if ((localIdsMap.items[i].itemServerId == entry.userItemServerId) &&
+              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == 'US')) {
               result.itemLocalId = localIdsMap.items[i].itemLocalId;
+              result.itemName = localIdsMap.items[i].itemName;
+              result.categoryName = localIdsMap.items[i].categoryName;
               break;
             }
           }
