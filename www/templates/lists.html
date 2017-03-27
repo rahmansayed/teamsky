@@ -69,12 +69,36 @@
            <br>
            <div ng-show="showListDetails && list.listName == showList">
            <div>
-             <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Item: {{list.totalOpen + list.totalCrossed }} - Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}</p>
-
+             <p id="cross" ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Item: {{list.totalOpen + list.totalCrossed }} - Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}</p>
+               <div style="display:inline;">
+               <div style=" background: #0d98ba;
+                            height: 30px;
+                            float: left;
+                            margin-bottom: 5px;
+                            border-top-left-radius:15px;
+                            border-bottom-left-radius:15px;" 
+                    ng-style=" {width: (list.totalCrossed/(list.totalOpen + list.totalCrossed))*100 +'%'}">
+                     <p style="text-align:center;color:white;;margin-top:4px">
+                         {{list.totalCrossed}}
+                   </p>
+               </div>               
+               <div style=" background: grey;
+                            height: 30px;
+                            float: right;
+                            margin-bottom: 5px;
+                            border-top-right-radius:15px;
+                            border-bottom-right-radius:15px;"
+                    ng-style=" {width: (list.totalOpen/(list.totalOpen + list.totalCrossed))*100 +'%'}">
+               <p style="text-align:center;color:white;margin-top:4px">
+                   {{list.totalOpen}}
+                </p>
+               </div>
+               <br><br>
+           </div>
            </div>
 
             <div ng-repeat="listUser in lists | filter:{listName: list.listName }"
-                 style="display:inline;"
+                 align="left"
                   ng-show=listUser.contactName>
              <p ng-style="setColor(listUser.contactStatus,'color' )">
 

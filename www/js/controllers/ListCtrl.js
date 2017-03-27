@@ -172,18 +172,26 @@ angular.module('starter.controllers')
           used: ''
     };
 
-
-/*    $scope.showListDetails = true;*/
+/*   --------------------Show Details based on gesture ------------------------*/
     $scope.onGesture = function(gesture,listName) {
      $scope.gesture.used = gesture;
    /*  alert(gesture+' '+listName);*/
      console.log(gesture);
         
-    if  (gesture == 'Swipe Down'||gesture == 'Swipe Up'){
-      $scope.showListDetails = !$scope.showListDetails;
+    if  (gesture == 'Swipe Down'){
+      $scope.showListDetails = true;
+      $scope.showList =  listName;
+    };
+        
+    if  (gesture == 'Swipe Up'){
+      $scope.showListDetails = false;
       $scope.showList =  listName;
     };
     
     };
+/*---------------------------------------------------------------------------*/
+
+    
+    
 
   });
