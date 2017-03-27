@@ -69,7 +69,7 @@
            <br>
            <div ng-show="showListDetails && list.listName == showList">
            <div>
-             <p id="cross" ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Items: {{list.totalOpen + list.totalCrossed }} <!--- Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}--></p>
+             <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Items: {{list.totalOpen + list.totalCrossed }} <!--- Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}--></p>
                <div  ng-show="list.totalOpen + list.totalCrossed!=0">
                <div style=" background: #159469;
                             height: 30px;
@@ -112,21 +112,22 @@
            </div>
 
             <div ng-repeat="listUser in lists | filter:{listName: list.listName }"
-                 align="left"
+                 style="display:inline;float:left;padding-right:10px;"    
                   ng-show=listUser.contactName>
-             <p ng-style="setColor(listUser.contactStatus,'color' )">
+             <div ng-style="setColor(listUser.contactStatus,'color')" style="padding-top:15px;">
 
-                <img class="img-circle" ng-src="{{ listUser.photo }}"
-                  ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')">
+                <img class="img-circle" ng-src="{{ listUser.photo ||'img\cordova_bot.png'}}"
+                  ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')" style="float:left;">
 
                  <p ng-show="listUser.contactServerId!=myUserId" 
-                    ng-style="setColor(listUser.contactStatus,'color' )">{{listUser.contactName}}</p>
+                    ng-style="setColor(listUser.contactStatus,'color' )"
+                    style="padding-left:5px;padding-top:10px;">{{listUser.contactName}}</p>
                  <p ng-show="listUser.contactServerId==myUserId"
                     ng-style="setColor(listUser.contactStatus,'color' )"><i>You</i></p>
                <!--  {{myUserId}}  - <br>- {{listUser.contactServerId}}-->
 
 
-              </p>
+              </div>
            </div>
      </div>
 
@@ -153,9 +154,9 @@
     <ion-header-bar class="theme-color"></ion-header-bar>
     <ion-content has-header="true">
       <ion-list>
-        <ion-item class="icon-left ion-person larger"  ng-click="toggleLeft()"> <h2 style="display:inline;"> Account</h2></ion-item>
-        <ion-item class= "icon-left ion-android-notifications larger" ng-click="toggleLeft()"><h2 style="display:inline;"> Notification</h2></ion-item>
-        <ion-item class= "icon-left ion-information-circled larger"  ng-click="toggleLeft()"><h2 style="display:inline;"> Help</h2></ion-item>
+        <ion-item class="icon-left ion-person larger"  ng-click="toggleLeft()"> <h2 style="display:inline;padding-left:5px;"> Account</h2></ion-item>
+        <ion-item class= "icon-left ion-android-notifications larger" ng-click="toggleLeft()"><h2 style="display:inline;padding-left:5px;"> Notification</h2></ion-item>
+        <ion-item class= "icon-left ion-information-circled larger"  ng-click="toggleLeft()"><h2 style="display:inline;padding-left:5px;"> Help</h2></ion-item>
       </ion-list>
 
 
