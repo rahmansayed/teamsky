@@ -127,16 +127,7 @@ angular.module('starter.controllers')
     /*UnCheck item in list*/
     $scope.unCheckItem = function (checkedItem) {
       console.log('24/2/2017 - aalatief - uncheck item: ' + JSON.stringify(checkedItem));
-      localEntryHandlerV2.unCheckItem(checkedItem, $scope.entries).then(function (res) {
-        console.log('unCheckItem res = ' + JSON.stringify(res));
-        serverHandlerEntryV2.syncEntriesUpstream();
-        //$scope.listItems = res.listOpenEntries;
-        //$scope.checkedItems = res.listCrossedEntries;
-        //$state.reload();
-        /*$scope.listItems = res.listOpenEntries;
-         $scope.checkedItems = res.listCrossedEntries;
-         $state.reload();*/
-      });
+      localEntryHandlerV2.unCheckItem(checkedItem);
 
     };
     /*------------------------------------------------------------------*/
@@ -214,7 +205,7 @@ angular.module('starter.controllers')
           function (index) {
             switch (index) {
               case 1:
-                localEntryHandlerV2.deactivateItem(listItem)
+                localEntryHandlerV2.deactivateItem(listItem, 'OPEN')
                   .then(function (ret) {
                     console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + JSON.stringify(ret));
                     $state.reload();
@@ -240,7 +231,7 @@ angular.module('starter.controllers')
 
         confirmPopup.then(function (res) {
           if (res) {
-            localEntryHandlerV2.deactivateItem(listItem)
+            localEntryHandlerV2.deactivateItem(listItem, 'OPEN')
               .then(function (ret) {
                 console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + JSON.stringify(ret));
                 //$state.reload();

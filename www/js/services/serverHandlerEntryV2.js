@@ -8,11 +8,95 @@ angular.module('starter.services')
 
   .factory('serverHandlerEntryV2', function ($http, global, $q, serverHandlerItemsV2, serverHandlerListV2, serverHandlerRetailerV2, dbHelper) {
 
+      function getCategoryCount(categoryName) {
+        return global.currentListEntries.listOpenEntries.entries.filter(function (entry) {
+          return entry.categoryName == categoryName;
+        }).length;
+      }
+
+      function maintainGlobalEntries(entry, list, operation) {
+        console.log('maintainGlobalEntries entry = ' + JSON.stringify(entry));
+        console.log('maintainGlobalEntries operation = ' + operation);
+
+        if (entry.listLocalId == global.currentListLocalId) {
+          console.log('maintainGlobalEntries global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
+          var openIdx = -1;
+          var crossedIdx = -1;
+          var categoryIdx = -1;
+
+          for (var i = 0; i < global.currentListEntries.listOpenEntries.entries.length; i++) {
+            if (global.currentListEntries.listOpenEntries.entries[i].itemLocalId == entry.itemLocalId) {
+              openIdx = i;
+              break;
+            }
+          }
+
+          for (var i = 0; i < global.currentListEntries.listCrossedEntries.length; i++) {
+            if (global.currentListEntries.listCrossedEntries[i].itemLocalId == entry.itemLocalId) {
+              crossedIdx = i;
+              break;
+            }
+          }
+
+          categoryIdx = global.currentListEntries.listOpenEntries.categories.indexOf(entry.categoryName);
+          console.log('maintainGlobalEntries openIdx = ' + openIdx);
+          console.log('maintainGlobalEntries crossedIdx = ' + crossedIdx);
+          switch (operation) {
+            case 'ADD':
+              if (openIdx == -1) {
+                global.currentListEntries.listOpenEntries.entries.push(entry);
+                if (global.currentListEntries.listOpenEntries.categories.indexOf(entry.categoryName) == -1) {
+                  global.currentListEntries.listOpenEntries.categories.push(entry.categoryName);
+                }
+                if (crossedIdx != -1) {
+                  global.currentListEntries.listCrossedEntries.splice(crossedIdx, 1);
+                }
+              }
+              break;
+            case 'CROSS':
+              if (openIdx != -1) {
+                global.currentListEntries.listOpenEntries.entries.splice(openIdx, 1);
+              }
+              if (crossedIdx == -1) {
+                global.currentListEntries.listCrossedEntries.push(entry);
+              }
+              if (getCategoryCount(entry.categoryName) == 0) {
+                global.currentListEntries.listOpenEntries.categories.splice(categoryIdx, 1);
+              }
+              break;
+            case 'SEEN':
+              if (openIdx > -1)
+                global.currentListEntries.listOpenEntries.entries[openIdx].seenFlag = 3;
+              break;
+            case 'DELIVERED':
+              if (openIdx > -1)
+                global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 1;
+              break;
+            case 'DELETE':
+              if (list == 'OPEN') {
+                if (openIdx != -1) {
+                  global.currentListEntries.listOpenEntries.entries.splice(openIdx, 1);
+                  if (getCategoryCount(entry.categoryName) == 0) {
+                    global.currentListEntries.listOpenEntries.categories.splice(categoryIdx, 1);
+                  }
+                }
+              } else if (list == 'CROSSED') {
+                if (crossedIdx != -1) {
+                  global.currentListEntries.listCrossedEntries.splice(openIdx, 1);
+                }
+              }
+              break;
+          }
+          console.log('maintainGlobalEntries AFTER global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
+        }
+      }
+
       /****************************************************************************************************************
        * this function is used to build the list of affected lists for syncSeenDownstream, syncDeliversDownstream,
        * syncCrossDownstream
        * @param entries
        */
+
       function buildAffectedLists(entries) {
         var defer = $q.defer();
         var query = "select listLocalId, count(*) as cnt from entry where entryServerId in ( ";
@@ -463,6 +547,7 @@ angular.module('starter.services')
 
       }
 
+
       function itemExitInList(itemLocalId, entryList) {
         var idx = -1;
         for (var i = 0; i < entryList.length; i++) {
@@ -472,6 +557,64 @@ angular.module('starter.services')
           }
         }
         return idx;
+      }
+
+      function crossEntry(entry, mode) {
+        //console.log('crossEntry entry = ' + JSON.stringify(entry));
+        var deferred = $q.defer();
+        var flag = mode == 'L' ? 'E' : 'S';
+        var query = "update entry  set entryCrossedFlag='1', flag = ?, lastUpdateDate=? where entryLocalId =?";
+// splicing the listOpenEntries
+        //console.log("crossEntry listOpenEntries before = " + JSON.stringify(entries.listOpenEntries));
+        var cat = entry.categoryName;
+        var catCount = 0;
+        console.log("crossEntry cat = " + cat);
+        if (entry.listLocalId == global.currentListLocalId) {
+          var newEntry = {
+            entryLocalId: entry.entryLocalId,
+            listLocalId: entry.listLocalId,
+            itemLocalId: entry.itemLocalId,
+            itemName: entry.itemName,
+            categoryName: entry.categoryName,
+            quantity: entry.quantity,
+            uom: entry.uom,
+            entryCrossedFlag: 1,
+            language: entry.language
+          };
+
+          maintainGlobalEntries(newEntry, 'CROSSED', 'CROSS');
+        }
+        global.db.transaction(function (tx) {
+          tx.executeSql(query, [flag, new Date().getTime(), entry.entryLocalId], function (response) {
+            //Success Callback
+            deferred.resolve();
+          }, function (err) {
+            console.error("crossEntry db err " + err.message);
+            deferred.reject(err);
+          });
+        }, function (error) {
+          console.error(error);
+          deferred.reject(error);
+        });
+
+        return deferred.promise;
+      };
+
+
+      function crossLocalEntry(entry) {
+        var defer = $q.defer();
+        crossEntry(entry, 'L').then(function () {
+          syncCrossingsUpstream().then(function () {
+            defer.resolve();
+          }, function () {
+            console.error('crossLocalEntry syncCrossingsUpstream error');
+            defer.reject();
+          });
+        }, function () {
+          console.error('crossLocalEntry error');
+          defer.reject();
+        });
+        return defer.promise;
       }
 
       /*******************************************************************************************************************
@@ -499,7 +642,13 @@ angular.module('starter.services')
         if (insertFlag) {
           var flag = mode == 'L' ? 'N' : 'S';
           var origin = mode == 'L' ? 'L' : 'S';
-          var seenFlag = mode == 'L' ? 2 : 2;
+          var seenFlag;
+          if (mode == 'L')
+            entry.seenFlag = 2;
+          else if (entry.listLocalId == global.currentListLocalId) {
+            entry.seenFlag = 1;
+          }
+
           var entryServerId = (mode == 'S') ? entry.entryServerId : '';
           global.db.transaction(function (tx) {
             var query = "INSERT INTO entry (entryLocalId," +
@@ -523,57 +672,23 @@ angular.module('starter.services')
               " ?," + //language
               " 'N')"; //deleted
             //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, origin, flag, seenFlag, entry.language], function (tx, res) {
-              if (entry.listLocalId == global.currentListLocalId) {
-                global.currentListEntries.listOpenEntries.entries.push({
-                  entryLocalId: res.insertId,
-                  listLocalId: entry.listLocalId,
-                  itemLocalId: entry.itemLocalId,
-                  itemName: entry.itemName,
-                  categoryName: entry.categoryName,
-                  quantity: 0,
-                  uom: '',
-                  retailerLocalId: '',
-                  language: entry.language,
-                  deleted: 'N',
-                  seenFlag: 2
-                });
-                if (global.currentListEntries.listOpenEntries.categories.indexOf(entry.categoryName) == -1) {
-                  global.currentListEntries.listOpenEntries.categories.push(entry.categoryName);
-                }
-              }
+            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, origin, flag, entry.seenFlag, entry.language], function (tx, res) {
+              entry.entryLocalId = res.insertId;
+              maintainGlobalEntries(entry, 'OPEN', 'ADD');
+              var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
+              tx.executeSql(updateQuery, [entry.itemLocalId]);
+              var udpateQuery2 = "update entry set deleted = 'Y' where itemLocalId = ? and entryLocalId <> ? and entryCrossedFlag = 1";
+              console.log('addItemToList entry.entryLocalId  = ' + entry.entryLocalId);
+              tx.executeSql(udpateQuery2, [entry.itemLocalId, entry.entryLocalId]);
+              deferred.resolve();
             }, function (err) {
               console.error('addItemToList insert error  = ' + err.message);
             });
-            var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
-            tx.executeSql(updateQuery, [entry.itemLocalId]);
-            deferred.resolve();
           }, function (err) {
             console.error('addItemToList db error  = ' + err.message);
             deferred.reject(err);
           }, function () {
           });
-
-          if (global.currentListLocalId == entry.listLocalId) {
-            var crossedIdx = itemExitInList(entry.itemLocalId, global.currentListEntries.listCrossedEntries);
-            console.log("addItemToList crossedIdx = " + crossedIdx);
-
-            if (crossedIdx != -1) {
-              //SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId
-              global.db.transaction(function (tx) {
-                var query = "update entry set deleted = 'Y' " +
-                  "where entryLocalId = ?";
-                //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-                tx.executeSql(query, [entries.listCrossedEntries[crossedIdx].entryLocalId]);
-                global.currentListEntries.listCrossedEntries.splice(crossedIdx, 1);
-              }, function (err) {
-                console.error('addItemToList db error  = ' + err.message);
-                deferred.reject(err);
-              }, function () {
-                deferred.resolve();
-              });
-            }
-          }
         }
         return deferred.promise;
       }
@@ -656,6 +771,7 @@ angular.module('starter.services')
                 $q.all(insertPromises).then(function () {
                   syncBackMany(response.data.entries).then(function () {
                     console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
+                    syncSeensUpstream();
                     updateListNotificationCount('newCount', affectedLists);
                     defer.resolve(affectedLists);
                   });
@@ -771,7 +887,7 @@ angular.module('starter.services')
       }
 
 
-      function syncDeliveryDownstream(entryServerId) {
+      function syncDeliveryDownstream(entryUpdate) {
         var defer = $q.defer();
 
         var data = {
@@ -779,22 +895,25 @@ angular.module('starter.services')
         };
 
         var myPromise;
-        if (entryServerId) {
+        if (entryUpdate) {
           myPromise = $q.resolve({
             data: [{
-              entryServerId: entryServerId
+              entryServerId: entryUpdate.entryServerId,
+              _id: entryUpdate._id
             }]
           });
         } else {
           myPromise = $http.post(global.serverIP + '/api/entry/getDelivers', data);
         }
         myPromise.then(function (res) {
-
+            var query = "update entry set deliveredFlag = 1, flag = 'S' where entryServerId in ( ";
+            res.data.forEach(function (deliver) {
+              query = query + "'" + deliver.entryServerId + "', ";
+              getEntryFromLocalDB(deliver.entryServerId).then(function (entry) {
+                maintainGlobalEntries(entry, 'OPEN', 'DELIVERED');
+              });
+            });
             if (res.data.length > 0) {
-              var query = "update entry set deliveredFlag = 1, flag = 'S' where entryServerId in ( ";
-              var query = res.data.reduce(function (query, deliver) {
-                return query + "'" + deliver.entryServerId + "', ";
-              }, query);
 
               query = query.substr(0, query.length - 2) + ')';
               console.log("syncDeliveryDownstream query = " + query);
@@ -809,6 +928,8 @@ angular.module('starter.services')
                   buildAffectedLists(res.data).then(function (res2) {
                     updateListNotificationCount('deliverCount', res2);
                     defer.resolve(res2);
+                  }, function (err) {
+                    console.error("syncDeliveryDownstream buildAffectedLists err");
                   });
                 }, function (err) {
                   defer.reject();
@@ -830,17 +951,47 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function syncCrossingsDownstream(entryServerId) {
+      function getEntryFromLocalDB(entryServerId) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+          var query = "select e.*, mtl.itemName, ctl.categoryName " +
+            " from masterItem mi, masterItem_tl mtl, category c, category_tl  ctl , entry e " +
+            " where mi.itemLocalId = mtl.itemLocalId " +
+            " and mi.categoryLocalId = c.categoryLocalId " +
+            " and ctl.categoryLocalId = c.categoryLocalId " +
+            " and mi.itemLocalId = e.itemLocalId " +
+            " and mtl.language = e.language " +
+            " and ctl.language = 'US' " +
+            " and e.entryServerId = ?";
+          tx.executeSql(query, [entryServerId], function (tx, res) {
+            if (res.rows.length > 0) {
+              defer.resolve(res.rows.item(0));
+            }
+            else {
+              console.error('getCrossedEntryFromLocalDB entry not found entryServerId = ' + entryServerId);
+              defer.reject();
+            }
+          }, function (err) {
+            console.error('getCrossedEntryFromLocalDB db error');
+            defer.reject();
+          });
+        });
+        return defer.promise;
+      };
+
+      function syncCrossingsDownstream(entryUpdate) {
         var defer = $q.defer();
 
         var data = {
           deviceServerId: global.deviceServerId
         };
         var myPromise;
-        if (entryServerId) {
+        if (entryUpdate) {
           myPromise = $q.resolve({
             data: [{
-              entryServerId: entryServerId
+              entryServerId: entryUpdate.entryServerId,
+              _id: entryUpdate._id
             }]
           });
         } else {
@@ -848,48 +999,30 @@ angular.module('starter.services')
         }
         myPromise.then(function (res) {
 
-            if (res.data.length > 0) {
-              var query = "update entry set entryCrossedFlag = 1, flag = 'S' where entryServerId in ( ";
-              var query = res.data.reduce(function (query, crossing) {
-                return query + "'" + crossing.entryServerId + "', ";
-              }, query);
+            var crossPromises = [];
+            res.data.forEach(function (entry) {
+              getEntryFromLocalDB(entry.entryServerId).then(function (res) {
+                crossEntry(res, 'S');
+              });
+            });
 
-              query = query.substr(0, query.length - 2) + ')';
-              console.log("syncCrossingsDownstream entriesServerIds = " + query);
-              global.db.transaction(function (tx) {
-                tx.executeSql(query, []);
-              }, function (err) {
-                console.error("syncCrossingsDownstream db update err " + err.message);
-                defer.reject();
-              }, function () {
-                console.log("syncCrossingsDownstream db update complete");
-                syncBackCrossings(res.data).then(function (res1) {
-                  buildAffectedLists(res.data).then(function (res2) {
-                    updateListNotificationCount('crossCount', res2);
-                    defer.resolve(res2);
-                  });
+            if (res.data.length > 0) {
+              syncBackCrossings(res.data).then(function (res1) {
+                buildAffectedLists(res.data).then(function (res2) {
+                  updateListNotificationCount('crossCount', res2);
+                  defer.resolve(res2);
                 }, function (err) {
-                  defer.reject();
+                  console.error('syncCrossingsDownstream buildAffectedLists err');
                 });
               });
             }
-            else {
-//              console.log('syncCrossingsDownstream server no updates ' + JSON.stringify(res.data));
-              defer.resolve(res.data);
-            }
-          }
-          ,
-          function (err) {
-//            console.error('syncCrossingsDownstream server err ' + JSON.stringify(err));
-            defer.reject();
           }
         );
-
         return defer.promise;
       }
 
 
-      function syncSeenDownstream(entryServerId) {
+      function syncSeenDownstream(entryUpdate) {
         var defer = $q.defer();
 
         var data = {
@@ -897,10 +1030,11 @@ angular.module('starter.services')
         };
 
         var myPromise;
-        if (entryServerId) {
+        if (entryUpdate) {
           myPromise = $q.resolve({
             data: [{
-              entryServerId: entryServerId
+              entryServerId: entryUpdate.entryServerId,
+              _id: entryUpdate._id
             }]
           });
         } else {
@@ -908,12 +1042,15 @@ angular.module('starter.services')
         }
         myPromise.then(function (res) {
 
-            if (res.data.length > 0) {
-              var query = "update entry set seenFlag = 3 where entryServerId in ( ";
-              var query = res.data.reduce(function (query, seen) {
-                return query + "'" + seen.entryServerId + "', ";
-              }, query);
+            var query = "update entry set seenFlag = 3 where entryServerId in ( ";
+            res.data.forEach(function (deliver) {
+              query = query + "'" + deliver.entryServerId + "', ";
+              getEntryFromLocalDB(deliver.entryServerId).then(function (entry) {
+                maintainGlobalEntries(entry, 'OPEN', 'SEEN');
+              });
+            });
 
+            if (res.data.length > 0) {
               query = query.substr(0, query.length - 2) + ')';
               console.log("syncSeenDownstream entriesServerIds = " + query);
               global.db.transaction(function (tx) {
@@ -928,6 +1065,8 @@ angular.module('starter.services')
                   buildAffectedLists(res.data).then(function (res2) {
                     updateListNotificationCount('seenCount', res2);
                     defer.resolve(res2);
+                  }, function (err) {
+                    console.error('syncSeenDownstream buildAffectedLists err');
                   });
                 }, function (err) {
                   defer.reject();
@@ -1242,6 +1381,8 @@ angular.module('starter.services')
                         buildAffectedLists(res.data.updates).then(function (res2) {
                           updateListNotificationCount('updateCount', res2);
                           defer.resolve(res2);
+                        }, function (err) {
+                          console.error('syncUpdatesDownstream buildAffectedLists error');
                         });
                       }, function (err) {
                         console.error("syncUpdatesDownstream db update complete");
@@ -1275,9 +1416,11 @@ angular.module('starter.services')
         syncSeenDownstream: syncSeenDownstream,
         syncEntrieDownstream: syncEntriesDownstream,
         syncCrossingsDownstream: syncCrossingsDownstream,
+        crossLocalEntry: crossLocalEntry,
         syncDeliveryDownstream: syncDeliveryDownstream,
         syncUpdatesUpstream: syncUpdatesUpstream,
-        syncUpdatesDownstream: syncUpdatesDownstream
+        syncUpdatesDownstream: syncUpdatesDownstream,
+        maintainGlobalEntries: maintainGlobalEntries
       }
     }
   )

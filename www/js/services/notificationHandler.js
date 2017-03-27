@@ -20,7 +20,7 @@ angular.module('starter.services')
             });
             break;
           case "CROSSED":
-            serverHandlerEntryV2.syncCrossingsDownstream(msg.additionalData.details.entryServerId).then(function (affectedLists) {
+            serverHandlerEntryV2.syncCrossingsDownstream(msg.additionalData.details).then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -37,7 +37,7 @@ angular.module('starter.services')
             break;
 
           case "DELIVERED":
-            serverHandlerEntryV2.syncDeliveryDownstream(msg.additionalData.details.entryServerId).then(function (affectedLists) {
+            serverHandlerEntryV2.syncDeliveryDownstream(msg.additionalData.details).then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -45,14 +45,14 @@ angular.module('starter.services')
                 if (affectedLists.filter(function (list) {
                     return list.listLocalId == $state.params.listId;
                   }).length > 0) {
-                  $state.reload();
+                  //$state.reload();
                 }
               }
             });
             break;
 
           case "SEEN":
-            serverHandlerEntryV2.syncSeenDownstream(msg.additionalData.details.entryServerId).then(function (affectedLists) {
+            serverHandlerEntryV2.syncSeenDownstream(msg.additionalData.details).then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -60,7 +60,7 @@ angular.module('starter.services')
                 if (affectedLists.filter(function (list) {
                     return list.listLocalId == $state.params.listId;
                   }).length > 0) {
-                  $state.reload();
+                  //$state.reload();
                 }
               }
             });
