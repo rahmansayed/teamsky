@@ -166,9 +166,9 @@ angular.module('starter.services')
               var query = "insert into retailer " +
                 "(retailerLocalId, retailerName, retailerServerId, origin, flag) values" +
                 "(null,?, ?, 'O', 'S')";
-              tx.executeSql(query, [retailers[i].retailerName, retailers[i]._id], function (tx, res) {
+              tx.executeSql(query, [retailer.retailerName, retailer._id], function (tx, res) {
                 var query_tl_insert = "insert into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
-                tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailers[i].retailerName]);
+                tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailer.retailerName]);
               });
             });
           }

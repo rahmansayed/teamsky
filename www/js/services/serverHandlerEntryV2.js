@@ -86,6 +86,15 @@ angular.module('starter.services')
                 }
               }
               break;
+            case 'UPDATE':
+              if (openIdx != -1) {
+                global.currentListEntries.listOpenEntries.entries[openIdx].quantity = entry.qty;
+                global.currentListEntries.listOpenEntries.entries[openIdx].uom = entry.uom;
+//                global.currentListEntries.listOpenEntries.entries[openIdx].retailerName = entry.retailerName;
+                global.currentListEntries.listOpenEntries.entries[openIdx].retailerLocalId = entry.retailerLocalId;
+                global.currentListEntries.listOpenEntries.entries[openIdx].x = 500;
+              }
+              break;
           }
           console.log('maintainGlobalEntries AFTER global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
         }
@@ -357,7 +366,7 @@ angular.module('starter.services')
                   for (i = 0; i < result.rows.length; i++) {
                     var entry = {
                       entryServerId: result.rows.item(i).entryServerId,
-                      qty: result.rows.item(i).qty,
+                      qty: result.rows.item(i).quantity,
                       uom: result.rows.item(i).uom
                     };
 
@@ -1328,16 +1337,35 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function syncUpdatesDownstream() {
+      function syncUpdatesDownstream(entryUpdate) {
         var defer = $q.defer();
 
         var data = {
           deviceServerId: global.deviceServerId
         };
 
-        $http.post(global.serverIP + '/api/entry/getUpdates', data).then(function (res) {
+        var myPromise;
+        if (entryUpdate) {
+          myPromise = $q.resolve({
+            data: {
+              updates: [{
+                entryServerId: entryUpdate.entryServerId,
+                _id: entryUpdate._id,
+                uom: entryUpdate.uom,
+                qty: entryUpdate.qty,
+                retailerServerId: entryUpdate.retailerServerId,
+                userRetailerServerId: entryUpdate.userRetailerServerId,
+              }],
+              retailers: (entryUpdate.retailer) ? [entryUpdate.retailer] : []
+            }
+          });
+        } else {
+          myPromise = $http.post(global.serverIP + '/api/entry/getUpdates', data);
+        }
+        myPromise.then(function (res) {
 
             if (res.data.updates.length > 0) {
+              console.log('syncUpdatesDownstream res.data = ' + JSON.stringify(res.data));
               dbHelper.insertLocalRetailerDownstream(res.data.retailers).then(function () {
 
                 var retailers = res.data.updates.map(function (update) {
@@ -1346,27 +1374,33 @@ angular.module('starter.services')
 
                 dbHelper.getRetailersLocalIds(retailers).then(function (retailerMap) {
                   global.db.transaction(function (tx) {
-                      for (var i = 0; i < res.data.updates.length; i++) {
+                      res.data.updates.forEach(function (update) {
                         var updatesArray = [];
                         var query;
-                        if (res.data.updates[i].retailerServerId) {
+                        if (update.retailerServerId) {
                           query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
-                          var retailerLocalId = dbHelper.getRetailerLocalIdfromMap(res.data.updates[i].retailerServerId, retailerMap);
-                          updatesArray = [res.data.updates[i].uom,
-                            res.data.updates[i].qty, retailerLocalId, res.data.updates[i].entryServerId];
-                        } else if (res.data.updates[i].userRetailerServerId) {
-                          var retailerLocalId = dbHelper.getRetailerLocalIdfromMap(res.data.updates[i].userRetailerServerId, retailerMap);
+                          var retailerLocalId = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
+                          updatesArray = [update.uom,
+                            update, retailerLocalId, update.entryServerId];
+                        } else if (update.userRetailerServerId) {
+                          var retailerLocalId = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
                           query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
-                          updatesArray = [res.data.updates[i].uom,
-                            res.data.updates[i].qty, retailerLocalId, res.data.updates[i].entryServerId];
+                          updatesArray = [update.uom, update.qty, retailerLocalId, update.entryServerId];
                         } else {
                           query = "update entry set uom = ?, quantity=? where entryServerId = ?";
-                          updatesArray = [res.data.updates[i].uom,
-                            res.data.updates[i].qty, res.data.updates[i].entryServerId];
+                          updatesArray = [update.uom, update.qty, update.entryServerId];
                         }
 
                         tx.executeSql(query, updatesArray);
-                      }
+                        // getting the entry to reflect on UI
+                        getEntryFromLocalDB(update.entryServerId).then(function (entry) {
+                            entry.retailerLocalId = retailerLocalId;
+                            entry.qty = update.qty;
+                            entry.uom = update.uom;
+                            maintainGlobalEntries(entry, 'OPEN', 'UPDATE');
+                          }
+                        );
+                      });
                     }
                     ,
                     function (err) {
