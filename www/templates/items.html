@@ -4,36 +4,58 @@
     <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
   <ion-nav-title> {{dynamicListTitle}}</ion-nav-title>
-  <ion-header-bar class="bar-subheader item-input-inset">
+  
+    
+    <ion-nav-buttons side="left">
+      <button menu-toggle="left" class="button button-icon icon ion-navicon" style="color: white;" ng-click = "toggleLeft()"></button>
+    </ion-nav-buttons>
+<ion-side-menus>
+  <ion-pane ion-side-menu-content>
+    <ion-nav-bar class="theme-color"  animation="nav-title-slide-ios7" title="Setting">
+      <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
+        <ion-nav-buttons side="right">
+        <button class="theme-color button button-clear icon-left ion-loop" 
+                ng-click="refresh()"
+                style="padding-right:7px;">
+           
+        </button>
+    </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view  animation="slide-left-right">
+    
+    <ion-header-bar class="bar-subheader item-input-inset">
     <label class="item-input-wrapper">
       <i class="icon placeholder-icon ion-android-search"></i>
       <input type="search" placeholder="Search" ng-change="search()" ng-model="data.search">
 
     </label>
-    <div class="buttons">
+<!--    <div class="buttons">
       <button class="button button-light icon-left ion-plus-round" ng-click="addMasterItem(data.search)"
-              ng-show="data.search !== data.items">Add
+              ng-show="data.search != data.items">Add
       </button>
-      <button class="button button-clear">Cancel</button>
-    </div>
+        
+         <button class="button button-balanced ion-plus-round larger padding text-center" 
+         ng-click="addMasterItem(data.search)"
+     style=" border-radius: 50%;height:60px;width:60px;background-color:#09d261;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"
+                  ng-show="!data.items.length && data.search.length >2"></button>
+    
+    </div>-->
 
   </ion-header-bar>
   <!--
   <ion-floating-button click="modal.show()" has-footer="false" button-color="#941540" icon="ion-plus" icon-color="#fff">
   </ion-floating-button>-->
 
-  <ion-content>
-    <!--
-    <ion-list>
-        <ion-item ng-repeat = "list in listItems">
-            My List: {{list.categoryName}}
+    <ion-floating-button click="addMasterItem(data.search)" has-footer="false" button-color="#09d261" icon="ion-plus-round larger" icon-color="#fff" ng-show="!data.items.length && data.search.length >2">
+    </ion-floating-button>
+  
 
-        </ion-item>
-       </ion-list>
-    -->
-    <ion-refresher on-refresh="refresh()">
+            
+    <ion-content class="padding">
 
-    </ion-refresher>
+<!--    <ion-refresher on-refresh="refresh()">
+
+    </ion-refresher>-->
     <div>
       <ion-list>
         <ion-item class="item"
@@ -60,13 +82,19 @@
 
             <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
                       ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category }"
-                      ng-click="showDetails = true"
-                      style=" border-radius:15px;">
+                      ng-click="show(listItem)"
+                      style=" border-radius:15px;"
+                      >
 
 
               <div style="display:inline; float:left;">
-                <h2 style="display:inline;text-align:left;white-space: normal;">{{listItem.itemName}} -
-                  {{listItem.seenFlag}}</h2>
+                <h2 style="display:inline;text-align:left;white-space: normal;">
+                    
+                    {{listItem.itemName}}
+                  <!--{{listItem.seenFlag}}--></h2>
+                  
+                  <p style="text-align:left;white-space: normal;">
+                      <i> {{listItem.quantity}} {{listItem.uom}} from {{getRetailerName(listItem.retailerLocalId)}}</i></p>  
                 <ion-option-button class="button-assertive icon-left ion-trash-a"
                                    ng-click="removeFromList(listItem)"></ion-option-button>
                 <ion-option-button class="button-calm icon-right ion-edit"
@@ -75,10 +103,14 @@
                                    ng-click="itemChecked(listItem)"></ion-option-button>
 
 
-                <div class="item-details " ng-show="showDetails" style="text-align: right;">
+                <div class="item-details" 
+                     ng-show="showItemDetails && listItem.entryLocalId == entryLocalId" 
+                     style="text-align: left; padding-left:40px;">
                   <br>
-                  <div class="item item-input" autofocus="autofocus">Quantity &emsp;
-                    <input type="tel" placeholder="Enter Quantity" ng-model="listItem.quantity">
+                  <div class="item item-input" autofocus="autofocus"  
+                       style="border-top-left-radius:15px;border-top-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">Quantity &emsp;
+                    <input type="tel" placeholder="Enter Quantity" ng-model="listItem.quantity"
+                          >
 
                   </div>
                   <!--<div class="item item-input" >UOMM &emsp;
@@ -86,7 +118,8 @@
                       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>-->
 
-                  <div class="item item-input">Unit &emsp;
+                  <div class="item item-input"
+                       style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">Unit &emsp;
                     <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
                     <select type="text"
                             ng-model="listItem.uom"
@@ -104,7 +137,8 @@
                                           <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
                                       </div>-->
 
-                  <div class="item item-input">Retailer &emsp;
+                  <div class="item item-input" 
+                       style="border-bottom-left-radius:15px;border-bottom-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);padding-bottom:15px;">Retailer &emsp;
                     <select type="text"
                             ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList"
                             ng-model="listItem.retailerLocalId">
@@ -216,8 +250,8 @@
 
                                             </ion-list>
                                           </div>-->
-                  <div class="padding button-bar" ng-show="showDetails">
-                    <a style="background-color:#941540;color:white;" class="button" ng-click="hide(listItem)">Ok</a>
+                  <div class="padding button-bar">
+                    <a style="background-color:#941540;color:white;" class="button"  ng-click="hide(listItem)">Ok</a>
                   </div>
 
                 </div>
@@ -248,16 +282,20 @@
           </div>
         </ion-list>
       </div>
-      <div class="list">
+      <div class="list"
+           style="padding-bottom:30px;">
         <ion-list show-reorder="reorderFlag">
-          <button class="button button-block button-balanced" ng-show="checkedItems.length !== 0"
-                  style="background-color:#941540;color:white;">
+          <button class="button button-block button-balanced" 
+                  ng-show="entries.listCrossedEntries.length != 0"
+                  style="background-color:#941540;color:white;padding-top:5px;">
             Crossed Items
           </button>
 
-          <div>
-            <ion-item class="item-remove-animate item-icon-right" ng-repeat="checkedItem in entries.listCrossedEntries"
-                      ng-click=unCheckItem(checkedItem)>
+          <div style="padding-right:20px;padding-left:20px;">
+            <ion-item class="my-item no-padding item-remove-animate item-icon-right" 
+                      ng-repeat="checkedItem in entries.listCrossedEntries"
+                      ng-click=unCheckItem(checkedItem)
+                      style=" border-radius:15px;">
 
               <h2><s>{{checkedItem.itemName}}</s></h2>
             </ion-item>
@@ -270,21 +308,30 @@
 
 
   </ion-content>
-<!--  <div class="bar bar-footer">
-    <div id="footer" class="button-bar">
-              <a href="#/add" class="button button-bar icon ion-plus-round">Add List</a>
-              <button class="button button-bar icon-left ion-shuffle pull-right" ng-click="toggleReorder()">Order</button>
-      <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-person">Profile</a>
+ </ion-nav-view>
+  </ion-pane>
 
-      <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-funnel "
-         ng-click="showSearchDetails = !showSearchDetails">Add</a>
-      <a style="min-width: 25%;border-radius: 0px; " class="button button-lite icon ion-shuffle"
-         ng-click="toggleReorder()">Order</a>
+  <ion-side-menu side="left">
+    <ion-header-bar class="theme-color"></ion-header-bar>
+    <ion-content has-header="true">
+      <ion-list>
+        <ion-item class="icon-left ion-person larger"  ng-click="toggleLeft()"> <h2 style="display:inline;padding-left:5px;"> Account</h2></ion-item>
+        <ion-item class= "icon-left ion-android-notifications larger" ng-click="toggleLeft()"><h2 style="display:inline;padding-left:5px;"> Notification</h2></ion-item>
+        <ion-item class= "icon-left ion-information-circled larger"  ng-click="toggleLeft()"><h2 style="display:inline;padding-left:5px;"> Help</h2></ion-item>
+      </ion-list>
 
 
-      <a style="min-width: 25%;border-radius: 0px; "
-         class="button button-lite icon ion-ios-information-outline ">About</a>
-    </div>
+    </ion-content>
+  </ion-side-menu>
+    
+    
+<!--  <ion-side-menu side="right" >
+    <ion-header-bar class="theme-color" title="Search"></ion-header-bar>
+    <ion-content has-header="true">
 
-  </div>-->
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>-->
+    
+    
 </ion-view>

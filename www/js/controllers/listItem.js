@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2,$ionicSideMenuDelegate,$ionicGesture) {
 
     $scope.items = [];
     $scope.entries = {
@@ -58,7 +58,7 @@ angular.module('starter.controllers')
           console.log('Search Result after promise: ' + $scope.data.items);
         }
       )
-    };
+};
 
     /*------------------------------------------------------------------*/
     /*Edit List Item*/
@@ -253,17 +253,27 @@ angular.module('starter.controllers')
 
 
     //This will hide the DIV by default.
-    $scope.showDetails = false;
-    $scope.show = function () {
+    $scope.showItemDetails = false;
+    
+    $scope.show = function (listItem) {
       //If DIV is visible it will be hidden and vice versa.
-      $scope.showDetails = true;
+      $scope.showItemDetails = true;
+      $scope.entryLocalId = listItem.entryLocalId;
     };
+    
     $scope.hide = function (entry) {
       //If DIV is visible it will be hidden and vice versa.
-      $scope.showDetails = false;
-      $state.reload();
+           setTimeout(function () {
+           $scope.$apply(function(){
+                    $scope.showItemDetails = false;
+           });
+         }, 1);
+       
+      $scope.entryLocalId = entry.entryLocalId;    
+
       console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
       localEntryHandlerV2.updateEntry(entry);
+
     };
 
     $scope.retailerList = null;
@@ -294,7 +304,31 @@ angular.module('starter.controllers')
         }
       )
     };
+    
+    $scope.getRetailerName = function(retailerLocalId){
+       for (var i = 0; i <  $scope.retailerList.length ; i++) {
+          if ( $scope.retailerList[i].retailerLocalId == retailerLocalId) {
+           retailerName=$scope.retailerList[i].retailerName;
+           return retailerName;
+          }
+           else{
+               
+               return 'anywhere'
+           }
+       }
+        
+    };
 
+     /*-----------------------------------------------------------------------------------------*/
+
+    /*set the border color of the contact shown based on status*/
+    $scope.toggleLeft = function () {
+      $ionicSideMenuDelegate.toggleLeft();
+      console.log('20/03/2017 - listItem -aalatief - menu Pressed')
+    };
+/*------------------------------------------------------------------*/
+
+    
 
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/
