@@ -147,6 +147,12 @@ angular.module('starter', ['ionic', 'ui.select',
         });
       });
 
+      // if the device goes online, we should sync all the locally changed data
+      document.addEventListener("online", function () {
+        serverHandler.syncLocalData();
+      }, false);
+
+
       if (typeof PushNotification != "defined" && !window.cordova) {
         global.dataKey = 'ZXCV';
         init();
@@ -188,6 +194,6 @@ angular.module('starter', ['ionic', 'ui.select',
   .config(function ($compileProvider, $ionicConfigProvider) {
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|cdvfile|content):|data:image\//);
     $ionicConfigProvider.navBar.alignTitle('center');
-     $ionicConfigProvider.views.transition('none');
+    $ionicConfigProvider.views.transition('none');
     console.log('19/3/2017 - aalatief - compile provider run');
   })

@@ -4,33 +4,61 @@ angular.module('starter.services')
                                       serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2, serverHandlerRetailerV2) {
 
 
-    function syncInit() {
-      console.log("Start syncInit");
+    function syncMasterData() {
       var defer = $q.defer();
+
       serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
         console.log('syncInit calling syncMasterItemsDownstream');
-        serverHandlerItemsV2.syncMasterItemsDownstream().then(function () {
-          console.log('syncInit resolved');
-          handleNotification();
+        $q.all([serverHandlerItemsV2.syncMasterItemsDownstream(), serverHandlerRetailerV2.syncMasterRetailersDownstream()]).then(function () {
           defer.resolve();
         });
-      });
-      serverHandlerListV2.syncListsUpstream().then(function () {
-        console.log('serverHandler syncListsUpstream done');
-        serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
-          console.log('serverHandler syncLocalItemsUpstream done');
-          serverHandlerEntryV2.syncEntriesUpstream();
-        })
-      });
-
-      serverHandlerRetailerV2.syncMasterRetailersDownstream().then(function () {
-        console.log('serverHandler syncMasterRetailersDownstream done');
       });
       return defer.promise;
     }
 
-    // handle a server notification
-    function handleNotification() {
+    function syncLocalData() {
+      var defer = $q.defer();
+      serverHandlerListV2.syncListsUpstream().then(function () {
+        console.log('serverHandler syncListsUpstream done');
+        serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
+            console.log('serverHandler syncLocalItemsUpstream done');
+            serverHandlerEntryV2.syncEntriesUpstream().then(function () {
+              $q.all([
+                serverHandlerEntryV2.syncSeensUpstream(),
+                serverHandlerEntryV2.syncUpdatesUpstream(),
+                serverHandlerEntryV2.syncCrossingsUpstream()]).then(function () {
+                defer.resolve();
+              }, function () {
+                console.error('syncLocalData $q.all error');
+                defer.reject();
+              });
+            });
+          }, function (err) {
+            console.error('syncLocalData syncEntriesUpstream error ' + err);
+            defer.reject();
+          }, function (err) {
+            console.error('syncLocalData syncLocalItemsUpstream error ' + err);
+            defer.reject()
+          }
+        );
+      }, function (err) {
+        console.error('syncLocalData syncListsUpstream error ' + err);
+        defer.reject()
+      });
+      return defer.promise;
+    }
+
+    function syncInit() {
+      console.log("Start syncInit");
+      var defer = $q.defer();
+      $q.all([syncMasterData(), syncLocalData(), syncDownStreamData()]).then(function () {
+        defer.resolve();
+      });
+      return defer.promise;
+    }
+
+// handle a server notification
+    function syncDownStreamData() {
       serverHandlerListV2.syncListsDownstream().then(function (res) {
           console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
           console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
@@ -40,16 +68,7 @@ angular.module('starter.services')
           }
           serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
             // console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
-
-            if ($location.url().indexOf('/item') == 0) {
-              for (var i = 0; i < affectedLists.length; i++) {
-                console.log("$state.listId = " + $state.params.listId);
-                if (affectedLists[i].listLocalId == $state.params.listId) {
-                  console.log('NOTIFICATION ENTRY LIST MATCH reloading');
-                  $state.reload();
-                }
-              }
-            }
+            serverHandlerEntryV2.syncCrossingsDownstream();
             serverHandlerEntryV2.syncDeliveryDownstream().then(function (affectedLists) {
                 console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
 
@@ -81,8 +100,9 @@ angular.module('starter.services')
 
     return {
       syncInit: syncInit,
-      handleNotification: handleNotification
+      syncLocalData: syncLocalData
     }
-  });
+  })
+;
 
 
