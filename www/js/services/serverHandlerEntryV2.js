@@ -82,7 +82,7 @@ angular.module('starter.services')
                 }
               } else if (list == 'CROSSED') {
                 if (crossedIdx != -1) {
-                  global.currentListEntries.listCrossedEntries.splice(openIdx, 1);
+                  global.currentListEntries.listCrossedEntries.splice(crossedIdx, 1);
                 }
               }
               break;
