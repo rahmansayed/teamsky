@@ -48,7 +48,7 @@ angular.module('starter.controllers')
 
       $http.post(global.serverIP + "/api/user/subscribe", user).then(function (response) {
 
-        console.log("subscribeUser response.data.vCode = "+response.data.vCode);
+        console.log("subscribeUser response.data.vCode = " + response.data.vCode);
         alert('Verification code: ' + JSON.stringify(response.data.vCode));
 
 
@@ -1075,7 +1075,13 @@ angular.module('starter.controllers')
         dial_code: "+1 340",
         code: "VI"
       }];
-
+    $scope.defaultCountryIdx = 0;
+    for (var i = 0; i < $scope.countries.length; i++) {
+      if ($scope.countries[i].code == global.simCountry) {
+        $scope.defaultCountryIdx = i;
+        break;
+      }
+    }
 
   });
 

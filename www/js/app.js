@@ -121,6 +121,13 @@ angular.module('starter', ['ionic', 'ui.select',
       document.addEventListener("deviceready", function () {
         alert('just to wait');
 
+        window.plugins.sim.getSimInfo(function (result) {
+          console.log('window.plugins.sim = ' + JSON.stringify(result));
+          global.simCountry = result.countryCode.toUpperCase();
+        }, function (error) {
+          console.error('window.plugins.sim = ' + JSON.stringify(error));
+        });
+
         global.deviceUUID = device.uuid;
         console.log('global.deviceUUID = ' + global.deviceUUID);
 

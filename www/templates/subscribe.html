@@ -1,54 +1,56 @@
-<ion-view view-title="Welcome to TeamSky" ng-controller="subscribeCtrl" >
-      <ion-nav-bar class="theme-color">
-        <ion-nav-back-button></ion-nav-back-button>
-     </ion-nav-bar>
-    
-    <ion-content >
-        
- 
-        <div class = "col text-center" style = "height:100px;background-color:#941540;">
-            </div>
-      <div>
+<ion-view view-title="Welcome to TeamSky" ng-controller="subscribeCtrl">
+  <ion-nav-bar class="theme-color">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
 
-         <h1  class="text-center item" style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;">   
-            <br>
-             <strong>Verify your number </strong>
-            <br>
-            <br>
-           
-        <p class="padding text-left " style="text-align:left;white-space: normal;"> 
-            Note: You will recieve SMS with verification code in a moment. </p>
-            <br>
-    
-        </h1>
-      </div>
-     
+  <ion-content>
 
-        
-        
-        <div >
-       <div class="item item-input item-select " >
+
+    <div class="col text-center" style="height:100px;background-color:#941540;">
+    </div>
+    <div>
+
+      <h1 class="text-center item"
+          style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;">
+        <br>
+        <strong>Verify your number </strong>
+        <br>
+        <br>
+
+        <p class="padding text-left " style="text-align:left;white-space: normal;">
+          Note: You will recieve SMS with verification code in a moment. </p>
+        <br>
+
+      </h1>
+    </div>
+
+
+    <div>
+      <div class="item item-input item-select ">
         <div class="input-label">
-             &nbsp;
-        </div>    
-        <select ng-model="country" ng-init="country=countries[0]" ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
-            
+          &nbsp;
         </div>
-      
-        <div class="item item-input item-input">
-        <!--<input type="text" ng-model="country.dial_code"  readonly="readonly" width="6">-->
-        <input type="tel" placeholder="Your phone number" ng-model="phoneNumber" class="text-left" maxlength ="11" minlenght="8">
+        <select ng-model="country" ng-init="country=countries[defaultCountryIdx]"
+                ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
+
       </div>
 
-     <!-- <p> {{ country | json}} </p>-->
-    </div>      
-        <div class="padding" >
-            <button class="button button-block button-positive" style = "background-color:#941540;" ng-click="subscribeUser({countryCode:country.dial_code,phoneNumber:phoneNumber})">Subscribe
-            </button>
-                
-         <p class="padding text-left " style="text-align:left;white-space: normal;"> 
-            *Carrier charges might apply. </p>
-        </div>
+      <div class="item item-input item-input">
+        <!--<input type="text" ng-model="country.dial_code"  readonly="readonly" width="6">-->
+        <input type="tel" placeholder="Your phone number" ng-model="phoneNumber" class="text-left" maxlength="11"
+               minlenght="8">
+      </div>
 
-    </ion-content>
+      <!-- <p> {{ country | json}} </p>-->
+    </div>
+    <div class="padding">
+      <button class="button button-block button-positive" style="background-color:#941540;"
+              ng-click="subscribeUser({countryCode:country.dial_code,phoneNumber:phoneNumber})">Subscribe
+      </button>
+
+      <p class="padding text-left " style="text-align:left;white-space: normal;">
+        *Carrier charges might apply. </p>
+    </div>
+
+  </ion-content>
 </ion-view>

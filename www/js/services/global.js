@@ -12,6 +12,7 @@ angular.module('starter.services')
     var deviceServerId = "";
     var countryCode = "+966";
     var masterItems = new Array();
+    var simCountry = '';
     var deviceUUID = "TEST";
     var verificationData = {
       deviceLocalId: '',
@@ -45,7 +46,8 @@ angular.module('starter.services')
       masterItems: masterItems,
       deviceUUID: deviceUUID,
       currentListEntries: currentListEntries,
-      currentListLocalId: currentListLocalId
+      currentListLocalId: currentListLocalId,
+      simCountry: simCountry
     };
   });
 
