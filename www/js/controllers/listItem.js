@@ -276,7 +276,7 @@ angular.module('starter.controllers')
 
     };
 
-    $scope.retailerList = null;
+    $scope.retailerList = [];
     //Declaring the function to load data from database
     $scope.fillretListetailerList = function () {
       localRetailerHandlerV2.getAllRetailers()
@@ -310,13 +310,9 @@ angular.module('starter.controllers')
           if ( $scope.retailerList[i].retailerLocalId == retailerLocalId) {
            retailerName=$scope.retailerList[i].retailerName;
            return retailerName;
-          }
-           else{
-               
-               return 'anywhere'
-           }
+          } 
        }
-        
+          return 'anywhere';
     };
 
      /*-----------------------------------------------------------------------------------------*/

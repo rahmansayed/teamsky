@@ -97,34 +97,33 @@
                       <i> {{listItem.quantity}} {{listItem.uom}} from {{getRetailerName(listItem.retailerLocalId)}}</i></p>  
                 <ion-option-button class="button-assertive icon-left ion-trash-a"
                                    ng-click="removeFromList(listItem)"></ion-option-button>
-                <ion-option-button class="button-calm icon-right ion-edit"
-                                   ng-click="editListItem(listItem)"></ion-option-button>
+<!--                <ion-option-button class="button-calm icon-right ion-edit"
+                                   ng-click="editListItem(listItem)"></ion-option-button>-->
                 <ion-option-button class="button-balanced ion-checkmark-round"
                                    ng-click="itemChecked(listItem)"></ion-option-button>
 
 
                 <div class="item-details" 
                      ng-show="showItemDetails && listItem.entryLocalId == entryLocalId" 
-                     style="text-align: left;margin: 0px auto;float:center;">
+                     style="text-align: center;margin: 0px auto;float:center;" align="center">
                   <br>
                   <div class="item item-input" autofocus="autofocus"  
-                       style="border-top-left-radius:15px;border-top-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">Quantity &emsp;
+                       style="padding-right:5px;width:280px;border-top-left-radius:15px;border-top-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);"><!--<span >Quantity</span>-->
                     <input type="tel" placeholder="Enter Quantity" ng-model="listItem.quantity"
-                          >
+                          style="padding-left:10%;height:35px;">
 
                   </div>
-                  <!--<div class="item item-input" >UOMM &emsp;
-<input-dropdown ng-model="listItem.uom" list="values" on-select="pick(value)"></input-dropdown>
-                      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-</div>-->
+
 
                   <div class="item item-input"
-                       style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">Unit &emsp;
+                       style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2)">
+                      
                     <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
-                    <select type="text"
+                      <select required type="text"
                             ng-model="listItem.uom"
-                            style="width:200px;"
-                    >
+                            style="width:100%;border:0px;padding-left:10%;background-color:white;height:35px;"
+                           >
+                      <option value="" disabled selected>Select unit</option>
                       <option>Kilogram</option>
                       <option>Pound</option>
                       <option>Piece</option>
@@ -132,18 +131,34 @@
                       <option>Litre</option>
                       <option>Ml</option>
                     </select>
+                      <span >            
+                        <div style="text-align: right;padding-right:15px;padding-left:15px;">
+                        <button class="button button-balanced ion-plus-round padding text-center" 
+                     style="border-radius:50%;padding-top:3px;height:10px;width:10px;background-color:#09d261;"></button>
+                
+                    </div> </span>
                   </div>
+                    
                   <!--                    <div class="item item-input">Retailer  &emsp;
                                           <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">
                                       </div>-->
 
                   <div class="item item-input" 
-                       style="border-bottom-left-radius:15px;border-bottom-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);padding-bottom:15px;">Retailer &emsp;
-                    <select type="text"
+                       style="border-bottom-left-radius:15px;border-bottom-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);padding-bottom:15px;">
+                     <!-- <span >Retailer </span>-->
+                    <select required type="text"
                             ng-options="retailer.retailerLocalId as retailer.retailerName for retailer in retailerList"
-                            ng-model="listItem.retailerLocalId">
-
+                            ng-model="listItem.retailerLocalId"
+                            style="width:100%;border:0px;padding-left:10%;background-color:white;height:35px;"
+                            >
+                       <option value="" selected data-default>Select retailer</option>
                     </select>
+                                            <span >            
+                        <div style="text-align: right;padding-right:15px;padding-left:15px;">
+                        <button class="button button-stable ion-plus-round padding text-center" 
+                     style="border-radius:50%;padding-top:3px;height:10px;width:10px;"></button>
+                
+                    </div> </span>
                   </div>
 
                   <!--                         <div id="wrapper" class="item item-input">Retailer  &emsp;

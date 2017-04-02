@@ -67,7 +67,7 @@
 
            </div>
            <br>
-           <div ng-show="showListDetails && list.listName == showList">
+           <div ng-show="showListDetails && list.listName == showList" style ="padding-right:25px;">
            <div>
              <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Items: {{list.totalOpen + list.totalCrossed }} <!--- Total Crossed: {{list.totalCrossed}} - Remaining:  {{list.totalOpen}}--></p>
                <div  ng-show="list.totalOpen + list.totalCrossed!=0">
@@ -116,7 +116,7 @@
                   ng-show=listUser.contactName>
              <div ng-style="setColor(listUser.contactStatus,'color')" style="padding-top:15px;">
 
-                <img class="img-circle" ng-src="{{ listUser.photo ||'img\cordova_bot.png'}}"
+                <img class="img-circle" ng-src="{{ listUser.photo}}"
                   ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')" style="float:left;">
 
                  <p ng-show="listUser.contactServerId!=myUserId" 
@@ -131,12 +131,12 @@
            </div>
      </div>
 
-
+           <div style="padding-right:2px;">
            <i class="icon ion-chevron-right"></i>
 
            <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">
               </ion-reorder-button>
-
+           </div>
               <ion-option-button ng-show="myUserId==list.listOwnerServerId" class="button-assertive icon-left ion-trash-a" ng-click="removeList(list)"></ion-option-button>
               <ion-option-button ng-show="myUserId==list.listOwnerServerId" class="button-calm icon-left ion-edit" ng-click="editList(list.listLocalId)"></ion-option-button>
               <ion-option-button ng-show="myUserId==list.listOwnerServerId" class="button-balanced ion-android-person-add larger" ng-click="getAllContacts(list)"></ion-option-button>
