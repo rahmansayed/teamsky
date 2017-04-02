@@ -52,6 +52,8 @@ angular.module('starter.services')
       listDetail = {
         listServerId: list.listServerId,
         invitedUserServerId: contact.contactServerId,
+        deviceServerId: global.deviceServerId,
+        userServerId: global.userServerId,
         contactName: contact.contactName
       };
       return $http.post(global.serverIP + "/api/list/invite", listDetail);
@@ -131,8 +133,9 @@ angular.module('starter.services')
                 };
 
                 checkProspect(prospect, list.listServerId).then(function (contactServerId) {
-                  newContact.userServerId = contactServerId;
+                  newContact.contactServerId = contactServerId;
                   insertContact(newContact).then(function (resultContact2) {
+                    console.log("pickContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
                     addListContact(list.listLocalId, resultContact2.contactLocalId);
                     //call the server invite API
                     addListContactUpstream(list, resultContact2).then(function () {
@@ -140,8 +143,8 @@ angular.module('starter.services')
                     });
                   });
                 }, function () {
-                  insertContact(newContact).then(function (contactLocalId) {
-                    addListContact(list.listLocalId, contactLocalId);
+                  insertContact(newContact).then(function (resultContact2) {
+                    addListContact(list.listLocalId, resultContact2.contactLocalId);
                   });
                 });
               }
@@ -288,14 +291,20 @@ angular.module('starter.services')
             " values (null, ?, ?, ?, ?, ?) ";
 
           var numberList = ';' + contact.numbers.join(';') + ';';
-          var contactServerId = contact.userServerId || '';
+          var contactServerId = contact.contactServerId || '';
           var contactPhoto = contact.photos || '';
-          var contactStatus = (contact.userServerId) ? 'S' : 'P';
+          var contactStatus = (contact.contactServerId) ? 'S' : 'P';
           tx.executeSql(insertQuery, [contact.name, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
             console.log("insertContact res.insertId = " + res.insertId);
-            defer.resolve(res.insertId);
+            contact.contactLocalId = res.insertId;
+            defer.resolve(contact);
           }, function (err) {
             console.error("insertContact insertQuery err = " + err.message);
+            console.error("insertContact insertQuery err contact = " + JSON.stringify(contact));
+            console.error("insertContact insertQuery err numberList = " + JSON.stringify(numberList));
+            console.error("insertContact insertQuery err contactServerId = " + JSON.stringify(contactServerId));
+            console.error("insertContact insertQuery err contactPhoto = " + JSON.stringify(contactPhoto));
+            console.error("insertContact insertQuery err contactStatus = " + JSON.stringify(contactStatus));
             defer.reject(err);
           });
         }
@@ -310,18 +319,41 @@ angular.module('starter.services')
     function upsertContact(contact) {
       var defer = $q.defer();
       console.log("upsertContact contact = " + JSON.stringify(contact));
-      getContactLocalId(contact).then(function (res) {
-        if (res != -1) {
-          defer.resolve(res);
-        }
-        else {
-          insertContact(contact).then(function (res) {
-            defer.resolve(res);
-          }, function (err) {
-            defer.reject(err);
-          });
+      global.db.transaction(function (tx) {
+        var query = "select contactLocalId, contactServerId, contactName from contact where ";
+        query = contact.numbers.reduce(function (query, number) {
+          return query + "( phoneNumber like '%;" + number + ";%' ) or ";
+        }, query);
+        query = query.substr(0, query.length - 3);
+        console.log("getContactLocalId query = " + query);
 
-        }
+        tx.executeSql(query, [], function (tx, res) {
+          if (res.rows.length > 0) {
+            console.log("getContactLocalId res.rows.item(0).contactLocalId = " + res.rows.item(0).contactLocalId);
+            defer.resolve(res.rows.item(0));
+          } else {
+            var insertQuery = "insert into contact (contactLocalId, contactName, phoneNumber, contactStatus, contactServerId, photo) " +
+              " values (null, ?, ?, ?, ?, ?) ";
+
+            var numberList = ';' + contact.numbers.join(';') + ';';
+            var contactServerId = contact.contactServerId || '';
+            var contactPhoto = contact.photos || '';
+            var contactStatus = (contact.contactServerId) ? 'S' : 'P';
+            tx.executeSql(insertQuery, [contact.name, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
+              console.log("upsertContact res.insertId = " + res.insertId);
+              contact.contactLocalId = res.insertId;
+              defer.resolve(contact);
+            }, function (err) {
+              console.error("insertContact insertQuery err = " + err.message);
+              console.error("insertContact insertQuery err contact = " + JSON.stringify(contact));
+              console.error("insertContact insertQuery err numberList = " + JSON.stringify(numberList));
+              console.error("insertContact insertQuery err contactServerId = " + JSON.stringify(contactServerId));
+              console.error("insertContact insertQuery err contactPhoto = " + JSON.stringify(contactPhoto));
+              console.error("insertContact insertQuery err contactStatus = " + JSON.stringify(contactStatus));
+              defer.reject(err);
+            });
+          }
+        });
       });
       return defer.promise;
     }

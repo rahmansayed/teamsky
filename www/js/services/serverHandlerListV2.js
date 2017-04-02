@@ -183,8 +183,8 @@ angular.module('starter.services')
           console.log("upsertContacts resolved res = " + res);
           global.db.transaction(function (tx) {
             var query = 'insert or ignore into listUser (listLocalId, contactLocalId) values (?,?)';
-            res.forEach(function (contactLocalId) {
-              tx.executeSql(query, [listLocalId, contactLocalId]);
+            res.forEach(function (contact) {
+              tx.executeSql(query, [listLocalId, contact.contactLocalId]);
             });
           }, function (err) {
 
@@ -209,7 +209,7 @@ angular.module('starter.services')
           return {
             name: relatedUser.name,
             numbers: [relatedUser.username],
-            userServerId: relatedUser.userid
+            contactServerId: relatedUser.userid
           };
         });
 
@@ -224,23 +224,30 @@ angular.module('starter.services')
         var defer = $q.defer();
 
         global.db.transaction(function (tx) {
-            var query = "select listLocalId from list where listServerId = ?";
+            var query = "select listLocalId, ifnull(deleted, 'N') deleted from list where listServerId = ?";
             // check if list exists
             var listLocalId;
-            tx.executeSql(query, [list._id], function (tx, result) {
+            tx.executeSql(query, [list.list._id], function (tx, result) {
                 if (result.rows.length == 0) {
                   console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
                   var insertQuery = "insert into list(listLocalId,listname,listServerId, flag, origin, listOwnerServerId) values (null,?,?, 'S', 'S', ?)";
-                  tx.executeSql(insertQuery, [list.listname, list._id, list.ownerServerId], function (tx, res) {
-                    upsertProspects(list.prospectusers, res.insertId);
-                    upsertRelatedUsers(list.relatedusers, res.insertId);
+                  tx.executeSql(insertQuery, [list.list.listname, list.list._id, list.ownerServerId], function (tx, res) {
+                    upsertProspects(list.list.prospectusers, res.insertId);
+                    upsertRelatedUsers(list.list.relatedusers, res.insertId);
                   });
                   defer.resolve({status: 'Y'});
                 }
                 else {
-                  upsertProspects(list.prospectusers, result.rows.item(0).listLocalId);
-                  upsertRelatedUsers(list.relatedusers, result.rows.item(0).listLocalId);
-                  defer.resolve({status: 'N'});
+                  if (result.rows.item(0).deleted == 'Y') {
+                    var activateQuery = "update list set deleted = 'N' where listLocalId = ?";
+                    tx.executeSql(activateQuery, [result.rows.item(0).listLocalId], function (tx, res) {
+                      defer.resolve({status: 'Y'});
+                    });
+                  } else {
+                    defer.resolve({status: 'N'});
+                  }
+                  upsertProspects(list.list.prospectusers, result.rows.item(0).listLocalId);
+                  upsertRelatedUsers(list.list.relatedusers, result.rows.item(0).listLocalId);
                 }
               }
               ,
@@ -263,7 +270,45 @@ angular.module('starter.services')
 
         return defer.promise;
       }
-      ;
+
+      /******************************************************************************************************************
+       * this function is checks if the serverlist exist locally if not it inserts it
+       * @param list
+       */
+      function deactivateServerList(listServerId) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+            // determine if the list needs update
+            var query = "select listLocalId from list where listServerId = ? and ifnull(deleted,'N') = 'N'";
+            tx.executeSql(query, [listServerId], function (tx, res) {
+                if (res.rows.length > 0) {
+                  var updateQuery = "update list set deleted = 'Y' where listServerId = ?";
+                  tx.executeSql(updateQuery, [listServerId]);
+                  defer.resolve({status: 'Y'})
+                }
+                else {
+                  defer.resolve({status: 'N'})
+                }
+              },
+              function (error) {
+                console.error("serverHandlerListV2.deactivateServerList db error " + JSON.stringify(error.message));
+                defer.reject(error);
+              });
+          }
+          ,
+          function (error) {
+            console.error("serverHandlerListV2.deactivateServerList db error " + JSON.stringify(error.message));
+            defer.reject(error);
+          },
+          function () {
+            console.log("serverHandlerListV2.deactivateServerList db OK ");
+            defer.resolve();
+          }
+        );
+
+        return defer.promise;
+      }
 
       /******************************************************************************************************************
        * this function is used to retrieve lists from the server and record in the local tables
@@ -271,7 +316,8 @@ angular.module('starter.services')
       function syncListsDownstream() {
 
         var defer = $q.defer();
-        var promises = [];
+        var upsertPromises = [];
+        var deactivatePromises = [];
         var data = {
           userServerId: global.userServerId
         };
@@ -283,14 +329,37 @@ angular.module('starter.services')
             console.log("serverHandlerListV2.syncListsDownstream http Response Result =  " + JSON.stringify(response));
             // will check if the list already exist in the local table if not then create it
             for (var i = 0; i < response.data.length; i++) {
-              promises.push(upsertServerList(response.data[i].list));
+              if (response.data[i].ownerServerId == global.userServerId) {
+                if (response.data[i].list.status == 'Active') {
+                  upsertPromises.push(upsertServerList(response.data[i]));
+                }
+                else {
+                  //TODO create deactivate function
+                  deactivatePromises.push(deactivateServerList(response.data[i].list._id));
+                }
+              }
+              else {
+                // determing my user index
+                for (var j = 0; j < response.data[i].list.relatedusers.length; j++) {
+                  if (response.data[i].list.relatedusers[j].userid == global.userServerId) {
+                    if (response.data[i].list.relatedusers[j].status == 'Active') {
+                      upsertPromises.push(upsertServerList(response.data[i]));
+                    }
+                    else {
+                      deactivatePromises.push(deactivateServerList(response.data[i].list._id));
+                    }
+                    break;
+                  }
+                }
+              }
             }
-            $q.all(promises).then(function (res) {
+            $q.all(upsertPromises).then(function (res) {
               var anyNew = false;
               for (var i = 0; i < res.length; i++) {
                 console.log("syncListsDownstream $q Result " + i + " " + JSON.stringify(res[i].status));
                 if (res[i].status == 'Y') {
                   anyNew = true;
+                  break;
                 }
               }
               defer.resolve(anyNew);
@@ -349,7 +418,7 @@ angular.module('starter.services')
           listColour: "Red",
           listOrder: "1"
         };
-        consoleLog(" List to Be Updated => " + JSON.stringify(data));
+        console.log(" List to Be Updated => " + JSON.stringify(data));
 
         $http.post(global.serverIP + "/api/list/update", data)
           .then(function (response) {
@@ -361,13 +430,27 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+      function kickContact(listServerId, contactServerId) {
+
+        var data = {
+          listServerId: listServerId,
+          invitedUserServerId: contactServerId,
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId
+        };
+
+        return $http.post(global.serverIP, +"api/list/kickContact", data);
+      }
+
       return {
         createList: createList,
         syncListsUpstream: syncListsUpstream,
         syncListsDownstream: syncListsDownstream,
         updateList: updateList,
         deleteList: deleteList,
-        upsertServerList:upsertServerList
+        upsertServerList: upsertServerList,
+        deactivateServerList: deactivateServerList,
+        kickContact: kickContact
       }
     }
   )

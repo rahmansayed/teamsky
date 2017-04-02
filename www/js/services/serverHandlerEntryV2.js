@@ -397,21 +397,22 @@ angular.module('starter.services')
                         }
                       );
                     }, function (error) {
-//                      console.error("syncListEntriesUpdates Server Sync error = " + JSON.stringify(error));
-                      defer.reject();
+                      console.error("syncListEntriesUpdates Server Sync error = " + JSON.stringify(error));
+                      defer.reject(error);
                     });
                 }
                 else {
                   defer.resolve();
                 }
               }, function (error) {
-                defer.reject();
+                console.error("syncListEntriesUpdates db error = " + JSON.stringify(error));
+                defer.reject(error);
               }
             );
           }
           ,
           function (err) {
-            defer.reject();
+            defer.reject(err);
           }
           ,
           function () {
@@ -445,8 +446,8 @@ angular.module('starter.services')
               defer.reject();
             });
           }, function (err) {
-//            console.error("synEntriesUpdatesUpstream error = " + JSON.stringify(err));
-            defer.reject();
+            console.error("synEntriesUpdatesUpstream error = " + JSON.stringify(err));
+            defer.reject(err);
           });
         });
         return defer.promise;
@@ -1268,23 +1269,23 @@ angular.module('starter.services')
 //                  console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(res));
                   defer.resolve();
                 }, function (err) {
-//                  console.error('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
-                  defer.reject();
+                  console.error('syncCrossingsUptream  $q.all err ' + JSON.stringify(err));
+                  defer.reject(err);
                 });
               }
               else {
                 defer.resolve();
               }
             }, function (err) {
-//              console.error('syncCrossingsUptream  db query err ' + JSON.stringify(err));
-              defer.reject();
+              console.error('syncCrossingsUptream  db query err ' + JSON.stringify(err));
+              defer.reject(err);
             });
           }
 
           ,
           function (err) {
-//            console.error('syncCrossingsUptream  db err ' + JSON.stringify(err));
-            defer.reject();
+            console.error('syncCrossingsUptream  db err ' + JSON.stringify(err));
+            defer.reject(err);
           }
 
           ,
@@ -1318,19 +1319,19 @@ angular.module('starter.services')
 //                console.log('syncSeensUptream  syncSeenUptreamUpdateServer resolved ' + JSON.stringify(resolved));
                 defer.resolve();
               }, function (err) {
-//                console.error('syncSeensUptream  syncSeenUptreamUpdateServer err ' + JSON.stringify(err));
-                defer.reject();
+                console.error('syncSeensUptream  syncSeenUptreamUpdateServer err ' + JSON.stringify(err));
+                defer.reject(err);
               });
             } else {
               defer.resolve();
             }
           }, function (err) {
-//            console.error('syncSeensUptream  db query err ' + JSON.stringify(err));
-            defer.reject();
+            console.error('syncSeensUptream  db query err ' + JSON.stringify(err));
+            defer.reject(err);
           });
         }, function (err) {
-//          console.error('syncSeensUptream  db err ' + JSON.stringify(err));
-          defer.reject();
+          console.error('syncSeensUptream  db err ' + JSON.stringify(err));
+          defer.reject(err);
         }, function (res) {
 
         });

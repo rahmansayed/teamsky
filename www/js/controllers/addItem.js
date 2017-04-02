@@ -191,9 +191,10 @@ angular.module('starter.controllers')
                       itemId: item.itemlocalId,
                       itemName: item.itemName,
                       ItemCrossed: 0,
-                      language: item.language
+                      language: item.language,
+                      quantity: 1
                     };
-          console.log('select item: '+$scope.selectedItem)
+          console.log('select item: '+$scope.selectedItem);
           itemHandler.addItemToList($scope.selectedItem);
 
           /*Multiple Mark of selected*/

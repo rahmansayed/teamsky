@@ -8,7 +8,7 @@ angular.module('starter.services')
           case 'NEW LIST':
             serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function () {
               if ($state.current.name == "lists") {
-
+                $state.reload();
               }
             });
             break;
@@ -76,6 +76,13 @@ angular.module('starter.services')
                   }).length > 0) {
                   //$state.reload();
                 }
+              }
+            });
+            break;
+          case "DELETE LIST":
+            serverHandlerListV2.deactivateServerList(msg.additionalData.details.listServerId).then(function () {
+              if ($state.current.name == "lists") {
+                $state.reload();
               }
             });
             break;

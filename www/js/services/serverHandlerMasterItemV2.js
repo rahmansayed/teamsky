@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('serverHandlerItemsV2', function ($http, global, $q, dbHelper) {
+  .factory('serverHandlerItemsV2', function ($http, global, $q, dbHelper, localItemHandlerV2) {
 
       //------------------------Global Variable
 
@@ -130,6 +130,9 @@ angular.module('starter.services')
 //                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
                   if (serverResponse.data.length > 0) {
                     addItemsLocal(serverResponse.data).then(function (string) {
+                      localItemHandlerV2.getAllMasterItem().then(function (res) {
+                        global.masterItems = res;
+                      });
                       defer.resolve(string);
                     }, function (error) {
                       defer.reject(error);
@@ -138,7 +141,7 @@ angular.module('starter.services')
                   else {
                     defer.resolve();
                   }
-                }, function(err){
+                }, function (err) {
                   defer.reject(err);
                 });
               console.log("End Call Server");

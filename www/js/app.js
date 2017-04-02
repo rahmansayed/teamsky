@@ -5,6 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+//console.log = function() {};
+//console.error = function() {};
 angular.module('starter', ['ionic', 'ui.select',
   'ionic.service.core',
   'starter.controllers',
@@ -48,19 +50,7 @@ angular.module('starter', ['ionic', 'ui.select',
                     global.userServerId = userVerify.getUserServerId();
                     global.deviceServerId = userVerify.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {
-                      serverHandler.syncInit().then(function () {
-                          console.log('calling getAllMasterItem');
-                          localItemHandlerV2.getAllMasterItem()
-                            .then(function (result) {
-                                global.masterItems = result;
-                                console.log('global.masterItems populated = ');
-                              }
-                              , function (error) {
-                                console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
-                              });
-                        }, function () {
-                        }
-                      );
+                      serverHandler.syncInit();
                     }
 
                     if (userVerify.isVerified()) {
@@ -76,16 +66,17 @@ angular.module('starter', ['ionic', 'ui.select',
                     console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
                     console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                     console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
-
-                  }
-
-                  ,
+                  },
                   function (error) {
                     userVerify.getUserSetErrorCB();
                     console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
                     ;
                   }
                 );
+              // if the device goes online, we should sync all the locally changed data
+              document.addEventListener("online", function () {
+                serverHandler.syncLocalData();
+              }, false);
 
             },
             function (error) {
@@ -153,12 +144,6 @@ angular.module('starter', ['ionic', 'ui.select',
           alert(e.message);
         });
       });
-
-      // if the device goes online, we should sync all the locally changed data
-      document.addEventListener("online", function () {
-        serverHandler.syncLocalData();
-      }, false);
-
 
       if (typeof PushNotification != "defined" && !window.cordova) {
         global.dataKey = 'ZXCV';

@@ -28,8 +28,8 @@ angular.module('starter.services')
                 serverHandlerEntryV2.syncUpdatesUpstream(),
                 serverHandlerEntryV2.syncCrossingsUpstream()]).then(function () {
                 defer.resolve();
-              }, function () {
-                console.error('syncLocalData $q.all error');
+              }, function (err) {
+                console.error('syncLocalData $q.all error ' + JSON.stringify(err));
                 defer.reject();
               });
             });
