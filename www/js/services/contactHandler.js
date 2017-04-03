@@ -108,7 +108,7 @@ angular.module('starter.services')
         navigator.contacts.pickContact(function (contact) {
             console.log("pickContact contact = " + JSON.stringify(contact));
             var newContact = {
-              "name": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
+              "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
               "emails": contact.emails || [],
               "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null
             };
@@ -294,7 +294,7 @@ angular.module('starter.services')
           var contactServerId = contact.contactServerId || '';
           var contactPhoto = contact.photos || '';
           var contactStatus = (contact.contactServerId) ? 'S' : 'P';
-          tx.executeSql(insertQuery, [contact.name, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
+          tx.executeSql(insertQuery, [contact.contactName, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
             console.log("insertContact res.insertId = " + res.insertId);
             contact.contactLocalId = res.insertId;
             defer.resolve(contact);
