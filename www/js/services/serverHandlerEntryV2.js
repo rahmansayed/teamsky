@@ -661,7 +661,7 @@ angular.module('starter.services')
 
           var entryServerId = (mode == 'S') ? entry.entryServerId : '';
           global.db.transaction(function (tx) {
-            var query = "INSERT INTO entry (entryLocalId," +
+            var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
               "listLocalId," +
               "itemLocalId," +
               "entryServerId," +
@@ -683,6 +683,7 @@ angular.module('starter.services')
               " 'N')"; //deleted
             //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
             tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, origin, flag, entry.seenFlag, entry.language], function (tx, res) {
+              console.log('addEntry res = ' + JSON.stringify(res.insertId));
               entry.entryLocalId = res.insertId;
               maintainGlobalEntries(entry, 'OPEN', 'ADD');
               var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
