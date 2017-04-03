@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2,$ionicSideMenuDelegate,$ionicGesture) {
+.controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2,$ionicSideMenuDelegate,$ionicGesture) {
 
     $scope.items = [];
     $scope.entries = {
@@ -340,7 +340,52 @@ angular.module('starter.controllers')
      $scope.contacts.push({name: u.firstName + ' ' + u.lastName});
      $scope.modal.hide();
      };*/
+    
+    var vm = this;
+    vm.name = 'World';
+    //$scope.retailerList.selected = {retailerLocalId:1};
+     vm.selected = $scope.retailerList[0];
 
+      vm.refreshResults = refreshResults;
+      vm.clear = clear;
+//     vm.selected = vm.values[0];
+
+
+    function refreshResults($select){
+    var search = $select.search,
+      list = angular.copy($select.items),
+      FLAG = -1;
+    //remove last user input
+    list = list.filter(function(item) { 
+      return item.id !== FLAG; 
+    });
+  
+    if (!search) {
+      //use the predefined list
+      $select.items = list;
+    }
+    else {
+      //manually add user input and set selection
+      var userInputItem = {
+        id: FLAG, 
+        description: search
+      };
+      $select.items = [userInputItem].concat(list);
+      $select.selected = userInputItem;
+    }
+  }
+  
+  function clear($event, $select){
+    $event.stopPropagation(); 
+    //to allow empty field, in order to force a selection remove the following line
+    $select.selected = undefined;
+    //reset search query
+    $select.search = undefined;
+    //focus and open dropdown
+    $select.activate();
+  }
+    
+    
 
   })
 ;

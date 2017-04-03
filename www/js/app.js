@@ -17,7 +17,6 @@ angular.module('starter', ['ionic', 'ui.select',
   'ion-floating-menu',
   'angular.filter',
   'ngRoute'
-
 ])
 /*var db = null;*/
 
