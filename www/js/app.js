@@ -111,6 +111,14 @@ angular.module('starter', ['ionic', 'ui.select',
       document.addEventListener("deviceready", function () {
         alert('just to wait');
 
+        /*window.plugins.socialsharing.shareViaWhatsAppToReceiver('+201147940889','Message via WhatsApp', null /!* img *!/, null /!* url *!/, function () {
+         console.log('share ok')
+         }, function (errormsg) {
+         alert(errormsg)
+         });*/
+
+        //window.open("whatsapp://send?text=Hello&phone=+201147940889&abid=+31611111111", "_system");
+
         window.plugins.sim.getSimInfo(function (result) {
           console.log('window.plugins.sim = ' + JSON.stringify(result));
           global.simCountry = result.countryCode.toUpperCase();
