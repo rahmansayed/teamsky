@@ -261,8 +261,9 @@ angular.module('starter.controllers')
       $scope.entryLocalId = listItem.entryLocalId;
     };
     
-    $scope.hide = function (entry) {
+    $scope.updateEntry = function (entry,retailerName) {
       //If DIV is visible it will be hidden and vice versa.
+         retailer = {};
            setTimeout(function () {
            $scope.$apply(function(){
                     $scope.showItemDetails = false;
@@ -270,9 +271,26 @@ angular.module('starter.controllers')
          }, 1);
        
       $scope.entryLocalId = entry.entryLocalId;    
-
+      entry.retailerLocalId =  $scope.getRetailerLocalId(retailerName); 
       console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
-      localEntryHandlerV2.updateEntry(entry);
+     
+      retailer.retailerName = retailerName;
+        
+      localRetailerHandlerV2.addRetailer(retailer)
+          .then(function(response){
+          
+          if (!entry.retailerLocalId && retailer){
+                entry.retailerLocalId = response;
+                console.log('4/4/2017 - listItem - aalatief - retailer local Id'+ entry.retailerLocalId +  ' New Retailer: '+ JSON.stringify(retailer));  
+                
+          }
+           console.log('4/4/2017 - listItem - aalatief - Entry'+JSON.stringify(entry));
+          localEntryHandlerV2.updateEntry(entry);
+            
+      },function(error){
+          console.log('4/4/2017 - listItem - aalatief - Error: ' + JSON.stringify(error));  
+      });  
+      
 
     };
 
@@ -290,7 +308,7 @@ angular.module('starter.controllers')
     };
     //Calling the function to load the data on pageload
     $scope.fillretListetailerList();
-
+    $scope.showRetailerlist = true;
     /*------------------------------------------------------------------*/
     /*Search for existing retailer*/
     $scope.retailerData = {"retailers": [], "search": ''};
@@ -309,12 +327,24 @@ angular.module('starter.controllers')
        for (var i = 0; i <  $scope.retailerList.length ; i++) {
           if ( $scope.retailerList[i].retailerLocalId == retailerLocalId) {
            retailerName=$scope.retailerList[i].retailerName;
+    
            return retailerName;
           } 
        }
-          return 'anywhere';
+          return retailerName||'anywhere';
+    };
+    
+    $scope.getRetailerLocalId= function(retailerName){
+       for (var i = 0; i <  $scope.retailerList.length ; i++) {
+          if ( $scope.retailerList[i].retailerName == retailerName) {
+           retailerLocalId=$scope.retailerList[i].retailerLocalId;
+           return retailerLocalId;
+          } 
+       }
     };
 
+    
+    
      /*-----------------------------------------------------------------------------------------*/
 
     /*set the border color of the contact shown based on status*/

@@ -32,13 +32,13 @@ angular.module('starter.services')
         var defer = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "insert into retailer (retailerLocalId, retailerName, retailerServerId, origin, flag) " +
+          var query = "insert or ignore into retailer (retailerLocalId, retailerName, retailerServerId, origin, flag) " +
             " values (null,?,'', 'L', 'N')";
           tx.executeSql(query, [retailer.retailerName], function (tx, res) {
             console.log("addRetailer query res = " + JSON.stringify(res));
             serverHandlerRetailerV2.syncLocalRetailerUpstream();
-            var query_tl_insert = "insert into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
-            tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailer.retailerName]);
+/*            var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
+            tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailer.retailerName]);*/
             defer.resolve(res.insertId);
           }, function (err) {
             console.log("addRetailer query err = " + err.message);

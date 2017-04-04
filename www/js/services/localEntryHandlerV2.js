@@ -240,6 +240,7 @@ angular.module('starter.services')
        * @param entry
        */
       function updateEntry(entry) {
+        console.log('4/4/2017 - localEntryHandlerV2 - aalatief - Entry: '+JSON.stringify(entry));  
         var deferred = $q.defer();
         global.db.transaction(function (tx) {
 
