@@ -26,9 +26,9 @@ angular.module('starter.controllers')
     /*-----------------------------------------------------------------------------------
 
      /*Route to Edit List Page*/
-    $scope.editList = function (listLocalId) {
-
-      $state.go('edit', {'listId': listLocalId});
+    $scope.editList = function (list) {
+      global.currentList = list;
+      $state.go('edit');
     }
     /*-----------------------------------------------------------------------------------
 
