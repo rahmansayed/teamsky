@@ -63,9 +63,11 @@ angular.module('starter.services')
           console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
           console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
           // console.log("$state.params = " + JSON.stringify($state.params));
+/*
           if ($location.url() == '/lists') {
             $state.reload();
           }
+*/
           serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
             // console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
             serverHandlerEntryV2.syncCrossingsDownstream();

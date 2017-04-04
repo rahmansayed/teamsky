@@ -32,7 +32,7 @@ angular.module('starter.services')
               break;
             case 'DELETE':
               if (listIdx != -1) {
-                global.lists.lists(listIdx, 1);
+                global.lists.lists.splice(listIdx, 1);
               }
               break;
             case 'ADD ENTRY':

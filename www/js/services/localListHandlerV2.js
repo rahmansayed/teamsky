@@ -16,6 +16,7 @@ angular.module('starter.services')
         "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' " +
         " ) " +
         " where l.listLocalId = ? " +
+        " and ifnull(l.deleted, 'N') = 'N' " +
         " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount, l.listOwnerServerId";
 
       global.db.transaction(function (tx) {
@@ -170,6 +171,7 @@ angular.module('starter.services')
         "    (list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and ifnull(eo.deleted,'N') = 'N') " +
         "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' " +
         " ) " +
+        " where ifnull(l.deleted, 'N') = 'N' " +
         " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount, l.listOwnerServerId";
 
       var lists = [];
