@@ -7,13 +7,11 @@ angular.module('starter.services')
         switch (msg.additionalData.details.type) {
           case 'NEW LIST':
             serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function () {
-              if ($state.current.name == "lists") {
-                $state.reload();
-              }
             });
             break;
           case "NEW ENTRY":
             serverHandlerEntryV2.syncEntrieDownstream(msg.additionalData.details).then(function (affectedLists) {
+              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "ADD ENTRY");
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -21,6 +19,7 @@ angular.module('starter.services')
             break;
           case "CROSSED":
             serverHandlerEntryV2.syncCrossingsDownstream(msg.additionalData.details).then(function (affectedLists) {
+              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));

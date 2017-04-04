@@ -6,14 +6,15 @@ angular.module('starter.controllers')
      disableBack: true
 
      });*/
-    
+
     $scope.myUserId = global.userServerId;
-    
+
     /*Retrieve all lists from localListHandlerV2*/
 
+    $scope.lists = global.lists;
     localListHandlerV2.getAllLists()
       .then(function (lists) {
-          $scope.lists = lists;
+          global.lists.lists = lists;
           console.log('21/02/2017 - listCtrl - localListHandlerV2 $scope.lists :' + JSON.stringify($scope.lists));
         },
         function (error) {
@@ -107,8 +108,8 @@ angular.module('starter.controllers')
 
     $scope.move = function (list, fromIndex, toIndex) {
 
-      $scope.lists.splice(fromIndex, 1);
-      $scope.lists.splice(toIndex, 0, list);
+      $scope.lists.lists.splice(fromIndex, 1);
+      $scope.lists.lists.splice(toIndex, 0, list);
     };
     $scope.reorderFlag = false;
     $scope.toggleReorder = function () {
@@ -117,9 +118,10 @@ angular.module('starter.controllers')
     /*--------------------------------------------------------------------------------*/
 
     /*Route to Add item Page*/
-    $scope.addItem = function (listId) {
-      console.log('list id sent : ' + listId);
-      $state.go('item', {'listId': listId});
+    $scope.addItem = function (list) {
+      console.log('list id sent : ' + JSON.stringify(list));
+      global.currentList = list;
+      $state.go('item');
     };
     /*--------------------------------------------------------------------------------*/
 
@@ -131,30 +133,30 @@ angular.module('starter.controllers')
     };
     /*----------------------------------------------------------------------------------------*/
     /*set the color of the contact shown based on status*/
-    $scope.setColor = function (status,element) {
-      
-    if (element =='color') {
-     if (status == 'S') {
-        return {color: "blue"};
-      }
-      else if (status == 'P') {
-        return {color: "red"};
-      }
-      else {
-        return {color: "grey"};
-      }
-    } 
-    else if (element =='border') {
+    $scope.setColor = function (status, element) {
+
+      if (element == 'color') {
         if (status == 'S') {
-        return {border: "1px solid blue"};
+          return {color: "blue"};
+        }
+        else if (status == 'P') {
+          return {color: "red"};
+        }
+        else {
+          return {color: "grey"};
+        }
       }
-      else if (status == 'P') {
-        return {border: "1px solid red"};
+      else if (element == 'border') {
+        if (status == 'S') {
+          return {border: "1px solid blue"};
+        }
+        else if (status == 'P') {
+          return {border: "1px solid red"};
+        }
+        else {
+          return {border: "1px solid grey"};
+        }
       }
-      else {
-        return {border: "1px solid grey"};
-      }   
-    }      
     };
 
 
@@ -167,31 +169,31 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------------*/
     $scope.showListDetails = false;
-   
-      $scope.gesture = {
-          used: ''
+
+    $scope.gesture = {
+      used: ''
     };
 
-/*   --------------------Show Details based on gesture ------------------------*/
-    $scope.onGesture = function(gesture,listName) {
-     $scope.gesture.used = gesture;
-   /*  alert(gesture+' '+listName);*/
-     console.log(gesture);
-        
-    if  (gesture == 'Swipe Down'){
-      $scope.showListDetails = true;
-      $scope.showList =  listName;
-    };
-        
-    if  (gesture == 'Swipe Up'){
-      $scope.showListDetails = false;
-      $scope.showList =  listName;
-    };
-    
-    };
-/*---------------------------------------------------------------------------*/
+    /*   --------------------Show Details based on gesture ------------------------*/
+    $scope.onGesture = function (gesture, listName) {
+      $scope.gesture.used = gesture;
+      /*  alert(gesture+' '+listName);*/
+      console.log(gesture);
 
-    
-    
+      if (gesture == 'Swipe Down') {
+        $scope.showListDetails = true;
+        $scope.showList = listName;
+      }
+      ;
+
+      if (gesture == 'Swipe Up') {
+        $scope.showListDetails = false;
+        $scope.showList = listName;
+      }
+      ;
+
+    };
+    /*---------------------------------------------------------------------------*/
+
 
   });

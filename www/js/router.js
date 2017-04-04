@@ -2,9 +2,9 @@ myapp = angular.module('starter');
 myapp.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-    
 
-      
+
+
     .state('config', {
       cache: false,
       url: '/config',
@@ -38,10 +38,10 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
 
     .state('item', {
       cache: false,
-      url: '/item/:listId',
+      url: '/item',
       templateUrl: 'templates/items.html',
       controller:'listItem'
-      
+
     })
 
     .state('addItem', {
@@ -108,7 +108,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
     .state('edit-list-item', {
       cache: false,
       url: '/edit-list-item/{:listItemId,:listId}',
@@ -121,7 +121,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: 'templates/list-details.html',
           controller: 'listDtlsCtrl'
       })
-           
+
    .state('subscribe', {
       url: '/subscribe',
           templateUrl: 'templates/subscribe.html'
@@ -132,7 +132,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: 'templates/contact.html'
       }
     )
-  
+
 
   ;
 

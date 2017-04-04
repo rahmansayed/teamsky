@@ -18,7 +18,7 @@ angular.module('starter.services')
         console.log('maintainGlobalEntries entry = ' + JSON.stringify(entry));
         console.log('maintainGlobalEntries operation = ' + operation);
 
-        if (entry.listLocalId == global.currentListLocalId) {
+        if (entry.listLocalId == global.currentList.listLocalId) {
           console.log('maintainGlobalEntries global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
           var openIdx = -1;
           var crossedIdx = -1;
@@ -579,7 +579,7 @@ angular.module('starter.services')
         var cat = entry.categoryName;
         var catCount = 0;
         console.log("crossEntry cat = " + cat);
-        if (entry.listLocalId == global.currentListLocalId) {
+        if (entry.listLocalId == global.currentList.listLocalId) {
           var newEntry = {
             entryLocalId: entry.entryLocalId,
             listLocalId: entry.listLocalId,
@@ -637,7 +637,7 @@ angular.module('starter.services')
       function addEntry(entry, mode) {
         //console.log('addItemToList entry = ' + JSON.stringify(entry));
         //console.log('addItemToList listOpenEntries = ' + JSON.stringify(entries.listOpenEntries));
-        //console.log('addItemToList listCrossedEntries = ' + JSON.stringify(entries.listCrossedEntries));
+        console.log('addItemToList global.currentList = ' + JSON.stringify(global.currentList));
         var deferred = $q.defer();
         //search the item in the listOpen Entries
         var insertFlag = false;
@@ -655,7 +655,7 @@ angular.module('starter.services')
           var seenFlag;
           if (mode == 'L')
             entry.seenFlag = 2;
-          else if (entry.listLocalId == global.currentListLocalId) {
+          else if (entry.listLocalId == global.currentList.listLocalId) {
             entry.seenFlag = 1;
           }
 
@@ -780,12 +780,11 @@ angular.module('starter.services')
                   insertPromises.push(addEntry(entry, 'S'));
                 }
                 $q.all(insertPromises).then(function () {
-                  syncBackMany(response.data.entries).then(function () {
-                    console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
-                    syncSeensUpstream();
-                    updateListNotificationCount('newCount', affectedLists);
-                    defer.resolve(affectedLists);
-                  });
+                  console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
+                  syncBackMany(response.data.entries);
+                  syncSeensUpstream();
+                  updateListNotificationCount('newCount', affectedLists);
+                  defer.resolve(affectedLists);
                 });
               },
               function (err) {

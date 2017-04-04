@@ -187,7 +187,7 @@ angular.module('starter.controllers')
       $scope.selectItems = function (item) {
 
           $scope.selectedItem =
-                    { listId: $state.params.listId,
+                    { listId: global.currentList.listLocalId,
                       itemId: item.itemlocalId,
                       itemName: item.itemName,
                       ItemCrossed: 0,

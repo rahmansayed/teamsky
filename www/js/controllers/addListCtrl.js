@@ -48,7 +48,6 @@ angular.module('starter.controllers')
             serverHandlerListV2.createList(list)
               .then(function (result) {
                   console.log('aalatief: List Server create success:' + JSON.stringify(result));
-                  $state.reload();
                 },
                 function (error) {
                   console.log('aalatief: List Server create fail:' + JSON.stringify(error));

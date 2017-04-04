@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.xml" afterPath="$PROJECT_DIR$/config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/ListCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/ListCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/addItem.js" afterPath="$PROJECT_DIR$/www/js/controllers/addItem.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/listItem.js" afterPath="$PROJECT_DIR$/www/js/controllers/listItem.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/router.js" afterPath="$PROJECT_DIR$/www/js/router.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/notificationHandler.js" afterPath="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/lists.html" afterPath="$PROJECT_DIR$/www/templates/lists.html" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,16 +33,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="263">
+              <caret line="265" column="13" lean-forward="true" selection-start-line="265" selection-start-column="13" selection-end-line="265" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addItem.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/controllers/addItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="194">
+              <caret line="197" column="28" lean-forward="false" selection-start-line="197" selection-start-column="28" selection-end-line="197" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="localListHandlerV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/localListHandlerV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="275" column="25" lean-forward="false" selection-start-line="275" selection-start-column="25" selection-end-line="275" selection-end-column="25" />
-              <folding>
-                <marker date="1491140264605" expanded="true" signature="130:12819" ph="{...}" />
-                <marker date="1491140264605" expanded="true" signature="11457:12511" ph="{...}" />
-                <marker date="1491140264605" expanded="true" signature="12524:12814" ph="{&quot;update&quot;: update...}" />
-              </folding>
+            <state relative-caret-position="331">
+              <caret line="332" column="13" lean-forward="true" selection-start-line="332" selection-start-column="13" selection-end-line="332" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -40,52 +66,60 @@
       <file leaf-file-name="serverHandlerEntryV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="1452" column="19" lean-forward="false" selection-start-line="1452" selection-start-column="19" selection-end-line="1452" selection-end-column="19" />
-              <folding>
-                <element signature="e#30485#30680#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="serverHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/serverHandler.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="46" lean-forward="false" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="contactHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/contactHandler.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="296" column="54" lean-forward="false" selection-start-line="296" selection-start-column="54" selection-end-line="296" selection-end-column="54" />
-              <folding>
-                <marker date="1491213478557" expanded="true" signature="228:15822" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="notificationHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/notificationHandler.js">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="194">
-              <caret line="15" column="77" lean-forward="false" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
+              <caret line="1446" column="11" lean-forward="false" selection-start-line="1446" selection-start-column="11" selection-end-line="1446" selection-end-column="11" />
+              <folding>
+                <element signature="e#30490#30685#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListCtrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="122" column="32" lean-forward="false" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dbHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
+      <file leaf-file-name="router.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="95" column="359" lean-forward="false" selection-start-line="95" selection-start-column="359" selection-end-line="95" selection-end-column="359" />
+            <state relative-caret-position="340">
+              <caret line="40" column="17" lean-forward="false" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lists.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/templates/lists.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="43" column="68" lean-forward="false" selection-start-line="43" selection-start-column="68" selection-end-line="43" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listItem.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="170" column="59" lean-forward="false" selection-start-line="170" selection-start-column="59" selection-end-line="170" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="49" column="13" lean-forward="false" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -94,32 +128,8 @@
       <file leaf-file-name="serverHandlerListV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="178" column="38" lean-forward="false" selection-start-line="178" selection-start-column="38" selection-end-line="178" selection-end-column="38" />
-              <folding>
-                <marker date="1491135689454" expanded="true" signature="9448:9745" ph="{...}" />
-                <marker date="1491135689454" expanded="true" signature="11184:11551" ph="{...}" />
-                <marker date="1491135689454" expanded="true" signature="11227:11447" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="65" lean-forward="true" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/www/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="119" column="10" lean-forward="false" selection-start-line="119" selection-start-column="10" selection-end-line="119" selection-end-column="10" />
+            <state relative-caret-position="243">
+              <caret line="508" column="45" lean-forward="true" selection-start-line="508" selection-start-column="45" selection-end-line="508" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -136,13 +146,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>localEntryHandlerV2.selectedItem</find>
-      <find>$state.rel</find>
-      <find>search</find>
-      <find>$state.reload()</find>
-      <find>addItem</find>
-      <find>$scope.items</find>
-      <find>JSON</find>
       <find>itemLang</find>
       <find>mySelectedItem</find>
       <find>addItemToList</find>
@@ -166,6 +169,13 @@
       <find>/api/user/check</find>
       <find>ins</find>
       <find>invite</find>
+      <find>listCtrl</find>
+      <find>res.rows.</find>
+      <find>result.rows.len</find>
+      <find>ctrl</find>
+      <find>addI</find>
+      <find>$scope.lists</find>
+      <find>global.currentList</find>
     </findStrings>
     <replaceStrings>
       <replace>console.log</replace>
@@ -188,7 +198,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/www/js/controllers/listDtlsCtrl.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/VerifyCtrl.js" />
         <option value="$PROJECT_DIR$/www/js/services/cloud.js" />
         <option value="$PROJECT_DIR$/www/js/services/local.js" />
@@ -216,29 +225,30 @@
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerRetailerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
-        <option value="$PROJECT_DIR$/www/templates/items.html" />
         <option value="$PROJECT_DIR$/www/index.html" />
-        <option value="$PROJECT_DIR$/www/templates/lists.html" />
         <option value="$PROJECT_DIR$/www/js/controllers/AccountCtrl.js" />
-        <option value="$PROJECT_DIR$/www/js/controllers/ListCtrl.js" />
-        <option value="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" />
-        <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
         <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/subscribeCtrl.js" />
         <option value="$PROJECT_DIR$/www/templates/subscribe.html" />
-        <option value="$PROJECT_DIR$/www/js/controllers/addItem.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
-        <option value="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
-        <option value="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHandler.js" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
-        <option value="$PROJECT_DIR$/www/js/services/global.js" />
         <option value="$PROJECT_DIR$/www/js/services/contactHandler.js" />
         <option value="$PROJECT_DIR$/config.xml" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
+        <option value="$PROJECT_DIR$/www/templates/items.html" />
+        <option value="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" />
+        <option value="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
+        <option value="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
+        <option value="$PROJECT_DIR$/www/templates/lists.html" />
+        <option value="$PROJECT_DIR$/www/js/router.js" />
+        <option value="$PROJECT_DIR$/www/js/services/global.js" />
+        <option value="$PROJECT_DIR$/www/js/controllers/ListCtrl.js" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
+        <option value="$PROJECT_DIR$/www/js/controllers/addItem.js" />
+        <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
       </list>
     </option>
   </component>
@@ -320,7 +330,47 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -504,7 +554,7 @@
       <workItem from="1489254928956" duration="7000" />
       <workItem from="1489255250333" duration="71238000" />
       <workItem from="1489908663906" duration="92313000" />
-      <workItem from="1490598919820" duration="79369000" />
+      <workItem from="1490598919820" duration="95309000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -517,7 +567,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="827140000" />
+    <option name="totallyTimeSpent" value="843080000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -635,8 +685,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/www/js/services/local.js" />
-    <entry file="file://$PROJECT_DIR$/www/js/services/cloud.js" />
     <entry file="file://$PROJECT_DIR$/www/js/services/ng-fast-levenshtein.min.js" />
     <entry file="file://$PROJECT_DIR$/www/js/services/services.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -670,13 +718,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/pickerView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -738,40 +779,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/addListCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="33" lean-forward="true" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localRetailerHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="31" lean-forward="true" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/lists.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="117" column="85" lean-forward="false" selection-start-line="117" selection-start-column="85" selection-end-line="117" selection-end-column="85" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#ion-nav-buttons#0;n#ion-nav-bar#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#ion-item#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#ion-item#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#h2#0;n#div#0;n#ion-item#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#h2#0;n#div#0;n#ion-item#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#ion-item#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1232">
-          <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -806,22 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/addItems.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/searchItem.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/templates/edit-list-item.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -838,32 +833,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/items.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="827">
-          <caret line="143" column="62" lean-forward="false" selection-start-line="143" selection-start-column="62" selection-end-line="143" selection-end-column="62" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#ion-nav-buttons#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#button#0;n#ion-nav-buttons#0;n#ion-nav-bar#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#h2#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#ion-item#0;n#div#0;n#ion-list#0;n#div#0;n#ion-list#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/controllers/editListItemCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="284" column="33" lean-forward="false" selection-start-line="284" selection-start-column="33" selection-end-line="284" selection-end-column="33" />
           <folding />
         </state>
       </provider>
@@ -880,22 +853,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
           <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="264" column="18" lean-forward="false" selection-start-line="264" selection-start-column="18" selection-end-line="264" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/addItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="205" column="14" lean-forward="false" selection-start-line="205" selection-start-column="14" selection-end-line="205" selection-end-column="14" />
           <folding />
         </state>
       </provider>
@@ -932,14 +889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="129" column="26" lean-forward="false" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -948,52 +897,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="178" column="38" lean-forward="false" selection-start-line="178" selection-start-column="38" selection-end-line="178" selection-end-column="38" />
-          <folding>
-            <marker date="1491135689454" expanded="true" signature="9448:9745" ph="{...}" />
-            <marker date="1491135689454" expanded="true" signature="11184:11551" ph="{...}" />
-            <marker date="1491135689454" expanded="true" signature="11227:11447" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/localListHandlerV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="275" column="25" lean-forward="false" selection-start-line="275" selection-start-column="25" selection-end-line="275" selection-end-column="25" />
-          <folding>
-            <marker date="1491140264605" expanded="true" signature="130:12819" ph="{...}" />
-            <marker date="1491140264605" expanded="true" signature="11457:12511" ph="{...}" />
-            <marker date="1491140264605" expanded="true" signature="12524:12814" ph="{&quot;update&quot;: update...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
           <caret line="95" column="359" lean-forward="false" selection-start-line="95" selection-start-column="359" selection-end-line="95" selection-end-column="359" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="1452" column="19" lean-forward="false" selection-start-line="1452" selection-start-column="19" selection-end-line="1452" selection-end-column="19" />
-          <folding>
-            <element signature="e#30485#30680#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/notificationHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="15" column="77" lean-forward="false" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
           <folding />
         </state>
       </provider>
@@ -1008,14 +915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="65" lean-forward="true" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
@@ -1024,10 +923,156 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/searchItem.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/config.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/addItems.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/pickerView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4381">
+          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="119" column="10" lean-forward="false" selection-start-line="119" selection-start-column="10" selection-end-line="119" selection-end-column="10" />
+        <state relative-caret-position="422">
+          <caret line="129" column="28" lean-forward="false" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/addListCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="74" lean-forward="true" selection-start-line="1" selection-start-column="74" selection-end-line="1" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/items.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="302" column="65" lean-forward="false" selection-start-line="302" selection-start-column="61" selection-end-line="302" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/notificationHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="42" lean-forward="false" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/lists.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="43" column="68" lean-forward="false" selection-start-line="43" selection-start-column="68" selection-end-line="43" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="40" column="17" lean-forward="false" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="49" column="13" lean-forward="false" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="122" column="32" lean-forward="false" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/localListHandlerV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="332" column="13" lean-forward="true" selection-start-line="332" selection-start-column="13" selection-end-line="332" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="508" column="45" lean-forward="true" selection-start-line="508" selection-start-column="45" selection-end-line="508" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="1446" column="11" lean-forward="false" selection-start-line="1446" selection-start-column="11" selection-end-line="1446" selection-end-column="11" />
+          <folding>
+            <element signature="e#30490#30685#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/addItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="197" column="28" lean-forward="false" selection-start-line="197" selection-start-column="28" selection-end-line="197" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="265" column="13" lean-forward="true" selection-start-line="265" selection-start-column="13" selection-end-line="265" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="170" column="59" lean-forward="false" selection-start-line="170" selection-start-column="59" selection-end-line="170" selection-end-column="59" />
           <folding />
         </state>
       </provider>

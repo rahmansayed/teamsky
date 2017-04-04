@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2,$ionicSideMenuDelegate,$ionicGesture) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture) {
 
     $scope.items = [];
     $scope.entries = {
@@ -23,12 +23,15 @@ angular.module('starter.controllers')
       }, 100);
 
     };
-    localListHandlerV2.getSpecificList($state.params.listId)
-      .then(function (response) {
-        $scope.dynamicListTitle = response.listName;
-      }, function (error) {
-        console.log('Error');
-      });
+    $scope.dynamicListTitle = global.currentList.listName;
+
+    console.log('$state.params = ' + JSON.stringify($state.params));
+    // localListHandlerV2.getSpecificList($state.params.listLocalId)
+    //   .then(function (response) {
+    //
+    //   }, function (error) {
+    //     console.log('Error');
+    //   });
 
 
     /*------------------------------------------------------------------*/
@@ -42,7 +45,7 @@ angular.module('starter.controllers')
       })
     }
 
-    localEntryHandlerV2.buildListEntries($state.params.listId).then(function () {
+    localEntryHandlerV2.buildListEntries(global.currentList.listLocalId).then(function () {
       $scope.entries = global.currentListEntries;
     });
 
@@ -58,7 +61,7 @@ angular.module('starter.controllers')
           console.log('Search Result after promise: ' + $scope.data.items);
         }
       )
-};
+    };
 
     /*------------------------------------------------------------------*/
     /*Edit List Item*/
@@ -73,7 +76,7 @@ angular.module('starter.controllers')
     $scope.selectItems = function (item) {
       $scope.selectedItem =
         {
-          listLocalId: $state.params.listId,
+          listLocalId: global.currentList.listLocalId,
           itemLocalId: item.itemLocalId,
           itemName: item.itemName,
           categoryName: localItemHandlerV2.categoryName(item.itemName),
@@ -165,7 +168,7 @@ angular.module('starter.controllers')
 
             $scope.selectedItem =
               {
-                listLocalId: $state.params.listId,
+                listLocalId: global.currentList.listLocalId,
                 itemLocalId: response,
                 itemName: localItemHandlerV2.initcap(itemName),
                 categoryName: localItemHandlerV2.categoryName(itemName),
@@ -254,43 +257,43 @@ angular.module('starter.controllers')
 
     //This will hide the DIV by default.
     $scope.showItemDetails = false;
-    
+
     $scope.show = function (listItem) {
       //If DIV is visible it will be hidden and vice versa.
       $scope.showItemDetails = true;
       $scope.entryLocalId = listItem.entryLocalId;
     };
-    
-    $scope.updateEntry = function (entry,retailerName) {
+
+    $scope.updateEntry = function (entry, retailerName) {
       //If DIV is visible it will be hidden and vice versa.
-         retailer = {};
-           setTimeout(function () {
-           $scope.$apply(function(){
-                    $scope.showItemDetails = false;
-           });
-         }, 1);
-       
-      $scope.entryLocalId = entry.entryLocalId;    
-      entry.retailerLocalId =  $scope.getRetailerLocalId(retailerName); 
+      retailer = {};
+      setTimeout(function () {
+        $scope.$apply(function () {
+          $scope.showItemDetails = false;
+        });
+      }, 1);
+
+      $scope.entryLocalId = entry.entryLocalId;
+      entry.retailerLocalId = $scope.getRetailerLocalId(retailerName);
       console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
-     
+
       retailer.retailerName = retailerName;
-        
+
       localRetailerHandlerV2.addRetailer(retailer)
-          .then(function(response){
-          
-          if (!entry.retailerLocalId && retailer){
-                entry.retailerLocalId = response;
-                console.log('4/4/2017 - listItem - aalatief - retailer local Id'+ entry.retailerLocalId +  ' New Retailer: '+ JSON.stringify(retailer));  
-                
+        .then(function (response) {
+
+          if (!entry.retailerLocalId && retailer) {
+            entry.retailerLocalId = response;
+            console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(retailer));
+
           }
-           console.log('4/4/2017 - listItem - aalatief - Entry'+JSON.stringify(entry));
+          console.log('4/4/2017 - listItem - aalatief - Entry' + JSON.stringify(entry));
           localEntryHandlerV2.updateEntry(entry);
-            
-      },function(error){
-          console.log('4/4/2017 - listItem - aalatief - Error: ' + JSON.stringify(error));  
-      });  
-      
+
+        }, function (error) {
+          console.log('4/4/2017 - listItem - aalatief - Error: ' + JSON.stringify(error));
+        });
+
 
     };
 
@@ -322,40 +325,38 @@ angular.module('starter.controllers')
         }
       )
     };
-    
-    $scope.getRetailerName = function(retailerLocalId){
-        retailerName='';
-       for (var i = 0; i <  $scope.retailerList.length ; i++) {
-          if ( $scope.retailerList[i].retailerLocalId == retailerLocalId) {
-           retailerName=$scope.retailerList[i].retailerName;
-    
-           return retailerName;
-          } 
-       }
-          return retailerName||'anywhere';
-    };
-    
-    $scope.getRetailerLocalId= function(retailerName){
-       for (var i = 0; i <  $scope.retailerList.length ; i++) {
-          if ( $scope.retailerList[i].retailerName == retailerName) {
-           retailerLocalId=$scope.retailerList[i].retailerLocalId;
-           return retailerLocalId;
-          } 
-       }
+
+    $scope.getRetailerName = function (retailerLocalId) {
+      retailerName = '';
+      for (var i = 0; i < $scope.retailerList.length; i++) {
+        if ($scope.retailerList[i].retailerLocalId == retailerLocalId) {
+          retailerName = $scope.retailerList[i].retailerName;
+
+          return retailerName;
+        }
+      }
+      return retailerName || 'anywhere';
     };
 
-    
-    
-     /*-----------------------------------------------------------------------------------------*/
+    $scope.getRetailerLocalId = function (retailerName) {
+      for (var i = 0; i < $scope.retailerList.length; i++) {
+        if ($scope.retailerList[i].retailerName == retailerName) {
+          retailerLocalId = $scope.retailerList[i].retailerLocalId;
+          return retailerLocalId;
+        }
+      }
+    };
+
+
+    /*-----------------------------------------------------------------------------------------*/
 
     /*set the border color of the contact shown based on status*/
     $scope.toggleLeft = function () {
       $ionicSideMenuDelegate.toggleLeft();
       console.log('20/03/2017 - listItem -aalatief - menu Pressed')
     };
-/*------------------------------------------------------------------*/
+    /*------------------------------------------------------------------*/
 
-    
 
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/
@@ -371,52 +372,51 @@ angular.module('starter.controllers')
      $scope.contacts.push({name: u.firstName + ' ' + u.lastName});
      $scope.modal.hide();
      };*/
-    
+
     var vm = this;
     vm.name = 'World';
     //$scope.retailerList.selected = {retailerLocalId:1};
-     vm.selected = $scope.retailerList[0];
+    vm.selected = $scope.retailerList[0];
 
-      vm.refreshResults = refreshResults;
-      vm.clear = clear;
+    vm.refreshResults = refreshResults;
+    vm.clear = clear;
 //     vm.selected = vm.values[0];
 
 
-    function refreshResults($select){
-    var search = $select.search,
-      list = angular.copy($select.items),
-      FLAG = -1;
-    //remove last user input
-    list = list.filter(function(item) { 
-      return item.id !== FLAG; 
-    });
-  
-    if (!search) {
-      //use the predefined list
-      $select.items = list;
+    function refreshResults($select) {
+      var search = $select.search,
+        list = angular.copy($select.items),
+        FLAG = -1;
+      //remove last user input
+      list = list.filter(function (item) {
+        return item.id !== FLAG;
+      });
+
+      if (!search) {
+        //use the predefined list
+        $select.items = list;
+      }
+      else {
+        //manually add user input and set selection
+        var userInputItem = {
+          id: FLAG,
+          description: search
+        };
+        $select.items = [userInputItem].concat(list);
+        $select.selected = userInputItem;
+      }
     }
-    else {
-      //manually add user input and set selection
-      var userInputItem = {
-        id: FLAG, 
-        description: search
-      };
-      $select.items = [userInputItem].concat(list);
-      $select.selected = userInputItem;
+
+    function clear($event, $select) {
+      $event.stopPropagation();
+      //to allow empty field, in order to force a selection remove the following line
+      $select.selected = undefined;
+      //reset search query
+      $select.search = undefined;
+      //focus and open dropdown
+      $select.activate();
     }
-  }
-  
-  function clear($event, $select){
-    $event.stopPropagation(); 
-    //to allow empty field, in order to force a selection remove the following line
-    $select.selected = undefined;
-    //reset search query
-    $select.search = undefined;
-    //focus and open dropdown
-    $select.activate();
-  }
-    
-    
+
 
   })
 ;

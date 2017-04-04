@@ -6,9 +6,60 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('serverHandlerListV2', function ($http, global, $q, contactHandler) {
+  .factory('serverHandlerListV2', function ($http, global, $q, contactHandler, $state) {
 
-      //------------------------consoleLog
+
+      function maintainGlobalLists(list, operation) {
+        console.log('maintainGlobalLists entry = ' + JSON.stringify(list));
+        console.log('maintainGlobalLists operation = ' + operation);
+
+        if ($state.current.name == "lists") {
+          console.log('maintainGlobalLists global.lists = ' + JSON.stringify(global.lists.lists));
+          var listIdx = -1;
+
+          for (var i = 0; i < global.lists.lists.length; i++) {
+            if (global.lists.lists[i].listLocalId == list.listLocalId) {
+              listIdx = i;
+              break;
+            }
+          }
+
+          switch (operation) {
+            case 'ADD':
+              if (listIdx == -1) {
+                global.lists.lists.push(list);
+              }
+              break;
+            case 'DELETE':
+              if (listIdx != -1) {
+                global.lists.lists(listIdx, 1);
+              }
+              break;
+            case 'ADD ENTRY':
+              if (listIdx > -1)
+                global.lists.lists[listIdx].totalOpen = global.lists.lists[listIdx].totalOpen + 1;
+              global.lists.lists[listIdx].newCount = global.lists.lists[listIdx].newCount + 1;
+              break;
+            case 'CROSS ENTRY':
+              if (listIdx > -1) {
+                global.lists.lists[listIdx].totalCrossed = global.lists.lists[listIdx].totalCrossed + 1;
+                global.lists.lists[listIdx].totalOpen = global.lists.lists[listIdx].totalOpen - 1;
+              }
+              break;
+            case 'UPDATE':
+              if (listIdx != -1) {
+                global.lists.lists[listIdx].listName = list.listName;
+              }
+              break;
+            case 'UPDATE SERVERID':
+              if (listIdx != -1) {
+                global.lists.lists[listIdx].listServerId = list.listServerId;
+              }
+              break;
+          }
+          console.log('maintainGlobalLists AFTER global.lists = ' + JSON.stringify(global.lists));
+        }
+      }
 
       /***********************************************************************************************************************
        * the function returns the userServerId of the contact number
@@ -117,6 +168,8 @@ angular.module('starter.services')
                 tx.executeSql(query, [response.data.listServerId, list.listLocalId], function (tx, result) {
                   console.log("serverListHandler.createList Rows affected = " + result.rowsAffected);
                   defer.resolve(response.data.listServerId);
+                  list.listServerId = response.data.listServerId;
+                  maintainGlobalLists(list, "UPDATE SERVERID");
                 }, function (error) {
                   console.error("serverListHandler.createList db update error = " + JSON.stringify(error));
                   defer.reject(error);
@@ -228,18 +281,27 @@ angular.module('starter.services')
             // check if list exists
             var listLocalId;
             tx.executeSql(query, [list.list._id], function (tx, result) {
+                var myList = {
+                  listName: list.list.listname,
+                  listServerId: list.list._id,
+                  listOwnerServerId: list.ownerServerId
+                };
                 if (result.rows.length == 0) {
                   console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
-                  var insertQuery = "insert into list(listLocalId,listname,listServerId, flag, origin, listOwnerServerId) values (null,?,?, 'S', 'S', ?)";
+                  var insertQuery = "insert into list(listLocalId,listName,listServerId, flag, origin, listOwnerServerId, newCount, crossCount) values (null,?,?, 'S', 'S', ?, 0, 0)";
                   tx.executeSql(insertQuery, [list.list.listname, list.list._id, list.ownerServerId], function (tx, res) {
+                    myList.listLocalId = res.insertId;
+                    maintainGlobalLists(myList, "ADD");
                     upsertProspects(list.list.prospectusers, res.insertId);
                     upsertRelatedUsers(list.list.relatedusers, res.insertId);
                   });
                   defer.resolve({status: 'Y'});
                 }
                 else {
+                  myList.listLocalId = result.rows.item(0).listLocalId;
                   if (result.rows.item(0).deleted == 'Y') {
                     var activateQuery = "update list set deleted = 'N' where listLocalId = ?";
+                    maintainGlobalLists(myList, "ADD");
                     tx.executeSql(activateQuery, [result.rows.item(0).listLocalId], function (tx, res) {
                       defer.resolve({status: 'Y'});
                     });
@@ -450,7 +512,8 @@ angular.module('starter.services')
         deleteList: deleteList,
         upsertServerList: upsertServerList,
         deactivateServerList: deactivateServerList,
-        kickContact: kickContact
+        kickContact: kickContact,
+        maintainGlobalLists: maintainGlobalLists
       }
     }
   )
