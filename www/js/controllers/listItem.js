@@ -324,6 +324,7 @@ angular.module('starter.controllers')
     };
     
     $scope.getRetailerName = function(retailerLocalId){
+        retailerName='';
        for (var i = 0; i <  $scope.retailerList.length ; i++) {
           if ( $scope.retailerList[i].retailerLocalId == retailerLocalId) {
            retailerName=$scope.retailerList[i].retailerName;

@@ -94,7 +94,7 @@
                   <!--{{listItem.seenFlag}}--></h2>
                   
                   <p style="text-align:left;white-space: normal;">
-                      <i> {{listItem.quantity}} {{listItem.uom}} from {{getRetailerName(listItem.retailerLocalId)}} - {{listItem.retailerLocalId}} </i></p>  
+                      <i> {{listItem.quantity}} {{listItem.uom}} from {{getRetailerName(listItem.retailerLocalId)}} </i></p>  
                 <ion-option-button class="button-assertive icon-left ion-trash-a"
                                    ng-click="removeFromList(listItem)"></ion-option-button>
 <!--                <ion-option-button class="button-calm icon-right ion-edit"
@@ -160,10 +160,10 @@
                                              ng-repeat="retailer in retailerData.retailers"
                                              ng-click="retailerData.search = retailer.retailerName;
                                                        retailerData.retailers=[];
-                                                       retailerLocalId = retailer.retailerLocalId;"
+                                                       "
                                              >
                                       
-                                      {{retailer.retailerName}} - {{retailer.retailerLocalId}}
+                                      {{retailer.retailerName}}
                                             
                                     </ion-item >
 
