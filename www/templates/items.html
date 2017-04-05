@@ -76,21 +76,29 @@
           <div class="item item-divider"
                ng-repeat="category in entries.listOpenEntries.categories | orderBy"
                style="padding-bottom:20px;">
-            <p>
+     
+              <p>
             <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;"
-                align="center">{{category}}</h2></p>
+                align="center"
+                ng-click = "hideCategory(category)">
+                {{category}} - {{showCategory}} </h2>
+
+                                            
+              </p>
+              
+          
 
             <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
                       ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category }"
                       ng-click="show(listItem)"
                       style=" border-radius:15px;"
-                      >
+                      ng-hide="showCategory && listItem.categoryName == categoryClicked">
 
 
               <div style="display:inline; float:center;">
                 <h2 style="display:inline;text-align:left;white-space: normal;">
                     
-                    {{listItem.itemName}}
+                    {{listItem.itemName}} -  {{listItem.categoryName}} - {{categoryClicked}} - {{(listItem.categoryName == categoryClicked || !categoryClicked)}}
                   <!--{{listItem.seenFlag}}--></h2>
                   
                   <p style="text-align:left;white-space: normal;">

@@ -357,6 +357,21 @@ angular.module('starter.controllers')
     };
     /*------------------------------------------------------------------*/
 
+    
+   //This will show the entry DIV by default.
+    $scope.showCategory = false;
+
+    $scope.hideCategory = function (category) {
+      //If DIV is visible it will be hidden and vice versa.
+      
+        
+      setTimeout(function () {
+        $scope.$apply(function () {
+          $scope.showCategory = !$scope.showCategory;
+        });
+      }, 1);    
+      $scope.categoryClicked = category;
+    };
 
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/
@@ -373,49 +388,10 @@ angular.module('starter.controllers')
      $scope.modal.hide();
      };*/
 
-    var vm = this;
-    vm.name = 'World';
-    //$scope.retailerList.selected = {retailerLocalId:1};
-    vm.selected = $scope.retailerList[0];
-
-    vm.refreshResults = refreshResults;
-    vm.clear = clear;
-//     vm.selected = vm.values[0];
 
 
-    function refreshResults($select) {
-      var search = $select.search,
-        list = angular.copy($select.items),
-        FLAG = -1;
-      //remove last user input
-      list = list.filter(function (item) {
-        return item.id !== FLAG;
-      });
 
-      if (!search) {
-        //use the predefined list
-        $select.items = list;
-      }
-      else {
-        //manually add user input and set selection
-        var userInputItem = {
-          id: FLAG,
-          description: search
-        };
-        $select.items = [userInputItem].concat(list);
-        $select.selected = userInputItem;
-      }
-    }
 
-    function clear($event, $select) {
-      $event.stopPropagation();
-      //to allow empty field, in order to force a selection remove the following line
-      $select.selected = undefined;
-      //reset search query
-      $select.search = undefined;
-      //focus and open dropdown
-      $select.activate();
-    }
 
 
   })
