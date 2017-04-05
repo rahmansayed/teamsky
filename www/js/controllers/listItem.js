@@ -1,5 +1,8 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2) {
+
+
+    $scope.uoms = [];
 
     $scope.items = [];
     $scope.entries = {
@@ -10,6 +13,9 @@ angular.module('starter.controllers')
     // $scope.checkedItems = [];
     $scope.retailers = [];
 
+    localUOMHandlerV2.getAllUOMs().then(function (uoms) {
+      $scope.uoms = uoms;
+    });
     /*Drag to refresh functionality*/
     $scope.refresh = function () {
 
@@ -297,7 +303,7 @@ angular.module('starter.controllers')
 
     };
 
-    $scope.retailerList = [];
+    $scope.retailers = global.retailers;
     //Declaring the function to load data from database
     $scope.fillretListetailerList = function () {
       localRetailerHandlerV2.getAllRetailers()
@@ -357,19 +363,19 @@ angular.module('starter.controllers')
     };
     /*------------------------------------------------------------------*/
 
-    
-   //This will show the entry DIV by default.
+
+    //This will show the entry DIV by default.
     $scope.showCategory = false;
 
     $scope.hideCategory = function (category) {
       //If DIV is visible it will be hidden and vice versa.
-      
-        
+
+
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.showCategory = !$scope.showCategory;
         });
-      }, 1);    
+      }, 1);
       $scope.categoryClicked = category;
     };
 
@@ -387,11 +393,6 @@ angular.module('starter.controllers')
      $scope.contacts.push({name: u.firstName + ' ' + u.lastName});
      $scope.modal.hide();
      };*/
-
-
-
-
-
 
 
   })

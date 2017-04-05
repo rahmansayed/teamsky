@@ -1,16 +1,8 @@
 angular.module('starter.services')
 
-  .factory('localItemHandlerV2', function ($q, $timeout, dbHandler, $state, global) {
+  .factory('localItemHandlerV2', function ($q, $timeout, $state, global) {
 
-      var selected = [];
       var items = [];
-      var selectedItems = [];
-      var checkedItems = [];
-      var listId;
-      var y;
-      var x;
-      var z;
-
 
       /*Get All Master items and push on items Array*/
       function getAllMasterItem() {

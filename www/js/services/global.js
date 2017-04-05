@@ -24,6 +24,7 @@ angular.module('starter.services')
 
     var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
     var currentList = {};
+    var retailers = {retailers: []};
     var lists = {lists: []};
 
     function initialize() {
@@ -49,7 +50,8 @@ angular.module('starter.services')
       currentListEntries: currentListEntries,
       currentList: currentList,
       simCountry: simCountry,
-      lists: lists
+      lists: lists,
+      retailers: retailers
     };
   });
 

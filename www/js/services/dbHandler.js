@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('dbHandler', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, global) {
+  .factory('dbHandler', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, global, localUOMHandlerV2) {
 
     /*var lists = angular.fromJson(window.localStorage['lists'] || []);*/
 
@@ -99,28 +99,19 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS retailer_tl (retailerLocalId integer ,language text,retailerName text UNIQUE,lastUpdateDate integer,lastUpdateBy text)",
 
-
         "CREATE TABLE IF NOT EXISTS sync (tableName text primary key,lastSyncDate integer)",
-
+        "CREATE TABLE IF NOT EXISTS uoms (uomName text primary key)",
 
         "CREATE TABLE IF NOT EXISTS userInfo (deviceLocalId integer,dialCode text,userServerId text,deviceServerId text,status text,lastUpdateDate integer,lastUpdateBy text)",
 
         "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text)"
-
-
       ];
 
 
       global.db.transaction(function (tx) {
         for (var j = 0; j < query.length; j++) {
           tx.executeSql(query[j]);
-          /*runQuery(query[j], [], function (res) {
-           console.log("Statement Run: " + query[j]);
-           deferred.resolve(res);
-           }, function (err) {
-           console.log(err);
-           });
-           */
+          localUOMHandlerV2.init();
         }
       }, function (error) {
         console.error('dbHandler initDB error = ' + error.message);
@@ -129,25 +120,7 @@ angular.module('starter.services')
         deferred.resolve();
       });
 
-
       return deferred.promise;
-      //
-      //  var query1 = "insert into category (categoryLocalId,categoryName) values (?,?)"
-      // /* var query1 = "delete from masterItem"; */
-      //  runQuery(query1,[10,'Uncategorized'],function(res) {
-      //    console.log("Statement Run: " + query1);
-      //  }, function (err) {
-      //    console.log(err);
-      //  });
-
-
-      /*runQuery(query,[],function(res) {
-       console.log("table created ");
-       }, function (err) {
-       console.log(err);
-       });*/
-
-
     };
 
 
