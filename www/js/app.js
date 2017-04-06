@@ -7,12 +7,10 @@
 // 'starter.controllers' is found in controllers.js
 //console.log = function() {};
 //console.error = function() {};
-angular.module('starter', ['ionic', 'ui.select',
+angular.module('starter', ['ionic', 
   'ionic.service.core',
   'starter.controllers',
   'starter.services',
-  'starter.directives',
-  'proton.multi-list-picker',
   'ngCordova',
   'ion-floating-menu',
   'angular.filter',
