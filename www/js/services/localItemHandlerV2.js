@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localItemHandlerV2', function ($q, $timeout, $state, global) {
+  .factory('localItemHandlerV2', function ($q, $state, global) {
 
       var items = [];
 
@@ -123,7 +123,7 @@ angular.module('starter.services')
         return deferred.promise;
       }
 
-    function searchItemsDB(searchFilter) {
+      function searchItemsDB(searchFilter) {
         console.log('searchItemsDB isRTL = ' + isRTL(searchFilter));
         var deferred = $q.defer();
         if (searchFilter.length > 3) {
@@ -185,18 +185,25 @@ angular.module('starter.services')
             var query_item = "INSERT INTO masterItem " +
               "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag, genericFlag) " +
               "VALUES (?,?,?,?,?,?,?, 'L', 'N',0)";
-            tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, 1, '', '', 1, new Date().getTime()], function (tx, res) {
-              var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
-              var lang = isRTL(item.itemName) ? 'AR' : 'EN';
-              tx.executeSql(query_lang, [res.insertId, lang, item.itemName, item.itemName.toLowerCase()], function (tx, res2) {
-                items.push({
-                  itemLocalId: res.insertId,
-                  itemName: item.itemName,
-                  lowerItemName: item.itemName.toLowerCase(),
-                  categoryName: 'Dairy',
-                  language: lang
+            var getDefaultCategoryId = "select categoryLocalId from category where categoryName = 'New Items'";
+            tx.executeSql(getDefaultCategoryId, [], function (tx, res) {
+              console.log('addMaserItem getDefaultCategoryId  res.rows.item(0).categoryLocalId = ' + res.rows.item(0).categoryLocalId);
+              tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, res.rows.item(0).categoryLocalId, '', '', 1, new Date().getTime()], function (tx, res2) {
+                var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
+                var lang = isRTL(item.itemName) ? 'AR' : 'EN';
+                tx.executeSql(query_lang, [res2.insertId, lang, item.itemName, item.itemName.toLowerCase()], function (tx, res3) {
+                  items.push({
+                    itemLocalId: res2.insertId,
+                    itemName: item.itemName,
+                    lowerItemName: item.itemName.toLowerCase(),
+                    categoryName: item.categoryName,
+                    language: lang
+                  });
+                  deferred.resolve(res2.insertId);
+                }, function (error) {
+                  console.error('addMaserItem = error' + error.message);
+                  deferred.reject(error);
                 });
-                deferred.resolve(res.insertId);
               }, function (error) {
                 console.error('addMaserItem = error' + error.message);
                 deferred.reject(error);
@@ -206,7 +213,6 @@ angular.module('starter.services')
               deferred.reject(error);
             });
           });
-
         }
         return deferred.promise;
       };

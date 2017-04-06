@@ -51,23 +51,26 @@ angular.module('starter.services')
     function syncInit() {
       console.log("Start syncInit");
       var defer = $q.defer();
-      $q.all([syncMasterData(), syncLocalData(), syncDownStreamData()]).then(function () {
-        defer.resolve();
+      $q.all([syncMasterData(), syncLocalData()]).then(function () {
+        syncDownStreamData().then(function () {
+          defer.resolve();
+        });
       });
       return defer.promise;
     }
 
 // handle a server notification
     function syncDownStreamData() {
+      var defer = $q.defer();
       serverHandlerListV2.syncListsDownstream().then(function (res) {
           console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
           console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
           // console.log("$state.params = " + JSON.stringify($state.params));
-/*
-          if ($location.url() == '/lists') {
-            $state.reload();
-          }
-*/
+          /*
+           if ($location.url() == '/lists') {
+           $state.reload();
+           }
+           */
           serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
             // console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
             serverHandlerEntryV2.syncCrossingsDownstream();
@@ -76,15 +79,18 @@ angular.module('starter.services')
 
                 serverHandlerEntryV2.syncSeenDownstream().then(function (affectedLists) {
                   console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
+                  defer.resolve();
                 }, function (err) {
                   console.error("syncInit syncSeenDownstream err = " + err);
+                  defer.reject();
                 });
               }, function (err) {
                 console.error("syncInit syncDeliveryDownstream err = " + err);
+                defer.reject();
               }
             );
           }, function (err) {
-
+            defer.reject();
           });
         }
         ,
@@ -98,6 +104,7 @@ angular.module('starter.services')
         serverHandlerEntryV2.syncCrossingsUpstream();
       });
 
+      return defer.promise;
     }
 
     return {

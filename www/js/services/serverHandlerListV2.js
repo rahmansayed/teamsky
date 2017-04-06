@@ -9,16 +9,20 @@ angular.module('starter.services')
   .factory('serverHandlerListV2', function ($http, global, $q, contactHandler, $state) {
 
 
+      var lists = {
+        lists: []
+      };
+
       function maintainGlobalLists(list, operation) {
         console.log('maintainGlobalLists entry = ' + JSON.stringify(list));
         console.log('maintainGlobalLists operation = ' + operation);
 
         if ($state.current.name == "lists") {
-          console.log('maintainGlobalLists global.lists = ' + JSON.stringify(global.lists.lists));
+          console.log('maintainGlobalLists global.lists = ' + JSON.stringify(lists));
           var listIdx = -1;
 
-          for (var i = 0; i < global.lists.lists.length; i++) {
-            if (global.lists.lists[i].listLocalId == list.listLocalId) {
+          for (var i = 0; i < lists.lists.length; i++) {
+            if (lists.lists[i].listLocalId == list.listLocalId) {
               listIdx = i;
               break;
             }
@@ -27,37 +31,37 @@ angular.module('starter.services')
           switch (operation) {
             case 'ADD':
               if (listIdx == -1) {
-                global.lists.lists.push(list);
+                lists.lists.push(list);
               }
               break;
             case 'DELETE':
               if (listIdx != -1) {
-                global.lists.lists.splice(listIdx, 1);
+                lists.lists.splice(listIdx, 1);
               }
               break;
             case 'ADD ENTRY':
               if (listIdx > -1)
-                global.lists.lists[listIdx].totalOpen = global.lists.lists[listIdx].totalOpen + 1;
-              global.lists.lists[listIdx].newCount = global.lists.lists[listIdx].newCount + 1;
+                lists.lists[listIdx].totalOpen = lists.lists[listIdx].totalOpen + 1;
+              lists.lists[listIdx].newCount = lists.lists[listIdx].newCount + 1;
               break;
             case 'CROSS ENTRY':
               if (listIdx > -1) {
-                global.lists.lists[listIdx].totalCrossed = global.lists.lists[listIdx].totalCrossed + 1;
-                global.lists.lists[listIdx].totalOpen = global.lists.lists[listIdx].totalOpen - 1;
+                lists.lists[listIdx].totalCrossed = lists.lists[listIdx].totalCrossed + 1;
+                lists.lists[listIdx].totalOpen = lists.lists[listIdx].totalOpen - 1;
               }
               break;
             case 'UPDATE':
               if (listIdx != -1) {
-                global.lists.lists[listIdx].listName = list.listName;
+                lists.lists[listIdx].listName = list.listName;
               }
               break;
             case 'UPDATE SERVERID':
               if (listIdx != -1) {
-                global.lists.lists[listIdx].listServerId = list.listServerId;
+                lists.lists[listIdx].listServerId = list.listServerId;
               }
               break;
           }
-          console.log('maintainGlobalLists AFTER global.lists = ' + JSON.stringify(global.lists));
+          console.log('maintainGlobalLists AFTER lists = ' + JSON.stringify(lists));
         }
       }
 
@@ -513,7 +517,8 @@ angular.module('starter.services')
         upsertServerList: upsertServerList,
         deactivateServerList: deactivateServerList,
         kickContact: kickContact,
-        maintainGlobalLists: maintainGlobalLists
+        maintainGlobalLists: maintainGlobalLists,
+        lists: lists
       }
     }
   )

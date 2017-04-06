@@ -6,6 +6,7 @@ angular.module('starter.services')
      * returns the list identified by listLocalId
      * @param listLocalId
      */
+
     function getSpecificList(listLocalId) {
       var defer = $q.defer();
       /* var specificList = [];*/
@@ -51,7 +52,7 @@ angular.module('starter.services')
       });
       return defer.promise;
     };
-     /******************************************************************************************************************
+    /******************************************************************************************************************
      * updates a specific list with the new values
      * @param list
      */
@@ -138,21 +139,21 @@ angular.module('starter.services')
         " where ifnull(l.deleted, 'N') = 'N' " +
         " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount, l.listOwnerServerId";
 
-      var lists = [];
-      global.db.transaction(function (tx) {
 
+      global.db.transaction(function (tx) {
+        serverHandlerListV2.lists.lists = [];
         tx.executeSql(query, [], function (tx, res) {
           console.log("localListHandlerV2.getAllLists  success " + JSON.stringify(res.rows));
           for (var i = 0; i < res.rows.length; i++) {
-            lists.push(res.rows.item(i));
+            serverHandlerListV2.lists.lists.push(res.rows.item(i));
           }
           var getContactsQuery = "select c.contactName,c.contactServerId,c.photo,c.contactStatus " +
             " from listUser as lu, contact as c " +
             " where c.contactLocalId = lu.contactLocalId " +
             " and lu.listLocalId = ?";
 
-          console.log("localListHandlerV2.getAllLists  lists " + JSON.stringify(lists));
-          lists.forEach(function (list) {
+          console.log("localListHandlerV2.getAllLists  lists " + JSON.stringify(serverHandlerListV2.lists));
+          serverHandlerListV2.lists.lists.forEach(function (list) {
             list.contacts = new Array();
             tx.executeSql(getContactsQuery, [list.listLocalId], function (tx, res2) {
               console.log("getAllLists list.item = " + JSON.stringify(list));
@@ -164,7 +165,7 @@ angular.module('starter.services')
               defer.reject(err);
             });
           });
-          defer.resolve(lists);
+          defer.resolve(serverHandlerListV2.lists);
         }, function (err) {
           console.error("localListHandlerV2.getAllLists  main query error " + err.message);
           defer.reject(err);
@@ -298,7 +299,8 @@ angular.module('starter.services')
       updateList: update,
       getSpecificList: getSpecificList,
       deactivateList: deactivateList,
-      kickContact: kickContact
+      kickContact: kickContact,
+      lists: serverHandlerListV2.lists
     };
   });
 

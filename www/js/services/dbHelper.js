@@ -193,15 +193,18 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
           // checking if there are items that need to be sync'd
-          items.forEach(function (item) {
+          var getDefaultCategoryId = "select categoryLocalId from category where categoryName = 'New Items'";
+          tx.executeSql(getDefaultCategoryId, [], function (tx, res) {
+            items.forEach(function (item) {
 
-            var query = "insert into masterItem " +
-              "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, origin, flag, genericFlag, itemPriority) values" +
-              "(null,?,1,'',?,'O', 'S', 0,0)";
+              var query = "insert into masterItem " +
+                "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, origin, flag, genericFlag, itemPriority) values" +
+                "(null,?,?,'',?,'O', 'S', 0,0)";
 
-            tx.executeSql(query, [item.itemName, item._id], function (tx, res) {
-              var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
-              tx.executeSql(query_lang, [res.insertId, 'EN', item.itemName, item.itemName.toLowerCase()]);
+              tx.executeSql(query, [item.itemName, res.rows.item(0).categoryLocalId, item._id], function (tx, res2) {
+                var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
+                tx.executeSql(query_lang, [res2.insertId, 'EN', item.itemName, item.itemName.toLowerCase()]);
+              });
             });
           });
         }, function (err) {
@@ -229,7 +232,7 @@ angular.module('starter.services')
         for (var i = 0; i < localIdsMap.items.length; i++) {
           if (entry.itemServerId) {
             if ((localIdsMap.items[i].itemServerId == entry.itemServerId) &&
-              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == 'US')) {
+              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == entry.language)) {
               result.itemLocalId = localIdsMap.items[i].itemLocalId;
               result.itemName = localIdsMap.items[i].itemName;
               result.categoryName = localIdsMap.items[i].categoryName;
@@ -238,7 +241,7 @@ angular.module('starter.services')
           }
           else {
             if ((localIdsMap.items[i].itemServerId == entry.userItemServerId) &&
-              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == 'US')) {
+              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == entry.language)) {
               result.itemLocalId = localIdsMap.items[i].itemLocalId;
               result.itemName = localIdsMap.items[i].itemName;
               result.categoryName = localIdsMap.items[i].categoryName;

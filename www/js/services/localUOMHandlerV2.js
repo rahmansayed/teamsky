@@ -33,6 +33,7 @@ angular.module('starter.services')
       function getAllUOMs() {
         var defer = $q.defer();
 
+        uoms = [];
         global.db.transaction(function (tx) {
           var query = "SELECT uomName from UOMS";
           tx.executeSql(query, [], function (tx, res) {
@@ -40,6 +41,7 @@ angular.module('starter.services')
             for (var i = 0; i < res.rows.length; i++) {
               uoms.push(res.rows.item(i).uomName);
             }
+            console.log("localUOMHandlerV2.getAllUOMs uoms = " + JSON.stringify(uoms));
             defer.resolve(uoms);
 
           }, function (err) {
@@ -140,7 +142,7 @@ angular.module('starter.services')
         searchUoms: searchUoms,
         uoms: uoms,
         init: init,
-        getAllUOMs:getAllUOMs
+        getAllUOMs: getAllUOMs
       };
     }
   );

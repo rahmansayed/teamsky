@@ -3,7 +3,7 @@ angular.module('starter.controllers')
 
 
     $scope.uoms = [];
-    $scope.retailerList=[];
+    $scope.retailerList = [];
     $scope.items = [];
     $scope.entries = {
       listOpenEntries: {},
@@ -15,6 +15,7 @@ angular.module('starter.controllers')
 
     localUOMHandlerV2.getAllUOMs().then(function (uoms) {
       $scope.uoms = uoms;
+      console.log('listItem $scope.uoms = ' + JSON.stringify($scope.uoms));
     });
     /*Drag to refresh functionality*/
     $scope.refresh = function () {
@@ -164,7 +165,7 @@ angular.module('starter.controllers')
         {
           itemLocalId: new Date().getTime().toString(),
           itemName: localItemHandlerV2.initcap(itemName),
-          categoryName: 'Uncategorized'
+          categoryName: 'New Items'
         };
       localItemHandlerV2.addMasterItem($scope.enteredItem)
 
@@ -177,7 +178,7 @@ angular.module('starter.controllers')
                 listLocalId: global.currentList.listLocalId,
                 itemLocalId: response,
                 itemName: localItemHandlerV2.initcap(itemName),
-                categoryName: localItemHandlerV2.categoryName(itemName),
+                categoryName: $scope.enteredItem.categoryName,
                 itemCrossed: false,
                 itemQuatity: 0,
                 itemUom: "",

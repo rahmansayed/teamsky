@@ -11,14 +11,14 @@ angular.module('starter.controllers')
 
     /*Retrieve all lists from localListHandlerV2*/
 
-    $scope.lists = global.lists;
+    $scope.lists = {};
     localListHandlerV2.getAllLists()
       .then(function (lists) {
-          global.lists.lists = lists;
-          console.log('21/02/2017 - listCtrl - localListHandlerV2 $scope.lists :' + JSON.stringify($scope.lists));
+          $scope.lists = lists;
+          console.log('listCtrl - localListHandlerV2 $scope.lists :' + JSON.stringify($scope.lists));
         },
         function (error) {
-          console.log('21/02/2017 - listCtrl - localListHandlerV2 ERROR $scope.lists:' + JSON.stringify(error));
+          console.log('listCtrl - localListHandlerV2 ERROR $scope.lists:' + JSON.stringify(error));
         });
 
 
@@ -197,7 +197,7 @@ angular.module('starter.controllers')
     /*set the border color of the contact shown based on status*/
     $scope.account = function () {
       $ionicSideMenuDelegate.toggleLeft();
-     $state.go('account');
+      $state.go('account');
     };
 
   });

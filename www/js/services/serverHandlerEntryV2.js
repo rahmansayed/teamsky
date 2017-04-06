@@ -972,7 +972,7 @@ angular.module('starter.services')
             " and ctl.categoryLocalId = c.categoryLocalId " +
             " and mi.itemLocalId = e.itemLocalId " +
             " and mtl.language = e.language " +
-            " and ctl.language = 'US' " +
+            " and ctl.language = e.language " +
             " and e.entryServerId = ?";
           tx.executeSql(query, [entryServerId], function (tx, res) {
             if (res.rows.length > 0) {
