@@ -29,14 +29,14 @@
         </ion-nav-buttons>
       </ion-nav-bar>
       <ion-nav-view animation="slide-left-right">
-        <ion-content class="padding">
+        <ion-content class="padding" style="padding-bottom:100px;">
 
 
           <!--       <ion-refresher on-refresh="refresh()">
 
                 </ion-refresher>-->
 
-          <ion-list show-reorder="reorderFlag">
+          <ion-list show-reorder="reorderFlag" >
             <!--              ng-class="list.contactStatus == 'S' ? 'classS' :list.contactStatus == 'P' ? 'classP': 'classNa'"-->
             <ion-item
 
@@ -163,7 +163,7 @@
       <ion-header-bar class="theme-color"></ion-header-bar>
       <ion-content has-header="true">
         <ion-list>
-          <ion-item class="icon-left ion-person larger" ng-click="toggleLeft()"><h2
+          <ion-item class="icon-left ion-person larger" ng-click="account()"><h2
             style="display:inline;padding-left:5px;"> Account</h2></ion-item>
           <ion-item class="icon-left ion-android-notifications larger" ng-click="toggleLeft()"><h2
             style="display:inline;padding-left:5px;"> Notification</h2></ion-item>

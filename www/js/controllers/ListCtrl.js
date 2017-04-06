@@ -194,6 +194,10 @@ angular.module('starter.controllers')
 
     };
     /*---------------------------------------------------------------------------*/
-
+    /*set the border color of the contact shown based on status*/
+    $scope.account = function () {
+      $ionicSideMenuDelegate.toggleLeft();
+     $state.go('account');
+    };
 
   });

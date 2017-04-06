@@ -1,0 +1,62 @@
+<ion-view view-title="Account" >
+  <ion-nav-bar class="theme-color">
+        <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+
+    <ion-nav-title>Account Setting</ion-nav-title>
+    <ion-content class="padding">
+        
+        
+       <div id="profile-bg"></div>
+      <div id="content">
+        <div id="profile-info">
+         
+            
+            
+          <img id="profile-image" src="img\cordova_bot.png">
+            
+         <button class="button button-balanced ion-camera larger padding text-center"
+        ng-click="openCamera()"
+        style=" border-radius: 50%;height:60px;width:60px;background-color:#941540;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);" ></button>
+            
+            
+          <h3 id="profile-name">{{displayName}}</h3>
+        </div>
+        </div>
+            
+        
+        <div class="list card">
+            
+            
+            <div class="item item-input" style="font-size:100%">
+                <input type="text"  
+                       placeholder="Enter your name"
+                       ng-model= "displayName">
+            </div>
+                              
+            <div class="item item-input">
+                    <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
+                    <select type="text"
+                            style="width:100%;border:0px;background-color:white;height:35px;"
+                            ng-init="'Select your gender'">
+                      <option value="" selected data-default>Select your gender</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                    </select>
+
+            </div>
+            
+        <div class="item item-input item-select ">
+        <div class="input-label">
+          &nbsp;
+        </div>
+        <select ng-model="country" ng-init="country=countries[defaultCountryIdx]"
+                ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
+
+      </div>
+
+        </div>
+        
+    </ion-content>
+</ion-view>
+    

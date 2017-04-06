@@ -3,7 +3,7 @@ angular.module('starter.controllers')
 
 
     $scope.uoms = [];
-
+    $scope.retailerList=[];
     $scope.items = [];
     $scope.entries = {
       listOpenEntries: {},
