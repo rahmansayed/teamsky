@@ -13,11 +13,11 @@ angular.module('starter.services')
       /*Return all entries in array selectedItems*/
       function getAllEntry(listId) {
         var defer = $q.defer();
-        var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId, e.language ,rtl.retailerName" +
+        var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId, e.language ,ifnull(rtl.retailerName, 'Anywhere')" +
           " FROM ( " +
           " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
           " left join retailer as r on e.retailerLocalId = r.retailerLocalId " +
-		  " left join retailer_tl as rtl on r.retailerLocalId = rtl.retailerLocalId and rtl.language = e.language"    +
+          " left join retailer_tl as rtl on r.retailerLocalId = rtl.retailerLocalId and rtl.language = e.language" +
           " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
           " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
           " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
@@ -242,7 +242,7 @@ angular.module('starter.services')
        * @param entry
        */
       function updateEntry(entry) {
-        console.log('4/4/2017 - localEntryHandlerV2 - aalatief - Entry: '+JSON.stringify(entry));  
+        console.log('4/4/2017 - localEntryHandlerV2 - aalatief - Entry: ' + JSON.stringify(entry));
         var deferred = $q.defer();
         global.db.transaction(function (tx) {
 
