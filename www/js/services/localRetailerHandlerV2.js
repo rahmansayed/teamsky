@@ -86,19 +86,6 @@ angular.module('starter.services')
       }
       return deferred.promise;
     }
-    /*----------------------------------------------------------------------*/
-  getRetailerName = function (retailerLocalId,retailerList) {
-      retailerName = '';
-      for (var i = 0; i < retailerList.length; i++) {
-        if (retailerList[i].retailerLocalId == retailerLocalId) {
-          retailerName = retailerList[i].retailerName;
-
-          return retailerName;
-        }
-      }
-      return retailerName || 'anywhere';
-    };
-
 /*-----------------------------------------------------------------------------------------*/
     
     
@@ -106,8 +93,6 @@ angular.module('starter.services')
     return {
       getAllRetailers: getAllRetailers,
       addRetailer: addRetailer,
-      search: search,
-      getRetailerName:getRetailerName,
-      getRetailerLocalId:getRetailerLocalId
+      search: search
     };
   });
