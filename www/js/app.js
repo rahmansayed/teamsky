@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 //console.log = function() {};
 //console.error = function() {};
-angular.module('starter', ['ionic', 
+angular.module('starter', ['ionic',
   'ionic.service.core',
   'starter.controllers',
   'starter.services',
@@ -19,7 +19,7 @@ angular.module('starter', ['ionic',
 /*var db = null;*/
 
 
-  .run(function ($ionicPlatform, global, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
+  .run(function ($ionicPlatform, global, camera, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
 
       if (window.cordova && StatusBar) {
@@ -114,6 +114,8 @@ angular.module('starter', ['ionic',
          }, function (errormsg) {
          alert(errormsg)
          });*/
+
+        camera.capture();
 
         //window.open("whatsapp://send?text=Hello&phone=+201147940889&abid=+31611111111", "_system");
 
