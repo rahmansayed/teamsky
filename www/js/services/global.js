@@ -14,13 +14,7 @@ angular.module('starter.services')
     var masterItems = new Array();
     var simCountry = '';
     var deviceUUID = "TEST";
-    var verificationData = {
-      deviceLocalId: '',
-      userServerId: '',
-      deviceServerId: '',
-      vcode: '',
-      countryCode: ''
-    };
+
 
     var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
     var currentList = {};
@@ -43,7 +37,6 @@ angular.module('starter.services')
       deviceServerId: deviceServerId,
       countryCode: countryCode,
       initialize: initialize,
-      verificationData: verificationData,
       masterItems: masterItems,
       deviceUUID: deviceUUID,
       currentListEntries: currentListEntries,

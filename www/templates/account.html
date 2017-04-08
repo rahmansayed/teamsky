@@ -25,38 +25,71 @@
         </div>
             
         
-        <div class="list card">
+        <div >
             
             
-            <div class="item item-input" style="font-size:100%">
+            <div class="item item-input" style="font-size:100%;border-radius:15px; ">
                 <input type="text"  
                        placeholder="Enter your name"
                        ng-model= "displayName">
             </div>
                               
-            <div class="item item-input">
-                    <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
-                    <select type="text"
-                            style="width:100%;border:0px;background-color:white;height:35px;"
-                            ng-init="'Select your gender'">
-                      <option value="" selected data-default>Select your gender</option>
-                      <option>Male</option>
-                      <option>Female</option>
-                    </select>
-
-            </div>
             
-        <div class="item item-input item-select ">
+             <div >  
+                <ion-radio ng-model="choice" ng-value="'male'" style="width:50%;float:left;border-radius:15px;">Male</ion-radio>
+                <ion-radio ng-model="choice" ng-value="'female'" style="width:50%;float:left;border-radius:15px;  ">Female</ion-radio>
+
+              </div>
+
+        <br><br>
+            
+            <div class="item item-input item-select " style="border-radius:15px;">
         <div class="input-label">
           &nbsp;
         </div>
         <select ng-model="country" ng-init="country=countries[defaultCountryIdx]"
-                ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
+                ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"
+                ></select>
 
       </div>
+            
+            
+            <p>Date of Birth</p>
+             <div >
+                    <select required type="text"
+                              style="float:left;width:30%;display:inline;border-radius:15px;padding-left:5%;background-color:white;height:35px;"
+                              ng-model="selected.selectedMonth"
+                              ng-change="getDays(selectedMonth,selectedYear)"
+                            ng-options="month.id as month.name for month in months track by month.id">
+                        <option value="" disabled selected>MM</option>
+                        <!--<option ng-repeat="month in months" >{{month.name}}</option>-->
+                    </select> 
+       
+<!--                 <input type="number" min="1900" max="2099" step="1" placeholder="YY" 
+                        style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"> -->
+                 
+                <select required type="text"
+                            style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"
+                            ng-change="getDays(selectedMonth,selectedYear)"
+                            ng-model="selected.selectedYear" 
+                            ng-options="year for year in years">
+                        <option value="" disabled selected>YY</option>
+                      </select>
+           
+                 <select required type="text" 
+                              style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"
+                              ng-model="selected.selectedDay"
+                              ng-options="day for day in days">
+                      <!--  <option value="" disabled selected>DD</option>-->
+                        <option  value="" ></option>
+                      </select>
+              
+
+                 
+
+            </div>
 
         </div>
         
     </ion-content>
 </ion-view>
-    
