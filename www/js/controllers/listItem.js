@@ -5,7 +5,7 @@ angular.module('starter.controllers')
     $scope.uoms = [];
     $scope.retailerList = [];
     $scope.items = [];
-$scope.entries = {
+    $scope.entries = {
       listOpenEntries: {},
       listCrossedEntries: []
     };
@@ -271,9 +271,9 @@ $scope.entries = {
       $scope.entryLocalId = listItem.entryLocalId;
     };
 /*-----------------------------------------------------------------------------------------*/
-    $scope.updateEntry = function (entry, retailerName) {
+    $scope.updateEntry = function (entry) {
       //If DIV is visible it will be hidden and vice versa.
-      retailer = {};
+      
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.showItemDetails = false;
@@ -281,15 +281,14 @@ $scope.entries = {
       }, 1);
 
       $scope.entryLocalId = entry.entryLocalId;
-      entry.retailerLocalId = $scope.retailerData.search.retailerLocalId/*$scope.getRetailerLocalId(retailerName)*/;
+      
       console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
 
-      retailer.retailerName = retailerName;
 
-      localRetailerHandlerV2.addRetailer(retailer)
+      localRetailerHandlerV2.addRetailer(entry.retailerName)
         .then(function (response) {
 
-          if (!entry.retailerLocalId && retailer) {
+          if (!entry.retailerLocalId && entry.retailerName) {
             entry.retailerLocalId = response;
             console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(retailer));
 
@@ -298,13 +297,13 @@ $scope.entries = {
           localEntryHandlerV2.updateEntry(entry);
 
         }, function (error) {
-          console.log('4/4/2017 - listItem - aalatief - Error: ' + JSON.stringify(error));
+          console.error('4/4/2017 - listItem - aalatief - Error: ' + JSON.stringify(error));
         });
 
 
     };
 /*------------------------------------------------------------------------------------------------------*/
-    $scope.retailers = global.retailers;
+
     //Declaring the function to load data from database
     $scope.fillretListetailerList = function () {
       localRetailerHandlerV2.getAllRetailers()
@@ -323,9 +322,9 @@ $scope.entries = {
 /*------------------------------------------------------------------*/
 /*Search for existing retailer*/
     $scope.retailerData = {"retailers": [], "search": ''};
-    $scope.searchRetailer = function () {
+    $scope.searchRetailer = function (retailerName) {
       /*console.log('Search pressed : ' + $scope.data.search);*/
-      localRetailerHandlerV2.search($scope.retailerData.search.retailerName, $scope.retailerList).then(
+      localRetailerHandlerV2.search(retailerName, $scope.retailerList).then(
         function (matches) {
 
           $scope.retailerData.retailers = matches;

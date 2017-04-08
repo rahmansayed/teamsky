@@ -152,21 +152,23 @@
 
 
                           <i class="icon placeholder-icon ion-android-search"></i>
-                          <input type="search" placeholder="Pick Retailer"
-                                 ng-change="searchRetailer()"
-                                 ng-init="retailerData.search.retailerName=listItem.retailerName"
-                                 ng-model="retailerData.search.retailerName"
+                          <input type="search" 
+                                 ng-change="searchRetailer(listItem.retailerName)"
+                                 
+                                 
+                                 ng-model="listItem.retailerName"
                                  style="width:100%;border:0px;padding-left:10%;background-color:white;height:35px;"
                           >
-   
+                        
                        </div>
 
                         <div class="padding">
                           <ion-list>
-                            <ion-item class="item"
+                            <ion-item class="item" placeholder="Pick Retailer"
                                       ng-repeat="retailer in retailerData.retailers"
-                                      ng-click="retailerData.search = retailer;
-                                                       retailerData.retailers=[];
+                                      ng-click="listItem.retailerName = retailer.retailerName;
+                                                listItem.retailerLocalId = retailer.retailerLocalId;
+                                                retailerData.retailers=[];
                                                        "
                             >
 
@@ -330,7 +332,8 @@
                                                                   </div>-->
                         <div class="padding button-bar">
                           <a style="background-color:#941540;color:white;" class="button"
-                             ng-click="updateEntry(listItem,retailerData.search)">Ok</a>
+                             ng-click="updateEntry(listItem);
+                                      ">Ok</a>
                         </div>
 
                       </div>

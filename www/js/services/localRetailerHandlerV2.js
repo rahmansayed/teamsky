@@ -28,24 +28,24 @@ angular.module('starter.services')
       return defer.promise;
     }
 
-    function addRetailer(retailer) {
+    function addRetailer(retailerName) {
       var defer = $q.defer();
 
       global.db.transaction(function (tx) {
         var query = "insert or ignore into retailer (retailerLocalId, retailerName, retailerServerId, origin, flag) " +
           " values (null,?,'', 'L', 'N')";
-        tx.executeSql(query, [retailer.retailerName], function (tx, res) {
+        tx.executeSql(query, [retailerName], function (tx, res) {
           console.log("addRetailer query res = " + JSON.stringify(res));
           serverHandlerRetailerV2.syncLocalRetailerUpstream();
           /*            var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
            tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailer.retailerName]);*/
           defer.resolve(res.insertId);
         }, function (err) {
-          console.log("addRetailer query err = " + err.message);
+          console.error("addRetailer query err = " + err.message);
           defer.reject();
         });
       }, function (err) {
-        console.log("addRetailer query err = " + err.message);
+        console.error("addRetailer query err = " + err.message);
         defer.reject();
       }, function () {
       });
@@ -66,7 +66,7 @@ angular.module('starter.services')
           var match = true;
           for (var i = 0; i < words.length; i++) {
             console.log("13/3/2017 - aalatief - searchRetailer searchArray[j] = " + JSON.stringify(searchArray[j]));
-            console.log("13/3/2017 - aalatief - Condition checked= " + JSON.stringify(searchArray[j].retailerName.toLowerCase()));
+            console.log("13/3/2017 - aalatief - Condition checked= " + JSON.stringify(searchArray[j].retailerName));
             console.log("13/3/2017 - aalatief - words(i)= " + JSON.stringify(words[i].toLowerCase()));
             if (searchArray[j].retailerName.toLowerCase().indexOf(words[i]) == -1 /*||
              searchArray[j].language != lang*/

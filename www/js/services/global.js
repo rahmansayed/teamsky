@@ -18,7 +18,7 @@ angular.module('starter.services')
 
     var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
     var currentList = {};
-    var retailers = {retailers: []};
+
 
     function initialize() {
       global.db.transaction(function (tx) {
@@ -41,8 +41,7 @@ angular.module('starter.services')
       deviceUUID: deviceUUID,
       currentListEntries: currentListEntries,
       currentList: currentList,
-      simCountry: simCountry,
-      retailers: retailers
+      simCountry: simCountry
     };
   });
 
