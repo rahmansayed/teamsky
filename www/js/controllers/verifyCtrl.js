@@ -9,16 +9,14 @@ angular.module('starter.controllers')
 
 
 
-    user = userVerify.verificationData();
-
 
     $scope.verify = function (vCode) {
         data = {
-        deviceLocalId: user.deviceLocalId,
-        userServerId:user.userServerId,
-        deviceServerId:user.deviceServerId,
+        deviceLocalId: userVerify.verificationData.deviceLocalId,
+        userServerId:userVerify.verificationData.userServerId,
+        deviceServerId:userVerify.verificationData.deviceServerId,
         vCode: vCode,
-        countryCode:user.countryCode
+        countryCode:userVerify.verificationData.countryCode
       };
    /*  console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    */
         console.log('28/2/2017 - aalatief : date: '+JSON.stringify(data));

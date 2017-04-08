@@ -7,7 +7,7 @@ angular.module('starter.services')
 
     var userSetting = [];
     
-    var verificationData = {
+var verificationData = {
       deviceLocalId: '',
       userServerId: '',
       deviceServerId: '',
@@ -169,9 +169,7 @@ angular.module('starter.services')
       verificationData.userServerId = data.userServerId;
       verificationData.deviceServerId = data.deviceServerId;
       verificationData.countryCode = data.countryCode;    
-
-      countryCode = data.countryCode;   
-      console.log('28/2/2017 - aalatief service after update, User Data:' + JSON.stringify(global.verificationData));
+      console.log('28/2/2017 - aalatief service after update, User Data:' + JSON.stringify(verificationData));
 
     };
 ///////////////////////////////////////////////////////////////////////

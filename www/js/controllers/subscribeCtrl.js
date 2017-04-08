@@ -86,7 +86,7 @@ angular.module('starter.controllers')
         };
 
 
-        userVerify.addUserInfo(userInfo);
+
 
         console.log('11/03/2017 - aalatief - subscribeCtrl: ' + JSON.stringify(userData));
         userVerify.updateVerificationData(userData);

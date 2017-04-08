@@ -41,8 +41,6 @@ angular.module('starter', ['ionic',
 
               userVerify.getUserSetting()
                 .then(function (result) {
-                    userVerify.getUserSetSuccessCB(result);
-                    users = userVerify.userSetting();
                     global.userServerId = userVerify.getUserServerId();
                     global.deviceServerId = userVerify.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {
@@ -59,12 +57,12 @@ angular.module('starter', ['ionic',
                       $location.path("/subscribe");
 
                     }
-                    console.log('01/02/2017 - app.run - aalatief: Users:' + JSON.stringify(users));
+    
                     console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                     console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
                   },
                   function (error) {
-                    userVerify.getUserSetErrorCB();
+                   
                     console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
                     ;
                   }
