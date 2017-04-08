@@ -1,16 +1,66 @@
 angular.module('starter.controllers')
   .controller('accountCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
     
+      //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
+      $scope.days =['1','2'];
+    
+      $scope.selectedYear = 0;
+      $scope.selectedMonth = 0;
+  
+      $scope.selected = {  selectedYear : 0,
+                           selectedMonth: 0,
+                           selectedDay:0};
+    
+      $scope.months = [{name:'January',
+                        id:1},
+                       {name:'February',
+                        id:2},
+                       {name:'March',
+                        id:3},
+                       {name:'April',
+                        id:4},
+                       {name:'May',
+                        id:5},
+                       {name:'June',
+                        id:6},
+                       {name:'July',
+                        id:7},
+                       {name:'August',
+                        id:8},
+                       {name:'September',
+                        id:9},
+                       {name:'October',
+                        id:10},
+                       {name:'November',
+                        id:11},
+                       {name:'December',
+                        id:12}];
+    
+    $scope.years =[];
+    
+    $scope.getYears = function(){
+         for (var i = 2017; i >= 1930; i--) {
+            $scope.years.push(i);
+         }
+    }
+     $scope.getYears();
+    
+     $scope.getDays=function(/*month,year*/){
+     console.log("year: "+JSON.stringify($scope.selected.selectedYear)+"month: "+JSON.stringify($scope.selected.selectedMonth))    
+     $scope.days = [];
+     for (var i = 1; i <= new Date($scope.selected.selectedYear, $scope.selected.selectedMonth, 0).getDate(); i++) {
+          $scope.days.push(i);
+      } 
+        console.log('Days: '+JSON.stringify($scope.days),JSON.stringify($scope.selectedYear) );
+       //return days;  
+     };
+    
+      //$scope.getDays(/*$scope.currMonth*/2,2017/*$scope.currYear*/);
+     
     
     
     
-    
-    
-    
-    
-    
-    
-      $scope.countries = [
+    $scope.countries = [
       {
         name: "Saudi Arabia",
         dial_code: "+966",

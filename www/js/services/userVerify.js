@@ -3,48 +3,19 @@ angular.module('starter.services')
   .factory('userVerify', function ($ionicPlatform, $cordovaSQLite, $q, $ionicLoading, $location, dbHandler,global) {
 
 
-/*    var verificationData = {
-      deviceLocalId: '',
-      userServerId: '',
-      deviceServerId: '',
-      vcode: ''
-    };*/
-
     var selectedUsers = [];
 
     var userSetting = [];
-
-
-    /*    var x = getUserInfo()
-     .then(getUserSuccessCB,getUserErrorCB);
-     */
-    /*
-     function itemExitInList(selectedItem){
-     for  (var j=0;j<selectedItems.length;j++){
-     if (selectedItems[j].listLocalId == selectedItem.listLocalId && selectedItems[j].itemName.toLowerCase() == selectedItem.itemName.toLowerCase()){
-     return true;
-     }
-     };
-     return false;
-     };
-     */
-
-    function isUserVerified(deviceLocalId) {
-      if (selectedUsers.length > 0) {
-
-        for (var j = 0; j < selectedUsers.length; j++) {
-          if (selectedUsers[j].deviceLocalId == deviceLocalId && selectedUsers[j].status == 'V') {
-            console.log('aalatief: user already verified!! -> ' + deviceLocalId + ' ' + selectedUsers.length);
-            return true;
-          }
-        }
-        ;
-      }
-      console.log('aalatief: User Array Still Not Loaded-> ' + deviceLocalId + ' ' + selectedUsers.length);
-
-      return false;
+    
+    var verificationData = {
+      deviceLocalId: '',
+      userServerId: '',
+      deviceServerId: '',
+      vcode: '',
+      countryCode: ''
     };
 
+/*Check whther is verified */
     function isVerified() {
       if (userSetting.length > 0) {
 
@@ -56,11 +27,10 @@ angular.module('starter.services')
         }
         ;
       }
-      /*console.log('aalatief: User Array Still Not Loaded-> ' + ' ' + userSetting.length);*/
 
       return false;
     };
-
+////////////////////////////////////////////////////////////////////////////
     function getUserServerId() {
       if (userSetting.length > 0) {
 
@@ -72,11 +42,10 @@ angular.module('starter.services')
         }
         ;
       }
-      /*console.log('aalatief: User Array Still Not Loaded-> ' + ' ' + userSetting.length);*/
 
       return 'Not Found';
     };
-
+//////////////////////////////////////////////////////////////////
     function getDeviceServerId() {
       if (userSetting.length > 0) {
 
@@ -92,7 +61,7 @@ angular.module('starter.services')
 
       return 'Not Found';
     };
-
+///////////////////////////////////////////////////////////////////////////////////
     function getUserSuccessCB(response) {
       selectedUsers = [];
       if (response && response.rows && response.rows.length > 0) {
@@ -146,34 +115,10 @@ angular.module('starter.services')
     }
     ;
 
-    function addUserInfo(userInfo) {
-      /* console.log('User Info Added to Table'+userInfo);*/
-      /*console.log('Add Item to List Case: '+ JSON.stringify(mySelectedItem));*/
-      /*            if (!itemExitInList(mySelectedItem)){
-       selectedItems.push(mySelectedItem);
-       saveToLocalStorage();
-       console.log('item added in list '||mySelectedItem.categoryName);
-       */
-      //Sqlite
-      var deferred = $q.defer();
-      var query = "INSERT INTO userInfo (deviceLocalId,dialCode,userServerId,deviceServerId,status,lastUpdateDate,lastUpdateBy) VALUES (?,?,?,?,?,?,?)";
-      dbHandler.runQuery(query, [userInfo.deviceLocalId, userInfo.dialCode, userInfo.userServerId, userInfo.deviceServerId, userInfo.status, new Date().getTime(), 'U'], function (response) {
-        //Success Callback
-        console.log(response);
-        deferred.resolve(response);
-      }, function (error) {
-        //Error Callback
-        console.log(error);
-        deferred.reject(error);
-      });
+/////////////////////////////////////////////////////////////////////////////////
 
-      return deferred.promise;
-      /* }*/
+    function addUserSetting(setting, value) {
 
-    };
-
-    function addUserSetting(userInfo, setting, value) {
-      /*   console.log('User Setting Added to Table'+userInfo);*/
 
       //Sqlite
       var deferred = $q.defer();
@@ -192,66 +137,8 @@ angular.module('starter.services')
       /* }*/
 
     };
-    function updateUserInfo(userInfo, status) {
-      /*
-       console.log('Is Item Checked: '+isItemChecked(listItem));
-       if (!isItemChecked(listItem)){
-       checkedItems.push(listItem);
-       //window.localStorage['checkedItems'] = angular.toJson(checkedItems) ;
-       */
+///////////////////////////////////////////////////////////////////////////////////////    
 
-      for (var i = 0; i < selectedUsers.length; i++) {
-
-        if (selectedUsers[i].deviceLocalId == userInfo.deviceLocalId) {
-
-          selectedUsers[i].status = status;
-
-          var deferred = $q.defer();
-          var query = 'update userInfo  set status=?,lastUpdateDate=?,lastUpdateBy=? where deviceLocalId =?';
-
-          console.log('aalatief: Update user staus ' + userInfo.deviceLocalId);
-          dbHandler.runQuery(query, [status, new Date().getTime(), 'S', userInfo.deviceLocalId], function (response) {
-            //Success Callback
-            /* console.log('Update user status');*/
-            console.log(response);
-            deferred.resolve(response);
-          }, function (error) {
-            //Error Callback
-            console.log(error);
-            deferred.reject(error);
-          });
-
-          return deferred.promise;
-
-        }
-      }
-      ;
-
-      /*}*/
-    };
-
-
-    function getUserInfo() {
-      var deferred = $q.defer();
-      var query = "SELECT *  FROM userInfo u";
-      /*var query = "SELECT * FROM  masterItem ";*/
-      dbHandler.runQuery(query, [], function (response) {
-        //Success Callback
-        console.log(response);
-        selectedUsers = response.rows;
-        console.log('Selected user: ' + JSON.stringify(selectedUsers));
-
-        deferred.resolve(response);
-      }, function (error) {
-        //Error Callback
-        console.log(error);
-        deferred.reject(error);
-      });
-      console.log('Deferred Promise: ' + JSON.stringify(deferred.promise));
-      return deferred.promise;
-    };
-
-    
     
     function getUserSetting() {
       var deferred = $q.defer();
@@ -262,68 +149,44 @@ angular.module('starter.services')
         console.log(response);
         userSet = response.rows;
         console.log('04/02/2017 - aalatief - User Setting: ' + JSON.stringify(userSet));
-
+        getUserSetSuccessCB(response);
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
         console.log(error);
+        getUserSetErrorCB(error);
         deferred.reject(error);
       });
       console.log('Deferred Promise: ' + JSON.stringify(deferred.promise));
       return deferred.promise;
     };
-
+/////////////////////////////////////////////////////////////////////////
 
     function updateVerificationData(data) {
 
       console.log('aalatief service, User Data:' + JSON.stringify(data));
-      global.verificationData.deviceLocalId = data.deviceLocalId;
-      global.verificationData.userServerId = data.userServerId;
-      global.verificationData.deviceServerId = data.deviceServerId;
-      global.verificationData.countryCode = data.countryCode;    
+      verificationData.deviceLocalId = data.deviceLocalId;
+      verificationData.userServerId = data.userServerId;
+      verificationData.deviceServerId = data.deviceServerId;
+      verificationData.countryCode = data.countryCode;    
 
-      global.countryCode = data.countryCode;   
+      countryCode = data.countryCode;   
       console.log('28/2/2017 - aalatief service after update, User Data:' + JSON.stringify(global.verificationData));
 
     };
-
+///////////////////////////////////////////////////////////////////////
 
     return {
 
-      verificationData: function () {
-
-        return global.verificationData;
-      },
-
-
-      selectedUser: function () {
-        selectedUsers = [];
-
-         m = getUserSetting()
-         .then(getUserSuccessCB,getUserErrorCB);
-         console.log('aalatief: Users Are: ' + JSON.stringify(selectedUsers));
-        return selectedUsers;
-      },
-      userSetting: function () {
-        
-
-/*        m= getUserSetting()
-         .then(getUserSetSuccessCB,getUserSetErrorCB);
-         console.log('04/02/2017 - aalatief - Users Settings: ' + JSON.stringify(userSetting));*/
-        return userSetting;
-      },
+      verificationData: verificationData,
+      userSetting: userSetting,
       updateVerificationData: updateVerificationData,
-      addUserInfo: addUserInfo,
-      getUserInfo: getUserInfo,
       getUserSetting: getUserSetting,
-      updateUserInfo: updateUserInfo,
-      isUserVerified: isUserVerified,
       isVerified: isVerified,
       addUserSetting: addUserSetting,
       getUserServerId: getUserServerId,
-      getDeviceServerId: getDeviceServerId,
-      getUserSetSuccessCB:getUserSetSuccessCB,
-      getUserSetErrorCB:getUserSetErrorCB
+      getDeviceServerId: getDeviceServerId
+      
     };
   });
 

@@ -12,8 +12,6 @@ angular.module('starter.controllers')
     user = userVerify.verificationData();
 
 
-    $scope.userInfo=userVerify.selectedUser(user.deviceLocalId);
-
     $scope.verify = function (vCode) {
         data = {
         deviceLocalId: user.deviceLocalId,
@@ -34,11 +32,11 @@ angular.module('starter.controllers')
            console.log('06/02/2017 - verifyCtrl - aalatief after Verify: User Server ID:' + global.userServerId);
            console.log('06/02/2017 - verifyCtrl - aalatief after Verify: Device Server ID:' + global.deviceServerId);
           /*console.log('aaaltief: user to be updated:'+JSON.stringify(data)); */
-          userVerify.updateUserInfo(data,'V');
-          userVerify.addUserSetting(userInfo,'verified','Y');
-          userVerify.addUserSetting(userInfo,'userServerId',response.data.userServerId);
-          userVerify.addUserSetting(userInfo,'deviceServerId',response.data.deviceServerId);
-          userVerify.addUserSetting(userInfo,'countryCode',data.countryCode);
+          
+          userVerify.addUserSetting('verified','Y');
+          userVerify.addUserSetting('userServerId',response.data.userServerId);
+          userVerify.addUserSetting('deviceServerId',response.data.deviceServerId);
+          userVerify.addUserSetting('countryCode',data.countryCode);
           
           serverHandler.syncInit()
           .then(function(response){

@@ -14,8 +14,7 @@ angular.module('starter', ['ionic',
   'ngCordova',
   'ion-floating-menu',
   'angular.filter',
-  'ngRoute'
-])
+  'ngRoute'])
 /*var db = null;*/
 
 
