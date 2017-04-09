@@ -333,19 +333,6 @@ angular.module('starter.controllers')
       )
     };
 /*---------------------------------------------------------------------------*/
-    $scope.getRetailerName = function (retailerLocalId) {
-      retailerName = '';
-      for (var i = 0; i < $scope.retailerList.length; i++) {
-        if ($scope.retailerList[i].retailerLocalId == retailerLocalId) {
-          retailerName = $scope.retailerList[i].retailerName;
-
-          return retailerName;
-        }
-      }
-      return retailerName || 'anywhere';
-    };
-
-/*-----------------------------------------------------------------------------------------*/
 
     /*set the border color of the contact shown based on status*/
     $scope.toggleLeft = function () {

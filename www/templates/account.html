@@ -1,10 +1,20 @@
 <ion-view view-title="Account" >
   <ion-nav-bar class="theme-color">
         <ion-nav-back-button></ion-nav-back-button>
+              <ion-nav-buttons side="right">
+          <button class="theme-color button button-clear icon-left ion-checkmark-round"
+                  ng-click="saveUserSetting()"
+                  style="padding-right:7px;">
+
+          </button>
+        </ion-nav-buttons>
   </ion-nav-bar>
 
     <ion-nav-title>Account Setting</ion-nav-title>
-    <ion-content class="padding">
+    
+
+    
+    <ion-content class="padding" style="padding-bottom:100px;">
         
         
        <div id="profile-bg"></div>
@@ -24,37 +34,44 @@
         </div>
         </div>
             
-        
+        <br><br><br>
         <div >
             
-            
-            <div class="item item-input" style="font-size:100%;border-radius:15px; ">
+            <label ng-show="displayName">Display Name</label>
+            <div class="item item-input has-float-label" style="font-size:100%;border-radius:15px;">
                 <input type="text"  
                        placeholder="Enter your name"
                        ng-model= "displayName">
+              
             </div>
-                              
-            
+             <br>    
+            <label >Gender</label>
              <div >  
-                <ion-radio ng-model="choice" ng-value="'male'" style="width:50%;float:left;border-radius:15px;">Male</ion-radio>
-                <ion-radio ng-model="choice" ng-value="'female'" style="width:50%;float:left;border-radius:15px;  ">Female</ion-radio>
-
+                 <ion-radio ng-model="choice" ng-value="'male'" 
+                            style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
+                            name="gender">Male</ion-radio>
+                <ion-radio ng-model="choice" ng-value="'female'" 
+                           style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;  "
+                           name="gender">Female</ion-radio>
+             
               </div>
 
-        <br><br>
             
+
+        <br><br><br><br>
+           <label >Current Location</label>  
             <div class="item item-input item-select " style="border-radius:15px;">
         <div class="input-label">
           &nbsp;
         </div>
         <select ng-model="country" ng-init="country=countries[defaultCountryIdx]"
-                ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"
+                ng-options="(country.name) for country in countries"
                 ></select>
 
       </div>
             
-            
-            <p>Date of Birth</p>
+             <br>
+            <label>Date of Birth</label>
              <div >
                     <select required type="text"
                               style="float:left;width:30%;display:inline;border-radius:15px;padding-left:5%;background-color:white;height:35px;"
@@ -80,16 +97,26 @@
                               style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"
                               ng-model="selected.selectedDay"
                               ng-options="day for day in days">
-                      <!--  <option value="" disabled selected>DD</option>-->
+                        <option value="" disabled selected>DD</option>
                         <option  value="" ></option>
                       </select>
               
-
-                 
-
             </div>
-
+            <br><br><br><br>
+            
+            <label >Preferred Language</label>
+             <div >  
+                 <ion-radio ng-model="language" ng-value="'arabic'" 
+                            style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
+                            name="lang">Arabic</ion-radio>
+                <ion-radio ng-model="language" ng-value="'english'" 
+                           style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
+                           name="lang">English</ion-radio>
+             
+              </div>
         </div>
-        
+            
+    <br><br><br><br>
     </ion-content>
+    
 </ion-view>
