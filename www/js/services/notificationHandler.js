@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerListV2, $location, $state, contactHandler) {
+  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerListV2, $location, $state, contactHandler, settings) {
 
       function handleNotification(msg) {
         console.log('notificationHandler msg = ' + JSON.stringify(msg));
@@ -83,6 +83,15 @@ angular.module('starter.services')
               if ($state.current.name == "lists") {
                 $state.reload();
               }
+            });
+            break;
+          case "PROFILE UPDATE":
+            settings.setSettings(msg.additionalData.details.update).then(function () {
+              settings.getUserSetting().then(function () {
+                if ($state.current.name == 'account') {
+                  $state.reload();
+                }
+              });
             });
             break;
           default:

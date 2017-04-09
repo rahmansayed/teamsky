@@ -84,6 +84,27 @@ angular.module('starter.services')
         return deferred.promise;
       };
 
+      function setSettings(updates) {
+        var promises = [];
+        for (var i in updates) {
+          switch (i) {
+            case "name" :
+              promises.push(addUserSetting("displayName", updates[i]));
+              break;
+            case "preferredLanguage":
+              promises.push(addUserSetting("language", updates[i]));
+              break;
+            case "currentLocation":
+              promises.push(addUserSetting("country", updates[i]));
+              break;
+            default:
+              promises.push(addUserSetting(i, updates[i]));
+              break;
+          }
+        }
+        return $q.all(promises);
+      }
+
 ///////////////////////////////////////////////////////////////////////
 
       return {
@@ -93,7 +114,9 @@ angular.module('starter.services')
         addUserSetting: addUserSetting,
         getUserServerId: getUserServerId,
         getDeviceServerId: getDeviceServerId,
-        getSettingValue: getSettingValue
+        getSettingValue: getSettingValue,
+        setSettings: setSettings
+
       };
     }
   );

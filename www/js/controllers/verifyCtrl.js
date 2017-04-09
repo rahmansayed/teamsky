@@ -29,10 +29,21 @@ angular.module('starter.controllers')
           console.log('06/02/2017 - verifyCtrl - aalatief after Verify: Device Server ID:' + global.deviceServerId);
           /*console.log('aaaltief: user to be updated:'+JSON.stringify(data)); */
 
-          settings.addUserSetting('verified', 'Y');
-          settings.addUserSetting('userServerId', response.data.userServerId);
-          settings.addUserSetting('deviceServerId', response.data.deviceServerId);
-          settings.addUserSetting('countryCode', data.countryCode);
+          var otherSettings = {
+            preferredLanguage: response.data.preferredLanguage,
+            dateOfBirth: response.data.dateOfBirth,
+            gender: response.data.gender,
+            name: response.data.name,
+            currentLocation: response.data.currentLocation,
+            verified: 'Y',
+            userServerId: response.data.userServerId,
+            deviceServerId: response.data.deviceServerId,
+            countryCode: data.countryCode
+          };
+
+          settings.setSettings(otherSettings).then(function () {
+            settings.getUserSetting();
+          });
 
           serverHandler.syncInit()
             .then(function (response) {

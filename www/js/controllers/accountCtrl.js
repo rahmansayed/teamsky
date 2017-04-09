@@ -1060,9 +1060,11 @@ angular.module('starter.controllers')
       selected: setSelectedDOB()
     };
     function setCountry() {
-      if (settings.getSettingValue('country') != '') {
+      var cntry = settings.getSettingValue('country');
+      console.log('cntry = ' + cntry);
+      if (cntry != '') {
         for (var i = 0; i < $scope.countries.length; i++) {
-          if ($scope.countries[i].code == settings.getSettingValue('country')) {
+          if ($scope.countries[i].code == cntry) {
             return $scope.countries[i];
           }
         }
