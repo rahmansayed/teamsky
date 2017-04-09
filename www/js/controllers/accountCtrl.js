@@ -1,65 +1,61 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
-    
-      //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
-      $scope.days =['1','2'];
-    
-      $scope.selectedYear = 0;
-      $scope.selectedMonth = 0;
-  
-      $scope.selected = {  selectedYear : 0,
-                           selectedMonth: 0,
-                           selectedDay:0};
-    
-      $scope.months = [{name:'January',
-                        id:1},
-                       {name:'February',
-                        id:2},
-                       {name:'March',
-                        id:3},
-                       {name:'April',
-                        id:4},
-                       {name:'May',
-                        id:5},
-                       {name:'June',
-                        id:6},
-                       {name:'July',
-                        id:7},
-                       {name:'August',
-                        id:8},
-                       {name:'September',
-                        id:9},
-                       {name:'October',
-                        id:10},
-                       {name:'November',
-                        id:11},
-                       {name:'December',
-                        id:12}];
-    
-    $scope.years =[];
-    
-    $scope.getYears = function(){
-         for (var i = 2017; i >= 1930; i--) {
-            $scope.years.push(i);
-         }
-    }
-     $scope.getYears();
-    
-     $scope.getDays=function(/*month,year*/){
-     console.log("year: "+JSON.stringify($scope.selected.selectedYear)+"month: "+JSON.stringify($scope.selected.selectedMonth))    
-     $scope.days = [];
-     for (var i = 1; i <= new Date($scope.selected.selectedYear, $scope.selected.selectedMonth, 0).getDate(); i++) {
-          $scope.days.push(i);
-      } 
-        console.log('Days: '+JSON.stringify($scope.days),JSON.stringify($scope.selectedYear) );
-       //return days;  
-     };
-    
-      //$scope.getDays(/*$scope.currMonth*/2,2017/*$scope.currYear*/);
-     
-    
-    
-    
+  .controller('accountCtrl', function ($scope, $state, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
+
+    //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
+    $scope.days = ['1', '2'];
+
+    $scope.selectedYear = 0;
+    $scope.selectedMonth = 0;
+
+    $scope.months = [{
+      name: 'January',
+      id: 1
+    },
+      {
+        name: 'February',
+        id: 2
+      },
+      {
+        name: 'March',
+        id: 3
+      },
+      {
+        name: 'April',
+        id: 4
+      },
+      {
+        name: 'May',
+        id: 5
+      },
+      {
+        name: 'June',
+        id: 6
+      },
+      {
+        name: 'July',
+        id: 7
+      },
+      {
+        name: 'August',
+        id: 8
+      },
+      {
+        name: 'September',
+        id: 9
+      },
+      {
+        name: 'October',
+        id: 10
+      },
+      {
+        name: 'November',
+        id: 11
+      },
+      {
+        name: 'December',
+        id: 12
+      }];
+
     $scope.countries = [
       {
         name: "Saudi Arabia",
@@ -1034,6 +1030,99 @@ angular.module('starter.controllers')
         name: "Virgin Islands, U.S.",
         dial_code: "+1 340",
         code: "VI"
-      }];    
+      }];
 
-});
+    $scope.days = [];
+
+    $scope.getDays = function (month, year) {
+      console.log("year: " + year + " month: " + month);
+      $scope.days = [];
+      if (year && month) {
+        for (var i = 1; i <= new Date(year, month, 0).getDate(); i++) {
+          $scope.days.push(i);
+        }
+      }
+      else {
+        console.log("year: " + JSON.stringify($scope.userData.selected.selectedYear) + "month: " + JSON.stringify($scope.userData.selected.selectedMonth));
+        for (var i = 1; i <= new Date($scope.userData.selected.selectedYear, $scope.userData.selected.selectedMonth.id, 0).getDate(); i++) {
+          $scope.days.push(i);
+        }
+      }
+      console.log('Days: ' + JSON.stringify($scope.days));
+      //return days;
+    };
+
+    $scope.userData = {
+      displayName: settings.getSettingValue('displayName'),
+      gender: settings.getSettingValue('gender'),
+      country: setCountry(),
+      language: settings.getSettingValue('language'),
+      selected: setSelectedDOB()
+    };
+    function setCountry() {
+      if (settings.getSettingValue('country') != '') {
+        for (var i = 0; i < $scope.countries.length; i++) {
+          if ($scope.countries[i].code == settings.getSettingValue('country')) {
+            return $scope.countries[i];
+          }
+        }
+      }
+      return {};
+    }
+
+    function setSelectedDOB() {
+      console.log("settings.getSettingValue('dateOfBirth') = " + settings.getSettingValue('dateOfBirth'));
+      if (settings.getSettingValue('dateOfBirth') != '') {
+        var d = new Date(settings.getSettingValue('dateOfBirth'));
+        /*        $scope.userData.selected.selectedYear = d.getFullYear();
+         $scope.userData.selected.selectedMonth = $scope.months[d.getMonth() - 1];
+         $scope.getDays();*/
+        $scope.getDays(d.getMonth() + 1, d.getFullYear());
+        return {
+          selectedYear: d.getFullYear(),
+          selectedMonth: $scope.months[d.getMonth()],
+          //selectedMonth: d.getMonth(),
+          selectedDay: d.getDate()
+        }
+      }
+      return {
+        selectedYear: 0,
+        selectedMonth: 0,
+        selectedDay: 0
+      };
+    }
+
+
+    $scope.years = [];
+
+    $scope.getYears = function () {
+      for (var i = 2017; i >= 1930; i--) {
+        $scope.years.push(i);
+      }
+    }
+    $scope.getYears();
+
+
+    //$scope.getDays(/*$scope.currMonth*/2,2017/*$scope.currYear*/);
+
+    $scope.saveUserSetting = function () {
+      console.log("updateProfile userData = " + JSON.stringify($scope.userData));
+      for (var attribute in $scope.userData) {
+        if ($scope.userData[attribute]) {
+          console.log("updateProfile userData['" + attribute + "'] = " + JSON.stringify($scope.userData[attribute]));
+          switch (attribute) {
+            case  'country' :
+              settings.addUserSetting(attribute, $scope.userData[attribute].code);
+              break;
+            case 'selected':
+              settings.addUserSetting('dateOfBirth', new Date($scope.userData.selected.selectedYear,
+                $scope.userData.selected.selectedMonth.id - 1, $scope.userData.selected.selectedDay));
+              break;
+            default:
+              settings.addUserSetting(attribute, $scope.userData[attribute]);
+          }
+        }
+      }
+    }
+
+  });

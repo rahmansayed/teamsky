@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('subscribeCtrl', function ($scope, $state, $ionicPopup, $http, $location, $ionicPlatform, $cordovaPreferences, global, userVerify, $ionicLoading, $timeout, $q, $rootScope, $ionicHistory) {
+  .controller('subscribeCtrl', function ($scope, $state, $ionicPopup, $http, $location, $ionicPlatform, $cordovaPreferences, global, settings, $ionicLoading, $timeout, $q, $rootScope, $ionicHistory) {
 
 
     $scope.$on('$ionicView.beforeEnter', function () {
@@ -14,9 +14,9 @@ angular.module('starter.controllers')
 
     $scope.deviceLocalId = global.dataKey || 'ZXCV';//this to be repalced later with dynamic device id
 
-    /*    z = userVerify.getUserInfo().then(function(response){
+    /*    z = settings.getUserInfo().then(function(response){
 
-     $scope.users = userVerify.selectedUser();
+     $scope.users = settings.selectedUser();
      });*/
 
 
@@ -25,10 +25,10 @@ angular.module('starter.controllers')
      });
      */
     /*    console.log('All Users: ' + JSON.stringify($scope.users)) ;
-     console.log('Is user Verified?: '+userVerify.isUserVerified($scope.deviceLocalId));
+     console.log('Is user Verified?: '+settings.isUserVerified($scope.deviceLocalId));
      */
 
-    /*    if (userVerify.isUserVerified($scope.deviceLocalId)) {
+    /*    if (settings.isUserVerified($scope.deviceLocalId)) {
 
      $location.path("/lists");
      }
@@ -51,45 +51,14 @@ angular.module('starter.controllers')
         console.log("subscribeUser response.data.vCode = " + response.data.vCode);
         alert('Verification code: ' + JSON.stringify(response.data.vCode));
 
-
-        /*            $ionicPlatform.ready(function() {
-
-
-         $cordovaPreferences.store('userServerId', response.data.userServerId)
-         .success(function(value) {
-         console.log("Success: " + value);
-         })
-         .error(function(error) {
-         console.log("Error: " + error);
-         });
-         });*/
-
-        userData = {
+        settings.verificationData = {
           deviceLocalId: $scope.deviceLocalId,
           userServerId: response.data.userServerId,
           deviceServerId: response.data.deviceServerId,
           vcode: response.data.vcode,
           countryCode: enteredNumber.countryCode
         };
-
-        /*   console.log('aalatief Subscribe, User Data:'+JSON.stringify(userData));*/
-
-
-        // $state.go("/verify")
-        userInfo = {
-          deviceLocalId: $scope.deviceLocalId,
-          dialCode: enteredNumber.countryCode.concat(enteredNumber.phoneNumber),
-          userServerId: userData.userServerId,
-          deviceServerId: userData.deviceServerId,
-          countryCode: enteredNumber.countryCode,
-          status: 'S'
-        };
-
-
-
-
-        console.log('11/03/2017 - aalatief - subscribeCtrl: ' + JSON.stringify(userData));
-        userVerify.updateVerificationData(userData);
+        console.log('11/03/2017 - aalatief - subscribeCtrl: ' + JSON.stringify(settings.verificationData));
         $location.path("/verify");
       }, function (error) {
         console.log(error);

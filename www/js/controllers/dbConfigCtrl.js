@@ -1,30 +1,30 @@
 angular.module('starter.controllers')
-  .controller('dbConfigCtrl', function ($scope,$ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite,dbHandler,userVerify,$ionicLoading,$timeout,$q,global) {
+  .controller('dbConfigCtrl', function ($scope,$ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite,dbHandler,settings,$ionicLoading,$timeout,$q,global) {
 
 
     console.log ('db Config Fired!!');
     var deviceLocalId = '966531572215';
 /*    dbHandler.initDB(deviceLocalId);
     dbHandler.runQuery();*/
-    
-    
-    
-    
+
+
+
+
     $ionicLoading.show({
     template: '<ion-spinner icon="spiral" class="spinner-positive"></ion-spinner> <br>Loading...',
     noBackdrop: true,
     animation: 'fade-in'
   });
-    
-  
-       
-/*     userVerify.getUserInfo()
-      
+
+
+
+/*     settings.getUserInfo()
+
       .then(function(result){
-      $scope.users = userVerify.selectedUser();
+      $scope.users = settings.selectedUser();
       console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
-      
-         if (userVerify.isUserVerified(deviceLocalId)){
+
+         if (settings.isUserVerified(deviceLocalId)){
         $ionicLoading.hide();
         $location.path("/lists");
       }
@@ -32,22 +32,22 @@ angular.module('starter.controllers')
              {
                 $ionicLoading.hide();
                  $location.path("/subscribe");
-                 
+
              }
-              
+
   }*/
-    
+
     $ionicPlatform.ready(function () {
-/*     userVerify.getUserSetting()
-      
+/*     settings.getUserSetting()
+
       .then(function(result){*/
-/*      $scope.users = userVerify.userSetting();
-      global.userServerId = userVerify.getUserServerId(); 
-      global.deviceServerId = userVerify.getDeviceServerId(); 
+/*      $scope.users = settings.userSetting();
+      global.userServerId = settings.getUserServerId();
+      global.deviceServerId = settings.getDeviceServerId();
       console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
-      console.log('aalatief: User Server ID:'+global.userServerId);   
+      console.log('aalatief: User Server ID:'+global.userServerId);
       console.log('aalatief: Device Server ID:'+global.deviceServerId); */
-/*         if (userVerify.isVerified()){
+/*         if (settings.isVerified()){
         $ionicLoading.hide();
         $location.path("/lists");
       }
@@ -55,10 +55,10 @@ angular.module('starter.controllers')
              {
                 $ionicLoading.hide();
                  $location.path("/subscribe");
-                 
+
              }*/
-              
- 
+
+
 /*    , function(error) {
     // error handling here
     $ionicLoading.hide()
@@ -71,8 +71,8 @@ angular.module('starter.controllers')
        $ionicLoading.hide();
     }, 2000);
   });*/
-                       
-    
+
+
     /*
     $ionicPlatform.ready(function() {
         $ionicLoading.show({ template: 'Loading...' });

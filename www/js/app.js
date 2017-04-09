@@ -18,7 +18,7 @@ angular.module('starter', ['ionic',
 /*var db = null;*/
 
 
-  .run(function ($ionicPlatform, global, camera, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, userVerify, $ionicLoading, $timeout) {
+  .run(function ($ionicPlatform, global, camera, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, settings, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
 
       if (window.cordova && StatusBar) {
@@ -39,15 +39,15 @@ angular.module('starter', ['ionic',
                   }
                 );
 
-              userVerify.getUserSetting()
+              settings.getUserSetting()
                 .then(function (result) {
-                    global.userServerId = userVerify.getUserServerId();
-                    global.deviceServerId = userVerify.getDeviceServerId();
+                    global.userServerId = settings.getUserServerId();
+                    global.deviceServerId = settings.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {
                       serverHandler.syncInit();
                     }
 
-                    if (userVerify.isVerified()) {
+                    if (settings.isVerified()) {
                       console.log('app.js user verified true');
                       $ionicLoading.hide();
                       $location.path("/lists");
@@ -57,12 +57,12 @@ angular.module('starter', ['ionic',
                       $location.path("/subscribe");
 
                     }
-    
+
                     console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);
                     console.log('01/02/2017 - app.run - aalatief: Device Server ID:' + global.deviceServerId);
                   },
                   function (error) {
-                   
+
                     console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
                     ;
                   }

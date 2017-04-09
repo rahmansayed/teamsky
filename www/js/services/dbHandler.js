@@ -32,7 +32,7 @@ angular.module('starter.services')
        }
        else {*/
       console.log('11/02/2017 - aalatief - initDb from Browser');
-      global.db = window.openDatabase("teamSky1_25.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+      global.db = window.openDatabase("teamSky1_26.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
       /*$location.path("/subscribe");*/
       //}
@@ -102,9 +102,7 @@ angular.module('starter.services')
         "CREATE TABLE IF NOT EXISTS sync (tableName text primary key,lastSyncDate integer)",
         "CREATE TABLE IF NOT EXISTS uoms (uomName text primary key)",
 
-/*        "CREATE TABLE IF NOT EXISTS userInfo (deviceLocalId integer,dialCode text,userServerId text,deviceServerId text,status text,lastUpdateDate integer,lastUpdateBy text)",*/
-
-        "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text)"
+        "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(setting))"
       ];
 
 
