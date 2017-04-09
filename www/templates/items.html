@@ -82,18 +82,18 @@
                   <p>
                   <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;"
                       align="center"
-                      ng-click="hideCategory(category)">
-                    {{category}} - {{showCategory}} </h2>
+                      ng-click="category.foldStatus = ! category.foldStatus">
+                    {{category.categoryName}} - {{category.foldStatus}} </h2>
 
 
                   </p>
 
 
                   <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
-                            ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category }"
+                            ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category.categoryName }"
                             ng-click="show(listItem)"
                             style=" border-radius:15px;"
-                            ng-hide="showCategory && listItem.categoryName == categoryClicked">
+                            ng-hide="category.foldStatus">
 
 
                     <div style="display:inline; float:center;">
@@ -138,12 +138,12 @@
                             <option value="" disabled selected>Select unit</option>
                             <option ng-repeat="uom in uoms" value="{{uom}}">{{uom}}</option>
                           </select>
-<!--                          <span>
-                        <div style="text-align: right;padding-right:15px;padding-left:15px;">
-                        <button class="button button-balanced ion-plus-round padding text-center"
-                                style="border-radius:50%;padding-top:3px;height:10px;width:10px;background-color:#09d261;"></button>
+                          <!--                          <span>
+                                                  <div style="text-align: right;padding-right:15px;padding-left:15px;">
+                                                  <button class="button button-balanced ion-plus-round padding text-center"
+                                                          style="border-radius:50%;padding-top:3px;height:10px;width:10px;background-color:#09d261;"></button>
 
-                    </div> </span>-->
+                                              </div> </span>-->
                         </div>
 
                         <div class="item item-input"
@@ -152,15 +152,15 @@
 
 
                           <i class="icon placeholder-icon ion-android-search"></i>
-                          <input type="search" 
+                          <input type="search"
                                  ng-change="searchRetailer(listItem.retailerName)"
-                                 
-                                 
+
+
                                  ng-model="listItem.retailerName"
                                  style="width:100%;border:0px;padding-left:10%;background-color:white;height:35px;"
                           >
-                        
-                       </div>
+
+                        </div>
 
                         <div class="padding">
                           <ion-list>

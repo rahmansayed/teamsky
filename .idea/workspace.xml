@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/listItem.js" afterPath="$PROJECT_DIR$/www/js/controllers/listItem.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/items.html" afterPath="$PROJECT_DIR$/www/templates/items.html" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,12 +26,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="246" lean-forward="false" selection-start-line="15" selection-start-column="246" selection-end-line="15" selection-end-column="246" />
+            <state relative-caret-position="549">
+              <caret line="63" column="15" lean-forward="true" selection-start-line="63" selection-start-column="15" selection-end-line="63" selection-end-column="15" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="serverHandlerEntryV2.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="549">
+              <caret line="125" column="19" lean-forward="true" selection-start-line="125" selection-start-column="19" selection-end-line="125" selection-end-column="19" />
+              <folding>
+                <element signature="e#30895#31090#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,267 +70,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="subscribeCtrl.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/controllers/subscribeCtrl.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="37">
-              <caret line="78" column="12" lean-forward="false" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
-              <folding>
-                <marker date="1491653569550" expanded="true" signature="239:24264" ph="{...}" />
-                <marker date="1491653569550" expanded="true" signature="1123:3131" ph="{...}" />
-                <marker date="1491653569550" expanded="true" signature="1602:3014" ph="{...}" />
-                <marker date="1491653569550" expanded="true" signature="3033:3071" ph="{...}" />
-                <marker date="1491653569550" expanded="true" signature="3157:24042" ph="[...]" />
-                <marker date="1491653569550" expanded="true" signature="3165:3250" ph="{&quot;name&quot;: &quot;Saudi Arabia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3258:3342" ph="{&quot;name&quot;: &quot;United States&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3344:3423" ph="{&quot;name&quot;: &quot;Israel&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3425:3508" ph="{&quot;name&quot;: &quot;Afghanistan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3510:3590" ph="{&quot;name&quot;: &quot;Albania&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3592:3672" ph="{&quot;name&quot;: &quot;Algeria&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3674:3762" ph="{&quot;name&quot;: &quot;AmericanSamoa&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3764:3844" ph="{&quot;name&quot;: &quot;Andorra&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3846:3925" ph="{&quot;name&quot;: &quot;Angola&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="3927:4010" ph="{&quot;name&quot;: &quot;Anguilla&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4012:4105" ph="{&quot;name&quot;: &quot;Antigua and Barbuda&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4107:4188" ph="{&quot;name&quot;: &quot;Argentina&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4190:4270" ph="{&quot;name&quot;: &quot;Armenia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4272:4350" ph="{&quot;name&quot;: &quot;Aruba&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4352:4433" ph="{&quot;name&quot;: &quot;Australia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4435:4514" ph="{&quot;name&quot;: &quot;Austria&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4516:4599" ph="{&quot;name&quot;: &quot;Azerbaijan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4601:4683" ph="{&quot;name&quot;: &quot;Bahamas&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4685:4765" ph="{&quot;name&quot;: &quot;Bahrain&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4767:4850" ph="{&quot;name&quot;: &quot;Bangladesh&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4852:4935" ph="{&quot;name&quot;: &quot;Barbados&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="4937:5017" ph="{&quot;name&quot;: &quot;Belarus&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5019:5098" ph="{&quot;name&quot;: &quot;Belgium&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5100:5179" ph="{&quot;name&quot;: &quot;Belize&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5181:5259" ph="{&quot;name&quot;: &quot;Benin&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5261:5343" ph="{&quot;name&quot;: &quot;Bermuda&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5345:5424" ph="{&quot;name&quot;: &quot;Bhutan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5426:5521" ph="{&quot;name&quot;: &quot;Bosnia and Herzegovina&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5523:5604" ph="{&quot;name&quot;: &quot;Botswana&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5606:5684" ph="{&quot;name&quot;: &quot;Brazil&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5686:5789" ph="{&quot;name&quot;: &quot;British Indian Ocean Territory&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5791:5872" ph="{&quot;name&quot;: &quot;Bulgaria&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5874:5959" ph="{&quot;name&quot;: &quot;Burkina Faso&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="5961:6041" ph="{&quot;name&quot;: &quot;Burundi&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6043:6124" ph="{&quot;name&quot;: &quot;Cambodia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6126:6207" ph="{&quot;name&quot;: &quot;Cameroon&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6209:6286" ph="{&quot;name&quot;: &quot;Canada&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6288:6371" ph="{&quot;name&quot;: &quot;Cape Verde&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6373:6461" ph="{&quot;name&quot;: &quot;Cayman Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6463:6560" ph="{&quot;name&quot;: &quot;Central African Republic&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6562:6639" ph="{&quot;name&quot;: &quot;Chad&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6641:6718" ph="{&quot;name&quot;: &quot;Chile&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6720:6797" ph="{&quot;name&quot;: &quot;China&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6799:6887" ph="{&quot;name&quot;: &quot;Christmas Island&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6889:6969" ph="{&quot;name&quot;: &quot;Colombia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="6971:7051" ph="{&quot;name&quot;: &quot;Comoros&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7053:7131" ph="{&quot;name&quot;: &quot;Congo&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7133:7218" ph="{&quot;name&quot;: &quot;Cook Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7220:7303" ph="{&quot;name&quot;: &quot;Costa Rica&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7305:7385" ph="{&quot;name&quot;: &quot;Croatia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7387:7463" ph="{&quot;name&quot;: &quot;Cuba&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7465:7544" ph="{&quot;name&quot;: &quot;Cyprus&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7546:7633" ph="{&quot;name&quot;: &quot;Czech Republic&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7635:7714" ph="{&quot;name&quot;: &quot;Denmark&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7716:7797" ph="{&quot;name&quot;: &quot;Djibouti&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7799:7882" ph="{&quot;name&quot;: &quot;Dominica&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7884:7977" ph="{&quot;name&quot;: &quot;Dominican Republic&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="7979:8059" ph="{&quot;name&quot;: &quot;Ecuador&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8061:8138" ph="{&quot;name&quot;: &quot;Egypt&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8140:8224" ph="{&quot;name&quot;: &quot;El Salvador&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8226:8316" ph="{&quot;name&quot;: &quot;Equatorial Guinea&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8318:8398" ph="{&quot;name&quot;: &quot;Eritrea&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8400:8480" ph="{&quot;name&quot;: &quot;Estonia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8482:8563" ph="{&quot;name&quot;: &quot;Ethiopia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8565:8651" ph="{&quot;name&quot;: &quot;Faroe Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8653:8730" ph="{&quot;name&quot;: &quot;Fiji&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8732:8812" ph="{&quot;name&quot;: &quot;Finland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8814:8892" ph="{&quot;name&quot;: &quot;France&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8894:8980" ph="{&quot;name&quot;: &quot;French Guiana&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="8982:9071" ph="{&quot;name&quot;: &quot;French Polynesia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9073:9151" ph="{&quot;name&quot;: &quot;Gabon&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9153:9232" ph="{&quot;name&quot;: &quot;Gambia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9234:9314" ph="{&quot;name&quot;: &quot;Georgia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9316:9395" ph="{&quot;name&quot;: &quot;Germany&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9397:9475" ph="{&quot;name&quot;: &quot;Ghana&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9477:9559" ph="{&quot;name&quot;: &quot;Gibraltar&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9561:9639" ph="{&quot;name&quot;: &quot;Greece&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9641:9723" ph="{&quot;name&quot;: &quot;Greenland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9725:9807" ph="{&quot;name&quot;: &quot;Grenada&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9809:9892" ph="{&quot;name&quot;: &quot;Guadeloupe&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9894:9973" ph="{&quot;name&quot;: &quot;Guam&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="9975:10057" ph="{&quot;name&quot;: &quot;Guatemala&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10059:10138" ph="{&quot;name&quot;: &quot;Guinea&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10140:10226" ph="{&quot;name&quot;: &quot;Guinea-Bissau&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10228:10307" ph="{&quot;name&quot;: &quot;Guyana&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10309:10387" ph="{&quot;name&quot;: &quot;Haiti&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10389:10470" ph="{&quot;name&quot;: &quot;Honduras&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10472:10551" ph="{&quot;name&quot;: &quot;Hungary&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10553:10633" ph="{&quot;name&quot;: &quot;Iceland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10635:10712" ph="{&quot;name&quot;: &quot;India&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10714:10795" ph="{&quot;name&quot;: &quot;Indonesia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10797:10874" ph="{&quot;name&quot;: &quot;Iraq&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10876:10956" ph="{&quot;name&quot;: &quot;Ireland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="10958:11037" ph="{&quot;name&quot;: &quot;Israel&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11039:11116" ph="{&quot;name&quot;: &quot;Italy&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11118:11200" ph="{&quot;name&quot;: &quot;Jamaica&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11202:11279" ph="{&quot;name&quot;: &quot;Japan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11281:11360" ph="{&quot;name&quot;: &quot;Jordan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11362:11445" ph="{&quot;name&quot;: &quot;Kazakhstan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11447:11525" ph="{&quot;name&quot;: &quot;Kenya&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11527:11608" ph="{&quot;name&quot;: &quot;Kiribati&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11610:11689" ph="{&quot;name&quot;: &quot;Kuwait&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11691:11774" ph="{&quot;name&quot;: &quot;Kyrgyzstan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11776:11855" ph="{&quot;name&quot;: &quot;Latvia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11857:11937" ph="{&quot;name&quot;: &quot;Lebanon&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="11939:12019" ph="{&quot;name&quot;: &quot;Lesotho&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12021:12101" ph="{&quot;name&quot;: &quot;Liberia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12103:12189" ph="{&quot;name&quot;: &quot;Liechtenstein&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12191:12273" ph="{&quot;name&quot;: &quot;Lithuania&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12275:12358" ph="{&quot;name&quot;: &quot;Luxembourg&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12360:12443" ph="{&quot;name&quot;: &quot;Madagascar&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12445:12524" ph="{&quot;name&quot;: &quot;Malawi&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12526:12606" ph="{&quot;name&quot;: &quot;Malaysia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12608:12689" ph="{&quot;name&quot;: &quot;Maldives&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12691:12768" ph="{&quot;name&quot;: &quot;Mali&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12770:12848" ph="{&quot;name&quot;: &quot;Malta&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12850:12939" ph="{&quot;name&quot;: &quot;Marshall Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="12941:13024" ph="{&quot;name&quot;: &quot;Martinique&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13026:13109" ph="{&quot;name&quot;: &quot;Mauritania&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13111:13193" ph="{&quot;name&quot;: &quot;Mauritius&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13195:13275" ph="{&quot;name&quot;: &quot;Mayotte&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13277:13355" ph="{&quot;name&quot;: &quot;Mexico&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13357:13436" ph="{&quot;name&quot;: &quot;Monaco&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13438:13519" ph="{&quot;name&quot;: &quot;Mongolia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13521:13604" ph="{&quot;name&quot;: &quot;Montenegro&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13606:13690" ph="{&quot;name&quot;: &quot;Montserrat&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13692:13772" ph="{&quot;name&quot;: &quot;Morocco&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13774:13853" ph="{&quot;name&quot;: &quot;Myanmar&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13855:13935" ph="{&quot;name&quot;: &quot;Namibia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="13937:14015" ph="{&quot;name&quot;: &quot;Nauru&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14017:14095" ph="{&quot;name&quot;: &quot;Nepal&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14097:14180" ph="{&quot;name&quot;: &quot;Netherlands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14182:14275" ph="{&quot;name&quot;: &quot;Netherlands Antilles&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14277:14363" ph="{&quot;name&quot;: &quot;New Caledonia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14365:14448" ph="{&quot;name&quot;: &quot;New Zealand&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14450:14532" ph="{&quot;name&quot;: &quot;Nicaragua&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14534:14612" ph="{&quot;name&quot;: &quot;Niger&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14614:14694" ph="{&quot;name&quot;: &quot;Nigeria&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14696:14773" ph="{&quot;name&quot;: &quot;Niue&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14775:14862" ph="{&quot;name&quot;: &quot;Norfolk Island&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14864:14963" ph="{&quot;name&quot;: &quot;Northern Mariana Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="14965:15043" ph="{&quot;name&quot;: &quot;Norway&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15045:15122" ph="{&quot;name&quot;: &quot;Oman&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15124:15204" ph="{&quot;name&quot;: &quot;Pakistan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15206:15284" ph="{&quot;name&quot;: &quot;Palau&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15286:15365" ph="{&quot;name&quot;: &quot;Panama&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15367:15456" ph="{&quot;name&quot;: &quot;Papua New Guinea&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15458:15539" ph="{&quot;name&quot;: &quot;Paraguay&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15541:15617" ph="{&quot;name&quot;: &quot;Peru&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15619:15702" ph="{&quot;name&quot;: &quot;Philippines&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15704:15782" ph="{&quot;name&quot;: &quot;Poland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15784:15865" ph="{&quot;name&quot;: &quot;Portugal&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15867:15953" ph="{&quot;name&quot;: &quot;Puerto Rico&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="15955:16033" ph="{&quot;name&quot;: &quot;Qatar&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16035:16114" ph="{&quot;name&quot;: &quot;Romania&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16116:16195" ph="{&quot;name&quot;: &quot;Rwanda&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16197:16275" ph="{&quot;name&quot;: &quot;Samoa&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16277:16360" ph="{&quot;name&quot;: &quot;San Marino&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16362:16447" ph="{&quot;name&quot;: &quot;Saudi Arabia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16449:16529" ph="{&quot;name&quot;: &quot;Senegal&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16531:16610" ph="{&quot;name&quot;: &quot;Serbia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16612:16695" ph="{&quot;name&quot;: &quot;Seychelles&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16697:16782" ph="{&quot;name&quot;: &quot;Sierra Leone&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16784:16865" ph="{&quot;name&quot;: &quot;Singapore&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16867:16948" ph="{&quot;name&quot;: &quot;Slovakia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="16950:17031" ph="{&quot;name&quot;: &quot;Slovenia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17033:17121" ph="{&quot;name&quot;: &quot;Solomon Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17123:17207" ph="{&quot;name&quot;: &quot;South Africa&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17209:17326" ph="{&quot;name&quot;: &quot;South Georgia and the South Sandwich Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17328:17405" ph="{&quot;name&quot;: &quot;Spain&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17407:17488" ph="{&quot;name&quot;: &quot;Sri Lanka&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17490:17568" ph="{&quot;name&quot;: &quot;Sudan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17570:17651" ph="{&quot;name&quot;: &quot;Suriname&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17653:17735" ph="{&quot;name&quot;: &quot;Swaziland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17737:17815" ph="{&quot;name&quot;: &quot;Sweden&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17817:17900" ph="{&quot;name&quot;: &quot;Switzerland&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17902:17985" ph="{&quot;name&quot;: &quot;Tajikistan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="17987:18067" ph="{&quot;name&quot;: &quot;Thailand&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18069:18146" ph="{&quot;name&quot;: &quot;Togo&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18148:18228" ph="{&quot;name&quot;: &quot;Tokelau&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18230:18308" ph="{&quot;name&quot;: &quot;Tonga&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18310:18404" ph="{&quot;name&quot;: &quot;Trinidad and Tobago&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18406:18486" ph="{&quot;name&quot;: &quot;Tunisia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18488:18566" ph="{&quot;name&quot;: &quot;Turkey&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18568:18653" ph="{&quot;name&quot;: &quot;Turkmenistan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18655:18754" ph="{&quot;name&quot;: &quot;Turks and Caicos Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18756:18835" ph="{&quot;name&quot;: &quot;Tuvalu&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18837:18916" ph="{&quot;name&quot;: &quot;Uganda&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="18918:18998" ph="{&quot;name&quot;: &quot;Ukraine&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19000:19093" ph="{&quot;name&quot;: &quot;United Arab Emirates&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19095:19181" ph="{&quot;name&quot;: &quot;United Kingdom&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19183:19263" ph="{&quot;name&quot;: &quot;Uruguay&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19265:19348" ph="{&quot;name&quot;: &quot;Uzbekistan&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19350:19430" ph="{&quot;name&quot;: &quot;Vanuatu&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19432:19522" ph="{&quot;name&quot;: &quot;Wallis and Futuna&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19524:19602" ph="{&quot;name&quot;: &quot;Yemen&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19604:19683" ph="{&quot;name&quot;: &quot;Zambia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19685:19766" ph="{&quot;name&quot;: &quot;Zimbabwe&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19768:19849" ph="{&quot;name&quot;: &quot;land Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19851:19932" ph="{&quot;name&quot;: &quot;Antarctica&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="19934:20038" ph="{&quot;name&quot;: &quot;Bolivia, Plurinational State of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20040:20130" ph="{&quot;name&quot;: &quot;Brunei Darussalam&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20132:20227" ph="{&quot;name&quot;: &quot;Cocos (Keeling) Islands&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20229:20339" ph="{&quot;name&quot;: &quot;Congo, The Democratic Republic of the&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20341:20427" ph="{&quot;name&quot;: &quot;Cote d'Ivoire&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20429:20529" ph="{&quot;name&quot;: &quot;Falkland Islands (Malvinas)&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20531:20611" ph="{&quot;name&quot;: &quot;Guernsey&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20613:20715" ph="{&quot;name&quot;: &quot;Holy See (Vatican City State)&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20717:20799" ph="{&quot;name&quot;: &quot;Hong Kong&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20801:20898" ph="{&quot;name&quot;: &quot;Iran, Islamic Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20900:20983" ph="{&quot;name&quot;: &quot;Isle of Man&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="20985:21063" ph="{&quot;name&quot;: &quot;Jersey&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21065:21176" ph="{&quot;name&quot;: &quot;Korea, Democratic People's Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21178:21268" ph="{&quot;name&quot;: &quot;Korea, Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21270:21375" ph="{&quot;name&quot;: &quot;Lao People's Democratic Republic&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21377:21472" ph="{&quot;name&quot;: &quot;Libyan Arab Jamahiriya&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21474:21552" ph="{&quot;name&quot;: &quot;Macao&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21554:21669" ph="{&quot;name&quot;: &quot;Macedonia, The Former Yugoslav Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21671:21775" ph="{&quot;name&quot;: &quot;Micronesia, Federated States of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21777:21870" ph="{&quot;name&quot;: &quot;Moldova, Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21872:21955" ph="{&quot;name&quot;: &quot;Mozambique&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="21957:22061" ph="{&quot;name&quot;: &quot;Palestinian Territory, Occupied&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22063:22144" ph="{&quot;name&quot;: &quot;Pitcairn&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22146:22226" ph="{&quot;name&quot;: &quot;Réunion&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22228:22305" ph="{&quot;name&quot;: &quot;Russia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22307:22396" ph="{&quot;name&quot;: &quot;Saint Barthélemy&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22398:22515" ph="{&quot;name&quot;: &quot;Saint Helena, Ascension and Tristan Da Cunha&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22517:22613" ph="{&quot;name&quot;: &quot;Saint Kitts and Nevis&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22615:22701" ph="{&quot;name&quot;: &quot;Saint Lucia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22703:22788" ph="{&quot;name&quot;: &quot;Saint Martin&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22790:22888" ph="{&quot;name&quot;: &quot;Saint Pierre and Miquelon&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22890:22997" ph="{&quot;name&quot;: &quot;Saint Vincent and the Grenadines&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="22999:23093" ph="{&quot;name&quot;: &quot;Sao Tome and Principe&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23095:23175" ph="{&quot;name&quot;: &quot;Somalia&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23177:23271" ph="{&quot;name&quot;: &quot;Svalbard and Jan Mayen&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23273:23366" ph="{&quot;name&quot;: &quot;Syrian Arab Republic&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23368:23466" ph="{&quot;name&quot;: &quot;Taiwan, Province of China&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23468:23569" ph="{&quot;name&quot;: &quot;Tanzania, United Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23571:23655" ph="{&quot;name&quot;: &quot;Timor-Leste&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23657:23762" ph="{&quot;name&quot;: &quot;Venezuela, Bolivarian Republic of&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23764:23844" ph="{&quot;name&quot;: &quot;Viet Nam&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23846:23944" ph="{&quot;name&quot;: &quot;Virgin Islands, British&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="23946:24041" ph="{&quot;name&quot;: &quot;Virgin Islands, U.S.&quot;...}" />
-                <marker date="1491653569550" expanded="true" signature="24132:24259" ph="{...}" />
-                <marker date="1491653569550" expanded="true" signature="24191:24253" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="camera.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/camera.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -325,21 +80,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/index.html">
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="21" lean-forward="false" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+            <state relative-caret-position="194">
+              <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListCtrl.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
+      <file leaf-file-name="listItem.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+            <state relative-caret-position="642">
+              <caret line="344" column="46" lean-forward="false" selection-start-line="344" selection-start-column="46" selection-end-line="344" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="items.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/templates/items.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="85" column="69" lean-forward="false" selection-start-line="85" selection-start-column="69" selection-end-line="85" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -356,8 +121,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>global.currentList</find>
-      <find>$scope.lists</find>
       <find>move(</find>
       <find>rep</find>
       <find>getAll</find>
@@ -386,6 +149,8 @@
       <find>repeat</find>
       <find>userInfo</find>
       <find>left</find>
+      <find>b</find>
+      <find>categ</find>
     </findStrings>
     <replaceStrings>
       <replace>console.log</replace>
@@ -443,13 +208,10 @@
         <option value="$PROJECT_DIR$/www/templates/edit.html" />
         <option value="$PROJECT_DIR$/www/js/services/localRetailerHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHandler.js" />
-        <option value="$PROJECT_DIR$/www/templates/items.html" />
         <option value="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
-        <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
         <option value="$PROJECT_DIR$/www/js/services/localUOMHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerListV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/templates/lists.html" />
@@ -458,7 +220,10 @@
         <option value="$PROJECT_DIR$/www/js/app.js" />
         <option value="$PROJECT_DIR$/www/js/services/camera.js" />
         <option value="$PROJECT_DIR$/www/index.html" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
+        <option value="$PROJECT_DIR$/www/templates/items.html" />
+        <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
       </list>
     </option>
   </component>
@@ -478,9 +243,10 @@
     <handled-path value="$PROJECT_DIR$/plugins/cordova-sqlite-storage/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="width" value="1364" />
-    <option name="height" value="728" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -580,6 +346,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -763,7 +551,7 @@
       <workItem from="1489254928956" duration="7000" />
       <workItem from="1489255250333" duration="71238000" />
       <workItem from="1489908663906" duration="92313000" />
-      <workItem from="1490598919820" duration="126288000" />
+      <workItem from="1490598919820" duration="128073000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -776,7 +564,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="874059000" />
+    <option name="totallyTimeSpent" value="875844000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -788,11 +576,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="0" width="1364" height="728" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.239819" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23660715" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5029762" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -821,6 +609,37 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5029762" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3263041" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27857935" sideWeight="0.49702382" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32405892" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23660715" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
@@ -1098,22 +917,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/items.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="983">
-          <caret line="138" column="72" lean-forward="false" selection-start-line="138" selection-start-column="72" selection-end-line="138" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localUOMHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1275">
@@ -1156,16 +959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
-          <folding>
-            <element signature="e#30490#30685#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/router.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
@@ -1200,22 +993,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/camera.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="28" lean-forward="false" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="467">
@@ -1223,14 +1000,6 @@
           <folding>
             <marker date="1491653569532" expanded="true" signature="453:604" ph="[...]" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1509,14 +1278,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="21" lean-forward="false" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localListHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="417">
@@ -1533,10 +1294,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="21" lean-forward="false" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/camera.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="28" lean-forward="false" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/ListCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="10" lean-forward="false" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="549">
+          <caret line="125" column="19" lean-forward="true" selection-start-line="125" selection-start-column="19" selection-end-line="125" selection-end-column="19" />
+          <folding>
+            <element signature="e#30895#31090#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="246" lean-forward="false" selection-start-line="15" selection-start-column="246" selection-end-line="15" selection-end-column="246" />
+        <state relative-caret-position="549">
+          <caret line="63" column="15" lean-forward="true" selection-start-line="63" selection-start-column="15" selection-end-line="63" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/items.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="85" column="69" lean-forward="false" selection-start-line="85" selection-start-column="69" selection-end-line="85" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="642">
+          <caret line="344" column="46" lean-forward="false" selection-start-line="344" selection-start-column="46" selection-end-line="344" selection-end-column="46" />
           <folding />
         </state>
       </provider>

@@ -28,21 +28,27 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           tx.executeSql(query, [listId], function (tx, result) {
 //          console.log("localEntryHandlerV2.getAllEntry query res = " + JSON.stringify(result));
-            var openEntryList = {
-              entries: [],
-              categories: []
-            };
+              var openEntryList = {
+                entries: [],
+                categories: []
+              };
 
-            for (var i = 0; i < result.rows.length; i++) {
-              if (openEntryList.categories.indexOf(result.rows.item(i).categoryName) == -1)
-                openEntryList.categories.push(result.rows.item(i).categoryName);
-              openEntryList.entries.push(result.rows.item(i));
+              for (var i = 0; i < result.rows.length; i++) {
+                if (serverHandlerEntryV2.getCategoryIndex(result.rows.item(i).categoryName, openEntryList.categories) == -1)
+                  openEntryList.categories.push({
+                    categoryName: result.rows.item(i).categoryName,
+                    foldStatus: false
+                  });
+                openEntryList.entries.push(result.rows.item(i));
+              }
+              defer.resolve(openEntryList);
             }
-            defer.resolve(openEntryList);
-          }, function (err) {
-            console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
-            defer.reject();
-          });
+            ,
+            function (err) {
+              console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
+              defer.reject();
+            }
+          );
 
           //update seen status
           global.db.transaction(function (tx) {

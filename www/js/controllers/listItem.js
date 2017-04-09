@@ -273,7 +273,7 @@ angular.module('starter.controllers')
 /*-----------------------------------------------------------------------------------------*/
     $scope.updateEntry = function (entry) {
       //If DIV is visible it will be hidden and vice versa.
-      
+
       setTimeout(function () {
         $scope.$apply(function () {
           $scope.showItemDetails = false;
@@ -281,7 +281,7 @@ angular.module('starter.controllers')
       }, 1);
 
       $scope.entryLocalId = entry.entryLocalId;
-      
+
       console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
 
 
@@ -343,19 +343,7 @@ angular.module('starter.controllers')
 
 
     //This will show the entry DIV by default.
-    $scope.showCategory = false;
 
-    $scope.hideCategory = function (category) {
-      //If DIV is visible it will be hidden and vice versa.
-
-
-      setTimeout(function () {
-        $scope.$apply(function () {
-          $scope.showCategory = !$scope.showCategory;
-        });
-      }, 1);
-      $scope.categoryClicked = category;
-    };
 
     //$scope.retailerList.selected = {retailerLocalId:1};
     /* vm.selected = $scope.retailerList[0];*/

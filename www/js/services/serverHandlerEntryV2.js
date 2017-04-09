@@ -14,6 +14,17 @@ angular.module('starter.services')
         }).length;
       }
 
+      function getCategoryIndex(categoryName, categoryList) {
+        var idx = -1;
+        for (var i = 0; i < categoryList.length; i++) {
+          if (categoryList.categoryName == categoryName) {
+            idx = i;
+            break;
+          }
+        }
+        return idx;
+      }
+
       function maintainGlobalEntries(entry, list, operation) {
         console.log('maintainGlobalEntries entry = ' + JSON.stringify(entry));
         console.log('maintainGlobalEntries operation = ' + operation);
@@ -38,15 +49,18 @@ angular.module('starter.services')
             }
           }
 
-          categoryIdx = global.currentListEntries.listOpenEntries.categories.indexOf(entry.categoryName);
+          categoryIdx = getCategoryIndex(entry.categoryName, global.currentListEntries.listOpenEntries.categories);
           console.log('maintainGlobalEntries openIdx = ' + openIdx);
           console.log('maintainGlobalEntries crossedIdx = ' + crossedIdx);
           switch (operation) {
             case 'ADD':
               if (openIdx == -1) {
                 global.currentListEntries.listOpenEntries.entries.push(entry);
-                if (global.currentListEntries.listOpenEntries.categories.indexOf(entry.categoryName) == -1) {
-                  global.currentListEntries.listOpenEntries.categories.push(entry.categoryName);
+                if (getCategoryIndex(entry.categoryName, global.currentListEntries.listOpenEntries.categories) == -1) {
+                  global.currentListEntries.listOpenEntries.categories.push({
+                    categoryName: entry.categoryName,
+                    foldStatus: false
+                  });
                 }
                 if (crossedIdx != -1) {
                   global.currentListEntries.listCrossedEntries.splice(crossedIdx, 1);
@@ -1455,7 +1469,8 @@ angular.module('starter.services')
         syncDeliveryDownstream: syncDeliveryDownstream,
         syncUpdatesUpstream: syncUpdatesUpstream,
         syncUpdatesDownstream: syncUpdatesDownstream,
-        maintainGlobalEntries: maintainGlobalEntries
+        maintainGlobalEntries: maintainGlobalEntries,
+        getCategoryIndex: getCategoryIndex
       }
     }
   )
