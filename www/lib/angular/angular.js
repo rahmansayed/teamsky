@@ -8009,7 +8009,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    *      Empty string by default.
    *
    *      If `template` is a function, then it is {@link auto.$injector#invoke injected} with
-   *      the following locals:
+   *      the following locales:
    *
    *      - `$element` - Current element
    *      - `$attrs` - Current attributes object for the element
@@ -8018,7 +8018,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    *      template that should be used  as the contents of this component.
    *
    *      If `templateUrl` is a function, then it is {@link auto.$injector#invoke injected} with
-   *      the following locals:
+   *      the following locales:
    *
    *      - `$element` - Current element
    *      - `$attrs` - Current attributes object for the element
@@ -10646,10 +10646,10 @@ function $ControllerProvider() {
      *      `window` object (deprecated, not recommended)
      *
      *    The string can use the `controller as property` syntax, where the controller instance is published
-     *    as the specified property on the `scope`; the `scope` must be injected into `locals` param for this
+     *    as the specified property on the `scope`; the `scope` must be injected into `locales` param for this
      *    to work correctly.
      *
-     * @param {Object} locals Injection locals for Controller.
+     * @param {Object} locales Injection locales for Controller.
      * @return {Object} Instance of given controller.
      *
      * @description
@@ -10741,7 +10741,7 @@ function $ControllerProvider() {
     function addIdentifier(locals, identifier, instance, name) {
       if (!(locals && isObject(locals.$scope))) {
         throw minErr('$controller')('noscp',
-          'Cannot export controller \'{0}\' as \'{1}\'! No $scope object provided via `locals`.',
+          'Cannot export controller \'{0}\' as \'{1}\'! No $scope object provided via `locales`.',
           name, identifier);
       }
 
@@ -16021,12 +16021,12 @@ function getValueOf(value) {
  *   var getter = $parse('user.name');
  *   var setter = getter.assign;
  *   var context = {user:{name:'angular'}};
- *   var locals = {user:{name:'local'}};
+ *   var locales = {user:{name:'local'}};
  *
  *   expect(getter(context)).toEqual('angular');
  *   setter(context, 'newValue');
  *   expect(context.user.name).toEqual('newValue');
- *   expect(getter(context, locals)).toEqual('local');
+ *   expect(getter(context, locales)).toEqual('local');
  * ```
  *
  *
@@ -16035,7 +16035,7 @@ function getValueOf(value) {
  *
  *    * `context` – `{object}` – an object against which any expressions embedded in the strings
  *      are evaluated against (typically a scope object).
- *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+ *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
  *      `context`.
  *
  *    The returned function also has the following properties:
@@ -19315,7 +19315,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
     sce.parseAs = function sceParseAs(type, expr) {
@@ -19499,7 +19499,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -19516,7 +19516,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -19533,7 +19533,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -19550,7 +19550,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -19567,7 +19567,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -29714,7 +29714,7 @@ var ngOptionsDirective = ['$compile', '$document', '$parse', function($compile, 
     var trackByFn = trackBy && $parse(trackBy);
 
     // Get the value by which we are going to track the option
-    // if we have a trackFn then use that (passing scope and locals)
+    // if we have a trackFn then use that (passing scope and locales)
     // otherwise just hash the given viewValue
     var getTrackByValueFn = trackBy ?
                               function(value, locals) { return trackByFn(scope, locals); } :
@@ -30815,7 +30815,7 @@ var ngRepeatDirective = ['$parse', '$animate', '$compile', function($parse, $ani
 
         if (trackByExpGetter) {
           trackByIdExpFn = function(key, value, index) {
-            // assign key, value, and $index to the locals so that they can be used in hash functions
+            // assign key, value, and $index to the locales so that they can be used in hash functions
             if (keyIdentifier) hashFnLocals[keyIdentifier] = key;
             hashFnLocals[valueIdentifier] = value;
             hashFnLocals.$index = index;

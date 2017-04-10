@@ -20930,7 +20930,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    *      Empty string by default.
    *
    *      If `template` is a function, then it is {@link auto.$injector#invoke injected} with
-   *      the following locals:
+   *      the following locales:
    *
    *      - `$element` - Current element
    *      - `$attrs` - Current attributes object for the element
@@ -20939,7 +20939,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    *      template that should be used  as the contents of this component.
    *
    *      If `templateUrl` is a function, then it is {@link auto.$injector#invoke injected} with
-   *      the following locals:
+   *      the following locales:
    *
    *      - `$element` - Current element
    *      - `$attrs` - Current attributes object for the element
@@ -23330,10 +23330,10 @@ function $ControllerProvider() {
      *      `window` object (not recommended)
      *
      *    The string can use the `controller as property` syntax, where the controller instance is published
-     *    as the specified property on the `scope`; the `scope` must be injected into `locals` param for this
+     *    as the specified property on the `scope`; the `scope` must be injected into `locales` param for this
      *    to work correctly.
      *
-     * @param {Object} locals Injection locals for Controller.
+     * @param {Object} locales Injection locales for Controller.
      * @return {Object} Instance of given controller.
      *
      * @description
@@ -23421,7 +23421,7 @@ function $ControllerProvider() {
     function addIdentifier(locals, identifier, instance, name) {
       if (!(locals && isObject(locals.$scope))) {
         throw minErr('$controller')('noscp',
-          "Cannot export controller '{0}' as '{1}'! No $scope object provided via `locals`.",
+          "Cannot export controller '{0}' as '{1}'! No $scope object provided via `locales`.",
           name, identifier);
       }
 
@@ -26820,7 +26820,7 @@ var $parseMinErr = minErr('$parse');
 // Sandboxing Angular Expressions
 // ------------------------------
 // Angular expressions are generally considered safe because these expressions only have direct
-// access to `$scope` and locals. However, one can obtain the ability to execute arbitrary JS code by
+// access to `$scope` and locales. However, one can obtain the ability to execute arbitrary JS code by
 // obtaining a reference to native JS functions such as the Function constructor.
 //
 // As an example, consider the following Angular expression:
@@ -28505,12 +28505,12 @@ function getValueOf(value) {
  *   var getter = $parse('user.name');
  *   var setter = getter.assign;
  *   var context = {user:{name:'angular'}};
- *   var locals = {user:{name:'local'}};
+ *   var locales = {user:{name:'local'}};
  *
  *   expect(getter(context)).toEqual('angular');
  *   setter(context, 'newValue');
  *   expect(context.user.name).toEqual('newValue');
- *   expect(getter(context, locals)).toEqual('local');
+ *   expect(getter(context, locales)).toEqual('local');
  * ```
  *
  *
@@ -28519,7 +28519,7 @@ function getValueOf(value) {
  *
  *    * `context` – `{object}` – an object against which any expressions embedded in the strings
  *      are evaluated against (typically a scope object).
- *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+ *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
  *      `context`.
  *
  *    The returned function also has the following properties:
@@ -31676,7 +31676,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
     sce.parseAs = function sceParseAs(type, expr) {
@@ -31860,7 +31860,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -31877,7 +31877,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -31894,7 +31894,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -31911,7 +31911,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -31928,7 +31928,7 @@ function $SceProvider() {
      *
      *    * `context` – `{object}` – an object against which any expressions embedded in the strings
      *      are evaluated against (typically a scope object).
-     *    * `locals` – `{object=}` – local variables context object, useful for overriding values in
+     *    * `locales` – `{object=}` – local variables context object, useful for overriding values in
      *      `context`.
      */
 
@@ -40961,7 +40961,7 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
     var trackByFn = trackBy && $parse(trackBy);
 
     // Get the value by which we are going to track the option
-    // if we have a trackFn then use that (passing scope and locals)
+    // if we have a trackFn then use that (passing scope and locales)
     // otherwise just hash the given viewValue
     var getTrackByValueFn = trackBy ?
                               function(value, locals) { return trackByFn(scope, locals); } :
@@ -42093,7 +42093,7 @@ var ngRepeatDirective = ['$parse', '$animate', '$compile', function($parse, $ani
 
         if (trackByExpGetter) {
           trackByIdExpFn = function(key, value, index) {
-            // assign key, value, and $index to the locals so that they can be used in hash functions
+            // assign key, value, and $index to the locales so that they can be used in hash functions
             if (keyIdentifier) hashFnLocals[keyIdentifier] = key;
             hashFnLocals[valueIdentifier] = value;
             hashFnLocals.$index = index;
@@ -49272,17 +49272,17 @@ function $Resolve(  $q,    $injector) {
    * @description
    * Studies a set of invocables that are likely to be used multiple times.
    * <pre>
-   * $resolve.study(invocables)(locals, parent, self)
+   * $resolve.study(invocables)(locales, parent, self)
    * </pre>
    * is equivalent to
    * <pre>
-   * $resolve.resolve(invocables, locals, parent, self)
+   * $resolve.resolve(invocables, locales, parent, self)
    * </pre>
    * but the former is more efficient (in fact `resolve` just calls `study` 
    * internally).
    *
    * @param {object} invocables Invocable objects
-   * @return {function} a function to pass in locals, parent and self
+   * @return {function} a function to pass in locales, parent and self
    */
   this.study = function (invocables) {
     if (!isObject(invocables)) throw new Error("'invocables' must be an object");
@@ -49326,7 +49326,7 @@ function $Resolve(  $q,    $injector) {
       }
       if (!locals) locals = NO_LOCALS;
       else if (!isObject(locals)) {
-        throw new Error("'locals' must be an object");
+        throw new Error("'locales' must be an object");
       }       
       if (!parent) parent = NO_PARENT;
       else if (!isResolve(parent)) {
@@ -49440,7 +49440,7 @@ function $Resolve(  $q,    $injector) {
    * resulting value will be used instead. Dependencies of invocables are resolved 
    * (in this order of precedence)
    *
-   * - from the specified `locals`
+   * - from the specified `locales`
    * - from another invocable that is part of this `$resolve` call
    * - from an invocable that is inherited from a `parent` call to `$resolve` 
    *   (or recursively
@@ -49449,7 +49449,7 @@ function $Resolve(  $q,    $injector) {
    * The return value of `$resolve` is a promise for an object that contains 
    * (in this order of precedence)
    *
-   * - any `locals` (if specified)
+   * - any `locales` (if specified)
    * - the resolved return values of all injectables
    * - any values inherited from a `parent` call to `$resolve` (if specified)
    *
@@ -52033,7 +52033,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         }
       }
 
-      // If we're going to the same state and all locals are kept, we've got nothing to do.
+      // If we're going to the same state and all locales are kept, we've got nothing to do.
       // But clear 'transition', as we still want to cancel any other pending transitions.
       // TODO: We may not want to bump 'transition' if we're called from a location change
       // that we've initiated ourselves, because we might accidentally abort a legitimate
@@ -52082,13 +52082,13 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         }
       }
 
-      // Resolve locals for the remaining states, but don't update any global state just
+      // Resolve locales for the remaining states, but don't update any global state just
       // yet -- if anything fails to resolve the current state needs to remain untouched.
-      // We also set up an inheritance chain for the locals here. This allows the view directive
+      // We also set up an inheritance chain for the locales here. This allows the view directive
       // to quickly look up the correct definition for each view in the current state. Even
-      // though we create the locals object itself outside resolveState(), it is initially
+      // though we create the locales object itself outside resolveState(), it is initially
       // empty and gets filled asynchronously. We need to keep track of the promise for the
-      // (fully resolved) current locals, and pass this down the chain.
+      // (fully resolved) current locales, and pass this down the chain.
       var resolved = $q.when(locals);
 
       for (var l = keep; l < toPath.length; l++, state = toPath[l]) {
@@ -57846,7 +57846,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
 
           if (!alreadyInDom) {
             // still no existing element to use
-            // create it using existing template/scope/locals
+            // create it using existing template/scope/locales
             enteringEle = registerData.ele || ionicViewSwitcher.createViewEle(viewLocals);
 
             // existing elements in the DOM are looked up by their state name and state id
@@ -63058,7 +63058,7 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
  * @param {string=} start-x Initial horizontal scroll position. Default 0.
  * @param {string=} start-y Initial vertical scroll position. Default 0.
  * @param {expression=} on-scroll Expression to evaluate when the content is scrolled.
- * @param {expression=} on-scroll-complete Expression to evaluate when a scroll action completes. Has access to 'scrollLeft' and 'scrollTop' locals.
+ * @param {expression=} on-scroll-complete Expression to evaluate when a scroll action completes. Has access to 'scrollLeft' and 'scrollTop' locales.
  * @param {boolean=} has-bouncing Whether to allow scrolling to bounce past the edges
  * of the content.  Defaults to true on iOS, false on Android.
  * @param {number=} scroll-event-interval Number of milliseconds between each firing of the 'on-scroll' expression. Default 10.
@@ -64277,7 +64277,7 @@ var ITEM_TPL_REORDER_BUTTON =
 *
 * Note: Reordering works best when used with `ng-repeat`.  Be sure that all `ion-item` children of an `ion-list` are part of the same `ng-repeat` expression.
 *
-* When an item reorder is complete, the expression given in the `on-reorder` attribute is called. The `on-reorder` expression is given two locals that can be used: `$fromIndex` and `$toIndex`.  See below for an example.
+* When an item reorder is complete, the expression given in the `on-reorder` attribute is called. The `on-reorder` expression is given two locales that can be used: `$fromIndex` and `$toIndex`.  See below for an example.
 *
 * Look at {@link ionic.directive:ionList} for more examples.
 *

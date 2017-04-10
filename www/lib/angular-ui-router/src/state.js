@@ -973,7 +973,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         }
       }
 
-      // If we're going to the same state and all locals are kept, we've got nothing to do.
+      // If we're going to the same state and all locales are kept, we've got nothing to do.
       // But clear 'transition', as we still want to cancel any other pending transitions.
       // TODO: We may not want to bump 'transition' if we're called from a location change
       // that we've initiated ourselves, because we might accidentally abort a legitimate
@@ -1022,13 +1022,13 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         }
       }
 
-      // Resolve locals for the remaining states, but don't update any global state just
+      // Resolve locales for the remaining states, but don't update any global state just
       // yet -- if anything fails to resolve the current state needs to remain untouched.
-      // We also set up an inheritance chain for the locals here. This allows the view directive
+      // We also set up an inheritance chain for the locales here. This allows the view directive
       // to quickly look up the correct definition for each view in the current state. Even
-      // though we create the locals object itself outside resolveState(), it is initially
+      // though we create the locales object itself outside resolveState(), it is initially
       // empty and gets filled asynchronously. We need to keep track of the promise for the
-      // (fully resolved) current locals, and pass this down the chain.
+      // (fully resolved) current locales, and pass this down the chain.
       var resolved = $q.when(locals);
 
       for (var l = keep; l < toPath.length; l++, state = toPath[l]) {

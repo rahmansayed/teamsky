@@ -27,17 +27,17 @@ function $Resolve(  $q,    $injector) {
    * @description
    * Studies a set of invocables that are likely to be used multiple times.
    * <pre>
-   * $resolve.study(invocables)(locals, parent, self)
+   * $resolve.study(invocables)(locales, parent, self)
    * </pre>
    * is equivalent to
    * <pre>
-   * $resolve.resolve(invocables, locals, parent, self)
+   * $resolve.resolve(invocables, locales, parent, self)
    * </pre>
    * but the former is more efficient (in fact `resolve` just calls `study` 
    * internally).
    *
    * @param {object} invocables Invocable objects
-   * @return {function} a function to pass in locals, parent and self
+   * @return {function} a function to pass in locales, parent and self
    */
   this.study = function (invocables) {
     if (!isObject(invocables)) throw new Error("'invocables' must be an object");
@@ -81,7 +81,7 @@ function $Resolve(  $q,    $injector) {
       }
       if (!locals) locals = NO_LOCALS;
       else if (!isObject(locals)) {
-        throw new Error("'locals' must be an object");
+        throw new Error("'locales' must be an object");
       }       
       if (!parent) parent = NO_PARENT;
       else if (!isResolve(parent)) {
@@ -195,7 +195,7 @@ function $Resolve(  $q,    $injector) {
    * resulting value will be used instead. Dependencies of invocables are resolved 
    * (in this order of precedence)
    *
-   * - from the specified `locals`
+   * - from the specified `locales`
    * - from another invocable that is part of this `$resolve` call
    * - from an invocable that is inherited from a `parent` call to `$resolve` 
    *   (or recursively
@@ -204,7 +204,7 @@ function $Resolve(  $q,    $injector) {
    * The return value of `$resolve` is a promise for an object that contains 
    * (in this order of precedence)
    *
-   * - any `locals` (if specified)
+   * - any `locales` (if specified)
    * - the resolved return values of all injectables
    * - any values inherited from a `parent` call to `$resolve` (if specified)
    *

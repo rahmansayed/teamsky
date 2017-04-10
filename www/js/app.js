@@ -14,7 +14,8 @@ angular.module('starter', ['ionic',
   'ngCordova',
   'ion-floating-menu',
   'angular.filter',
-  'ngRoute'])
+  'ngRoute',
+  'pascalprecht.translate'])
 /*var db = null;*/
 
 
@@ -192,3 +193,12 @@ angular.module('starter', ['ionic',
     $ionicConfigProvider.views.transition('none');
     console.log('19/3/2017 - aalatief - compile provider run');
   })
+
+  .config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+      prefix: 'locales/',
+      suffix: '.json'
+    });
+
+    $translateProvider.preferredLanguage('en');
+  }]);
