@@ -19,7 +19,7 @@ angular.module('starter', ['ionic',
 /*var db = null;*/
 
 
-  .run(function ($ionicPlatform, global, camera, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, settings, $ionicLoading, $timeout) {
+  .run(function ($ionicPlatform, global, camera, $translate, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, settings, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
 
       if (window.cordova && StatusBar) {
@@ -42,7 +42,7 @@ angular.module('starter', ['ionic',
 
               settings.getUserSetting()
                 .then(function (result) {
-
+                    $translate.use(settings.getSettingValue('language').substr(0, 2));
                     global.userServerId = settings.getUserServerId();
                     global.deviceServerId = settings.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {
@@ -200,5 +200,5 @@ angular.module('starter', ['ionic',
       suffix: '.json'
     });
 
-    $translateProvider.preferredLanguage('en');
+    $translateProvider.preferredLanguage('ar');
   }]);

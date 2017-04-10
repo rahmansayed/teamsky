@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, camera, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
+  .controller('accountCtrl', function ($scope, $state, $q, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
     $scope.days = ['1', '2'];
@@ -1052,13 +1052,17 @@ angular.module('starter.controllers')
       //return days;
     };
 
-    $scope.userData = {
-      displayName: settings.getSettingValue('displayName'),
-      gender: settings.getSettingValue('gender'),
-      country: setCountry(),
-      language: settings.getSettingValue('language'),
-      selected: setSelectedDOB()
-    };
+    $scope.userData = {};
+    settings.getUserSetting().then(function () {
+      console.log('after getUserSettings');
+      $scope.userData = {
+        displayName: settings.getSettingValue('displayName'),
+        gender: settings.getSettingValue('gender'),
+        country: setCountry(),
+        language: settings.getSettingValue('language'),
+        selected: setSelectedDOB()
+      };
+    });
     console.log("$scope.userData  " + JSON.stringify($scope.userData));
     function setCountry() {
       var cntry = settings.getSettingValue('country');
@@ -1116,30 +1120,32 @@ angular.module('starter.controllers')
     $scope.saveUserSetting = function () {
       console.log("updateProfile userData = " + JSON.stringify($scope.userData));
       var data = {};
+      var promises = [];
       for (var attribute in $scope.userData) {
         if ($scope.userData[attribute]) {
           console.log("updateProfile userData['" + attribute + "'] = " + JSON.stringify($scope.userData[attribute]));
           switch (attribute) {
             case  'country' :
-              settings.addUserSetting(attribute, $scope.userData[attribute].code);
+              promises.push(settings.addUserSetting(attribute, $scope.userData[attribute].code));
               data.currentLocation = $scope.userData[attribute].code;
               break;
             case 'selected':
               var dob = new Date($scope.userData.selected.selectedYear,
                 $scope.userData.selected.selectedMonth.id - 1, $scope.userData.selected.selectedDay);
               //dob = dob + dob.getTimezoneOffset() * 60000;
-              settings.addUserSetting('dateOfBirth', dob);
+              promises.push(settings.addUserSetting('dateOfBirth', dob));
               data.dateOfBirth = dob;
               break;
             default:
-              settings.addUserSetting(attribute, $scope.userData[attribute]);
+              promises.push(settings.addUserSetting(attribute, $scope.userData[attribute]));
               data[attribute] = $scope.userData[attribute];
           }
         }
-
       }
-      alert('Profile Info Saved');
-      $state.go('lists');
+      $q.all(promises).then(function () {
+        alert('Profile Info Saved');
+        $state.go('lists');
+      });
       // calling the server
       data.userServerId = global.userServerId;
       data.deviceServerId = global.deviceServerId;
@@ -1148,6 +1154,7 @@ angular.module('starter.controllers')
       }, function (err) {
         console.error('saveUserSetting server err = ' + JSON.stringify(err));
       });
+      $translate.use($scope.userData.language.substr(0, 2));
     }
 
   });

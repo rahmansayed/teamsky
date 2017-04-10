@@ -81,6 +81,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           tx.executeSql(query, [], function (tx, res) {
             //Success Callback
+            userSetting = [];
             for (var i = 0; i < res.rows.length; i++) {
               userSetting.push(res.rows.item(i));
             }
@@ -90,7 +91,7 @@ angular.module('starter.services')
             //Error Callback
             console.log("getUserSetting error = " + error.message);
             deferred.reject(error);
-          })
+          });
         });
         return deferred.promise;
       };
