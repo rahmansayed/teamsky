@@ -65,7 +65,7 @@ angular.module('starter.services')
             });
             break;
           case "UPDATED":
-            serverHandlerEntryV2.syncUpdatesDownstream(msg.additionalData.details.entry).then(function (affectedLists) {
+            serverHandlerEntryV2.syncUpdatesDownstream(msg.additionalData.details).then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));

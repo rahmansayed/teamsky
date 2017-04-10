@@ -108,6 +108,7 @@ angular.module('starter.services')
                 global.currentListEntries.listOpenEntries.entries[openIdx].uom = entry.uom;
 //                global.currentListEntries.listOpenEntries.entries[openIdx].retailerName = entry.retailerName;
                 global.currentListEntries.listOpenEntries.entries[openIdx].retailerLocalId = entry.retailerLocalId;
+                global.currentListEntries.listOpenEntries.entries[openIdx].retailerName = entry.retailerName;
                 global.currentListEntries.listOpenEntries.entries[openIdx].x = 500;
               }
               break;
@@ -401,8 +402,8 @@ angular.module('starter.services')
 //                      console.log("syncListEntriesUpdates updatemany server Response Result => " + JSON.stringify(response));
                       global.db.transaction(function (tx) {
                           var query = "update entry set flag= 'S', seenFlag = 2 where entryServerId = ?";
-                          for (var i = 0; i < response.data.length; i++) {
-                            tx.executeSql(query, [response.data[i].entryServerId]);
+                          for (var i = 0; i < entries.entries.length; i++) {
+                            tx.executeSql(query, [entries.entries[i].entryServerId]);
                           }
                         }, function (err) {
                           console.error("syncListEntriesUpdates DB update Error = " + err);
@@ -687,9 +688,9 @@ angular.module('starter.services')
               "?," + //listLocalId
               "?," + //itemLocalId
               "?," + //entryServerId
-              "1," + //quantity
-              "''," + //uom
-              "''," + // retailerLocalId
+              "?," + //quantity
+              "?," + //uom
+              "?," + // retailerLocalId
               "0, " + //entryCrossedFlag
               "?," + //origin
               " ?," + // flag
@@ -698,7 +699,7 @@ angular.module('starter.services')
               " ?," + //language
               " 'N')"; //deleted
             //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, origin, flag, entry.seenFlag, entry.language], function (tx, res) {
+            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, origin, flag, entry.seenFlag, entry.language], function (tx, res) {
               console.log('addEntry res = ' + JSON.stringify(res.insertId));
               entry.entryLocalId = res.insertId;
               maintainGlobalEntries(entry, 'OPEN', 'ADD');
@@ -790,6 +791,7 @@ angular.module('starter.services')
                     deleted: 'N',
                     seenFlag: 0,
                     retailerLocalId: localIds.retailerLocalId,
+                    retailerName: localIds.retailerName,
                     language: response.data.entries[i].language,
                     entryServerId: response.data.entries[i]._id
                   };
@@ -1366,12 +1368,12 @@ angular.module('starter.services')
           myPromise = $q.resolve({
             data: {
               updates: [{
-                entryServerId: entryUpdate.entryServerId,
-                _id: entryUpdate._id,
-                uom: entryUpdate.uom,
-                qty: entryUpdate.qty,
-                retailerServerId: entryUpdate.retailerServerId,
-                userRetailerServerId: entryUpdate.userRetailerServerId,
+                entryServerId: entryUpdate.entry.entryServerId,
+                _id: entryUpdate.entry._id,
+                uom: entryUpdate.entry.uom || '',
+                qty: entryUpdate.entry.qty || 1,
+                retailerServerId: entryUpdate.entry.retailerServerId,
+                userRetailerServerId: entryUpdate.entry.userRetailerServerId,
               }],
               retailers: (entryUpdate.retailer) ? [entryUpdate.retailer] : []
             }
@@ -1396,13 +1398,13 @@ angular.module('starter.services')
                         var query;
                         if (update.retailerServerId) {
                           query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
-                          var retailerLocalId = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
+                          var retailer = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
                           updatesArray = [update.uom,
-                            update, retailerLocalId, update.entryServerId];
+                            update.qty, retailer.retailerLocalId, update.entryServerId];
                         } else if (update.userRetailerServerId) {
-                          var retailerLocalId = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
+                          var retailer = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
                           query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
-                          updatesArray = [update.uom, update.qty, retailerLocalId, update.entryServerId];
+                          updatesArray = [update.uom, update.qty, retailer.retailerLocalId, update.entryServerId];
                         } else {
                           query = "update entry set uom = ?, quantity=? where entryServerId = ?";
                           updatesArray = [update.uom, update.qty, update.entryServerId];
@@ -1411,7 +1413,8 @@ angular.module('starter.services')
                         tx.executeSql(query, updatesArray);
                         // getting the entry to reflect on UI
                         getEntryFromLocalDB(update.entryServerId).then(function (entry) {
-                            entry.retailerLocalId = retailerLocalId;
+                            entry.retailerLocalId = retailer.retailerLocalId;
+                            entry.retailerName = retailer.retailerName;
                             entry.qty = update.qty;
                             entry.uom = update.uom;
                             maintainGlobalEntries(entry, 'OPEN', 'UPDATE');

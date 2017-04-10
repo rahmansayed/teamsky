@@ -112,7 +112,8 @@ angular.module('starter.services')
             for (var i = 0; i < result.rows.length; i++) {
               retailersRet.push({
                 retailerServerId: result.rows.item(i).retailerServerId,
-                retailerLocalId: result.rows.item(i).retailerLocalId
+                retailerLocalId: result.rows.item(i).retailerLocalId,
+                retailerName: result.rows.item(i).retailerName
               })
             }
             console.log('dbHelper getRetailersLocalIds retailerRet ' + JSON.stringify(retailersRet));
@@ -255,12 +256,14 @@ angular.module('starter.services')
           if (entry.retailerServerId) {
             if (localIdsMap.retailers[i].retailerServerId == entry.retailerServerId) {
               result.retailerLocalId = localIdsMap.retailers[i].retailerLocalId;
+              result.retailerName = localIdsMap.retailers[i].retailerName;
               break;
             }
           }
           if (entry.userRetailerServerId) {
             if (localIdsMap.retailers[i].retailerServerId == entry.userRetailerServerId) {
               result.retailerLocalId = localIdsMap.retailers[i].retailerLocalId;
+              result.retailerName = localIdsMap.retailers[i].retailerName;
               break;
             }
           }
@@ -332,7 +335,7 @@ angular.module('starter.services')
         for (var i = 0; i < retailerMap.length; i++) {
           if (retailerServerId) {
             if (retailerMap[i].retailerServerId == retailerServerId) {
-              return retailerMap[i].retailerLocalId;
+              return retailerMap[i];
             }
           }
         }
