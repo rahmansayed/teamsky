@@ -42,10 +42,13 @@ angular.module('starter.controllers')
           };
 
           settings.setSettings(otherSettings).then(function () {
+            console.log("after setSettings settings = " + JSON.stringify(settings.userSetting));
             settings.getUserSetting()
-            .then(function(){
-              $state.go('account');   
-            },function(){})
+              .then(function () {
+                console.log("after getUserSetting settings = " + JSON.stringify(settings.userSetting));
+                $state.go('account');
+              }, function () {
+              })
             ;
           });
 
@@ -67,7 +70,6 @@ angular.module('starter.controllers')
 
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification
-          $state.go('account');
         });
     }
   });
