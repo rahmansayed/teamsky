@@ -270,7 +270,7 @@ angular.module('starter.controllers')
       $scope.showItemDetails = true;
       $scope.entryLocalId = listItem.entryLocalId;
     };
-/*-----------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------------------------------------------*/
     $scope.updateEntry = function (entry) {
       //If DIV is visible it will be hidden and vice versa.
 
@@ -290,7 +290,7 @@ angular.module('starter.controllers')
 
           if (!entry.retailerLocalId && entry.retailerName) {
             entry.retailerLocalId = response;
-            console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(retailer));
+            console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(entry.retailerName));
 
           }
           console.log('4/4/2017 - listItem - aalatief - Entry' + JSON.stringify(entry));
@@ -302,7 +302,7 @@ angular.module('starter.controllers')
 
 
     };
-/*------------------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------*/
 
     //Declaring the function to load data from database
     $scope.fillretListetailerList = function () {
@@ -315,12 +315,12 @@ angular.module('starter.controllers')
 
         });
     };
-/*-----------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------------------------------------------------*/
     //Calling the function to load the data on pageload
     $scope.fillretListetailerList();
     $scope.showRetailerlist = true;
-/*------------------------------------------------------------------*/
-/*Search for existing retailer*/
+    /*------------------------------------------------------------------*/
+    /*Search for existing retailer*/
     $scope.retailerData = {"retailers": [], "search": ''};
     $scope.searchRetailer = function (retailerName) {
       /*console.log('Search pressed : ' + $scope.data.search);*/
@@ -332,7 +332,7 @@ angular.module('starter.controllers')
         }
       )
     };
-/*---------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------*/
 
     /*set the border color of the contact shown based on status*/
     $scope.toggleLeft = function () {

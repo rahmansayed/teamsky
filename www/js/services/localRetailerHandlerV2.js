@@ -37,8 +37,9 @@ angular.module('starter.services')
         tx.executeSql(query, [retailerName], function (tx, res) {
           console.log("addRetailer query res = " + JSON.stringify(res));
           serverHandlerRetailerV2.syncLocalRetailerUpstream();
-          /*            var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
-           tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailer.retailerName]);*/
+          var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
+          tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailerName]);
+          tx.executeSql(query_tl_insert, [res.insertId, 'AR', retailerName]);
           defer.resolve(res.insertId);
         }, function (err) {
           console.error("addRetailer query err = " + err.message);
@@ -86,10 +87,10 @@ angular.module('starter.services')
       }
       return deferred.promise;
     }
-/*-----------------------------------------------------------------------------------------*/
-    
-    
-    
+
+    /*-----------------------------------------------------------------------------------------*/
+
+
     return {
       getAllRetailers: getAllRetailers,
       addRetailer: addRetailer,

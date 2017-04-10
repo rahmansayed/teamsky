@@ -32,7 +32,7 @@ angular.module('starter.services')
        }
        else {*/
       console.log('11/02/2017 - aalatief - initDb from Browser');
-      global.db = window.openDatabase("teamSky1_26.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+      global.db = window.openDatabase("teamSky1_27.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
       /*$location.path("/subscribe");*/
       //}
@@ -97,7 +97,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text UNIQUE,retailerServerId text,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
 
-        "CREATE TABLE IF NOT EXISTS retailer_tl (retailerLocalId integer ,language text,retailerName text UNIQUE,lastUpdateDate integer,lastUpdateBy text)",
+        "CREATE TABLE IF NOT EXISTS retailer_tl (retailerLocalId integer ,language text,retailerName text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(retailerLocalId, language))",
 
         "CREATE TABLE IF NOT EXISTS sync (tableName text primary key,lastSyncDate integer)",
         "CREATE TABLE IF NOT EXISTS uoms (uomName text primary key)",
