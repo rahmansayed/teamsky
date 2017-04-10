@@ -42,10 +42,8 @@ angular.module('starter.controllers')
           };
 
           settings.setSettings(otherSettings).then(function () {
-            console.log("after setSettings settings = " + JSON.stringify(settings.userSetting));
             settings.getUserSetting()
               .then(function () {
-                console.log("after getUserSetting settings = " + JSON.stringify(settings.userSetting));
                 $state.go('account');
               }, function () {
               })

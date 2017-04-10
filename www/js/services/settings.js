@@ -51,10 +51,10 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var updateQuery = "UPDATE userSetting set value = ? where setting = ?";
           tx.executeSql(updateQuery, [value, setting], function (tx, res) {
-            console.log("addUserSetting res1 = " + JSON.stringify(res.rowsAffected));
+//            console.log("addUserSetting res1 = " + JSON.stringify(res.rowsAffected));
             var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,?,?)";
             tx.executeSql(insertQuery, [setting, value, new Date().getTime(), 'S'], function (tx, res2) {
-              console.log("addUserSetting res2 = " + JSON.stringify(res2.rowsAffected));
+//              console.log("addUserSetting res2 = " + JSON.stringify(res2.rowsAffected));
               deferred.resolve();
             }, function (err) {
               console.error("addUserSetting insert error");
