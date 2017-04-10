@@ -16,8 +16,9 @@ angular.module('starter.services')
 
       function getCategoryIndex(categoryName, categoryList) {
         var idx = -1;
+        //console.log("getCategoryIndex categoryList = " + JSON.stringify(categoryList));
         for (var i = 0; i < categoryList.length; i++) {
-          if (categoryList.categoryName == categoryName) {
+          if (categoryList[i].categoryName == categoryName) {
             idx = i;
             break;
           }
@@ -52,6 +53,7 @@ angular.module('starter.services')
           categoryIdx = getCategoryIndex(entry.categoryName, global.currentListEntries.listOpenEntries.categories);
           console.log('maintainGlobalEntries openIdx = ' + openIdx);
           console.log('maintainGlobalEntries crossedIdx = ' + crossedIdx);
+          console.log('maintainGlobalEntries categoryIdx = ' + categoryIdx);
           switch (operation) {
             case 'ADD':
               if (openIdx == -1) {
