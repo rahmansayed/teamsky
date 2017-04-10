@@ -41,7 +41,7 @@ angular.module('starter', ['ionic',
 
               settings.getUserSetting()
                 .then(function (result) {
-                    
+
                     global.userServerId = settings.getUserServerId();
                     global.deviceServerId = settings.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {
@@ -112,8 +112,6 @@ angular.module('starter', ['ionic',
          }, function (errormsg) {
          alert(errormsg)
          });*/
-
-        camera.capture();
 
         //window.open("whatsapp://send?text=Hello&phone=+201147940889&abid=+31611111111", "_system");
 

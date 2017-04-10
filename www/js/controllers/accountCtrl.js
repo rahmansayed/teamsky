@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
+  .controller('accountCtrl', function ($scope, $state, camera, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
     $scope.days = ['1', '2'];
@@ -1059,7 +1059,7 @@ angular.module('starter.controllers')
       language: settings.getSettingValue('language'),
       selected: setSelectedDOB()
     };
-     console.log("$scope.userData  " + JSON.stringify($scope.userData));
+    console.log("$scope.userData  " + JSON.stringify($scope.userData));
     function setCountry() {
       var cntry = settings.getSettingValue('country');
       console.log('cntry = ' + cntry);
@@ -1071,6 +1071,11 @@ angular.module('starter.controllers')
         }
       }
       return {};
+    }
+
+    function openCamera() {
+      console.log("openCamera");
+      camera.capture();
     }
 
     function setSelectedDOB() {
@@ -1133,8 +1138,8 @@ angular.module('starter.controllers')
         }
 
       }
-       alert('Profile Info Saved');      
-       $state.go('lists');
+      alert('Profile Info Saved');
+      $state.go('lists');
       // calling the server
       data.userServerId = global.userServerId;
       data.deviceServerId = global.deviceServerId;
