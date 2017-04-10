@@ -1059,6 +1059,7 @@ angular.module('starter.controllers')
       language: settings.getSettingValue('language'),
       selected: setSelectedDOB()
     };
+     console.log("$scope.userData  " + JSON.stringify($scope.userData));
     function setCountry() {
       var cntry = settings.getSettingValue('country');
       console.log('cntry = ' + cntry);
@@ -1130,7 +1131,10 @@ angular.module('starter.controllers')
               data[attribute] = $scope.userData[attribute];
           }
         }
+
       }
+       alert('Profile Info Saved');      
+       $state.go('lists');
       // calling the server
       data.userServerId = global.userServerId;
       data.deviceServerId = global.deviceServerId;

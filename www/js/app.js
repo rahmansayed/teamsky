@@ -41,6 +41,7 @@ angular.module('starter', ['ionic',
 
               settings.getUserSetting()
                 .then(function (result) {
+                    
                     global.userServerId = settings.getUserServerId();
                     global.deviceServerId = settings.getDeviceServerId();
                     if (global.userServerId != 'Not Found') {

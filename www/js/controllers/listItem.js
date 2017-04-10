@@ -333,15 +333,40 @@ angular.module('starter.controllers')
       )
     };
 /*---------------------------------------------------------------------------*/
-
+$scope.slideLeft = function(){
     /*set the border color of the contact shown based on status*/
     $scope.toggleLeft = function () {
       $ionicSideMenuDelegate.toggleLeft();
       console.log('20/03/2017 - listItem -aalatief - menu Pressed')
     };
     /*------------------------------------------------------------------*/
+				// Grab the content
+				var content = element[0].querySelector('.item-content');
 
+				// Grab the buttons and their width
+				var buttons = element[0].querySelector('.item-options');
 
+				if (!buttons) {
+					console.log('There are no option buttons');
+					return;
+				}
+				var buttonsWidth = buttons.offsetWidth;
+
+				ionic.requestAnimationFrame(function() {
+					content.style[ionic.CSS.TRANSITION] = 'all ease-out .25s';
+
+					if (!buttons.classList.contains('invisible')) {
+						console.log('close');
+						content.style[ionic.CSS.TRANSFORM] = '';
+						setTimeout(function() {
+							buttons.classList.add('invisible');
+						}, 250);				
+					} else {
+						buttons.classList.remove('invisible');
+						content.style[ionic.CSS.TRANSFORM] = 'translate3d(-' + buttonsWidth + 'px, 0, 0)';
+					}
+				});	
+};
     //This will show the entry DIV by default.
 
 
