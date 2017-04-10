@@ -42,7 +42,11 @@ angular.module('starter.controllers')
           };
 
           settings.setSettings(otherSettings).then(function () {
-            settings.getUserSetting();
+            settings.getUserSetting()
+            .then(function(){
+              $state.go('account');   
+            },function(){})
+            ;
           });
 
           serverHandler.syncInit()
@@ -63,7 +67,7 @@ angular.module('starter.controllers')
 
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification
-          $state.go('lists');
+          $state.go('account');
         });
     }
   });

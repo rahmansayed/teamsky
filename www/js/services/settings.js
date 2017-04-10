@@ -16,6 +16,8 @@ angular.module('starter.services')
       };
 
       function getSettingValue(settingName) {
+       
+        console.log("userSetting: "+JSON.stringify(userSetting))  ;
         for (var j = 0; j < userSetting.length; j++) {
           if (userSetting[j].setting == settingName) {
             return userSetting[j].value;
@@ -74,6 +76,7 @@ angular.module('starter.services')
             for (var i = 0; i < res.rows.length; i++) {
               userSetting.push(res.rows.item(i));
             }
+              console.log("getUserSetting success = " + JSON.stringify(userSetting));
             deferred.resolve(userSetting);
           }, function (error) {
             //Error Callback
