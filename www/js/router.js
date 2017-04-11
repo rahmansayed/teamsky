@@ -39,7 +39,12 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
     })
 
     // Each tab has its own nav history stack:
-
+   
+    .state('language', {
+      url: '/language',
+      templateUrl: 'templates/language.html',
+      controller: 'langCtrl'
+    })
 
 
     .state('account', {

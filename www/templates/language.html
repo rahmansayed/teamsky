@@ -1,0 +1,51 @@
+<ion-view view-title="Welcome to TeamSky">
+  <ion-nav-bar class="theme-color">
+
+    <ion-nav-buttons side="right">
+      <button class="theme-color button button-clear icon-left ion-checkmark-round"
+              ng-click="saveUserSetting()"
+              style="padding-right:7px;">
+
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+
+
+
+  <ion-content style="padding-bottom:100px;">
+
+
+
+    <div class="col text-center" style="height:100px;background-color:#941540;">
+    </div>
+    <div>
+
+      <h1 class="text-center item"
+          style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;">
+        <br>
+        <strong>Choose preferred language </strong>
+        <br>
+        <br>
+        <br>
+
+      </h1>
+    </div>
+      <div align="center">
+        <ion-radio ng-model="userData.language" ng-value="'arabic'"
+                   style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
+                   name="lang"
+                   align="center">العربية
+        </ion-radio>
+        <ion-radio ng-model="userData.language" ng-value="'english'"
+                   style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
+                   name="lang"
+                   align="center">English
+        </ion-radio>
+
+      </div>
+
+    <br><br><br><br>
+  </ion-content>
+
+</ion-view>

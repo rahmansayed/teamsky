@@ -2,6 +2,8 @@ angular.module('starter.controllers')
   .controller('accountCtrl', function ($scope, $state, $q, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
+    
+    console.log('11/4/2017 - user setting: '+JSON.stringify(settings.userSetting));
     $scope.days = ['1', '2'];
 
     $scope.selectedYear = 0;
@@ -1075,13 +1077,13 @@ angular.module('starter.controllers')
         }
       }
       return {};
-    }
+    };
 
-    function openCamera() {
+    $scope.openCamera =function (){
       console.log("openCamera");
       camera.capture();
     }
-
+;
     function setSelectedDOB() {
       console.log("settings.getSettingValue('dateOfBirth') = " + settings.getSettingValue('dateOfBirth'));
       if (settings.getSettingValue('dateOfBirth') != '') {
