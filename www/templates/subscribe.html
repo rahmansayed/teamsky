@@ -30,7 +30,7 @@
         <div class="input-label">
           &nbsp;
         </div>
-        <select ng-model="country" ng-init="country=countries[defaultCountryIdx]"
+        <select ng-model="selected.country" ng-init="selected.country=countries[defaultCountryIdx]"
                 ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
 
       </div>
@@ -45,7 +45,7 @@
     </div>
     <div class="padding">
       <button class="button button-block button-positive" style="background-color:#941540;"
-              ng-click="subscribeUser({countryCode:country.dial_code,phoneNumber:phoneNumber})">Subscribe
+              ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})">Subscribe
       </button>
 
       <p class="padding text-left " style="text-align:left;white-space: normal;">

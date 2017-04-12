@@ -56,13 +56,12 @@ angular.module('starter', ['ionic',
                     }
                     else {
                       $ionicLoading.hide();
-                      if (!settings.getSettingValue('language'))  {  
+                      if (!settings.getSettingValue('language')) {
                         $location.path("/language");
                       }
-                      else
-                          {
-                            $location.path("/subscribe");  
-                          }
+                      else {
+                        $location.path("/subscribe");
+                      }
                     }
 
                     console.log('01/02/2017 - app.run - aalatief: User Server ID:' + global.userServerId);

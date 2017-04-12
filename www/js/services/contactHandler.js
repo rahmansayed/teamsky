@@ -136,6 +136,8 @@ angular.module('starter.services')
                   newContact.contactServerId = contactServerId;
                   insertContact(newContact).then(function (resultContact2) {
                     console.log("pickContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
+                    // download contact photo if exists.
+                    downloadContactPhoto(contactServerId);
                     addListContact(list.listLocalId, resultContact2.contactLocalId);
                     //call the server invite API
                     addListContactUpstream(list, resultContact2).then(function () {
@@ -361,6 +363,44 @@ angular.module('starter.services')
     /*----------------------------------------------------------------------------------------*/
 
 
+    function downloadContactPhoto(contactServerId) {
+      var defer = $q.defer();
+      var fileTransfer = new FileTransfer();
+      var uri = encodeURI(global.serverIP + "/photos/downloadUserPhoto/" + contactServerId);
+
+      fileTransfer.download(
+        uri,
+        cordova.file.externalApplicationStorageDirectory + './contactPhotos/' + contactServerId + '.jpg',
+        function (entry) {
+          console.log("download complete entry.toURL(): " + entry.toURL());
+          console.log("download complete entry.toURI(): " + entry.toURI());
+          // update contact table with contact photo
+          global.db.transaction(function (tx) {
+            var query = "UPDATE contact SET photo = ? where contactServerId = ?";
+            tx.executeSql(query, [entry.toURL(), contactServerId]);
+          }, function (err) {
+            console.error("downloadContactPhoto db transaction failed err = " + JSON.stringify(err));
+          }, function () {
+
+          });
+          defer.resolve(entry.toURL());
+        },
+        function (error) {
+          console.log("download error source " + error.source);
+          console.log("download error target " + error.target);
+          console.log("download error code" + error.code);
+          defer.reject(error);
+        },
+        false,
+        {
+          headers: {
+            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+          }
+        }
+      );
+      return defer.promise;
+    }
+
     return {
       pickContact: pickContact,
       formatPhoneNumber: formatPhoneNumber,
@@ -369,8 +409,8 @@ angular.module('starter.services')
       getContactLocalId: getContactLocalId,
       updateContactStatus: updateContactStatus,
       checkProspects: checkProspects,
-      upsertContact: upsertContact
-
+      upsertContact: upsertContact,
+      downloadContactPhoto: downloadContactPhoto
     };
 
 

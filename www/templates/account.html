@@ -18,10 +18,10 @@
 
     <div id="profile-bg"></div>
     <div id="content">
-      <div id="profile-info">
+      <img id="profile-info">
 
 
-        <img id="profile-image" src="img\cordova_bot.png">
+        <img id="profile-image" ng-src="{{userData.photo}}" ng-click="downloadPhoto()"></img>
 
         <button class="button button-balanced ion-camera larger padding text-center"
                 ng-click="openCamera()"

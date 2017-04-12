@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('subscribeCtrl', function ($scope, $state, $ionicPopup, $http, $location, $ionicPlatform, $cordovaPreferences, global, settings, $ionicLoading, $timeout, $q, $rootScope, $ionicHistory) {
+  .controller('subscribeCtrl', function ($scope, $state, settings, $ionicPopup, $http, $location, $ionicPlatform, $cordovaPreferences, global, settings, $ionicLoading, $timeout, $q, $rootScope, $ionicHistory) {
 
 
     $scope.$on('$ionicView.beforeEnter', function () {
@@ -45,7 +45,10 @@ angular.module('starter.controllers')
         deviceUUID: global.deviceUUID
       };
       console.log('subscribeCtrl user = ' + JSON.stringify(user));
+      console.log('subscribeCtrl $scope.country = ' + JSON.stringify($scope.selected));
 
+
+      settings.addUserSetting('country', $scope.selected.country.code);
       $http.post(global.serverIP + "/api/user/subscribe", user).then(function (response) {
 
         console.log("subscribeUser response.data.vCode = " + response.data.vCode);
@@ -1045,6 +1048,7 @@ angular.module('starter.controllers')
         code: "VI"
       }];
     $scope.defaultCountryIdx = 0;
+    $scope.selected = {};
     for (var i = 0; i < $scope.countries.length; i++) {
       if ($scope.countries[i].code == global.simCountry) {
         $scope.defaultCountryIdx = i;

@@ -1,14 +1,13 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, $q, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
+  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
-    
-    console.log('11/4/2017 - user setting: '+JSON.stringify(settings.userSetting));
+
+    console.log('11/4/2017 - user setting: ' + JSON.stringify(settings.userSetting));
     $scope.days = ['1', '2'];
 
     $scope.selectedYear = 0;
     $scope.selectedMonth = 0;
-
     $scope.months = [{
       name: 'January',
       id: 1
@@ -1054,10 +1053,17 @@ angular.module('starter.controllers')
       //return days;
     };
 
+    /*
+     contactHandler.downloadContactPhoto("58ea2bfb63814f1e1804adb5").then(function (res) {
+     $scope.userData.photo = res;
+     });
+     */
+
     $scope.userData = {};
     settings.getUserSetting().then(function () {
       console.log('after getUserSettings');
       $scope.userData = {
+        photo: settings.getSettingValue('photo'),
         displayName: settings.getSettingValue('displayName'),
         gender: settings.getSettingValue('gender'),
         country: setCountry(),
@@ -1079,11 +1085,15 @@ angular.module('starter.controllers')
       return {};
     };
 
-    $scope.openCamera =function (){
+    $scope.openCamera = function () {
       console.log("openCamera");
-      camera.capture();
+      camera.capture().then(function (src) {
+        $scope.userData.photo = src;
+        settings.addUserSetting('photo', src);
+        //contactHandler.
+      });
     }
-;
+    ;
     function setSelectedDOB() {
       console.log("settings.getSettingValue('dateOfBirth') = " + settings.getSettingValue('dateOfBirth'));
       if (settings.getSettingValue('dateOfBirth') != '') {
@@ -1157,6 +1167,7 @@ angular.module('starter.controllers')
         console.error('saveUserSetting server err = ' + JSON.stringify(err));
       });
       $translate.use($scope.userData.language.substr(0, 2));
+      camera.u
     }
 
   });

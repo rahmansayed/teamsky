@@ -34,7 +34,7 @@ angular.module('starter.controllers')
             dateOfBirth: response.data.dateOfBirth,
             gender: response.data.gender,
             name: response.data.name,
-            currentLocation: response.data.currentLocation,
+            /*currentLocation: response.data.currentLocation,*/
             verified: 'Y',
             userServerId: response.data.userServerId,
             deviceServerId: response.data.deviceServerId,
