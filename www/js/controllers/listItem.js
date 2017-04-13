@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2,$translate) {
 
 
     $scope.uoms = [];
@@ -211,7 +211,7 @@ angular.module('starter.controllers')
       /*Handle the case of elete from Device*/
       document.addEventListener("deviceready", function () {
         navigator.notification.confirm(
-          "Are you sure you want to delete item: " + listItem.itemName + "?", // the message
+          $translate.instant('CONFIRM_DELETE_ITEM') + listItem.itemName + "?", // the message
           function (index) {
             switch (index) {
               case 1:
@@ -228,15 +228,15 @@ angular.module('starter.controllers')
                 break;
             }
           },
-          "Delete Item", // a title
-          ["Delete", "Cancel"]    // text of the buttons
+          $translate.instant('DELETE_ITEM'), // a title
+          [$translate.instant('DELETE'), $translate.instant('CANCEL')]    // text of the buttons
         );
       });
       /*Handle the case for delete from Browser*/
       if (!(window.cordova)) {
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Delete List',
-          template: 'Are you sure you want to delete item: ' + listItem.itemName + "?"
+          title:$translate.instant('DELETE_ITEM'),
+          template: $translate.instant('CONFIRM_DELETE_ITEM') + listItem.itemName + "?"
         });
 
         confirmPopup.then(function (res) {

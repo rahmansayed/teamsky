@@ -15,7 +15,8 @@ angular.module('starter', ['ionic',
   'ion-floating-menu',
   'angular.filter',
   'ngRoute',
-  'pascalprecht.translate'])
+  'pascalprecht.translate',
+  'angular-popover'])
 /*var db = null;*/
 
 

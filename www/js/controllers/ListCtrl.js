@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,$ionicPopover) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,$ionicPopover,$translate) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -59,7 +59,7 @@ angular.module('starter.controllers')
       /*Handle the case of elete from Device*/
       document.addEventListener("deviceready", function () {
         navigator.notification.confirm(
-          "Are you sure you want to delete the list " + list.listName + "?", // the message
+          $translate.instant('CONFIRM_DELETE') + list.listName + $translate.instant('QUESTION_MARK'), // the message
           function (index) {
             switch (index) {
               case 1:
@@ -76,15 +76,15 @@ angular.module('starter.controllers')
                 break;
             }
           },
-          "Delete List", // a title
-          ["Delete", "Cancel"]    // text of the buttons
+          $translate.instant('DELETE_LIST'), // a title
+          [$translate.instant('DELETE'), $translate.instant('CANCEL')]    // text of the buttons
         );
       });
       /*Handle the case for delete from Browser*/
       if (!(window.cordova)) {
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Delete List',
-          template: 'Are you sure you want to delete this list ' + list.listName + "?"
+          title: $translate.instant('DELETE_LIST'),
+          template:  $translate.instant('CONFIRM_DELETE') + list.listName +$translate.instant('QUESTION_MARK')
         });
 
         confirmPopup.then(function (res) {
@@ -207,7 +207,7 @@ angular.module('starter.controllers')
     $scope.popover = popover;
        
   });
-  $scope.openPopover = function($event) {  
+  /*$scope.openPopover = function($event) {  
       
     alert('Popover Show: '+JSON.stringify($event)   );   
    $scope.popover.show($event);
@@ -227,6 +227,6 @@ angular.module('starter.controllers')
   // Perform action on remove popover
   $scope.$on('popover.removed', function() {
     // Perform action
-  });
+  });*/
     
   });

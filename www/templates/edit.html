@@ -1,6 +1,13 @@
 <ion-view view-title="Edit List" >
   <ion-nav-bar class="theme-color">
         <ion-nav-back-button></ion-nav-back-button>
+          <ion-nav-buttons side="right">
+      <button class="theme-color button button-clear icon-left ion-checkmark-round"
+              ng-click="saveList(list)"
+              style="padding-right:7px;">
+
+      </button>
+    </ion-nav-buttons>
   </ion-nav-bar>
 
     <ion-nav-title>{{dynamicTitle}} </ion-nav-title>
@@ -15,7 +22,7 @@
         </div>
 
           <div  ng-style="setColor(listUser.contactStatus,'color')">
-              <p class="padding text-left " style="text-align:left;white-space: normal;"> The List <b>{{list.listName}}</b> is currently shared with:</p>
+              <p class="padding text-left " style="text-align:left;white-space: normal;" ><span translate>THE_LIST</span> <b>{{list.listName}}</b> <span translate>SHARED_WITH</span></p>
               {{listUsers.contactName}}
             </div>
 
@@ -39,7 +46,7 @@
 
         <div style="text-align: center;">
 
-            <i><p class="padding text-center "  ng-show="!listUsers[0].contactName" >Not shared yet!</p></i>
+            <i><p class="padding text-center "  ng-show="!listUsers[0].contactName" translate>NOT_SHARED</p></i>
             <div style="text-align: right;">
              <button class="button button-balanced ion-android-person-add larger padding text-center"
                      ng-click="getAllContacts(list)"
@@ -49,8 +56,8 @@
         </div>
 
 
-        <div class="padding button-bar">
+<!--        <div class="padding button-bar">
             <a style="background-color:#941540; " class="button button-block button-positive" ng-click="saveList(list)">Save</a>
-        </div>
+        </div>-->
     </ion-content>
 </ion-view>
