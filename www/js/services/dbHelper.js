@@ -6,7 +6,7 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('dbHelper', function (global, $q) {
+  .factory('dbHelper', function (global, $q, settings) {
 
       /***********************************************************************************************************************
        *
@@ -234,7 +234,7 @@ angular.module('starter.services')
         for (var i = 0; i < localIdsMap.items.length; i++) {
           if (entry.itemServerId) {
             if ((localIdsMap.items[i].itemServerId == entry.itemServerId) &&
-              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == entry.language)) {
+              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == settings.getSettingValue('language').substr(0, 2).toUpperCase())) {
               result.itemLocalId = localIdsMap.items[i].itemLocalId;
               result.itemName = localIdsMap.items[i].itemName;
               result.categoryName = localIdsMap.items[i].categoryName;
@@ -243,7 +243,7 @@ angular.module('starter.services')
           }
           else {
             if ((localIdsMap.items[i].itemServerId == entry.userItemServerId) &&
-              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == entry.language)) {
+              (entry.language == localIdsMap.items[i].itemLang) && (localIdsMap.items[i].catLang == settings.getSettingValue('language').substr(0, 2).toUpperCase())) {
               result.itemLocalId = localIdsMap.items[i].itemLocalId;
               result.itemName = localIdsMap.items[i].itemName;
               result.categoryName = localIdsMap.items[i].categoryName;
@@ -290,7 +290,9 @@ angular.module('starter.services')
         var defer = $q.defer();
         var categoryMap = [];
 
-        var query = "select categoryName, categoryLocalId from category where categoryName in (";
+        var query = "select categoryName, categoryLocalId " +
+          " from category c " +
+          " where c.categoryName in (";
         for (var i = 0; i < serverResponse.length; i++) {
           query = query + "'" + serverResponse[i].categoryName + "'";
           if (i < serverResponse.length - 1) {

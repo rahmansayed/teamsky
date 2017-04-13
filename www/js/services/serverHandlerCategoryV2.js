@@ -59,7 +59,7 @@ angular.module('starter.services')
             tx.executeSql(query_insert, [category._id, category.categoryName], function (tx, res) {
               for (var j = 0; j < category.translation.length; j++) {
 
-                var transCategoryName = category.translation[j].categoryName;
+                var transCategoryName = category.translation[j].name;
                 var transLang = category.translation[j].lang;
 
                 tx.executeSql(query_tl_insert, [res.insertId, transLang, transCategoryName]);

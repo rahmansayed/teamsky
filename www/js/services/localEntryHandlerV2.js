@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2) {
+  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2, settings) {
 
       var selected = [];
       var items = [];
@@ -13,7 +13,7 @@ angular.module('starter.services')
       /*Return all entries in array selectedItems*/
       function getAllEntry(listId) {
         var defer = $q.defer();
-        var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
+        var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
           " FROM ( " +
           " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
           " left join retailer as r on e.retailerLocalId = r.retailerLocalId " +
@@ -21,12 +21,13 @@ angular.module('starter.services')
           " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
           " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
           " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
+          " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = ?" +
           " where l.listLocalId = ? " +
           " and ifnull(e.deleted,'N')  !='Y'" +
           " and e.entryCrossedFlag = 0";
 
         global.db.transaction(function (tx) {
-          tx.executeSql(query, [listId], function (tx, result) {
+          tx.executeSql(query, [settings.getSettingValue('language').substr(0, 2).toUpperCase(), listId], function (tx, result) {
 //          console.log("localEntryHandlerV2.getAllEntry query res = " + JSON.stringify(result));
               var openEntryList = {
                 entries: [],
@@ -78,16 +79,20 @@ angular.module('starter.services')
         var deferred = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, c.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language" +
+          var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language" +
             " FROM ( " +
             "(masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
             " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
             " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
             " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
+            " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = ?" +
             " where l.listLocalId = ? and ifnull(e.deleted,'N')  !='Y'" +
             " and entryCrossedFlag = 1";
 
-          tx.executeSql(query, [listLocalId], function (tx, res) {
+          console.log("localEntryHandlerV2.getCheckedItem query res = " + query);
+          console.log("localEntryHandlerV2.getCheckedItem query settings.getSettingValue('language') = " + settings.getSettingValue('language').toUpperCase().substr(0, 2));
+
+          tx.executeSql(query, [settings.getSettingValue('language').substr(0, 2).toUpperCase(), listLocalId], function (tx, res) {
 //          console.log("localEntryHandlerV2.getCheckedItem query res = " + JSON.stringify(res));
             var crossedEntries = [];
             for (var i = 0; i < res.rows.length; i++) {
