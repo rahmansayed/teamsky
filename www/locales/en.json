@@ -2,6 +2,25 @@
   "WELCOME": "Welcome to Team Sky",
   "MOBILE": "Your mobile number",
   "NOTE": "Note: You will recieve SMS with verification code in a moment.",
-  "ACCOUNT_SETTING": "Account Setting"
+  "ACCOUNT_SETTING": "Account Setting",
+  "SUBSCRIBE_NUMBER":"Subscribe with Mobile Number",
+  "SUBSCRIBE":"Subscribe",
+  "VERIFICATION":"Verification",
+  "VER_F_MSG1": "Enter Verification Code",
+  "VER_F_MSG2": "Enter the 4 letters received by the sms",
+  "VER_B_DONE": "Done",
+  "REG_F_MSG1": "*Carrier charges might apply.",
+  "REG_F_MOBILE_NO": "Your mobile number",
+  "REG_N_VERIFICATION_CODE": "Verification Code",
+  "PREFERRED_LANG":"Choose preferred language",
+  "GENDER":"Gender",
+  "MALE":"Male",
+  "FEMALE":"Female",
+  "ENTER_NAME":"Enter your name",
+  "CURR_LOC":"Current Location",
+  "DOB":"Date of birth",
+  "MY_LIST":"My Lists",
+  "LIST_NAME":"Enter list name",
+  "LIST_DESC":"Add notes to describe your list"
 }
 

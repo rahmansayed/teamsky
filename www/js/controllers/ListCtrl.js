@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,$ionicPopover) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -199,5 +199,34 @@ angular.module('starter.controllers')
       $ionicSideMenuDelegate.toggleLeft();
       $state.go('account');
     };
+    
 
+    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+       
+  });
+  $scope.openPopover = function($event) {  
+      
+    alert('Popover Show: '+JSON.stringify($event)   );   
+   $scope.popover.show($event);
+      
+  };
+  $scope.closePopover = function() {
+    $scope.popover.hide();
+  };
+ // Perform Action on destroy
+   $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+  // Perform action on hide popover
+  $scope.$on('popover.hidden', function() {
+    // Perform action
+  });
+  // Perform action on remove popover
+  $scope.$on('popover.removed', function() {
+    // Perform action
+  });
+    
   });

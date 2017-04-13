@@ -131,7 +131,7 @@ color: #ffffff !important;}
     display: inline-block;
 }
 .input-dropdown .dropdown {
-    display: none;
+   /* display: none;*/
     position: absolute;
     top: 100%;
     left: 0;
@@ -208,9 +208,9 @@ em,i{
 select:required:invalid {
   color: #A9A9A9;
 }
-option[value=""][disabled] {
+/*option[value=""][disabled] {
   display: none;
-}
+}*/
 option {
   color: black;
 }

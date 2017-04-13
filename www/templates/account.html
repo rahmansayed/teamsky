@@ -38,12 +38,12 @@
       <label translate>DISPLAY_NAME</label>
       <div class="item item-input has-float-label" style="font-size:100%;border-radius:15px;">
         <input type="text"
-               placeholder="Enter your name"
+               placeholder="{{'ENTER_NAME' | translate}}"
                ng-model="userData.displayName">
 
       </div>
       <br>
-      <label>Gender</label>
+      <label translate>GENDER</label>
       <div>
         <ion-radio ng-model="userData.gender" ng-value="'male'"
                    style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
@@ -58,8 +58,7 @@
 
 
       <br><br><br><br>
-      <label>Current
-      Location</label>
+      <label translate>CURR_LOC</label>
       <div class="item item-input item-select " style="border-radius:15px;">
         <div class="input-label">
           &nbsp;
@@ -71,7 +70,7 @@
       </div>
 
       <br>
-      <label>Date of Birth</label>
+      <label translate>DOB</label>
       <div>
         <select required type="text"
                 style="float:left;width:30%;display:inline;border-radius:15px;padding-left:5%;background-color:white;height:35px;"
@@ -104,11 +103,11 @@
       </div>
       <br><br><br><br>
 
-      <label>Preferred Language</label>
+      <label translate>PREFERRED_LANG</label>
       <div>
         <ion-radio ng-model="userData.language" ng-value="'arabic'"
                    style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
-                   name="lang">Arabic
+                   name="lang">  العربية
         </ion-radio>
         <ion-radio ng-model="userData.language" ng-value="'english'"
                    style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"

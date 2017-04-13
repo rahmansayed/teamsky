@@ -5,7 +5,7 @@
   </ion-nav-bar>
 
 
-  <ion-nav-title> My Lists</ion-nav-title>
+  <ion-nav-title translate>MY_LIST</ion-nav-title>
 
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon" style="color: white;"
@@ -21,13 +21,17 @@
       <ion-nav-bar class="theme-color" animation="nav-title-slide-ios7" title="Setting">
         <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
         <ion-nav-buttons side="right">
-          <button class="theme-color button button-clear icon-left ion-loop"
-                  ng-click="refresh()"
+          <button class="theme-color button button-clear icon-left ion-android-more-vertical"
+                  ng-click="openPopover($event)"
                   style="padding-right:7px;">
 
           </button>
         </ion-nav-buttons>
       </ion-nav-bar>
+        
+          
+        
+        
       <ion-nav-view animation="slide-left-right">
         <ion-content class="padding" style="padding-bottom:100px;">
 
@@ -155,6 +159,8 @@
          <br><br><br><br><br>
 
         </ion-content>
+
+
       </ion-nav-view>
     </ion-pane>
 
