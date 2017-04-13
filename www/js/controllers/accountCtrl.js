@@ -1088,9 +1088,8 @@ angular.module('starter.controllers')
     $scope.openCamera = function () {
       console.log("openCamera");
       camera.capture().then(function (src) {
-        $scope.userData.photo = src;
+        $scope.userData.photo = src + '?' + new Date().getTime();
         settings.addUserSetting('photo', src);
-        //contactHandler.
       });
     }
     ;

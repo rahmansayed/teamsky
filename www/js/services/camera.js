@@ -43,13 +43,14 @@ angular.module('starter.services')
         };
 
         navigator.camera.getPicture(function (imageURI) {
-          defer.resolve(imageURI);
           window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
             // Do something with the FileEntry object, like write to it, upload it, etc.
             // writeFile(fileEntry, imgUri);
+            storeFile(imageURI).then(function (fileURI) {
+              defer.resolve(fileURI);
+            });
             console.log("got file: " + fileEntry.fullPath);
             // displayFileData(fileEntry.nativeURL, "Native URL");
-            uploadFile(imageURI);
           }, function () {
             // If don't get the FileEntry (which may happen when testing
             // on some emulators), copy to a new FileEntry.
@@ -70,35 +71,8 @@ angular.module('starter.services')
         };
 
         navigator.camera.getPicture(function (imageURI) {
-            window.resolveLocalFileSystemURL(imageURI, function success(fileEntry) {
-              window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-                fileSystem.root.getDirectory("contactPhotos/", {create: true}, function (de) {
-//                  dirEntry.getFile(global.userServerId + '.jpg', {create: true, exclusive: true}, function (fe) {
-                  fileEntry.copyTo(de, global.userServerId + '.jpg', function (fe) {
-                    console.log("file created successfully x = " + fe.toURL());
-                    uploadFile(fe.toURL());
-                    defer.resolve(fe.toURL());
-                  }, function () {
-                    console.error("file creation error");
-                  }, null);
-
-                  /*                  console.log("fe.toURL() = " + fe.toURL());
-
-                  /* }, function (err) {
-                   console.error("window.resolveLocalFileSystemURL(newFile) error " + JSON.stringify(err));
-                   });*/
-                }, function () {
-                  // If don't get the FileEntry (which may happen when testing
-                  // on some emulators), copy to a new FileEntry.
-                  console.error("window.resolveLocalFileSystemURL(imageURI) error " + JSON.stringify(err));
-                });
-              }, function () {
-                // If don't get the FileEntry (which may happen when testing
-                // on some emulators), copy to a new FileEntry.
-                console.error("window.resolveLocalFileSystemURL(imageURI) error " + JSON.stringify(err));
-              });
-            }, function (err) {
-              console.error("window.resolveLocalFileSystemURL(imgUri) error " + JSON.stringify(err));
+            storeFile(imageURI).then(function (fileURI) {
+              defer.resolve(fileURI);
             });
           }, function (message) {
             alert('Failed because: ' + message);
@@ -109,6 +83,35 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+
+      function storeFile(imageURI) {
+        var defer = $q.defer();
+        window.resolveLocalFileSystemURL(imageURI, function success(fileEntry) {
+          window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+            fileSystem.root.getDirectory("contactPhotos/", {create: true}, function (de) {
+              fileEntry.copyTo(de, global.userServerId + '.jpg', function (fe) {
+                console.log("file created successfully x = " + fe.toURL());
+                uploadFile(fe.toURL());
+                defer.resolve(fe.toURL());
+              }, function () {
+                console.error("file creation error");
+              }, null);
+
+            }, function () {
+              // If don't get the FileEntry (which may happen when testing
+              // on some emulators), copy to a new FileEntry.
+              console.error("window.resolveLocalFileSystemURL(imageURI) error " + JSON.stringify(err));
+            });
+          }, function () {
+            // If don't get the FileEntry (which may happen when testing
+            // on some emulators), copy to a new FileEntry.
+            console.error("window.resolveLocalFileSystemURL(imageURI) error " + JSON.stringify(err));
+          });
+        }, function (err) {
+          console.error("window.resolveLocalFileSystemURL(imgUri) error " + JSON.stringify(err));
+        });
+        return defer.promise;
+      };
 
       function uploadFile(fileURI) {
         var options = new FileUploadOptions();

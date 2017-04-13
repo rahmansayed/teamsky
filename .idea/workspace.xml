@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/accountCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/accountCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/subscribeCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/subscribeCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/verifyCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/verifyCtrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/camera.js" afterPath="$PROJECT_DIR$/www/js/services/camera.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/contactHandler.js" afterPath="$PROJECT_DIR$/www/js/services/contactHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/account.html" afterPath="$PROJECT_DIR$/www/templates/account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/subscribe.html" afterPath="$PROJECT_DIR$/www/templates/subscribe.html" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,9 +36,18 @@
       <file leaf-file-name="account.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/templates/account.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
+            <state relative-caret-position="391">
               <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
-              <folding />
+              <folding>
+                <element signature="n#style#0;n#ion-radio#0;n#div#1;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ion-radio#1;n#div#1;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+                <element signature="e#2159#2165#0" expanded="true" />
+                <element signature="n#style#0;n#select#0;n#div#3;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#select#1;n#div#3;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#select#2;n#div#3;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ion-radio#0;n#div#4;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -66,6 +67,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
               <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="camera.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/camera.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="50" column="15" lean-forward="true" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -96,6 +107,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
               <caret line="34" column="41" lean-forward="true" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="accountCtrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/controllers/accountCtrl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="1091" column="28" lean-forward="false" selection-start-line="1091" selection-start-column="28" selection-end-line="1091" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -137,11 +158,11 @@
       <find>country</find>
       <find>delete</find>
       <find>downloadPhoto</find>
-      <find>capture</find>
       <find>src</find>
       <find>down</find>
       <find>upload</find>
       <find>http</find>
+      <find>capture</find>
     </findStrings>
     <replaceStrings>
       <replace>console.log</replace>
@@ -211,9 +232,9 @@
         <option value="$PROJECT_DIR$/www/js/controllers/verifyCtrl.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
         <option value="$PROJECT_DIR$/www/templates/account.html" />
+        <option value="$PROJECT_DIR$/www/js/services/contactHandler.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/accountCtrl.js" />
         <option value="$PROJECT_DIR$/www/js/services/camera.js" />
-        <option value="$PROJECT_DIR$/www/js/services/contactHandler.js" />
         <option value="$PROJECT_DIR$/www/js/services/global.js" />
       </list>
     </option>
@@ -337,28 +358,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamSky" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamSky" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -532,7 +531,7 @@
       <workItem from="1489254928956" duration="7000" />
       <workItem from="1489255250333" duration="71238000" />
       <workItem from="1489908663906" duration="92313000" />
-      <workItem from="1490598919820" duration="186426000" />
+      <workItem from="1490598919820" duration="190992000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -545,7 +544,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="934197000" />
+    <option name="totallyTimeSpent" value="938763000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -804,20 +803,20 @@
           <caret line="43" column="44" lean-forward="false" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
           <folding>
             <element signature="n#style#0;n#ion-content#0;n#ion-nav-view#0;n#ion-pane#0;n#ion-side-menus#0;n#ion-view#0;n#!!top" expanded="true" />
-            <marker date="1491802875579" expanded="true" signature="7402:8096" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7500:8075" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7519:8052" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7597:7678" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7601:7667" ph="..." />
-            <marker date="1491802875579" expanded="false" signature="7621:7653" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7774:7860" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7778:7849" ph="..." />
-            <marker date="1491802875579" expanded="false" signature="7798:7830" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7954:8032" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="7958:8021" ph="..." />
-            <marker date="1491802875579" expanded="false" signature="7978:8010" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="8108:8303" ph="..." />
-            <marker date="1491802875579" expanded="true" signature="8335:9147" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8344:9038" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8442:9017" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8461:8994" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8539:8620" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8543:8609" ph="..." />
+            <marker date="1492066608940" expanded="false" signature="8563:8595" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8716:8802" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8720:8791" ph="..." />
+            <marker date="1492066608940" expanded="false" signature="8740:8772" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8896:8974" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="8900:8963" ph="..." />
+            <marker date="1492066608940" expanded="false" signature="8920:8952" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="9050:9245" ph="..." />
+            <marker date="1492066608940" expanded="true" signature="9277:10089" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1008,34 +1007,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/templates/account.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
           <caret line="177" column="43" lean-forward="false" selection-start-line="177" selection-start-column="43" selection-end-line="177" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/controllers/accountCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="1169" column="14" lean-forward="false" selection-start-line="1169" selection-start-column="14" selection-end-line="1169" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/camera.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="80" column="30" lean-forward="true" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -1052,6 +1027,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
           <caret line="138" column="56" lean-forward="false" selection-start-line="138" selection-start-column="56" selection-end-line="138" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/templates/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
+          <folding>
+            <element signature="n#style#0;n#ion-radio#0;n#div#1;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ion-radio#1;n#div#1;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+            <element signature="e#2159#2165#0" expanded="true" />
+            <element signature="n#style#0;n#select#0;n#div#3;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#select#1;n#div#3;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#select#2;n#div#3;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ion-radio#0;n#div#4;n#div#2;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/controllers/accountCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="1091" column="28" lean-forward="false" selection-start-line="1091" selection-start-column="28" selection-end-line="1091" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/camera.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="50" column="15" lean-forward="true" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
           <folding />
         </state>
       </provider>
