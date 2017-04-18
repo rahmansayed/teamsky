@@ -15,34 +15,56 @@
 
   <ion-content style="padding-bottom:100px;">
 
-
-
-    <div class="col text-center" style="height:100px;background-color:#941540;">
+            <div id="bg">
+      <img src="img\grocery.jpg" alt="">
     </div>
-    <div>
+ 
+    <div class="col text-center" style="height:100px;">
+    </div>
+    <div >
 
       <h1 class="text-center item"
-          style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;">
+          style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
         <br>
-        <strong>Choose preferred language </strong>
+        <strong>Choose Preferred Language </strong>
         <br>
         <br>
         <br>
 
       </h1>
     </div>
-      <div align="center">
-        <ion-radio ng-model="userData.language" ng-value="'arabic'"
+      <div align="center" >
+<!--        <ion-radio ng-model="userData.language" ng-value="'arabic'"
                    style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
                    name="lang"
-                   align="center">العربية
+                   align="center"
+                   >العربية
         </ion-radio>
         <ion-radio ng-model="userData.language" ng-value="'english'"
                    style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
                    name="lang"
-                   align="center">English
-        </ion-radio>
+                   align="center"
+                   >English
+        </ion-radio>-->
 
+          
+          <label class="item item-radio" style="width: 60%;border-radius:15px;">
+            <input type="radio" ng-model="userData.language" ng-value="'arabic'">
+              <div style="width:100%;border-radius:15px;font-size:200% !important;text-align:center;">
+               العربية
+              </div>
+              </label>
+          
+            <label class="item item-radio" style=" width: 60%;border-radius:15px;">
+            <input type="radio" ng-model="userData.language" ng-value="'english'">
+              <div  style="width:100%;border-radius:15px;font-size:200% !important;text-align:center;">
+               English
+              </div>
+              </label>
+          
+        
+          
+          
       </div>
 
     <br><br><br><br>

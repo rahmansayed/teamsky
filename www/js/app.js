@@ -15,8 +15,7 @@ angular.module('starter', ['ionic',
   'ion-floating-menu',
   'angular.filter',
   'ngRoute',
-  'pascalprecht.translate',
-  'angular-popover'])
+  'pascalprecht.translate'])
 /*var db = null;*/
 
 
@@ -28,6 +27,7 @@ angular.module('starter', ['ionic',
       }
 
       function init() {
+         
         dbHandler.initDB()
           .then(function (result) {
               localItemHandlerV2.getAllMasterItem()
@@ -58,6 +58,7 @@ angular.module('starter', ['ionic',
                     else {
                       $ionicLoading.hide();
                       if (!settings.getSettingValue('language')) {
+                           alert('just to wait');
                         $location.path("/language");
                       }
                       else {

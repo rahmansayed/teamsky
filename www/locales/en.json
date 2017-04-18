@@ -38,7 +38,10 @@
   "RETAILER":"Search for retailer",
   "CROSSED":"Crossed Items",
   "QUESTION_MARK":"?",
-  "FROM":"From"
+  "FROM":"From",
+  "ACCOUNT":"Account",
+  "NOTIFICATION":"Notification",
+  "HELP":"Help"
     
 }
 

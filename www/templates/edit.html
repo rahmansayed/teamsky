@@ -12,11 +12,16 @@
 
     <ion-nav-title>{{dynamicTitle}} </ion-nav-title>
     <ion-content class="padding">
-        <div class="list card">
-            <div class="item item-input" style="font-size:100%">
-                <input type="text"  ng-model="list.listName" placeholder="{{'LIST_NAME' | translate}}">
+        
+            <div id="bg">
+      <img src="img\grocery.jpg" alt="">
+    </div >
+        <div class="padding">
+            <div class="item item-input" style="font-size:100%;border-top-left-radius:15px;border-top-right-radius:15px;" >
+                <input type="text"  ng-model="list.listName" placeholder="{{'LIST_NAME' | translate}}"
+                       >
             </div>
-            <div class="item item-input" style="font-size:100%">
+            <div class="item item-input" style="font-size:100%;border-bottom-left-radius:15px;border-bottom-right-radius:15px;">
                 <textarea rows="5" ng-model="list.listDescription" placeholder="{{'LIST_DESC' | translate}}"></textarea>
             </div>
         </div>

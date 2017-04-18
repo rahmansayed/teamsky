@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2,$translate) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2,$translate,$ionicModal) {
 
 
     $scope.uoms = [];
@@ -368,6 +368,31 @@ $scope.slideLeft = function(){
 					}
 				});
 };
+    
+        $scope.account = function () {
+      $ionicSideMenuDelegate.toggleLeft();
+      $state.go('account');
+    };
+    
+    
+    
+  console.log('HomeTabCtrl');
+  $ionicModal.fromTemplateUrl('templates/mylongform.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+  $scope.openModal = function(){
+   $timeout(function(){
+        $scope.modal.show(); 
+        },0)
+  }
+  $scope.closeModal = function(){
+    $scope.modal.hide();
+  }
+    
+    
     //This will show the entry DIV by default.
 
 

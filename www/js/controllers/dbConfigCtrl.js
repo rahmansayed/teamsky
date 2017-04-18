@@ -9,12 +9,13 @@ angular.module('starter.controllers')
 
 
 
-
+/*
     $ionicLoading.show({
     template: '<ion-spinner icon="spiral" class="spinner-positive"></ion-spinner> <br>Loading...',
     noBackdrop: true,
     animation: 'fade-in'
   });
+*/
 
 
 
@@ -38,6 +39,8 @@ angular.module('starter.controllers')
   }*/
 
     $ionicPlatform.ready(function () {
+        
+       
 /*     settings.getUserSetting()
 
       .then(function(result){*/

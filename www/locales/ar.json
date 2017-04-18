@@ -38,6 +38,9 @@
   "RETAILER":"ابحث عن مكان الشراء",
   "CROSSED":"الاصناف التي تم شراؤها",  
   "QUESTION_MARK":"؟",
-  "FROM":"من"
+  "FROM":"من",
+  "ACCOUNT":"الحساب",
+  "NOTIFICATION":"التبليغات",
+  "HELP":"المساعدة"
     
 }

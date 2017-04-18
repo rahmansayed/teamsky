@@ -1,0 +1,88 @@
+ <ion-modal-view style="width: 70%; height: 50%; top: 25%; left: 15%; right: 5%; bottom: 5%;">
+          <form name="itemEdit" novalidate>
+            <ion-header-bar class="bar-positive fix-buttons">
+              <a class="button" ng-click="closeModal()">Cancel</a>
+              <h1 class="title">Form</h1>
+            </ion-header-bar>
+            <ion-content  has-bouncing="true" style="height:60%;">
+
+                
+                <div 
+                           
+                           style="text-align: center;margin: 0px auto;float:center;" align="center">
+                        <br>
+                        <div class="item item-input" autofocus="autofocus"
+                             style="border-top-left-radius:15px;border-top-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">
+                          <!--<span >Quantity</span>-->
+                          <input type="tel" placeholder="{{'QUANTITY'| translate}}" ng-model="listItem.quantity"
+                                 style="padding-left:10%;height:35px;">
+
+                        </div>
+
+
+                        <div class="item item-input"
+                             style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2)">
+
+                          <!-- <input type="text"  placeholder="Choose UOM" ng-model="listItem.itemUom">-->
+                          <select required type="text"
+                                  ng-model="listItem.uom"
+                                  style="width:100%;border:0px;padding-left:10%;background-color:white;height:35px;"
+                          >
+                            <option value="" disabled selected translate>UNIT</option>
+                            <option ng-repeat="uom in uoms" value="{{uom}}">{{uom}}</option>
+                          </select>
+                          <!--                          <span>
+                                                  <div style="text-align: right;padding-right:15px;padding-left:15px;">
+                                                  <button class="button button-balanced ion-plus-round padding text-center"
+                                                          style="border-radius:50%;padding-top:3px;height:10px;width:10px;background-color:#09d261;"></button>
+
+                                              </div> </span>-->
+                        </div>
+
+                        <div class="item item-input"
+                             style="border-bottom-left-radius:15px;border-bottom-right-radius:15px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);padding-bottom:15px;">
+                          <!-- <input type="text" placeholder="Pick Retailer" ng-model="listItem.itemRetailer">-->
+
+
+                          <i class="icon placeholder-icon ion-android-search"></i>
+                          <input type="search" placeholder="{{'RETAILER' | translate}}"
+                                 ng-change="searchRetailer(listItem.retailerName)"
+
+
+                                 ng-model="listItem.retailerName"
+                                 style="width:100%;border:0px;padding-left:10%;background-color:white;height:35px;"
+                          >
+
+                        </div>
+
+                        <div class="padding">
+                          <ion-list>
+                            <ion-item class="item" 
+                                      ng-repeat="retailer in retailerData.retailers"
+                                      ng-click="listItem.retailerName = retailer.retailerName;
+                                                listItem.retailerLocalId = retailer.retailerLocalId;
+                                                retailerData.retailers=[];
+                                                       "
+                            >
+
+                              {{retailer.retailerName}}
+
+                            </ion-item>
+
+                          </ion-list>
+                        </div>
+
+
+
+                        <div class="padding button-bar">
+                          <a style="background-color:#941540;color:white;" class="button"
+                             ng-click="updateEntry(listItem);
+                                      " translate>VER_B_DONE</a>
+                        </div>
+
+                      </div>
+
+
+            </ion-content>
+          </form>
+        </ion-modal-view>

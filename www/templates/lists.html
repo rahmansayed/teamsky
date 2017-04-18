@@ -19,7 +19,7 @@
   <ion-side-menus>
     <ion-pane ion-side-menu-content>
       <ion-nav-bar class="theme-color" animation="nav-title-slide-ios7" title="Setting">
-        <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
+        <!--<ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>-->
         <ion-nav-buttons side="right">
           <button class="theme-color button button-clear icon-left ion-android-more-vertical"
                   ng-click="popover.show($event)"
@@ -34,7 +34,9 @@
         
       <ion-nav-view animation="slide-left-right">
         <ion-content class="padding" style="padding-bottom:100px;">
-
+        <div id="bg">
+      <img src="img\grocery.jpg" alt="" style="opacity=0.5">
+    </div>
 
          
 
@@ -188,11 +190,11 @@
       <ion-content has-header="true">
         <ion-list>
           <ion-item class="icon-left ion-person larger" ng-click="account()"><h2
-            style="display:inline;padding-left:5px;"> Account</h2></ion-item>
+            style="display:inline;padding-left:5px;" translate> ACCOUNT</h2></ion-item>
           <ion-item class="icon-left ion-android-notifications larger" ng-click="toggleLeft()"><h2
-            style="display:inline;padding-left:5px;"> Notification</h2></ion-item>
+            style="display:inline;padding-left:5px;" translate> NOTIFICATION</h2></ion-item>
           <ion-item class="icon-left ion-information-circled larger" ng-click="toggleLeft()"><h2
-            style="display:inline;padding-left:5px;"> Help</h2></ion-item>
+            style="display:inline;padding-left:5px;" translate> HELP</h2></ion-item>
         </ion-list>
 
 
