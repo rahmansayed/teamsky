@@ -39,7 +39,7 @@ angular.module('starter.controllers')
     };
 
     $scope.saveList = function (list) {
-
+      console.log('aalatief - Entered List: '+JSON.stringify(list));
       localListHandlerV2.addNewList(list)
         .then(function (insertId) {
             console.log('aalatief: List insertId:' + JSON.stringify(insertId));

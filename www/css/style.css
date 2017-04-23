@@ -99,7 +99,7 @@ label.show {
 /*Header Color*/
 .theme-color {
 background-color: #941540/*9f0011*//*941540*/ !important;
-color: #ffffff ;}
+color: #ffffff !important;}
 
 
 /*Back Button color*/
@@ -300,20 +300,36 @@ input[type="radio"]:checked+div{
    } 
 
 .myModal {
-background-color:rgba(0, 0, 0, 0.5); ;
+background-color:transparent;/*rgba(0, 0, 0, 0.5); */
 color: Black;
 position: absolute !important;
-width: 60% !important;
-height: 20% ;
-top: 0 !important;
+width: 75% !important;
+/*height: 20% ;*/
+top: 45%!important;
 bottom: 0 !important;
 left: 0 !important;
 right: 0 !important;
 margin: auto !important;
-border-style: solid;
+border:0;
+/*border-style: solid;
 border-width: 1px;
 border-radius: 10px !important;
-border-color: black;
+border-color: black;*/
 overflow: hidden !important;
 
 }
+
+
+
+/*
+.leftReorderButton .item-right-edit {
+  left: 0;
+    
+}
+
+.leftReorderButton .item-content {
+  padding-left:25px !important;
+  
+}
+*/
+
