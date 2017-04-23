@@ -1072,6 +1072,7 @@ angular.module('starter.controllers')
       };
     });
     console.log("$scope.userData  " + JSON.stringify($scope.userData));
+
     function setCountry() {
       var cntry = settings.getSettingValue('country');
       console.log('cntry = ' + cntry);
@@ -1141,11 +1142,13 @@ angular.module('starter.controllers')
               data.currentLocation = $scope.userData[attribute].code;
               break;
             case 'selected':
-              var dob = new Date($scope.userData.selected.selectedYear,
-                $scope.userData.selected.selectedMonth.id - 1, $scope.userData.selected.selectedDay);
-              //dob = dob + dob.getTimezoneOffset() * 60000;
-              promises.push(settings.addUserSetting('dateOfBirth', dob));
-              data.dateOfBirth = dob;
+              if (($scope.userData.selected.selectedYear != 0) && ($scope.userData.selected.selectedMonth.id != 0) && ($scope.userData.selected.selectedDay != 0)) {
+                var dob = new Date($scope.userData.selected.selectedYear,
+                  $scope.userData.selected.selectedMonth.id - 1, $scope.userData.selected.selectedDay);
+                //dob = dob + dob.getTimezoneOffset() * 60000;
+                promises.push(settings.addUserSetting('dateOfBirth', dob));
+                data.dateOfBirth = dob;
+              }
               break;
             default:
               promises.push(settings.addUserSetting(attribute, $scope.userData[attribute]));
@@ -1166,7 +1169,6 @@ angular.module('starter.controllers')
         console.error('saveUserSetting server err = ' + JSON.stringify(err));
       });
       $translate.use($scope.userData.language.substr(0, 2));
-      camera.u
     }
 
   });

@@ -31,9 +31,9 @@ angular.module('starter.controllers')
 
           var otherSettings = {
             /*preferredLanguage: response.data.preferredLanguage,*/
-            dateOfBirth: response.data.dateOfBirth,
-            gender: response.data.gender,
-            name: response.data.name,
+            dateOfBirth: response.data.dateOfBirth || '',
+            gender: response.data.gender || '',
+            name: response.data.name || '',
             /*currentLocation: response.data.currentLocation,*/
             verified: 'Y',
             userServerId: response.data.userServerId,
