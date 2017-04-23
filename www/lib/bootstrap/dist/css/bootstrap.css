@@ -5863,6 +5863,7 @@ button.close {
   background: transparent;
   border: 0;
 }
+/*
 .modal-open {
   overflow: hidden;
 }
@@ -5981,6 +5982,7 @@ button.close {
     width: 300px;
   }
 }
+*/
 @media (min-width: 992px) {
   .modal-lg {
     width: 900px;
@@ -6101,6 +6103,7 @@ button.close {
   border-width: 0 5px 5px;
   border-bottom-color: #000;
 }
+/*
 .popover {
   position: absolute;
   top: 0;
@@ -6234,6 +6237,7 @@ button.close {
   border-right-width: 0;
   border-left-color: #fff;
 }
+*/
 .carousel {
   position: relative;
 }

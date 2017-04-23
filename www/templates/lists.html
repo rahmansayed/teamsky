@@ -40,7 +40,7 @@
 
          
 
-          <ion-list show-reorder="reorderFlag" style="padding-bottom:30px;">
+          <ion-list class="leftReorderButton" show-delete="data.showDelete" show-reorder="data.showReorder" style="padding-bottom:30px;">
             <ion-item
 
               class="item-remove-animate item-icon-right"
@@ -71,8 +71,8 @@
 
               </div>
               <br>
-              <div  style="padding-right:25px;">
-                <div>
+              <div  style="padding-right:25px;" ng-show="!showListDetails">
+                <div>{{showListDetails}}
                   <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Items:
                     {{list.totalOpen + list.totalCrossed }}
                     </p>
@@ -141,6 +141,9 @@
               <div style="padding-right:2px;">
                 <i class="icon ion-chevron-right"></i>
 
+         <ion-delete-button class="ion-minus-circled" 
+                             ng-click="onItemDelete(item)">
+          </ion-delete-button>
                 <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">
                 </ion-reorder-button>
               </div>
@@ -162,21 +165,24 @@
       <ion-popover-view>
         <ion-content>
           <div class="list">
-            <a class="item" href="http://learn.ionicframework.com/" target="_blank">
-              Learn Ionic
+            <a class="item" ng-click = "refresh();popover.hide();">
+              Reload
             </a>
-            <a class="item" href="http://ionicframework.com/docs/" target="_blank">
-              Documentation
+            <a class="item" ng-click="data.showDelete = !data.showDelete; data.showReorder = false;popover.hide();">
+              Delete 
             </a>
-            <a class="item" href="http://showcase.ionicframework.com/" target="_blank">
-              Showcase
+            <a class="item"  ng-click="data.showDelete = false; data.showReorder = !data.showReorder;popover.hide();">
+              Reorder
             </a>
-            <a class="item" href="http://ionicframework.com/submit-issue/" target="_blank">
+            <a class="item"  ng-click="showListDetails=true;popover.hide();">
+              Hide/Show Details
+            </a>
+<!--            <a class="item" href="http://ionicframework.com/submit-issue/" target="_blank">
               Submit an Issue
             </a>
             <a class="item" href="https://github.com/driftyco/ionic" target="_blank">
               Github Repo
-            </a>
+            </a>-->
           </div>
         </ion-content>
       </ion-popover-view>

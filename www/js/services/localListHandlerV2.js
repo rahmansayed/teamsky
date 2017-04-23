@@ -88,7 +88,7 @@ angular.module('starter.services')
      * @param list
      */
     function addNewList(list) {
-
+      console.log('aalatief - Entered List: '+JSON.stringify(list));
       var deferred = $q.defer();
       var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,newCount, crossCount, lastUpdateDate, lastUpdateBy, origin, flag, listOwnerServerId) " +
         "VALUES (null,?,?,'','','','N',0,0,?,?,'L', 'N', ?)";

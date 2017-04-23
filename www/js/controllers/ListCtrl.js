@@ -6,7 +6,10 @@ angular.module('starter.controllers')
      disableBack: true
 
      });*/
-
+      $scope.data = {
+        showDelete: false
+      };
+    
     $scope.myUserId = global.userServerId;
 
     /*Retrieve all lists from localListHandlerV2*/
@@ -169,7 +172,7 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------------*/
     $scope.showListDetails = false;
-
+    
     $scope.gesture = {
       used: ''
     };
