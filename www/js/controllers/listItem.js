@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2,$translate,$ionicModal) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2,$translate,$ionicModal,$ionicPopover) {
 
 
     $scope.uoms = [];
@@ -376,14 +376,14 @@ $scope.slideLeft = function(){
     
     
     
-  console.log('HomeTabCtrl');
-  $ionicModal.fromTemplateUrl('templates/mylongform.html', {
+  $ionicModal.fromTemplateUrl('templates/itemDetails.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
       $scope.modal = modal;
     });
-  $scope.openModal = function(){
+  $scope.openModal = function(item){
+   $scope.selectedItem = item   ;
    $timeout(function(){
         $scope.modal.show(); 
         },0)
@@ -393,6 +393,13 @@ $scope.slideLeft = function(){
   }
     
     
+  
+    $ionicPopover.fromTemplateUrl('templates/itemPopover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+       
+  });  
     //This will show the entry DIV by default.
 
 

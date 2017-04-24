@@ -71,8 +71,8 @@
 
               </div>
               <br>
-              <div  style="padding-right:25px;" ng-show="!showListDetails">
-                <div>{{showListDetails}}
+              <div  style="padding-right:25px;" ng-show="showListDetails">
+                <div>
                   <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Items:
                     {{list.totalOpen + list.totalCrossed }}
                     </p>
@@ -142,7 +142,7 @@
                 <i class="icon ion-chevron-right"></i>
 
          <ion-delete-button class="ion-minus-circled" 
-                             ng-click="onItemDelete(item)">
+                             ng-click="removeList(list)">
           </ion-delete-button>
                 <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">
                 </ion-reorder-button>
@@ -161,7 +161,7 @@
          <br><br><br><br><br>
 
         </ion-content>
-   <script id="templates/popover.html" type="text/ng-template">
+<!--   <script id="templates/popover.html" type="text/ng-template">
       <ion-popover-view>
         <ion-content>
           <div class="list">
@@ -177,16 +177,16 @@
             <a class="item"  ng-click="showListDetails=true;popover.hide();">
               Hide/Show Details
             </a>
-<!--            <a class="item" href="http://ionicframework.com/submit-issue/" target="_blank">
+            <a class="item" href="http://ionicframework.com/submit-issue/" target="_blank">
               Submit an Issue
             </a>
             <a class="item" href="https://github.com/driftyco/ionic" target="_blank">
               Github Repo
-            </a>-->
+            </a>
           </div>
         </ion-content>
       </ion-popover-view>
-    </script>
+    </script>-->
 
       </ion-nav-view>
     </ion-pane>

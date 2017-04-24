@@ -1,8 +1,9 @@
- <ion-modal-view class="myModal" style="width: 70%; height: 50%; top: 25%; left: 15%; right: 5%; bottom: 5%;">
+
+<ion-modal-view  class="myModal" style="width: 70%; height: 50%; top: 25%; left: 15%; right: 5%; bottom: 5%;">
           <form name="itemEdit" novalidate>
-            <ion-header-bar class="bar-positive fix-buttons">
-              <a class="button" ng-click="closeModal()">Cancel</a>
-              <h1 class="title">Form</h1>
+            <ion-header-bar class="theme-color fix-buttons">
+              <a class="button theme-color" ng-click="closeModal()" translate>CANCEL</a>
+              <h1 class="title">{{selectedItem.itemName}}</h1>
             </ion-header-bar>
             <ion-content  has-bouncing="true" style="height:60%;">
 
@@ -75,8 +76,8 @@
 
 
                         <div class="padding button-bar">
-                          <a style="background-color:#941540;color:white;" class="button"
-                             ng-click="updateEntry(listItem);
+                          <a style="background-color:#941540;color:white;border-radius: 15px; !important" class="button"
+                             ng-click="updateEntry(listItem);closeModal();
                                       " translate>VER_B_DONE</a>
                         </div>
 

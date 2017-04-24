@@ -171,16 +171,22 @@ angular.module('starter.controllers')
       console.log('20/03/2017 - listCtrl -aalatief - menu Pressed')
     };
     /*-----------------------------------------------------------------------------------------*/
-    $scope.showListDetails = false;
+    $scope.showListDetails = true;
+    
+    $scope.showHideListDetails = function (){
+        
+        $scope.showListDetails=!$scope.showListDetails;
+        alert ($scope.showListDetails);
+    };
     
     $scope.gesture = {
       used: ''
     };
 
     /*   --------------------Show Details based on gesture ------------------------*/
-    $scope.onGesture = function (gesture, listName) {
+/*    $scope.onGesture = function (gesture, listName) {
       $scope.gesture.used = gesture;
-      /*  alert(gesture+' '+listName);*/
+        alert(gesture+' '+listName);
       console.log(gesture);
 
       if (gesture == 'Swipe Down') {
@@ -195,7 +201,7 @@ angular.module('starter.controllers')
       }
       ;
 
-    };
+    };*/
     /*---------------------------------------------------------------------------*/
     /*set the border color of the contact shown based on status*/
     $scope.account = function () {
@@ -204,7 +210,7 @@ angular.module('starter.controllers')
     };
     
 
-    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    $ionicPopover.fromTemplateUrl('templates/listPopover.html', {
     scope: $scope
   }).then(function(popover) {
     $scope.popover = popover;

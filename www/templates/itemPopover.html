@@ -1,0 +1,18 @@
+      <ion-popover-view>
+        <ion-content>
+          <div class="list">
+            <a class="item" ng-click = "refresh();popover.hide();">
+              Reload
+            </a>
+            <a class="item" ng-click="data.showDelete = !data.showDelete; data.showReorder = false;popover.hide();">
+              Delete 
+            </a>
+            <a class="item"  ng-click="data.showDelete = false; data.showReorder = !data.showReorder;popover.hide();">
+              Reorder
+            </a>
+            <a class="item"  ng-click="showHideListDetails();popover.hide();">
+              Hide/Show Details
+            </a>
+          </div>
+        </ion-content>
+      </ion-popover-view>
