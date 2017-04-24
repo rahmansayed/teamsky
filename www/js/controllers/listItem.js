@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2,$translate,$ionicModal,$ionicPopover) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover) {
 
 
     $scope.uoms = [];
@@ -235,7 +235,7 @@ angular.module('starter.controllers')
       /*Handle the case for delete from Browser*/
       if (!(window.cordova)) {
         var confirmPopup = $ionicPopup.confirm({
-          title:$translate.instant('DELETE_ITEM'),
+          title: $translate.instant('DELETE_ITEM'),
           template: $translate.instant('CONFIRM_DELETE_ITEM') + listItem.itemName + "?"
         });
 
@@ -333,73 +333,73 @@ angular.module('starter.controllers')
       )
     };
 
-/*---------------------------------------------------------------------------*/
-$scope.slideLeft = function(){
-    /*set the border color of the contact shown based on status*/
-    $scope.toggleLeft = function () {
-      $ionicSideMenuDelegate.toggleLeft();
-      console.log('20/03/2017 - listItem -aalatief - menu Pressed')
+    /*---------------------------------------------------------------------------*/
+    $scope.slideLeft = function () {
+      /*set the border color of the contact shown based on status*/
+      $scope.toggleLeft = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+        console.log('20/03/2017 - listItem -aalatief - menu Pressed')
+      };
+      /*------------------------------------------------------------------*/
+      // Grab the content
+      var content = element[0].querySelector('.item-content');
+
+      // Grab the buttons and their width
+      var buttons = element[0].querySelector('.item-options');
+
+      if (!buttons) {
+        console.log('There are no option buttons');
+        return;
+      }
+      var buttonsWidth = buttons.offsetWidth;
+
+      ionic.requestAnimationFrame(function () {
+        content.style[ionic.CSS.TRANSITION] = 'all ease-out .25s';
+
+        if (!buttons.classList.contains('invisible')) {
+          console.log('close');
+          content.style[ionic.CSS.TRANSFORM] = '';
+          setTimeout(function () {
+            buttons.classList.add('invisible');
+          }, 250);
+        } else {
+          buttons.classList.remove('invisible');
+          content.style[ionic.CSS.TRANSFORM] = 'translate3d(-' + buttonsWidth + 'px, 0, 0)';
+        }
+      });
     };
-    /*------------------------------------------------------------------*/
-				// Grab the content
-				var content = element[0].querySelector('.item-content');
 
-				// Grab the buttons and their width
-				var buttons = element[0].querySelector('.item-options');
-
-				if (!buttons) {
-					console.log('There are no option buttons');
-					return;
-				}
-				var buttonsWidth = buttons.offsetWidth;
-
-				ionic.requestAnimationFrame(function() {
-					content.style[ionic.CSS.TRANSITION] = 'all ease-out .25s';
-
-					if (!buttons.classList.contains('invisible')) {
-						console.log('close');
-						content.style[ionic.CSS.TRANSFORM] = '';
-						setTimeout(function() {
-							buttons.classList.add('invisible');
-						}, 250);
-					} else {
-						buttons.classList.remove('invisible');
-						content.style[ionic.CSS.TRANSFORM] = 'translate3d(-' + buttonsWidth + 'px, 0, 0)';
-					}
-				});
-};
-    
-        $scope.account = function () {
+    $scope.account = function () {
       $ionicSideMenuDelegate.toggleLeft();
       $state.go('account');
     };
-    
-    
-    
-  $ionicModal.fromTemplateUrl('templates/itemDetails.html', {
+
+
+    $ionicModal.fromTemplateUrl('templates/itemDetails.html', {
       scope: $scope,
       animation: 'slide-in-up'
-    }).then(function(modal) {
+    }).then(function (modal) {
       $scope.modal = modal;
     });
-  $scope.openModal = function(item){
-   $scope.selectedItem = item   ;
-   $timeout(function(){
-        $scope.modal.show(); 
-        },0)
-  }
-  $scope.closeModal = function(){
-    $scope.modal.hide();
-  }
-    
-    
-  
+
+    $scope.openModal = function (item) {
+      $scope.selectedItem = item;
+      $timeout(function () {
+        $scope.modal.show();
+      }, 0)
+    }
+
+    $scope.closeModal = function () {
+      $scope.modal.hide();
+    }
+
+
     $ionicPopover.fromTemplateUrl('templates/itemPopover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-       
-  });  
+      scope: $scope
+    }).then(function (popover) {
+      $scope.popover = popover;
+
+    });
     //This will show the entry DIV by default.
 
 
