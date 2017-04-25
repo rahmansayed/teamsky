@@ -41,7 +41,9 @@
   "FROM":"From",
   "ACCOUNT":"Account",
   "NOTIFICATION":"Notification",
-  "HELP":"Help"
+  "HELP":"Help",
+  "MALE":"Male",
+  "FEMALE":"Female"
     
 }
 

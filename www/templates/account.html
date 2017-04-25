@@ -41,20 +41,34 @@
       <div class="item item-input has-float-label" style="font-size:100%;border-radius:15px;">
         <input type="text"
                placeholder="{{'ENTER_NAME' | translate}}"
-               ng-model="userData.displayName">
+               ng-model="userData.displayName" ng-required="true">
 
       </div>
       <br>
       <label translate>GENDER</label>
       <div>
-        <ion-radio ng-model="userData.gender" ng-value="'male'"
+<!--        <ion-radio ng-model="userData.gender" ng-value="'male'"
                    style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
                    name="gender">Male
         </ion-radio>
         <ion-radio ng-model="userData.gender" ng-value="'female'"
                    style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;  "
                    name="gender">Female
-        </ion-radio>
+        </ion-radio>-->
+          
+          <label class="item item-radio" style="width: 50%;border-radius:15px;float:left;">
+        <input type="radio" ng-model="userData.gender" ng-value="'male'">
+          <div style="display:inline;height:50px;width:100%;float:left !important;border-radius:15px;font-size:100% !important;text-align:center;padding-top:15px;" translate>
+           MALE
+          </div>
+          </label>
+
+        <label class="item item-radio" style=" width: 50%;border-radius:15px;float:right;">
+        <input type="radio" ng-model="userData.gender" ng-value="'female'">
+          <div  style="display:inline;height:50px;width:100%;float:right !important;border-radius:15px;font-size:100% !important;text-align:center;padding-top:15px;" translate>
+           FEMALE
+          </div>
+        </label> 
 
       </div>
 
@@ -106,15 +120,20 @@
       <br><br><br><br>
 
       <label translate>PREFERRED_LANG</label>
-      <div>
-        <ion-radio ng-model="userData.language" ng-value="'arabic'"
-                   style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
-                   name="lang">  العربية
-        </ion-radio>
-        <ion-radio ng-model="userData.language" ng-value="'english'"
-                   style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
-                   name="lang">English
-        </ion-radio>
+      <div >
+        <label class="item item-radio" style="width: 50%;border-radius:15px;float:left;">
+        <input type="radio" ng-model="userData.language" ng-value="'arabic'">
+          <div style="display:inline;height:50px;width:100%;float:left !important;border-radius:15px;font-size:100% !important;text-align:center;padding-top:15px;">
+           العربية
+          </div>
+          </label>
+
+        <label class="item item-radio" style=" width: 50%;border-radius:15px;float:right;">
+        <input type="radio" ng-model="userData.language" ng-value="'english'">
+          <div  style="display:inline;height:50px;width:100%;float:right !important;border-radius:15px;font-size:100% !important;text-align:center;padding-top:15px;">
+           English
+          </div>
+        </label> 
 
       </div>
     </div>
