@@ -46,7 +46,8 @@
   "FEMALE":"Female",
   "LANGUAGE_SELECT":"Select Language",
   "CHOOSE_PREFERRED_LANG":"Choose Preferred Language",
-  "RESUBSCRIBE":"Resend Verification Code"
+  "RESUBSCRIBE":"Resend Verification Code",  
+  "VER_F_MSG3":"You can request another verification code after"
     
 }
 

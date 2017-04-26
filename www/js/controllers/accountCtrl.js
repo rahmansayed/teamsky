@@ -1130,6 +1130,12 @@ angular.module('starter.controllers')
     //$scope.getDays(/*$scope.currMonth*/2,2017/*$scope.currYear*/);
 
     $scope.saveUserSetting = function () {
+        
+      if    (!$scope.userData.displayName)  {
+           document.getElementById('accountError').innerHTML = "*You must your name."
+    
+      }  
+      else {
       console.log("updateProfile userData = " + JSON.stringify($scope.userData));
       var data = {};
       var promises = [];
@@ -1169,6 +1175,7 @@ angular.module('starter.controllers')
         console.error('saveUserSetting server err = ' + JSON.stringify(err));
       });
       $translate.use($scope.userData.language.substr(0, 2));
+    }
     }
 
   });

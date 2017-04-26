@@ -46,6 +46,7 @@
   "FEMALE":"أنثى",
   "LANGUAGE_SELECT":"اختر اللغة",
   "CHOOSE_PREFERRED_LANG":"اختر اللغة المفضلة",
-  "RESUBSCRIBE":"اعادة ارسال كود التفعيل"
+  "RESUBSCRIBE":"اعادة ارسال كود التفعيل",  
+  "VER_F_MSG3":"يمكنك طلب كود تفعيل جديد بعد"
     
 }

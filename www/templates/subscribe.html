@@ -42,11 +42,14 @@
         <input type="tel" placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber" class="text-left" maxlength="11"
                minlenght="8" ng-required="true">
       </div>
-
+        <div id="subscribeError" style="color:red;"></div>    
+     <!-- <div style="color:red;" ng-show="showEmptyError"> *You must enter phone number</div>
+      <div style="color:red;" ng-show="showCountError"> *You phone number cannot be less than 8 digits based on your selected country</div>
+      <div style="color:red;" ng-show="showInitError"> *Please enter your phone number without the 0 in the beginning.</div>-->
       <!-- <p> {{ country | json}} </p>-->
     </div>
     <div class="padding">
-      <button class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
+      <button  class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
               ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})" translate>{{'SUBSCRIBE'}}
       </button>
 
