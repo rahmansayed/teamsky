@@ -79,7 +79,7 @@ angular.module('starter.services')
         var deferred = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language" +
+          var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language,e.deliveredFlag" +
             " FROM ( " +
             "(masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
             " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +

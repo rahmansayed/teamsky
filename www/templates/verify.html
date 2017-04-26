@@ -34,6 +34,11 @@
         {{'VER_B_DONE'}}
       </button>
     </label>
+          <div class="padding">
+      <button ng-disabled="!buttonEnabled" class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
+              ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})" translate>{{'RESUBSCRIBE'}}
+      </button>
+    </div>
 
     <!--<ion-input ng-model="settings.mobileNo">Mobile Number</ion-input>
     <!--<ion-list>

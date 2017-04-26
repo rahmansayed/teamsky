@@ -176,7 +176,7 @@ angular.module('starter.controllers')
     $scope.showHideListDetails = function (){
         
         $scope.showListDetails=!$scope.showListDetails;
-        alert ($scope.showListDetails);
+        /*alert ($scope.showListDetails);*/
     };
     
     $scope.gesture = {

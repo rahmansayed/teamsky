@@ -104,7 +104,7 @@
                     <div style="display:inline; float:center;">
                       <h2 style="display:inline;text-align:left;white-space: normal;">
 
-                        {{listItem.itemName}} 
+                        {{listItem.itemName}}  - {{listItem.deliveredFlag}}
                         <!--{{listItem.seenFlag}}--></h2>
 
                       <p style="text-align:left;white-space: normal;" >
@@ -122,20 +122,22 @@
 
 
                     <div class="no-padding" style="display:inline; float:right; ">
-                      <div align="right" ng-show="listItem.seenFlag==0" style="display:inline;">
-                        <p style="display:inline;">&#x25CB;</p>
+                      <div align="right" ng-show="listItem.seenFlag==0&&listItem.deliveredFlag" style="display:inline;">
+                        <p style="display:inline;"><!--&#x25CB;-->
+                          <i class="fa fa-spinner fa-pulse"></i>
+                          </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.seenFlag==1" style="display:inline;">
-                        <p style="display:inline; ">&#10008;</p>
+                      <div align="right" ng-show="listItem.seenFlag==1&&listItem.deliveredFlag" style="display:inline;">
+                        <p style="display:inline; ">&#10004;;</p>
                       </div>
 
-                      <div align="right" ng-show="listItem.seenFlag==2" style="display:inline;">
-                        <p style="display:inline;">&#10004;</p>
-                      </div>
-
-                      <div align="right" ng-show="listItem.seenFlag==3" style="display:inline;">
+                      <div align="right" ng-show="listItem.seenFlag==2&&listItem.deliveredFlag" style="display:inline;">
                         <p style="display:inline;">&#10004;&#10004;</p>
+                      </div>
+
+                      <div align="right" ng-show="listItem.seenFlag==3&&listItem.deliveredFlag" style="display:inline;">
+                        <p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>
                       </div>
                     </div>
 

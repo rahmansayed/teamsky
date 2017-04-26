@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('verifyCtrl', function ($scope, global, $http, $state, settings, $ionicHistory, serverHandler, localItemHandlerV2) {
+  .controller('verifyCtrl', function ($scope, global, $http, $state, settings, $ionicHistory, serverHandler, localItemHandlerV2,$timeout) {
     $scope.settings = {};
     var data = {};
 
@@ -66,7 +66,11 @@ angular.module('starter.controllers')
               function (error) {
 
               });
-
+ $scope.buttonEnabled =false;
+          $timeout(function() {
+           $scope.buttonEnabled = true;
+        }, 5000);
+          
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification
         });

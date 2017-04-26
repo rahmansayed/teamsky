@@ -43,6 +43,9 @@
   "NOTIFICATION":"التبليغات",
   "HELP":"المساعدة",
   "MALE":"ذكر",
-  "FEMALE":"أنثى"
+  "FEMALE":"أنثى",
+  "LANGUAGE_SELECT":"اختر اللغة",
+  "CHOOSE_PREFERRED_LANG":"اختر اللغة المفضلة",
+  "RESUBSCRIBE":"اعادة ارسال كود التفعيل"
     
 }

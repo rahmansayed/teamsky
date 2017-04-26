@@ -43,7 +43,10 @@
   "NOTIFICATION":"Notification",
   "HELP":"Help",
   "MALE":"Male",
-  "FEMALE":"Female"
+  "FEMALE":"Female",
+  "LANGUAGE_SELECT":"Select Language",
+  "CHOOSE_PREFERRED_LANG":"Choose Preferred Language",
+  "RESUBSCRIBE":"Resend Verification Code"
     
 }
 
