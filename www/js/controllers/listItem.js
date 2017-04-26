@@ -87,9 +87,10 @@ angular.module('starter.controllers')
           itemLocalId: item.itemLocalId,
           itemName: item.itemName,
           categoryName: localItemHandlerV2.categoryName(item.itemName),
-          itemQuatity: 0,
-          itemUom: "",
-          itemRetailer: "",
+          quantity: 1,
+          uom: "",
+          retailerLocalId: "",
+          retailerName:"",
           //entryCrossedFlag: item.entryCrossedFlag,
           language: item.language
         };
@@ -180,9 +181,10 @@ angular.module('starter.controllers')
                 itemName: localItemHandlerV2.initcap(itemName),
                 categoryName: $scope.enteredItem.categoryName,
                 itemCrossed: false,
-                itemQuatity: 0,
-                itemUom: "",
-                itemRetailer: "",
+                quantity: 1,
+                uom: "",
+                retailerLocalId: "",
+                retailerName:"",
                 language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN'
               };
             localEntryHandlerV2.addItemToList($scope.selectedItem, 'L');

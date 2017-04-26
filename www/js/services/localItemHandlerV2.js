@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localItemHandlerV2', function ($q, $state, global) {
+  .factory('localItemHandlerV2', function ($q, $state, global, settings) {
 
       var items = [];
 
@@ -9,10 +9,13 @@ angular.module('starter.services')
         var defer = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language " +
-            " FROM (category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId) INNER JOIN masterItem_tl as itl ON itl.itemlocalId = i.itemlocalId " +
+          var query = "SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, ctl.categoryName , itl.language " +
+            " FROM (category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId) " +
+            "       INNER JOIN masterItem_tl as itl ON itl.itemlocalId = i.itemlocalId " +
+            "       INNER JOIN category_tl as ctl ON ctl.categoryLocalId = c.categoryLocalId and ctl.language = ?" +
             " order by i.itemPriority desc, i.genericFlag desc";
-          tx.executeSql(query, [], function (tx, res) {
+          console.log("localItemHandlerV2.getAllMasterItem settings.getSettingValue('language') = " + settings.getSettingValue('language'));
+          tx.executeSql(query, [settings.getSettingValue('language').toUpperCase().substr(0, 2)], function (tx, res) {
             //console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
             for (var i = 0; i < res.rows.length; i++) {
               items.push(res.rows.item(i));
@@ -20,11 +23,11 @@ angular.module('starter.services')
             defer.resolve(items);
 
           }, function (err) {
-            console.log("localItemHandlerV2.getAllMasterItem query err = " + err.message);
+            console.error("localItemHandlerV2.getAllMasterItem query err = " + err.message);
             defer.reject();
           })
         }, function (err) {
-          console.log("localItemHandlerV2.getAllMasterItem query err = " + err.message);
+          console.error("localItemHandlerV2.getAllMasterItem query err = " + err.message);
           defer.reject();
         }, function () {
         });

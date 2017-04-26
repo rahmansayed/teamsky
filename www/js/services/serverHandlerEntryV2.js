@@ -28,6 +28,7 @@ angular.module('starter.services')
 
       function maintainGlobalEntries(entry, list, operation) {
         console.log('maintainGlobalEntries entry = ' + JSON.stringify(entry));
+        console.log('maintainGlobalEntries list = ' + JSON.stringify(list));
         console.log('maintainGlobalEntries operation = ' + operation);
 
         if (entry.listLocalId == global.currentList.listLocalId) {

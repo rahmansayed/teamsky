@@ -27,19 +27,10 @@ angular.module('starter', ['ionic',
       }
 
       function init() {
-         
+
         dbHandler.initDB()
           .then(function (result) {
-              localItemHandlerV2.getAllMasterItem()
-                .then(function (result) {
-                    global.masterItems = result;
-                    console.log('global.masterItems populated = ');
-                  }
-                  ,
-                  function (error) {
-                    console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
-                  }
-                );
+
 
               settings.getUserSetting()
                 .then(function (result) {
@@ -50,6 +41,16 @@ angular.module('starter', ['ionic',
                       serverHandler.syncInit();
                     }
 
+                    localItemHandlerV2.getAllMasterItem()
+                      .then(function (result) {
+                          global.masterItems = result;
+                          console.log('global.masterItems populated = ');
+                        }
+                        ,
+                        function (error) {
+                          console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                        }
+                      );
                     if (settings.isVerified()) {
                       console.log('app.js user verified true');
                       $ionicLoading.hide();
@@ -58,7 +59,7 @@ angular.module('starter', ['ionic',
                     else {
                       $ionicLoading.hide();
                       if (!settings.getSettingValue('language')) {
-                           alert('just to wait');
+                        alert('just to wait');
                         $location.path("/language");
                       }
                       else {
