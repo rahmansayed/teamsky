@@ -34,6 +34,12 @@ angular.module('starter.controllers')
     /*Save List */
     $scope.saveList=function(){
 
+        if    (!$scope.list.listName)  {
+           document.getElementById('listError').innerHTML = "*You must enter list name.";
+    
+      }  
+        else{
+            document.getElementById('listError').innerHTML = "";
         localListHandlerV2.update($scope.list)
         .then(function(response){
             $state.go('lists');
@@ -52,7 +58,7 @@ angular.module('starter.controllers')
              console.log('aalatief: List Server update fail:'+JSON.stringify(error));
         });
 
-
+    }
     };
     /*-----------------------------------------------------------------------------------*/
     /*Remove list user Function*/

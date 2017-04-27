@@ -39,6 +39,12 @@ angular.module('starter.controllers')
     };
 
     $scope.saveList = function (list) {
+              if    (!list)  {
+           document.getElementById('listError').innerHTML = "*You must enter list name.";
+    
+      }  
+        else{    
+         document.getElementById('listError').innerHTML = "";
       console.log('aalatief - Entered List: '+JSON.stringify(list));
       localListHandlerV2.addNewList(list)
         .then(function (insertId) {
@@ -62,6 +68,7 @@ angular.module('starter.controllers')
           });
 
 
+    }
     };
   });
 

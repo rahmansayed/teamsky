@@ -1136,6 +1136,7 @@ angular.module('starter.controllers')
     
       }  
       else {
+           document.getElementById('accountError').innerHTML =' '
       console.log("updateProfile userData = " + JSON.stringify($scope.userData));
       var data = {};
       var promises = [];
