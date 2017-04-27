@@ -9,7 +9,7 @@ angular.module('starter.controllers')
       $scope.data = {
         showDelete: false
       };
-    
+
     $scope.myUserId = global.userServerId;
 
     /*Retrieve all lists from localListHandlerV2*/
@@ -66,7 +66,7 @@ angular.module('starter.controllers')
           function (index) {
             switch (index) {
               case 1:
-                localListHandlerV2.deactivateList(list.listLocalId)
+                localListHandlerV2.deactivateList(list)
                   .then(function (ret) {
                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                     $state.reload();
@@ -92,7 +92,7 @@ angular.module('starter.controllers')
 
         confirmPopup.then(function (res) {
           if (res) {
-            localListHandlerV2.deactivateList(list.listLocalId)
+            localListHandlerV2.deactivateList(list)
               .then(function (ret) {
                 console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                 $state.reload();
@@ -172,13 +172,13 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------------*/
     $scope.showListDetails = true;
-    
+
     $scope.showHideListDetails = function (){
-        
+
         $scope.showListDetails=!$scope.showListDetails;
         /*alert ($scope.showListDetails);*/
     };
-    
+
     $scope.gesture = {
       used: ''
     };
@@ -208,19 +208,19 @@ angular.module('starter.controllers')
       $ionicSideMenuDelegate.toggleLeft();
       $state.go('account');
     };
-    
+
 
     $ionicPopover.fromTemplateUrl('templates/listPopover.html', {
     scope: $scope
   }).then(function(popover) {
     $scope.popover = popover;
-       
+
   });
-  /*$scope.openPopover = function($event) {  
-      
-    alert('Popover Show: '+JSON.stringify($event)   );   
+  /*$scope.openPopover = function($event) {
+
+    alert('Popover Show: '+JSON.stringify($event)   );
    $scope.popover.show($event);
-      
+
   };
   $scope.closePopover = function() {
     $scope.popover.hide();
@@ -237,5 +237,5 @@ angular.module('starter.controllers')
   $scope.$on('popover.removed', function() {
     // Perform action
   });*/
-    
+
   });

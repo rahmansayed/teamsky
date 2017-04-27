@@ -224,21 +224,22 @@ angular.module('starter.services')
      * deactivate the list from the local db
      * @param listLocalId
      */
-    function deactivateList(listLocalId) {
+    function deactivateList(list) {
       var deferred = $q.defer();
       var query = "update list set deleted = 'Y' where listLocalId = ?";
 
       global.db.transaction(function (tx) {
 
           var query = "select * from list where listLocalId = ?";
-          tx.executeSql(query, [listLocalId], function (tx, res) {
+          tx.executeSql(query, [list.listLocalId], function (tx, res) {
               console.log("localListHandlerV2.deactivateList  query res " + JSON.stringify(res));
               var deleteQuery = "update list set deleted = 'Y' where listLocalId = ?";
               var ret = {};
               ret.list = res.rows.item(0);
-              tx.executeSql(deleteQuery, [listLocalId], function (tx, res) {
+              tx.executeSql(deleteQuery, [list.listLocalId], function (tx, res) {
                 console.log("localListHandlerV2.deactivateList  deleteQuery res " + JSON.stringify(res));
                 ret.rowsAffected = res.rowsAffected;
+                serverHandlerListV2.deleteList(list);
                 deferred.resolve(ret);
               }, function (err) {
                 console.log("localListHandlerV2.deactivateList  deleteQuery err " + err.message);

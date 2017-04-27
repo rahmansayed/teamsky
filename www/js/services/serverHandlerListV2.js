@@ -448,11 +448,12 @@ angular.module('starter.services')
 
       function deleteList(list) {
 
-        consoleLog("Start deleteList");
+        var defer = $q.defer();
+        console.log("Start deleteList");
 
         data = {
           listServerId: list.listServerId,
-          deviceServerId: deviceServerId
+          deviceServerId: global.deviceServerId
         };
 
         console.log("deleteList List to Be Deleted => " + JSON.stringify(data));
@@ -460,10 +461,13 @@ angular.module('starter.services')
         $http.post(global.serverIP + "/api/list/deactivate", data)
 
           .then(function (response) {
-            consoleLog(" deleteList Response Result => " + JSON.stringify(response));
+            console.log(" deleteList Response Result => " + JSON.stringify(response));
 
             defer.resolve(response.data.listServerId);
             console.log(" deleteList Response Done");
+          }, function (err) {
+            console.error('deleteList error ' + err.message);
+            defer.reject();
           });
 
         return defer.promise;
