@@ -37,53 +37,57 @@ angular.module('starter.controllers')
     $scope.subscribeUser = function (enteredNumber) {
 
 
-      console.log('subscribeCtrl enteredNumber = ' + JSON.stringify(enteredNumber)+'No of Digits: '+enteredNumber.phoneNumber);
-        
-      if     (!enteredNumber.phoneNumber)  {
-           document.getElementById('subscribeError').innerHTML = "*You must enter phone number."
-        
+      console.log('subscribeCtrl enteredNumber = ' + JSON.stringify(enteredNumber) + 'No of Digits: ' + enteredNumber.phoneNumber);
+
+      if (!enteredNumber.phoneNumber) {
+        document.getElementById('subscribeError').innerHTML = "*You must enter phone number."
+
       }
-    else if (enteredNumber.phoneNumber.toString().length < 8)  {
-          document.getElementById('subscribeError').innerHTML = "*You phone number cannot be less than 8 digits based on your selected country"
-      }  
-  else if (enteredNumber.phoneNumber.toString().substr(0,1) == 0)  {
-       document.getElementById('subscribeError').innerHTML = "*Please enter your phone number without the 0 in the beginning."
-      }        
-     else{  
-          document.getElementById('subscribeError').innerHTML = " "
-      user = {
-        username: enteredNumber.countryCode.concat(enteredNumber.phoneNumber),
-        datakey: global.dataKey/*'ZXCV'*/,
-        countryCode: enteredNumber.countryCode,
-        deviceUUID: global.deviceUUID
-      };
-      console.log('subscribeCtrl user = ' + JSON.stringify(user));
-      console.log('subscribeCtrl $scope.country = ' + JSON.stringify($scope.selected));
-
-
-      settings.addUserSetting('country', $scope.selected.country.code);
-      $http.post(global.serverIP + "/api/user/subscribe", user).then(function (response) {
-
-        console.log("subscribeUser response.data.vCode = " + response.data.vCode);
-        alert('Verification code: ' + JSON.stringify(response.data.vCode));
-
-        settings.verificationData = {
-          deviceLocalId: $scope.deviceLocalId,
-          userServerId: response.data.userServerId,
-          deviceServerId: response.data.deviceServerId,
-          vcode: response.data.vcode,
-          countryCode: enteredNumber.countryCode
+      else if (enteredNumber.phoneNumber.toString().length < 8) {
+        document.getElementById('subscribeError').innerHTML = "*You phone number cannot be less than 8 digits based on your selected country"
+      }
+      else if (enteredNumber.phoneNumber.toString().substr(0, 1) == 0) {
+        document.getElementById('subscribeError').innerHTML = "*Please enter your phone number without the 0 in the beginning."
+      }
+      else {
+        document.getElementById('subscribeError').innerHTML = " ";
+        user = {
+          username: enteredNumber.countryCode.concat(enteredNumber.phoneNumber),
+          datakey: global.dataKey/*'ZXCV'*/,
+          countryCode: enteredNumber.countryCode,
+          deviceUUID: global.deviceUUID
         };
-        console.log('11/03/2017 - aalatief - subscribeCtrl: ' + JSON.stringify(settings.verificationData));
-        $location.path("/verify");
-      }, function (error) {
-        console.log(error);
-
-      });
+        console.log('subscribeCtrl user = ' + JSON.stringify(user));
+        console.log('subscribeCtrl $scope.country = ' + JSON.stringify($scope.selected));
 
 
-      console.log('subscribe: ' + enteredNumber);
-     };
+        settings.addUserSetting('country', $scope.selected.country.code);
+        $http.post(global.serverIP + "/api/user/subscribe", user).then(function (response) {
+
+          console.log("subscribeUser response.data.vCode = " + response.data.vCode);
+          alert('Verification code: ' + JSON.stringify(response.data.vCode));
+
+          settings.verificationData = {
+            deviceLocalId: $scope.deviceLocalId,
+            userServerId: response.data.userServerId,
+            deviceServerId: response.data.deviceServerId,
+            vcode: response.data.vcode,
+            countryCode: enteredNumber.countryCode
+          };
+          global.deviceServerId = response.data.deviceServerId;
+          global.userServerId = response.data.userServerId;
+
+          console.log('11/03/2017 - aalatief - subscribeCtrl: ' + JSON.stringify(settings.verificationData));
+          $location.path("/verify");
+        }, function (error) {
+          console.log(error);
+
+        });
+
+
+        console.log('subscribe: ' + enteredNumber);
+      }
+      ;
     };
 
     $scope.countries = [

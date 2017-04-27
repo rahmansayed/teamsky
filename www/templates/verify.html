@@ -11,20 +11,20 @@
             </div>
       <div>
 
-         <h1  class="text-center item" style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">   
+         <h1  class="text-center item" style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
             <br>
              <strong translate>{{'VER_F_MSG1'}} </strong>
             <br>
             <br>
-           
-        <p class="padding text-left " style="text-align:left;white-space: normal;" translate> 
+
+        <p class="padding text-left " style="text-align:left;white-space: normal;" translate>
             {{'VER_F_MSG2'}} </p>
             <br>
-    
+
         </h1>
       </div>
-      
-      
+
+
       <label class="item item-input">
       <input type="text" ng-model="vCode" placeholder="{{'REG_N_VERIFICATION_CODE' | translate}}" ng-required="true">
     </label>
@@ -36,14 +36,14 @@
     </div>
           <div >
       <button ng-hide="!buttonEnabled ||vCode.length >3" class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
-              ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber});" translate>{{'RESUBSCRIBE'}}
+              ng-click="resendVCode();" translate>{{'RESUBSCRIBE'}}
       </button>
     </div>
       <div ng-show="!buttonEnabled">
-        <span class="padding text-left " style="text-align:left;white-space: normal; border:0;" translate> 
+        <span class="padding text-left " style="text-align:left;white-space: normal; border:0;" translate>
             {{'VER_F_MSG3'}}</span><span id="countdown"> </span> seconds.
-           
-      </div>          
+
+      </div>
     <!--<ion-input ng-model="settings.mobileNo">Mobile Number</ion-input>
     <!--<ion-list>
     <ion-toggle  ng-model="settings.enableFriends">

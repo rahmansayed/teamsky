@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('verifyCtrl', function ($scope, global, $http, $state, settings, $ionicHistory, serverHandler, localItemHandlerV2,$timeout,$interval) {
+  .controller('verifyCtrl', function ($scope, global, $http, $state, settings, $ionicHistory, serverHandler, localItemHandlerV2, $timeout, $interval) {
     $scope.settings = {};
     var data = {};
 
@@ -7,31 +7,32 @@ angular.module('starter.controllers')
       disableBack: true
     });
 
-          $scope.buttonEnabled =false;
-          
+    $scope.buttonEnabled = false;
 
-    
-          /* $timeout(function() {
-           $scope.buttonEnabled = true;
-             $scope.waitSecond =  $scope.waitSecond-1;
-           alert('5 sec');
-          }, 5000).then(null);
-    */
+
+    /* $timeout(function() {
+     $scope.buttonEnabled = true;
+     $scope.waitSecond =  $scope.waitSecond-1;
+     alert('5 sec');
+     }, 5000).then(null);
+     */
     (function countdown(remaining) {
-    if(remaining == 0){
+      if (remaining == 0) {
         document.getElementById('countdown').innerHTML = 'done';
-          $scope.$apply(function () {
+        $scope.$apply(function () {
           $scope.buttonEnabled = true;
-             
-          });
-    }
 
-     else{
-     document.getElementById('countdown').innerHTML = remaining;
-     setTimeout(function(){ countdown(remaining - 1); }, 1000);
-    }
+        });
+      }
+
+      else {
+        document.getElementById('countdown').innerHTML = remaining;
+        setTimeout(function () {
+          countdown(remaining - 1);
+        }, 1000);
+      }
     })(15);
-       
+
     $scope.verify = function (vCode) {
       data = {
         deviceLocalId: settings.verificationData.deviceLocalId,
@@ -68,7 +69,7 @@ angular.module('starter.controllers')
           settings.setSettings(otherSettings).then(function () {
             settings.getUserSetting()
               .then(function (response) {
-                console.log('User Setting: '+JSON.stringify(response));
+                console.log('User Setting: ' + JSON.stringify(response));
                 $state.go('account');
               }, function () {
               })
@@ -91,10 +92,24 @@ angular.module('starter.controllers')
 
               });
 
-          
+
           /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
           //TODO go to lists only after succussfull verification
         });
+    }
+
+    $scope.resendVCode = function () {
+      var data = {
+        userServerId: global.userServerId,
+        deviceServerId: global.deviceServerId,
+        sendSMS: 'N'
+      };
+
+      $http.post(global.serverIP + "/api/user/resendVerificationCode", data).then(function (res) {
+        alert(JSON.stringify(res.data));
+      }, function (err) {
+        console.error('resendVerificationCode error = ' + err.message);
+      });
     }
   });
 
