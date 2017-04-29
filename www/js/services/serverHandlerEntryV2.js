@@ -680,9 +680,6 @@ angular.module('starter.services')
           var seenFlag;
           if (mode == 'L')
             entry.seenFlag = 2;
-          else if (entry.listLocalId == global.currentList.listLocalId) {
-            entry.seenFlag = 1;
-          }
           entry.deliveredFlag = 0;
           var entryServerId = (mode == 'S') ? entry.entryServerId : '';
           global.db.transaction(function (tx) {
@@ -803,11 +800,9 @@ angular.module('starter.services')
                     language: response.data.entries[i].language,
                     entryServerId: response.data.entries[i]._id
                   };
-/*
                   console.log("serverHandlerEntry.syncEntriesDownstream $state.current.name = " + $state.current.name);
                   console.log("serverHandlerEntry.syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
                   console.log("serverHandlerEntry.syncEntriesDownstream global.currentList = " + global.currentList);
-*/
 
                   if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId) {
                     entry.seenFlag = 1;
