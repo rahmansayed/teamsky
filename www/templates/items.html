@@ -124,20 +124,20 @@
                     <div class="no-padding" style="display:inline; float:right; ">
                       <div align="right" ng-show="listItem.flag=='N'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
-                          <i class="fa fa-spinner fa-pulse"></i>
+                          <i class="fa fa-spinner fa-pulse">{{listItem.flag}}</i>
                           </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag=='S'&&listItem.deliveredFlag=='0'" style="display:inline;">
-                        <p style="display:inline; ">&#10004;;</p>
+                      <div align="right" ng-show="listItem.flag=='S'&&listItem.deliveredFlag==0" style="display:inline;">
+                        <p style="display:inline; ">&#10004; - {{listItem.flag}} - {{listItem.deliveredFlag}}</p>
                       </div>
 
-                      <div align="right" ng-show="listItem.deliveredFlag=='1'" style="display:inline;">
-                        <p style="display:inline;">&#10004;&#10004;</p>
+                      <div align="right" ng-show="listItem.deliveredFlag==1&&listItem.seenFlag!=3" style="display:inline;">
+                        <p style="display:inline;">&#10004;&#10004; - {{listItem.deliveredFlag}}</p>
                       </div>
 
                       <div align="right" ng-show="listItem.seenFlag==3" style="display:inline;">
-                        <p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>
+                        <p style="display:inline;color:#9EE2DC;">&#10004;&#10004; - {{listItem.seenFlag}}</p>
                       </div>
                     </div>
 
