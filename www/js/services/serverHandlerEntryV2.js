@@ -660,7 +660,7 @@ angular.module('starter.services')
        * @param entry
        */
       function addEntry(entry, mode) {
-        //console.log('addItemToList entry = ' + JSON.stringify(entry));
+        console.log('addItemToList entry = ' + JSON.stringify(entry));
         //console.log('addItemToList listOpenEntries = ' + JSON.stringify(entries.listOpenEntries));
         console.log('addItemToList global.currentList = ' + JSON.stringify(global.currentList));
         var deferred = $q.defer();
@@ -803,11 +803,13 @@ angular.module('starter.services')
                     language: response.data.entries[i].language,
                     entryServerId: response.data.entries[i]._id
                   };
+/*
                   console.log("serverHandlerEntry.syncEntriesDownstream $state.current.name = " + $state.current.name);
                   console.log("serverHandlerEntry.syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
                   console.log("serverHandlerEntry.syncEntriesDownstream global.currentList = " + global.currentList);
+*/
 
-                  if ($state.current.name == 'item' && global.currentList == localIds.listLocalId) {
+                  if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId) {
                     entry.seenFlag = 1;
                   } else {
                     entry.seenFlag = 0;
