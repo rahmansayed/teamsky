@@ -803,6 +803,10 @@ angular.module('starter.services')
                     language: response.data.entries[i].language,
                     entryServerId: response.data.entries[i]._id
                   };
+                  console.log("serverHandlerEntry.syncEntriesDownstream $state.current.name = " + $state.current.name);
+                  console.log("serverHandlerEntry.syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
+                  console.log("serverHandlerEntry.syncEntriesDownstream global.currentList = " + global.currentList);
+
                   if ($state.current.name == 'item' && global.currentList == localIds.listLocalId) {
                     entry.seenFlag = 1;
                   } else {

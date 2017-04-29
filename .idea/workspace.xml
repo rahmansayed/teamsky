@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="first">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
@@ -46,8 +45,8 @@
       <file leaf-file-name="serverHandlerEntryV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="94" lean-forward="false" selection-start-line="8" selection-start-column="94" selection-end-line="8" selection-end-column="94" />
+            <state relative-caret-position="350">
+              <caret line="807" column="115" lean-forward="false" selection-start-line="807" selection-start-column="115" selection-end-line="807" selection-end-column="115" />
               <folding />
             </state>
           </provider>
@@ -478,7 +477,7 @@
       <workItem from="1489908663906" duration="92313000" />
       <workItem from="1490598919820" duration="195127000" />
       <workItem from="1492932422438" duration="14237000" />
-      <workItem from="1493463297228" duration="4823000" />
+      <workItem from="1493463297228" duration="5078000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -491,7 +490,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="961958000" />
+    <option name="totallyTimeSpent" value="962213000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -839,8 +838,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="94" lean-forward="false" selection-start-line="8" selection-start-column="94" selection-end-line="8" selection-end-column="94" />
+        <state relative-caret-position="350">
+          <caret line="807" column="115" lean-forward="false" selection-start-line="807" selection-start-column="115" selection-end-line="807" selection-end-column="115" />
           <folding />
         </state>
       </provider>
