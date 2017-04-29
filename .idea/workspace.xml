@@ -25,8 +25,8 @@
       <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1224">
-              <caret line="72" column="8" lean-forward="true" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="8" />
+            <state relative-caret-position="213">
+              <caret line="15" column="159" lean-forward="false" selection-start-line="15" selection-start-column="159" selection-end-line="15" selection-end-column="159" />
               <folding />
             </state>
           </provider>
@@ -45,8 +45,18 @@
       <file leaf-file-name="serverHandlerEntryV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="303" column="76" lean-forward="false" selection-start-line="303" selection-start-column="76" selection-end-line="303" selection-end-column="76" />
+            <state relative-caret-position="373">
+              <caret line="810" column="20" lean-forward="false" selection-start-line="810" selection-start-column="20" selection-end-line="810" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="84" column="30" lean-forward="true" selection-start-line="84" selection-start-column="30" selection-end-line="84" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -123,9 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>countr</find>
-      <find>lang</find>
-      <find>selected</find>
       <find>getDa</find>
       <find>getDays</find>
       <find>selectedMonth</find>
@@ -153,6 +160,9 @@
       <find>quantity</find>
       <find>quan</find>
       <find>qua</find>
+      <find>state</find>
+      <find>online</find>
+      <find>seeman</find>
     </findStrings>
     <replaceStrings>
       <replace>console.log</replace>
@@ -330,28 +340,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamSky" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamSky" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -467,7 +455,7 @@
       <workItem from="1489908663906" duration="92313000" />
       <workItem from="1490598919820" duration="195127000" />
       <workItem from="1492932422438" duration="14237000" />
-      <workItem from="1493463297228" duration="2197000" />
+      <workItem from="1493463297228" duration="2965000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -480,7 +468,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="959332000" />
+    <option name="totallyTimeSpent" value="960100000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -695,7 +683,7 @@
         <state relative-caret-position="205">
           <caret line="117" column="88" lean-forward="false" selection-start-line="117" selection-start-column="88" selection-end-line="117" selection-end-column="88" />
           <folding>
-            <marker date="1493464745224" expanded="true" signature="6300:6351" ph="..." />
+            <marker date="1493466296937" expanded="true" signature="6455:6487" ph="..." />
           </folding>
         </state>
       </provider>
@@ -712,13 +700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="349">
           <caret line="1080" column="24" lean-forward="false" selection-start-line="1080" selection-start-column="24" selection-end-line="1080" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="43" column="46" lean-forward="false" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -794,14 +775,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="72" column="8" lean-forward="true" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerListV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="549">
@@ -818,10 +791,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="84" column="30" lean-forward="true" selection-start-line="84" selection-start-column="30" selection-end-line="84" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="15" column="159" lean-forward="false" selection-start-line="15" selection-start-column="159" selection-end-line="15" selection-end-column="159" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="303" column="76" lean-forward="false" selection-start-line="303" selection-start-column="76" selection-end-line="303" selection-end-column="76" />
+        <state relative-caret-position="373">
+          <caret line="810" column="20" lean-forward="false" selection-start-line="810" selection-start-column="20" selection-end-line="810" selection-end-column="20" />
           <folding />
         </state>
       </provider>

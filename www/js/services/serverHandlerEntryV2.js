@@ -808,7 +808,7 @@ angular.module('starter.services')
                 $q.all(insertPromises).then(function () {
                   console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
                   syncBackMany(response.data.entries);
-                  syncSeensUpstream();
+                  //syncSeensUpstream();
                   updateListNotificationCount('newCount', affectedLists);
                   defer.resolve(affectedLists);
                 });
