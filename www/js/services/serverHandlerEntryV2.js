@@ -668,15 +668,15 @@ angular.module('starter.services')
           }
         }
         if (insertFlag) {
-          var flag = mode == 'L' ? 'N' : 'S';
-          var origin = mode == 'L' ? 'L' : 'S';
+          entry.flag = mode == 'L' ? 'N' : 'S';
+          entry.origin = mode == 'L' ? 'L' : 'S';
           var seenFlag;
           if (mode == 'L')
             entry.seenFlag = 2;
           else if (entry.listLocalId == global.currentList.listLocalId) {
             entry.seenFlag = 1;
           }
-
+          entry.deliveredFlag = 0;
           var entryServerId = (mode == 'S') ? entry.entryServerId : '';
           global.db.transaction(function (tx) {
             var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
@@ -700,7 +700,7 @@ angular.module('starter.services')
               " ?," + //language
               " 'N')"; //deleted
             //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, origin, flag, entry.seenFlag, entry.language], function (tx, res) {
+            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
               console.log('addEntry res = ' + JSON.stringify(res.insertId));
               entry.entryLocalId = res.insertId;
               maintainGlobalEntries(entry, 'OPEN', 'ADD');
