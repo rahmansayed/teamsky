@@ -797,18 +797,24 @@ angular.module('starter.services')
                     uom: uom,
                     entryCrossedFlag: 0,
                     deleted: 'N',
-                    seenFlag: 0,
+                    //seenFlag: 0,
                     retailerLocalId: localIds.retailerLocalId,
                     retailerName: localIds.retailerName,
                     language: response.data.entries[i].language,
                     entryServerId: response.data.entries[i]._id
                   };
+                  if ($state.current.name == 'item' && global.currentList == localIds.listLocalId) {
+                    entry.seenFlag = 1;
+                  } else {
+                    entry.seenFlag = 0;
+                  }
+
                   insertPromises.push(addEntry(entry, 'S'));
                 }
                 $q.all(insertPromises).then(function () {
                   console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
                   syncBackMany(response.data.entries);
-                  //syncSeensUpstream();
+                  syncSeensUpstream();
                   updateListNotificationCount('newCount', affectedLists);
                   defer.resolve(affectedLists);
                 });
