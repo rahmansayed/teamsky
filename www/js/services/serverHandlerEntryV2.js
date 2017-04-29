@@ -89,6 +89,10 @@ angular.module('starter.services')
               if (openIdx > -1)
                 global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 1;
               break;
+            case 'UPLOADED':
+              if (openIdx > -1)
+                global.currentListEntries.listOpenEntries.entries[openIdx].flag = 'S';
+              break;
             case 'DELETE':
               if (list == 'OPEN') {
                 if (openIdx != -1) {
@@ -296,6 +300,9 @@ angular.module('starter.services')
                           var query = "update entry set entryServerId = ?, flag= 'S', seenFlag = 2 where entryLocalId = ?";
                           for (var i = 0; i < response.data.length; i++) {
                             tx.executeSql(query, [response.data[i].entryServerId, response.data[i].entryLocalId]);
+                            getEntryFromLocalDB(response.data[i].entryServerId).then(function (entry) {
+                              maintainGlobalEntries(entry, 'OPEN', 'UPLOADED');
+                            });
                           }
                         }, function (err) {
                           console.error("syncListEntries DB update Error = " + err);
