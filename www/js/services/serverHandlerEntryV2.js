@@ -6,7 +6,7 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('serverHandlerEntryV2', function ($http, global, $q, serverHandlerItemsV2, serverHandlerListV2, serverHandlerRetailerV2, dbHelper) {
+  .factory('serverHandlerEntryV2', function ($http, global, $q, serverHandlerItemsV2, $state, serverHandlerListV2, serverHandlerRetailerV2, dbHelper) {
 
       function getCategoryCount(categoryName) {
         return global.currentListEntries.listOpenEntries.entries.filter(function (entry) {
@@ -820,7 +820,7 @@ angular.module('starter.services')
                 });
               },
               function (err) {
-                console.error("serverHandlerEntryV2 localIds error");
+                console.error("serverHandlerEntryV2 localIds errors");
                 defer.reject(err);
               });
           });
