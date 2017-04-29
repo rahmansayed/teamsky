@@ -109,8 +109,8 @@ angular.module('starter.services')
             console.log("pickContact contact = " + JSON.stringify(contact));
             var newContact = {
               "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
-              "emails": contact.emails || [],
-              "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null
+              "emails": contact.emails || []/*,
+              "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null*/
             };
             newContact.numbers = (contact.phoneNumbers || []).map(function (phoneNumber) {
               return formatPhoneNumber(phoneNumber.value);
