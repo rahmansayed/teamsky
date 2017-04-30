@@ -104,9 +104,9 @@
                     <div style="display:inline; float:center;">
                       <h2 style="display:inline;text-align:left;white-space: normal;">
 
-                        {{listItem.itemName}}  - {{listItem.deliveredFlag}}
+                        {{listItem.itemName}}
                         <!--{{listItem.seenFlag}}--></h2>
-
+                    <div ng-show="showItemDetails">
                       <p style="text-align:left;white-space: normal;" >
                         <i> {{listItem.quantity}} {{listItem.uom}} <span translate>FROM</span>
                           {{listItem.retailerName}} </i></p>
@@ -117,11 +117,11 @@
                       <ion-option-button class="button-calm icon-left ion-edit"
                                          ng-click=" openModal(listItem)"></ion-option-button>
 
-
+                    </div>
                     </div>
 
 
-                    <div class="no-padding" style="display:inline; float:right; ">
+                    <div ng-show="showItemDetails" class="no-padding" style="display:inline; float:right; ">
                       <div align="right" ng-show="listItem.flag=='N'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>

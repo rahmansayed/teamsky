@@ -402,6 +402,15 @@ angular.module('starter.controllers')
       $scope.popover = popover;
 
     });
+    
+    $scope.showItemDetails = true;
+
+    $scope.showHideItemDetails = function (){
+
+        $scope.showItemDetails=!$scope.showItemDetails;
+        /*alert ($scope.showListDetails);*/
+    };
+    
     //This will show the entry DIV by default.
 
 

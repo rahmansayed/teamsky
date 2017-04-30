@@ -8,6 +8,7 @@ angular.module('starter.controllers')
     });
 
     $scope.buttonEnabled = false;
+   
 
 
     /* $timeout(function() {
@@ -16,7 +17,9 @@ angular.module('starter.controllers')
      alert('5 sec');
      }, 5000).then(null);
      */
-    (function countdown(remaining) {
+    $scope.remaining = 15;
+   
+    countdown =  function countdown(remaining) {
       if (remaining == 0) {
         document.getElementById('countdown').innerHTML = 'done';
         $scope.$apply(function () {
@@ -31,7 +34,26 @@ angular.module('starter.controllers')
           countdown(remaining - 1);
         }, 1000);
       }
-    })(15);
+    };
+    
+    countdown($scope.remaining);
+    
+   /* (function countdown(remaining) {
+      if (remaining == 0) {
+        document.getElementById('countdown').innerHTML = 'done';
+        $scope.$apply(function () {
+          $scope.buttonEnabled = true;
+
+        });
+      }
+
+      else {
+        document.getElementById('countdown').innerHTML = remaining;
+        setTimeout(function () {
+          countdown(remaining - 1);
+        }, 1000);
+      }
+    })($scope.remaining);*/
 
     $scope.verify = function (vCode) {
       data = {
@@ -99,7 +121,10 @@ angular.module('starter.controllers')
     }
 
     $scope.resendVCode = function () {
-      var data = {
+        $scope.buttonEnabled=false;
+        $scope.remaining = 15;
+        countdown($scope.remaining);
+        var data = {
         userServerId: global.userServerId,
         deviceServerId: global.deviceServerId,
         sendSMS: 'N'
