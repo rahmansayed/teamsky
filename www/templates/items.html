@@ -78,7 +78,7 @@
 
 
             <div class="list">
-              <ion-list show-reorder="reorderFlag">
+              <ion-list show-reorder="reorderFlag" show-delete="data.showDelete">
 
                 <div class="item item-divider"
                      ng-repeat="category in entries.listOpenEntries.categories | orderBy"
@@ -97,7 +97,7 @@
                   <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
                             ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category.categoryName }"
                             ng-click="itemChecked(listItem)"
-                            style=" border-radius:15px;"
+                            style=" border-radius:15px;background-color:white;"
                             ng-hide="category.foldStatus">
 
 
@@ -106,6 +106,12 @@
 
                         {{listItem.itemName}}
                         <!--{{listItem.seenFlag}}--></h2>
+                        
+                <div style="padding-right:2px;background-color:white;">
+
+                  <ion-delete-button class="ion-minus-circled" ng-click="removeFromList(listItem)" style="background-color:white;">
+                  </ion-delete-button>
+                </div>    
                     <div ng-show="showItemDetails">
                       <p style="text-align:left;white-space: normal;" >
                         <i> {{listItem.quantity}} {{listItem.uom}} <span translate>FROM</span>

@@ -411,6 +411,29 @@ angular.module('starter.controllers')
         /*alert ($scope.showListDetails);*/
     };
     
+    $scope.changeFoldAll = function(){
+        
+        foldStatus = $scope.entries.listOpenEntries.categories[0].foldStatus;
+       for(var i = 0; i < $scope.entries.listOpenEntries.categories.length; i++){
+           console.log('Status of Zero'+foldStatus);
+           console.log('Fold/Unfold: '+i + ' '+$scope.entries.listOpenEntries.categories[i].foldStatus);
+           if (foldStatus) { 
+           console.log('case 1');       
+           $scope.entries.listOpenEntries.categories[i].foldStatus = false;
+           }
+           else{
+               console.log('case 2'); 
+                $scope.entries.listOpenEntries.categories[i].foldStatus = true;
+           }
+        
+       }
+    };
+     
+    $scope.data = {
+        showDelete: false
+      };
+    
+    
     //This will show the entry DIV by default.
 
 

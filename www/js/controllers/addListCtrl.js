@@ -6,7 +6,7 @@ angular.module('starter.controllers')
     /*Share with Contact */
 
     $scope.getAllContacts = function (list) {
-      /* $state.go('contact');*/
+       $state.go('add');
       contactHandler.pickContact(list);
       $state.reload();
     };

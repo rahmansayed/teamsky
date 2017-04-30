@@ -115,7 +115,7 @@ angular.module('starter.controllers')
 /*Share with Contact */
 
     $scope.getAllContacts = function (list) {
-      /* $state.go('contact');*/
+       $state.go('edit');
       contactHandler.pickContact(list);
         $state.reload();
     };

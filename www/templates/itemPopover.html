@@ -4,11 +4,11 @@
             <a class="item" ng-click = "refresh();popover.hide();">
               Reload
             </a>
-            <a class="item" ng-click="data.showDelete = !data.showDelete; data.showReorder = false;popover.hide();">
+            <a class="item" ng-click="data.showDelete = !data.showDelete;popover.hide();">
               Delete 
             </a>
-            <a class="item"  ng-click="data.showDelete = false; data.showReorder = !data.showReorder;popover.hide();">
-              Fold/Unfold Category
+            <a class="item"  ng-click="changeFoldAll();popover.hide();">
+              Fold/Unfold All
             </a>
             <a class="item"  ng-click="showHideItemDetails();popover.hide();">
               Hide/Show Details
