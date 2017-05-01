@@ -685,12 +685,14 @@ angular.module('starter.services')
           global.db.transaction(function (tx) {
             var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
               "listLocalId," +
+              "userServerId," +
               "itemLocalId," +
               "entryServerId," +
               "quantity,uom,retailerLocalId," +
               "entryCrossedFlag, origin, flag, deliveredFlag, seenFlag, language, deleted) " +
               "VALUES (null," + //entryLocalId
-              "?," + //listLocalId
+              "?," +//listLocalId
+              "?," + //entryOwnerServerId
               "?," + //itemLocalId
               "?," + //entryServerId
               "?," + //quantity
@@ -704,7 +706,7 @@ angular.module('starter.services')
               " ?," + //language
               " 'N')"; //deleted
             //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-            tx.executeSql(query, [entry.listLocalId, entry.itemLocalId, entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
+            tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
               console.log('addEntry res = ' + JSON.stringify(res.insertId));
               entry.entryLocalId = res.insertId;
               maintainGlobalEntries(entry, 'OPEN', 'ADD');
@@ -798,7 +800,8 @@ angular.module('starter.services')
                     retailerLocalId: localIds.retailerLocalId,
                     retailerName: localIds.retailerName,
                     language: response.data.entries[i].language,
-                    entryServerId: response.data.entries[i]._id
+                    entryServerId: response.data.entries[i]._id,
+                    userServerId: response.data.entries[i].userServerId
                   };
                   console.log("serverHandlerEntry.syncEntriesDownstream $state.current.name = " + $state.current.name);
                   console.log("serverHandlerEntry.syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);

@@ -1,7 +1,7 @@
 <ion-view>
 
   <ion-nav-bar class="theme-color">
-  <!--  <ion-nav-back-button></ion-nav-back-button>-->
+    <!--  <ion-nav-back-button></ion-nav-back-button>-->
   </ion-nav-bar>
   <ion-nav-title> {{dynamicListTitle}}</ion-nav-title>
 
@@ -54,9 +54,9 @@
 
 
         <ion-content class="padding">
-        <div id="bg">
-      <img src="img\grocery.jpg" alt="" style="opacity=0.5">
-    </div>
+          <div id="bg">
+            <img src="img\grocery.jpg" alt="" style="opacity=0.5">
+          </div>
 
           <!--    <ion-refresher on-refresh="refresh()">
 
@@ -66,8 +66,8 @@
               <ion-item class="item"
                         ng-repeat="item in data.items"
                         ng-click="selectItems(item)"
-                        >{{item.itemName}}
-                        
+              >{{item.itemName}}
+
               </ion-item>
 
             </ion-list>
@@ -106,24 +106,25 @@
 
                         {{listItem.itemName}}
                         <!--{{listItem.seenFlag}}--></h2>
-                        
-                <div style="padding-right:2px;background-color:white;">
 
-                  <ion-delete-button class="ion-minus-circled" ng-click="removeFromList(listItem)" style="background-color:white;">
-                  </ion-delete-button>
-                </div>    
-                    <div ng-show="showItemDetails">
-                      <p style="text-align:left;white-space: normal;" >
-                        <i> {{listItem.quantity}} {{listItem.uom}} <span translate>FROM</span>
-                          {{listItem.retailerName}} </i></p>
-                      <ion-option-button class="button-assertive icon-left ion-trash-a"
-                                         ng-click="removeFromList(listItem)"></ion-option-button>
-                      <!--                <ion-option-button class="button-calm icon-right ion-edit"
-                                                         ng-click="editListItem(listItem)"></ion-option-button>-->
-                      <ion-option-button class="button-calm icon-left ion-edit"
-                                         ng-click=" openModal(listItem)"></ion-option-button>
+                      <div style="padding-right:2px;background-color:white;">
 
-                    </div>
+                        <ion-delete-button class="ion-minus-circled" ng-click="removeFromList(listItem)"
+                                           style="background-color:white;">
+                        </ion-delete-button>
+                      </div>
+                      <div ng-show="showItemDetails">
+                        <p style="text-align:left;white-space: normal;">
+                          <i> {{listItem.quantity}} {{listItem.uom}} <span translate>FROM</span>
+                            {{listItem.retailerName}} </i></p>
+                        <ion-option-button class="button-assertive icon-left ion-trash-a"
+                                           ng-click="removeFromList(listItem)"></ion-option-button>
+                        <!--                <ion-option-button class="button-calm icon-right ion-edit"
+                                                           ng-click="editListItem(listItem)"></ion-option-button>-->
+                        <ion-option-button class="button-calm icon-left ion-edit"
+                                           ng-click=" openModal(listItem)"></ion-option-button>
+
+                      </div>
                     </div>
 
 
@@ -131,14 +132,16 @@
                       <div align="right" ng-show="listItem.flag=='N'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>
-                          </p>
+                        </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag=='S'&&listItem.deliveredFlag==0" style="display:inline;">
+                      <div align="right" ng-show="listItem.flag=='S'&&listItem.deliveredFlag==0"
+                           style="display:inline;">
                         <p style="display:inline; ">&#10004; </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.deliveredFlag==1&&listItem.seenFlag!=3" style="display:inline;">
+                      <div align="right" ng-show="listItem.deliveredFlag==1&&listItem.seenFlag!=3"
+                           style="display:inline;">
                         <p style="display:inline;">&#10004;&#10004;</p>
                       </div>
 
@@ -159,7 +162,7 @@
                 <button class="button button-block button-balanced"
                         ng-show="entries.listCrossedEntries.length != 0"
                         style="background-color:#941540;color:white;padding-top:5px;" translate>
-                 CROSSED
+                  CROSSED
                 </button>
 
                 <div style="padding-right:20px;padding-left:20px;">

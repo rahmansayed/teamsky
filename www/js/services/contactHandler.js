@@ -366,11 +366,11 @@ angular.module('starter.services')
     function downloadContactPhoto(contactServerId) {
       var defer = $q.defer();
       var fileTransfer = new FileTransfer();
-      var uri = encodeURI(global.serverIP + "/photos/downloadUserPhoto/" + contactServerId);
+      var uri = encodeURI(global.serverIP + "/photos/downloadUserPhoto/" + contactServerId+'.jpg');
 
       fileTransfer.download(
         uri,
-        cordova.file.externalApplicationStorageDirectory + './contactPhotos/' + contactServerId + '.jpg',
+        cordova.file.externalApplicationStorageDirectory + '/contactPhotos/' + contactServerId + '.jpg',
         function (entry) {
           console.log("download complete entry.toURL(): " + entry.toURL());
           console.log("download complete entry.toURI(): " + entry.toURI());
