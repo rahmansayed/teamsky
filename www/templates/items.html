@@ -61,11 +61,12 @@
           <!--    <ion-refresher on-refresh="refresh()">
 
               </ion-refresher>-->
-          <div style="position: absolute;z-index: 2;opacity: 0.8;">
+          <div style=" position: absolute;z-index: 2;opacity: 0.8;width:80%">
             <ion-list>
               <ion-item class="item"
                         ng-repeat="item in data.items"
                         ng-click="selectItems(item)"
+                        style="background-color:rgba(0, 0, 0, 0.5);color:white;width:100%"
                         >{{item.itemName}}
                         
               </ion-item>
