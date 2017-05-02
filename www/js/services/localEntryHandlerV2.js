@@ -223,31 +223,6 @@ angular.module('starter.services')
         return true;
       }
 
-      /*-------------------------------------------------------------------------------------*/
-      /* deactivate item from list from the local db*/
-      function deleteEntry(entry, list) {
-        var deferred = $q.defer();
-        //hiding the entry from display
-        global.db.transaction(function (tx) {
-            var deleteQuery = "update entry set deleted = 'Y' where entryLocalId = ?";
-            tx.executeSql(deleteQuery, [entry.entryLocalId], function (tx, res) {
-              //console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
-              /* ret.rowsAffected = res.rowsAffected;*/
-              serverHandlerEntryV2.maintainGlobalEntries(entry, list, 'DELETE');
-              deferred.resolve(res);
-            }, function (err) {
-              console.error("localEntryHandlerV2.deleteEntry  deleteQuery err " + err.message);
-              deferred.reject(err);
-            });
-          }
-          ,
-          function (err) {
-            deferred.reject(err);
-          }
-        );
-        return deferred.promise;
-      }
-
       /*******************************************************************************************************************
        *
        * @param entry
@@ -280,7 +255,7 @@ angular.module('starter.services')
         allListItemCategoryCrossed: allCategoryEntriesCrossed,
         checkItem: serverHandlerEntryV2.crossLocalEntry,
         unCheckItem: repeatEntry,
-        deactivateItem: deleteEntry,
+        deactivateItem: serverHandlerEntryV2.deleteLocalEntry,
         updateEntry: updateEntry,
         buildListEntries: buildListEntries
 

@@ -182,70 +182,6 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      /****************************************************************************************************************\
-       * this function is used to sync a single entry
-       * @param entry
-       * @returns {Promise|*}
-       */
-      function createEntry(entry) {
-
-        console.log("createEntry");
-        var defer = $q.defer();
-
-        if (entry.lastUpdateBy == 'Y') {
-          data = {
-            userServerId: global.userServerId,
-            deviceServerId: global.deviceServerId,
-            listServerId: entry.listServerId,
-            entryDetails: {
-              entryLocalId: entry.entryLocalId,
-              userItemServerId: entry.itemServerId,
-              qty: entry.qty,
-              uom: entry.uom,
-              vendorServerId: entry.vendorServerId
-            }
-          };
-        } else {
-          data = {
-            userServerId: global.userServerId,
-            deviceServerId: global.deviceServerId,
-            listServerId: entry.listServerId,
-            entryDetails: {
-              entryLocalId: entry.entryLocalId,
-              itemServerId: entry.itemServerId,
-              qty: entry.qty,
-              uom: entry.uom,
-              vendorServerId: entry.vendorServerId
-            }
-          };
-        }
-//        console.log("createEntry Entry to Be Created = " + JSON.stringify(data));
-
-        $http.post(global.serverIP + "/api/entry/add", data)
-          .then(function (response) {
-              //            console.log("createEntry Response Result => " + JSON.stringify(response));
-              defer.resolve(response.data.entryServerId);
-              console.log("createEntry Response Done");
-              global.db.transaction(function (tx) {
-                var query = "update entry set entryServerId = ? , flag = 'S' where entryLocalId = ?";
-                tx.executeSql(query, [response.data.entryServerId, entry.entryLocalId], function (tx, result) {
-                  defer.resolve(response.data.entryServerId);
-                  console.log('createEntry Rows affected = ' + result.rowsAffected)
-                }, function (error) {
-                  defer.reject(error);
-                  //console.error('createEntry error = ' + JSON.stringify(error));
-
-                });
-                console.log("createEntry updateList Response Done");
-              });
-            },
-            function (error) {
-              defer.reject(error);
-            });
-
-        return defer.promise;
-      };
-
       /*****************************************************************************************************************
        * this function syncs all entries related to a single list
        * @param listServerId
@@ -636,6 +572,47 @@ angular.module('starter.services')
       };
 
 
+      /*-------------------------------------------------------------------------------------*/
+      /* deactivate item from list from the local db*/
+      function deleteEntry(entry, mode) {
+        var deferred = $q.defer();
+        //hiding the entry from display
+        global.db.transaction(function (tx) {
+            var deleteQuery = "update entry set deleted = 'Y', flag = 'E' where entryLocalId = ?";
+            tx.executeSql(deleteQuery, [entry.entryLocalId], function (tx, res) {
+              //console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
+              /* ret.rowsAffected = res.rowsAffected;*/
+              maintainGlobalEntries(entry, 'OPEN', 'DELETE');
+              deferred.resolve(res);
+            }, function (err) {
+              console.error("localEntryHandlerV2.deleteEntry  deleteQuery err " + err.message);
+              deferred.reject(err);
+            });
+          }
+          ,
+          function (err) {
+            deferred.reject(err);
+          }
+        );
+        return deferred.promise;
+      }
+
+      function deleteLocalEntry(entry) {
+        var defer = $q.defer();
+        deleteEntry(entry, 'L').then(function () {
+          syncDeletesUpstream().then(function () {
+            defer.resolve();
+          }, function () {
+            console.error('deleteLocalEntry syncDeletesUpstream error');
+            defer.reject();
+          });
+        }, function () {
+          console.error('deleteLocalEntry error');
+          defer.reject();
+        });
+        return defer.promise;
+      }
+
       function crossLocalEntry(entry) {
         var defer = $q.defer();
         crossEntry(entry, 'L').then(function () {
@@ -859,6 +836,31 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+      function syncBackDeletes(deletes) {
+        var defer = $q.defer();
+
+        var data = {
+          userServerId: global.userServerId,
+          deviceServerId: global.deviceServerId
+        };
+
+        data.entryDeletes = deletes.map(function (del) {
+          return del._id;
+        });
+
+        console.log('syncBackDeletes data = ' + data);
+        $http.post(global.serverIP + '/api/entry/syncDeletesBack', data).then(function (res) {
+//          console.log('syncBackCrossings server reply = ' + JSON.stringify(res));
+          defer.resolve(res);
+        }, function (err) {
+          console.error('syncBackDeletes server error ' + err.message);
+          defer.reject(err);
+        });
+
+        return defer.promise;
+      }
+
+
       function syncBackSeens(seens) {
         var defer = $q.defer();
 
@@ -1067,6 +1069,46 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+      function syncDeletesDownstream(entryDelete) {
+        var defer = $q.defer();
+
+        var data = {
+          deviceServerId: global.deviceServerId
+        };
+        var myPromise;
+        if (entryDelete) {
+          myPromise = $q.resolve({
+            data: [{
+              entryServerId: entryDelete.entryServerId,
+              _id: entryDelete._id
+            }]
+          });
+        } else {
+          myPromise = $http.post(global.serverIP + '/api/entry/getDeletes', data);
+        }
+        myPromise.then(function (res) {
+
+            var deletePromises = [];
+            res.data.forEach(function (entry) {
+              getEntryFromLocalDB(entry.entryServerId).then(function (res) {
+                deleteEntry(res, 'S');
+              });
+            });
+
+            if (res.data.length > 0) {
+              syncBackDeletes(res.data).then(function (res1) {
+                buildAffectedLists(res.data).then(function (res2) {
+                  //updateListNotificationCount('crossCount', res2);
+                  defer.resolve(res2);
+                }, function (err) {
+                  console.error('syncDeletesDownstream buildAffectedLists err');
+                });
+              });
+            }
+          }
+        );
+        return defer.promise;
+      }
 
       function syncSeenDownstream(entryUpdate) {
         var defer = $q.defer();
@@ -1160,7 +1202,34 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function syncSeenUptreamUpdateLocalAfterServer(seenIds) {
+    function syncDeletesUptreamUpdateLocalAfterServer(deleteIds) {
+      var defer = $q.defer();
+
+      global.db.transaction(function (tx) {
+
+        //TODO consider the new flag of origin
+        var query = "update entry set flag = 'S' where entryServerId in ( ";
+        query = deleteIds.reduce(function (query, del) {
+          return query + "'" + del + "', ";
+        }, query);
+
+        query = query.substr(0, query.length - 2) + ')';
+        console.log("syncDeletesUptreamUpdateLocalAfterServer query = " + query);
+
+        tx.executeSql(query, []);
+      }, function (err) {
+        console.error("syncDeletesUptreamUpdateLocalAfterServer DB error " + err);
+        defer.reject(err);
+      }, function () {
+        console.log("syncDeletesUptreamUpdateLocalAfterServer DB update OK ");
+        defer.resolve();
+      });
+
+      return defer.promise;
+    }
+
+
+    function syncSeenUptreamUpdateLocalAfterServer(seenIds) {
         var defer = $q.defer();
 
         global.db.transaction(function (tx) {
@@ -1182,6 +1251,32 @@ angular.module('starter.services')
           console.log("syncSeenUptreamUpdateLocalAfterServer DB update OK ");
         });
 
+        return defer.promise;
+      }
+
+
+      function syncDeletesUptreamUpdateServer(listServerId, deleteIds) {
+        var defer = $q.defer();
+
+        var data = {
+          deviceServerId: global.deviceServerId,
+          userServerId: global.userServerId,
+          listServerId: listServerId,
+          entries: deleteIds
+        };
+
+        $http.post(global.serverIP + '/api/entry/deletemany', data).then(function (res) {
+          syncDeletesUptreamUpdateLocalAfterServer(deleteIds).then(function (res) {
+            console.log('syncDeletesUptreamUpdateServer syncCrossingsUptreamUpdateLocalAfterServer called successfully');
+            defer.resolve(res);
+          }, function (err) {
+            console.error('syncDeletesUptreamUpdateServer syncCrossingsUptreamUpdateLocalAfterServer ERR');
+            defer.reject();
+          })
+        }, function (err) {
+//          console.error('syncCrossingsUptreamUpdateServer server err ' + JSON.stringify(err));
+          defer.reject();
+        });
         return defer.promise;
       }
 
@@ -1277,6 +1372,48 @@ angular.module('starter.services')
         return defer.promise;
       }
 
+      function syncDeletesUptreamperList(listServerId) {
+        var defer = $q.defer();
+        console.log('syncDeletesUptreamperList started');
+        global.db.transaction(function (tx) {
+          var query = "select entry.entryServerId " +
+            "from entry, list " +
+            "where entry.listLocalId = list.listLocalId " +
+            "and entry.deleted = 'Y' " +
+            "and ifnull(entry.entryServerId,'') <> '' " +
+            "and entry.flag = 'E'" +
+            "and list.listServerId = '" + listServerId.listServerId + "'";
+
+          console.log('syncDeletesUptreamperList query = ' + query);
+          console.log('syncDeletesUptreamperList listServerId = ' + listServerId.listServerId);
+          tx.executeSql(query, [], function (tx, res) {
+            var deletesIds = [];
+            console.log("syncDeletesUptreamperList res.rows.length = " + res.rows.length);
+            for (var i = 0; i < res.rows.length; i++) {
+              deletesIds.push(res.rows.item(i).entryServerId);
+            }
+//            console.log('syncCrossingsUptreamperList  crossedIds ' + JSON.stringify(crossedIds));
+            syncDeletesUptreamUpdateServer(listServerId.listServerId, deletesIds).then(function () {
+              console.log('syncDeletesUptreamperList  called successfully');
+              defer.resolve();
+            }, function (err) {
+//              console.error('syncCrossingsUptreamperList  syncCrossingsUptreamUpdateServer ' + JSON.stringify(err));
+              defer.reject();
+            })
+          }, function (err) {
+//            console.error('syncCrossingsUptreamperList  db query err ' + JSON.stringify(err));
+            defer.reject();
+          });
+        }, function (err) {
+//          console.error('syncCrossingsUptreamperList  db err ' + JSON.stringify(err));
+          defer.reject();
+        }, function (res) {
+
+        });
+        return defer.promise;
+      }
+
+
 
       function syncCrossingsUpstream() {
         var defer = $q.defer();
@@ -1331,6 +1468,61 @@ angular.module('starter.services')
         );
         return defer.promise;
       }
+
+      function syncDeletesUpstream() {
+        var defer = $q.defer();
+        console.log('syncDeletesUpstream started');
+        global.db.transaction(function (tx) {
+            var query = "select distinct list.listServerId " +
+              "from entry, list " +
+              "where entry.listLocalId = list.listLocalId " +
+              "and entry.deleted = 'Y' " +
+              "and entry.entryServerId <> '' " +
+              "and entry.flag = 'E'";
+
+            console.log('syncDeletesUpstream query = ' + query);
+            tx.executeSql(query, [], function (tx, res) {
+              var crossedListId = [];
+              console.log("syncDeletesUpstream res.rows.length = " + res.rows.length);
+              if (res.rows.length > 0) {
+                var promises = [];
+                for (var i = 0; i < res.rows.length; i++) {
+//                  console.log('syncCrossingsUptream  crossedListId ' + JSON.stringify(res.rows.item(i)));
+                  promises.push(syncDeletesUptreamperList(res.rows.item(i)));
+                }
+
+//                console.log("syncCrossingsUptream promises = " + JSON.stringify(promises));
+                $q.all(promises).then(function (res) {
+//                  console.log('syncCrossingsUptream  $q.all resolved ' + JSON.stringify(res));
+                  defer.resolve();
+                }, function (err) {
+                  console.error('syncDeletesUpstream  $q.all err ' + JSON.stringify(err));
+                  defer.reject(err);
+                });
+              }
+              else {
+                defer.resolve();
+              }
+            }, function (err) {
+              console.error('syncDeletesUpstream  db query err ' + JSON.stringify(err));
+              defer.reject(err);
+            });
+          }
+
+          ,
+          function (err) {
+            console.error('syncDeletesUpstream  db err ' + JSON.stringify(err));
+            defer.reject(err);
+          }
+
+          ,
+          function (res) {
+
+          }
+        );
+        return defer.promise;
+      }
+
 
       function syncSeensUpstream() {
         var defer = $q.defer();
@@ -1480,7 +1672,6 @@ angular.module('starter.services')
 
 
       return {
-        createEntry: createEntry,
         addEntry: addEntry,
         syncEntriesUpstream: synEntriesUpstream,
         syncCrossingsUpstream: syncCrossingsUpstream,
@@ -1488,7 +1679,9 @@ angular.module('starter.services')
         syncSeenDownstream: syncSeenDownstream,
         syncEntrieDownstream: syncEntriesDownstream,
         syncCrossingsDownstream: syncCrossingsDownstream,
+        syncDeletesDownstream: syncDeletesDownstream,
         crossLocalEntry: crossLocalEntry,
+        deleteLocalEntry: deleteLocalEntry,
         syncDeliveryDownstream: syncDeliveryDownstream,
         syncUpdatesUpstream: syncUpdatesUpstream,
         syncUpdatesDownstream: syncUpdatesDownstream,
