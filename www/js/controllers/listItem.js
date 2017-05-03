@@ -110,11 +110,6 @@ angular.module('starter.controllers')
         });
     };
     /*------------------------------------------------------------------*/
-    /*Check if all items in category are checked*/
-    $scope.allListItemCategoryCrossed = function (category) {
-      return localEntryHandlerV2.allListItemCategoryCrossed($scope.entries.listOpenEntries, category);
-    };
-    /*------------------------------------------------------------------*/
     /*Check item in list*/
     $scope.itemChecked = function (listItem) {
       console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));

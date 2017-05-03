@@ -206,23 +206,6 @@ angular.module('starter.services')
         return getCheckedItem(listLocalId);
       }
 
-      /**************************************************************************************************
-       * this function checks if all the entries belonging to the category are crossed
-       * @param selectedItems
-       * @param category
-       * @returns {boolean}
-       */
-      function allCategoryEntriesCrossed(entryList, category) {
-
-        for (var i = 0; i < entryList.length; i++) {
-          if (entryList[i].categoryName == category && entryList[i].entryCrossedFlag == 0) {
-            return false;
-            break;
-          }
-        }
-        return true;
-      }
-
       /*******************************************************************************************************************
        *
        * @param entry
@@ -252,7 +235,6 @@ angular.module('starter.services')
       /*-------------------------------------------------------------------------------------*/
       return {
         addItemToList: serverHandlerEntryV2.addEntry,
-        allListItemCategoryCrossed: allCategoryEntriesCrossed,
         checkItem: serverHandlerEntryV2.crossLocalEntry,
         unCheckItem: repeatEntry,
         deactivateItem: serverHandlerEntryV2.deleteLocalEntry,
