@@ -1,3 +1,6 @@
+/**
+ * Created by Abdul Rahman on 5/2/2017.
+ */
 angular.module('starter.services')
 
 //TODO Move some code to Global area
@@ -6,7 +9,7 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('serverHandlerEntryV2', function ($http, global, $q, serverHandlerItemsV2, $state, serverHandlerListV2, serverHandlerRetailerV2, dbHelper) {
+  .factory('serverHandlerEntryEvents', function ($http, global, $q, serverHandlerItemsV2, $state, serverHandlerListV2, serverHandlerRetailerV2, dbHelper) {
 
       function getCategoryCount(categoryName) {
         return global.currentListEntries.listOpenEntries.entries.filter(function (entry) {
@@ -1202,34 +1205,34 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-    function syncDeletesUptreamUpdateLocalAfterServer(deleteIds) {
-      var defer = $q.defer();
+      function syncDeletesUptreamUpdateLocalAfterServer(deleteIds) {
+        var defer = $q.defer();
 
-      global.db.transaction(function (tx) {
+        global.db.transaction(function (tx) {
 
-        //TODO consider the new flag of origin
-        var query = "update entry set flag = 'S' where entryServerId in ( ";
-        query = deleteIds.reduce(function (query, del) {
-          return query + "'" + del + "', ";
-        }, query);
+          //TODO consider the new flag of origin
+          var query = "update entry set flag = 'S' where entryServerId in ( ";
+          query = deleteIds.reduce(function (query, del) {
+            return query + "'" + del + "', ";
+          }, query);
 
-        query = query.substr(0, query.length - 2) + ')';
-        console.log("syncDeletesUptreamUpdateLocalAfterServer query = " + query);
+          query = query.substr(0, query.length - 2) + ')';
+          console.log("syncDeletesUptreamUpdateLocalAfterServer query = " + query);
 
-        tx.executeSql(query, []);
-      }, function (err) {
-        console.error("syncDeletesUptreamUpdateLocalAfterServer DB error " + err);
-        defer.reject(err);
-      }, function () {
-        console.log("syncDeletesUptreamUpdateLocalAfterServer DB update OK ");
-        defer.resolve();
-      });
+          tx.executeSql(query, []);
+        }, function (err) {
+          console.error("syncDeletesUptreamUpdateLocalAfterServer DB error " + err);
+          defer.reject(err);
+        }, function () {
+          console.log("syncDeletesUptreamUpdateLocalAfterServer DB update OK ");
+          defer.resolve();
+        });
 
-      return defer.promise;
-    }
+        return defer.promise;
+      }
 
 
-    function syncSeenUptreamUpdateLocalAfterServer(seenIds) {
+      function syncSeenUptreamUpdateLocalAfterServer(seenIds) {
         var defer = $q.defer();
 
         global.db.transaction(function (tx) {

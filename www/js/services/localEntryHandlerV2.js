@@ -208,48 +208,6 @@ angular.module('starter.services')
         return getCheckedItem(listLocalId);
       }
 
-      /**************************************************************************************************
-       * this function checks if all the entries belonging to the category are crossed
-       * @param selectedItems
-       * @param category
-       * @returns {boolean}
-       */
-      function allCategoryEntriesCrossed(entryList, category) {
-
-        for (var i = 0; i < entryList.length; i++) {
-          if (entryList[i].categoryName == category && entryList[i].entryCrossedFlag == 0) {
-            return false;
-            break;
-          }
-        }
-        return true;
-      }
-
-      /*-------------------------------------------------------------------------------------*/
-      /* deactivate item from list from the local db*/
-      function deleteEntry(entry, list) {
-        var deferred = $q.defer();
-        //hiding the entry from display
-        global.db.transaction(function (tx) {
-            var deleteQuery = "update entry set deleted = 'Y' where entryLocalId = ?";
-            tx.executeSql(deleteQuery, [entry.entryLocalId], function (tx, res) {
-              //console.log("localEntryHandlerV2.deactivateItem  deleteQuery res " + JSON.stringify(res));
-              /* ret.rowsAffected = res.rowsAffected;*/
-              serverHandlerEntryV2.maintainGlobalEntries(entry, list, 'DELETE');
-              deferred.resolve(res);
-            }, function (err) {
-              console.error("localEntryHandlerV2.deleteEntry  deleteQuery err " + err.message);
-              deferred.reject(err);
-            });
-          }
-          ,
-          function (err) {
-            deferred.reject(err);
-          }
-        );
-        return deferred.promise;
-      }
-
       /*******************************************************************************************************************
        *
        * @param entry
@@ -308,10 +266,9 @@ angular.module('starter.services')
       /*-------------------------------------------------------------------------------------*/
       return {
         addItemToList: serverHandlerEntryV2.addEntry,
-        allListItemCategoryCrossed: allCategoryEntriesCrossed,
         checkItem: serverHandlerEntryV2.crossLocalEntry,
         unCheckItem: repeatEntry,
-        deactivateItem: deleteEntry,
+        deactivateItem: serverHandlerEntryV2.deleteLocalEntry,
         updateEntry: updateEntry,
         buildListEntries: buildListEntries,
         getSuggestedItem:getSuggestedItem

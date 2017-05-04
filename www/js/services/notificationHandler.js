@@ -35,6 +35,25 @@ angular.module('starter.services')
             });
             break;
 
+          case "DELETED":
+            serverHandlerEntryV2.syncDeletesDownstream(msg.additionalData.details).then(function (affectedLists) {
+              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "DELETE ENTRY");
+              console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
+              console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
+              console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
+              /*
+               if ($state.current.name == "item") {
+               if (affectedLists.filter(function (list) {
+               return list.listLocalId == $state.params.listId;
+               }).length > 0) {
+               $state.reload();
+               }
+               }
+               */
+            });
+            break;
+
+
           case "DELIVERED":
             serverHandlerEntryV2.syncDeliveryDownstream(msg.additionalData.details).then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
