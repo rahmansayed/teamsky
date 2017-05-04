@@ -19,7 +19,7 @@ angular.module('starter.services')
     var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
     var currentList = {};
 
-    var suggestedItem = {suggsted:[]};
+    var suggestedItem = {suggested:[]};
 
     function initialize() {
       global.db.transaction(function (tx) {

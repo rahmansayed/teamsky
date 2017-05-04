@@ -12,6 +12,8 @@ angular.module('starter.controllers')
     // $scope.listItems = [];
     // $scope.checkedItems = [];
     $scope.retailers = [];
+    $scope.suggestedItem = [];
+
 
     localUOMHandlerV2.getAllUOMs().then(function (uoms) {
       $scope.uoms = uoms;
@@ -54,6 +56,8 @@ angular.module('starter.controllers')
 
     localEntryHandlerV2.buildListEntries(global.currentList.listLocalId).then(function () {
       $scope.entries = global.currentListEntries;
+      $scope.suggestedItem = global.suggestedItem.suggested;
+      console.log('4/5/2017 - $scope.suggestedItem = ' + JSON.stringify($scope.suggestedItem));    
     });
 
     /*------------------------------------------------------------------*/

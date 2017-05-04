@@ -59,10 +59,10 @@
             <ion-list id="suggestList" >
               <ion-item 
                         class="item"
-                        ng-repeat="retailer in retailerList"
+                        ng-repeat="item in suggestedItem"
                         ng-click="selectItems(item)"
                         style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
-                        >{{retailer.retailerName}}
+                        >{{item.itemName}}
                         
 
               </ion-item>

@@ -188,7 +188,7 @@ angular.module('starter.services')
           global.currentListLocalId = listLocalId;
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
-          global.suggestedItem.suggsted = res[2];
+          global.suggestedItem.suggested = res[2];
           console.log('buildListEntries global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
           console.log('4/5/2017 - aalatief - suggested Items:  ' + JSON.stringify(global.suggestedItem));
           defer.resolve();
