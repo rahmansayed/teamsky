@@ -51,9 +51,43 @@
                              icon="ion-plus-round larger" icon-color="#fff"
                              ng-show="!data.items.length && data.search.length >2">
         </ion-floating-button>
+        
+          
+          
+          <ion-content id="suggestContent" class="padding" style="z-index:4;height:50%;margin-left:80%;">
+                 <div id="suggest" style="height:50%;position:fixed;top:50%;left: 100%;bottom:50%;z-index: 3;opacity: 0.95;width:80%;">
+            <ion-list id="suggestList" >
+              <ion-item 
+                        class="item"
+                        ng-repeat="retailer in retailerList"
+                        ng-click="selectItems(item)"
+                        style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
+                        >{{retailer.retailerName}}
+                        
 
+              </ion-item>
 
-        <ion-content class="padding">
+            </ion-list>
+           
+          </div>
+            <div id="suggestButton" style="position:fixed;top:90px;left:80%;z-index: 2;">
+            <button class="button button-balanced ion-chevron-left larger padding text-left"
+                    ng-click="openSuggest()"
+                    ng-show="!closeButton"
+                    style="background-color:rgba(0, 0, 0, 0.75); border-top-left-radius:100px;border-bottom-left-radius:100px;height:100px;width:5px;"></button>
+          </div>
+        
+         <div id="suggestButtonClose" style="position:fixed;top:110px;left: 95%;z-index: 1;">
+            <button class="button button-balanced ion-chevron-right larger padding text-left"
+                    ng-click="closeSuggest()"
+                    ng-show="closeButton"
+                    style="background-color:rgba(0, 0, 0, 0.75); border-top-left-radius:100px;border-bottom-left-radius:100px;height:100px;width:5px;"></button>
+          </div>
+          </ion-content>
+          
+          
+
+        <ion-content class="padding" >
           <div id="bg">
             <img src="img\grocery.jpg" alt="" style="opacity=0.5">
           </div>
@@ -61,12 +95,12 @@
           <!--    <ion-refresher on-refresh="refresh()">
 
               </ion-refresher>-->
-          <div style=" position: absolute;z-index: 2;opacity: 0.8;width:80%">
+          <div style="position: absolute;z-index: 2;opacity: 0.95;width:80%;">
             <ion-list>
               <ion-item class="item"
                         ng-repeat="item in data.items"
                         ng-click="selectItems(item)"
-                        style="background-color:rgba(0, 0, 0, 0.5);color:white;width:100%"
+                        style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
                         >{{item.itemName}}
                         
 
@@ -76,11 +110,12 @@
 
             </ion-list>
           </div>
+       
 
+
+               
 
           <ion-list show-reorder="reorderFlag" style="position: absolute;z-index: 1;width:100%">
-
-
             <div class="list">
               <ion-list show-reorder="reorderFlag" show-delete="data.showDelete">
 

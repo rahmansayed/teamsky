@@ -435,7 +435,28 @@ angular.module('starter.controllers')
       showDelete: false
     };
 
+    $scope.closeButton = false;
 
+    $scope.openSuggest = function (){
+        
+      document.getElementById('suggest').style.cssText ='position:fixed;top:150%;left: 25%;z-index: 3;opacity: 0.95;width:80%;';
+      document.getElementById('suggestButton').style.cssText ='position:fixed;top:110px;left: 45%;z-index: 1;';
+      document.getElementById('suggestContent').style.cssText ='z-index:4;height:50%;margin-left:40%;'; 
+      document.getElementById('suggestButtonClose').style.cssText ='position:fixed;top:110px;left: 18%;z-index: 2;';
+      document.getElementById('suggestList').style.cssText ='margin-left:10%';
+      $scope.closeButton = true;
+        
+    };
+    
+        $scope.closeSuggest = function (){
+        
+      document.getElementById('suggest').style.cssText ='position:fixed;top:150%;left: 100%;z-index: 3;opacity: 0.95;width:80%;';
+      document.getElementById('suggestButton').style.cssText ='position:fixed;top:110px;left: 80%;z-index: 2;';
+      document.getElementById('suggestContent').style.cssText ='z-index:4;height:50%;margin-left:80%;';  
+      document.getElementById('suggestButtonClose').style.cssText ='position:fixed;top:110px;left: 95%;z-index: 1;';
+      //document.getElementById('suggestList').style.cssText ='width;';   
+      $scope.closeButton = false;
+    };
     //This will show the entry DIV by default.
 
 
