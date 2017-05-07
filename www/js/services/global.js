@@ -20,6 +20,7 @@ angular.module('starter.services')
     var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
     var currentList = {};
 
+    var suggestedItem = {suggested:[]};
 
     function initialize() {
       global.db.transaction(function (tx) {
@@ -42,6 +43,7 @@ angular.module('starter.services')
       deviceUUID: deviceUUID,
       currentListEntries: currentListEntries,
       currentList: currentList,
+      suggestedItem:suggestedItem,
       simCountry: simCountry
     };
   });

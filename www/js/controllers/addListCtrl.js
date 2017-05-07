@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
   .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler) {
     $scope.dynamicTitle = 'Create new list';
-
+    $scope.list = {};
 
     /*Share with Contact */
 
@@ -39,7 +39,8 @@ angular.module('starter.controllers')
     };
 
     $scope.saveList = function (list) {
-              if    (!list)  {
+              if    (!list.listName)  {
+                console.log('4/5/2017 - List: '+JSON.stringify(list));  
            document.getElementById('listError').innerHTML = "*You must enter list name.";
     
       }  
@@ -48,6 +49,7 @@ angular.module('starter.controllers')
       console.log('aalatief - Entered List: '+JSON.stringify(list));
       localListHandlerV2.addNewList(list)
         .then(function (insertId) {
+            console.log('4/5/2017 - List: '+JSON.stringify(list));  
             console.log('aalatief: List insertId:' + JSON.stringify(insertId));
             list.listLocalId = insertId;
             //Server Call for Create List in Server DB

@@ -184,11 +184,13 @@ angular.module('starter.services')
       };
       function buildListEntries(listLocalId) {
         var defer = $q.defer();
-        $q.all([getAllEntry(listLocalId), getCheckedItem(listLocalId)]).then(function (res) {
+        $q.all([getAllEntry(listLocalId), getCheckedItem(listLocalId),getSuggestedItem()]).then(function (res) {
           global.currentListLocalId = listLocalId;
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
+          global.suggestedItem.suggested = res[2];
           console.log('buildListEntries global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
+          console.log('4/5/2017 - aalatief - suggested Items:  ' + JSON.stringify(global.suggestedItem));
           defer.resolve();
         });
 
@@ -232,6 +234,35 @@ angular.module('starter.services')
         );
         return deferred.promise;
       };
+//----------------------------------------------------------
+    /*Return all checked entries in array checkedItems*/
+      function getSuggestedItem() {
+        var deferred = $q.defer();
+
+        global.db.transaction(function (tx) {
+          var query = "select * from masterItem order by itemPriority limit 5" ;
+
+          console.log("localEntryHandlerV2.getSuggestedItem query res = " + query);
+          
+         //settings.getSettingValue('language').toUpperCase().substr(0, 2));
+
+          tx.executeSql(query, [], function (tx, res) {
+
+            var suggestedEntries = [];
+            for (var i = 0; i < res.rows.length; i++) {
+              suggestedEntries.push(res.rows.item(i));
+            }
+            deferred.resolve(suggestedEntries);
+          }, function (err) {
+            console.error("localEntryHandlerV2.getSuggestedItem query err = " + err.message);
+          });
+        }, function (err) {
+          console.error("localEntryHandlerV2.getSuggestedItem query err = " + err.message);
+        }, function () {
+        });
+
+        return deferred.promise;
+      };
       /*-------------------------------------------------------------------------------------*/
       return {
         addItemToList: serverHandlerEntryV2.addEntry,
@@ -239,7 +270,8 @@ angular.module('starter.services')
         unCheckItem: repeatEntry,
         deactivateItem: serverHandlerEntryV2.deleteLocalEntry,
         updateEntry: updateEntry,
-        buildListEntries: buildListEntries
+        buildListEntries: buildListEntries,
+        getSuggestedItem:getSuggestedItem
 
       };
     }
