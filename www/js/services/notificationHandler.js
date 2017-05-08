@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerListV2, $location, $state, contactHandler, settings) {
+  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerEntryEvents, serverHandlerListV2, $location, $state, contactHandler, settings) {
 
       function handleNotification(msg) {
         console.log('notificationHandler msg = ' + JSON.stringify(msg));
@@ -18,8 +18,8 @@ angular.module('starter.services')
             });
             break;
           case "CROSSED":
-            serverHandlerEntryV2.syncCrossingsDownstream(msg.additionalData.details).then(function (affectedLists) {
-              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
+            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'CROSS').then(function (affectedLists) {
+              serverHandlerEntryEvents.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -36,8 +36,8 @@ angular.module('starter.services')
             break;
 
           case "DELETED":
-            serverHandlerEntryV2.syncDeletesDownstream(msg.additionalData.details).then(function (affectedLists) {
-              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "DELETE ENTRY");
+            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'DELETE').then(function (affectedLists) {
+              serverHandlerEntryEvents.maintainGlobalLists(affectedLists[0], "DELETE ENTRY");
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -55,7 +55,7 @@ angular.module('starter.services')
 
 
           case "DELIVERED":
-            serverHandlerEntryV2.syncDeliveryDownstream(msg.additionalData.details).then(function (affectedLists) {
+            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'DELIVER').then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -70,7 +70,7 @@ angular.module('starter.services')
             break;
 
           case "SEEN":
-            serverHandlerEntryV2.syncSeenDownstream(msg.additionalData.details).then(function (affectedLists) {
+            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'SEEN').then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -133,13 +133,14 @@ angular.module('starter.services')
                       }
                     }
                   }
-                  serverHandlerEntryV2.syncCrossingsDownstream().then(function (affectedLists) {
+
+                  serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS').then(function (affectedLists) {
                     console.log('syncCrossingsDownstream affectedLists = ' + JSON.stringify(affectedLists));
                   });
-                  serverHandlerEntryV2.syncDeliveryDownstream().then(function (affectedLists) {
+                  serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
                     console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
                   });
-                  serverHandlerEntryV2.syncSeenDownstream().then(function (affectedLists) {
+                  serverHandlerEntryEvents.syncEventDownstream(null, 'SEEN').then(function (affectedLists) {
                     console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
                   });
                   serverHandlerEntryV2.syncUpdatesDownstream().then(function (affectedLists) {

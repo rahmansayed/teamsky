@@ -30,8 +30,6 @@ angular.module('starter', ['ionic',
 
         dbHandler.initDB()
           .then(function (result) {
-
-
               settings.getUserSetting()
                 .then(function (result) {
                     $translate.use(settings.getSettingValue('language').substr(0, 2));

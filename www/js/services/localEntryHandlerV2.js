@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2, settings) {
+  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2, settings, serverHandlerEntryEvents) {
 
       var selected = [];
       var items = [];
@@ -53,7 +53,7 @@ angular.module('starter.services')
 
           //update seen status
           global.db.transaction(function (tx) {
-              var query2 = "update entry set seenFlag = 1 where origin = 'S' and seenFlag = 0 and listLocalId = ?";
+              var query2 = "update entry set seenFlag = 1, flag='E' where origin = 'S' and seenFlag = 0 and listLocalId = ?";
               tx.executeSql(query2, [listId]);
               var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 where listLocalId = ?";
               tx.executeSql(query3, [listId]);
@@ -61,7 +61,7 @@ angular.module('starter.services')
               console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
             },
             function () {
-              serverHandlerEntryV2.syncSeensUpstream();
+              serverHandlerEntryEvents.syncEventUpstream('SEEN');
             });
         }, function (err) {
           console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
@@ -156,7 +156,7 @@ angular.module('starter.services')
           console.log('repeatEntry res = ' + JSON.stringify(res));
           serverHandlerEntryV2.syncEntriesUpstream();
         });
-        serverHandlerEntryV2.maintainGlobalEntries(entry, 'CROSSED', 'DELETE');
+        serverHandlerEntryV2.maintainGlobalEntries(entry, 'DELETE');
       };
       /*-------------------------------------------------------------------------------------*/
       /*delete entry*/
