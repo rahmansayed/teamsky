@@ -10,6 +10,11 @@ angular.module('starter.controllers')
       contactHandler.pickContact(list);
       $state.reload();
     };
+    
+    $scope.showAllContacts = function(){
+      contactHandler.chooseContact();
+      $state.reload();
+    };
     /*----------------------------------------------------------------------------------------*/
     /*set the color of the contact shown based on status*/
     $scope.setColor = function (status, element) {

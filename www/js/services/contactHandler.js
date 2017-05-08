@@ -162,6 +162,73 @@ angular.module('starter.services')
       return deferred.promise;
     }
 
+    var chooseContact = function () {
+
+      var deferred = $q.defer();
+
+      console.log("chooseContact ");
+
+      if (navigator && navigator.contacts) {
+        navigator.contacts.pickContact(function (contact) {
+            console.log("chooseContact contact = " + JSON.stringify(contact));
+            var newContact = {
+              "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
+              "emails": contact.emails || []/*,
+              "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null*/
+            };
+            newContact.numbers = (contact.phoneNumbers || []).map(function (phoneNumber) {
+              return formatPhoneNumber(phoneNumber.value);
+            });
+            // checking if the contact in the local db
+            getContactLocalId(newContact).then(function (resultContact) {
+              if (resultContact.contactLocalId != -1) {
+/*                addListContact(list.listLocalId, resultContact.contactLocalId).then(function () {
+                  addListContactUpstream(list, resultContact).then(function () {
+                    $state.reload();
+                  });
+                  deferred.resolve();
+                });*/
+               deferred.resolve();
+               console.log("chooseContact contact = " + JSON.stringify(contact));
+              }
+              else {
+                // check the contact status from the server
+                var prospect = {
+                  name: newContact.name,
+                  numbers: newContact.numbers
+                };
+
+                /*checkProspect(prospect, list.listServerId).then(function (contactServerId) {*/
+                  newContact.contactServerId = contactServerId;
+                  insertContact(newContact).then(function (resultContact2) {
+                    console.log("chooseContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
+                    // download contact photo if exists.
+                    downloadContactPhoto(contactServerId);
+                    /*addListContact(list.listLocalId, resultContact2.contactLocalId);*/
+                    //call the server invite API
+     /*               addListContactUpstream(list, resultContact2).then(function () {
+                      $state.reload();
+                    });*/
+                  });
+/*                }, function () {
+                  insertContact(newContact).then(function (resultContact2) {
+                    addListContact(list.listLocalId, resultContact2.contactLocalId);
+                  });
+                });*/
+              }
+            });
+
+            deferred.resolve();
+          }
+        );
+      }
+      else {
+        deferred.reject("No contacts in desktop browser");
+      }
+      return deferred.promise;
+    }
+    
+    
     function addListContact(listLocalId, contactLocalId) {
 
       var deferred = $q.defer();
@@ -403,6 +470,7 @@ angular.module('starter.services')
 
     return {
       pickContact: pickContact,
+      chooseContact:chooseContact,
       formatPhoneNumber: formatPhoneNumber,
       addListContact: addListContact,
       addListContactUpstream: addListContactUpstream,

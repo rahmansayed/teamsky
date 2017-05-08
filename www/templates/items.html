@@ -53,8 +53,8 @@
         </ion-floating-button>
         
           
-          
-          <ion-content id="suggestContent" class="padding" style="z-index:4;height:50%;margin-left:80%;">
+<!--          items suggest section
+          <ion-content id="suggestContent" class="padding" style="z-index:4;height:50%;margin-left:95%;background-color:yellow;">
                  <div id="suggest" style="height:50%;position:fixed;top:50%;left: 100%;bottom:50%;z-index: 3;opacity: 0.95;width:80%;">
             <ion-list id="suggestList" >
               <ion-item 
@@ -84,7 +84,7 @@
                     style="background-color:rgba(0, 0, 0, 0.75); border-top-left-radius:100px;border-bottom-left-radius:100px;height:100px;width:5px;"></button>
           </div>
           </ion-content>
-          
+          End items suggest section-->
           
 
         <ion-content class="padding" >
@@ -167,7 +167,8 @@
                     </div>
 
 
-                    <div ng-show="showItemDetails" class="no-padding" style="display:inline; float:right; ">
+                    <div ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline; float:right; ">
+        
                       <div align="right" ng-show="listItem.flag=='N'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>

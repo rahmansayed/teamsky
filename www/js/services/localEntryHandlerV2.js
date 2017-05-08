@@ -240,7 +240,7 @@ angular.module('starter.services')
         var deferred = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "select * from masterItem order by itemPriority limit 5" ;
+          var query = "select * from masterItem order by itemPriority limit 20" ;
 
           console.log("localEntryHandlerV2.getSuggestedItem query res = " + query);
           
