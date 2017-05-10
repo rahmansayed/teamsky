@@ -199,11 +199,11 @@ angular.module('starter.services')
                 };
 
                 /*checkProspect(prospect, list.listServerId).then(function (contactServerId) {*/
-                  newContact.contactServerId = contactServerId;
+                  //newContact.contactServerId = contactServerId;
                   insertContact(newContact).then(function (resultContact2) {
                     console.log("chooseContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
                     // download contact photo if exists.
-                    downloadContactPhoto(contactServerId);
+                    //downloadContactPhoto(contactServerId);
                     /*addListContact(list.listLocalId, resultContact2.contactLocalId);*/
                     //call the server invite API
      /*               addListContactUpstream(list, resultContact2).then(function () {
@@ -218,7 +218,7 @@ angular.module('starter.services')
               }
             });
 
-            deferred.resolve();
+            deferred.resolve(resultContact2);
           }
         );
       }

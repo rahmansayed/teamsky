@@ -119,6 +119,19 @@ angular.module('starter.controllers')
           //TODO go to lists only after succussfull verification
         });
     }
+    
+        $scope.getDirection = function (){
+        console.log('userSetting: ' + JSON.stringify(settings.userSetting));    
+        $scope.language = settings.getSettingValue('language'); 
+        console.log('getDirection: '+JSON.stringify( $scope.language));
+        if ( $scope.language == 'english'){
+            return {direction: "ltr"};
+        }
+        else{
+            return {direction: "rtl"};
+        }
+        
+    }
 
     $scope.resendVCode = function () {
         $scope.buttonEnabled=false;

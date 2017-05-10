@@ -72,8 +72,8 @@
               </div>
               <br>
               <div  style="padding-right:25px;" ng-show="showListDetails">
-                <div>
-                  <p ng-show="list.totalOpen!=0" style="text-align:left;white-space: normal;"> Total Items:
+                <div >
+                  <p ng-show="list.totalOpen!=0" style="white-space: normal;" ng-style="getDirection()"  translate> {{'TOTAl_ITEM'}}
                     {{list.totalOpen + list.totalCrossed }}
                     </p>
                   <div ng-show="list.totalOpen + list.totalCrossed!=0">
@@ -111,8 +111,8 @@
                             border-radius:15px;
                             box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);"
                        ng-show="list.totalOpen + list.totalCrossed==0">
-                    <p style="text-align:center;color:white;margin-top:4px">
-                      <i> No entries!</i>
+                    <p style="text-align:center;color:white;margin-top:4px" translate>
+                      <i> {{'NO_ENTRY'}}</i>
                     </p>
                   </div>
                 </div>

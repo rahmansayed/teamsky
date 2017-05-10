@@ -3,23 +3,23 @@
     <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
 <ion-nav-title translate> {{'WELCOME'}}</ion-nav-title>
-  <ion-content>
+  <ion-content >
     <div id="bg">
       <img src="img\grocery.jpg" alt="" style="opacity=0.5">
     </div>
 
-    <div class="col text-center" style="opacity=0;height:100px;">
+    <div class="col" style="opacity=0;height:100px;">
     </div>
-    <div>
+    <div ng-style="getDirection()">
 
-      <h1 class="text-center item"
-          style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
+      <h1 class="item"
+          style="font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
         <br>
         <strong translate>{{'SUBSCRIBE_NUMBER'}} </strong>
         <br>
         <br>
 
-        <p class="padding text-left " style="text-align:left;white-space: normal;" translate>
+        <p class="padding" style="white-space: normal;" ng-style="getDirection()" translate>
           {{'NOTE'}} </p>
         <br>
 
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div>
+    <div ng-style="getDirection()">
       <div class="item item-input item-select ">
         <div class="input-label">
           &nbsp;
@@ -39,7 +39,7 @@
 
       <div class="item item-input item-input">
         <!--<input type="text" ng-model="country.dial_code"  readonly="readonly" width="6">-->
-        <input type="tel" placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber" class="text-left" maxlength="11"
+        <input type="tel" placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber"  maxlength="11"
                minlenght="8" ng-required="true">
       </div>
         <div id="subscribeError" style="color:red;"></div>    
@@ -48,12 +48,12 @@
       <div style="color:red;" ng-show="showInitError"> *Please enter your phone number without the 0 in the beginning.</div>-->
       <!-- <p> {{ country | json}} </p>-->
     </div>
-    <div class="padding">
+    <div class="padding" ng-style="getDirection()">
       <button  class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
               ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})" translate>{{'SUBSCRIBE'}}
       </button>
 
-      <p class="padding text-left " style="text-align:left;white-space: normal;" translate>
+      <p class="padding " style="white-space: normal;"  translate>
         {{'REG_F_MSG1'}} </p>
     </div>
 

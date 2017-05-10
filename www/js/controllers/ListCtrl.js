@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,$ionicPopover,$translate) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,$ionicPopover,$translate,settings) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -216,6 +216,19 @@ angular.module('starter.controllers')
     $scope.popover = popover;
 
   });
+    
+            $scope.getDirection = function (){
+        console.log('userSetting: ' + JSON.stringify(settings.userSetting));    
+        $scope.language = settings.getSettingValue('language'); 
+        console.log('getDirection: '+JSON.stringify( $scope.language));
+        if ( $scope.language == 'english'){
+            return {direction: "ltr"};
+        }
+        else{
+            return {direction: "rtl"};
+        }
+        
+    }
   /*$scope.openPopover = function($event) {
 
     alert('Popover Show: '+JSON.stringify($event)   );

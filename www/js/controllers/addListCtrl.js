@@ -12,7 +12,11 @@ angular.module('starter.controllers')
     };
     
     $scope.showAllContacts = function(){
-      contactHandler.chooseContact();
+      contactHandler.chooseContact().then(function(contact){
+            
+      },function(){
+          
+      });
       $state.reload();
     };
     /*----------------------------------------------------------------------------------------*/

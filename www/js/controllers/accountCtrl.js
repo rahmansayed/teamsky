@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
+  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,settings) {
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
 
@@ -1179,4 +1179,16 @@ angular.module('starter.controllers')
     }
     }
 
+    $scope.getDirection = function (){
+        $scope.language = settings.getSettingValue('language'); 
+        console.log('getDirection: '+JSON.stringify( $scope.language));
+        if ( $scope.language == 'english'){
+            return {direction: "ltr"};
+        }
+        else{
+            return {direction: "rtl"};
+        }
+        
+    }
+   
   });

@@ -19,14 +19,15 @@
       <img src="img\grocery.jpg" alt="">
     </div>
     <div id="profile-bg"></div>
-    <div id="content">
+    <div id="content" ng-style="getDirection()">
       <img id="profile-info">
 
 
         <img id="profile-image" ng-src="{{userData.photo}}" ng-click="downloadPhoto()"></img>
 
         <button class="button button-balanced ion-camera larger padding text-center"
-                ng-click="openCamera()"
+                ng-click="openCamera()" 
+                
                 style=" border-radius: 50%;height:60px;width:60px;background-color:#941540;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"></button>
 
 
@@ -35,9 +36,9 @@
     </div>
 
     <br><br><br>
-    <div>
+    <div ng-style="getDirection()">
 
-      <label translate>DISPLAY_NAME</label>
+      <label translate >DISPLAY_NAME</label>
       <div class="item item-input has-float-label" style="font-size:100%;border-radius:15px;">
         <input type="text"
                placeholder="{{'ENTER_NAME' | translate}}"

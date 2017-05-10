@@ -7,17 +7,17 @@
         <div id="bg">
       <img src="img\grocery.jpg" alt="" style="opacity=0.5">
     </div>
-       <div class = "col text-center" style = "height:100px;opacity=0;">
+       <div class = "col" style = "height:100px;opacity=0;">
             </div>
-      <div>
+      <div ng-style="getDirection()">
 
-         <h1  class="text-center item" style="text-align:left; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
+         <h1  class="item" style="font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
             <br>
              <strong translate>{{'VER_F_MSG1'}} </strong>
             <br>
             <br>
 
-        <p class="padding text-left " style="text-align:left;white-space: normal;" translate>
+        <p class="padding" style="white-space: normal;" translate>
             {{'VER_F_MSG2'}} </p>
             <br>
 
@@ -25,24 +25,24 @@
       </div>
 
 
-      <label class="item item-input">
+      <label class="item item-input" ng-style="getDirection()">
       <input type="text" ng-model="vCode" placeholder="{{'REG_N_VERIFICATION_CODE' | translate}}" ng-required="true">
     </label>
 
-    <div >
+    <div ng-style="getDirection()">
       <button ng-show="vCode.length >3 "class="button button-block button-positive" style = "background-color:#941540;border-radius: 15px;" ng-click="verify(vCode)" translate>
         {{'VER_B_DONE'}}
       </button>
     </div>
-          <div >
+          <div ng-style="getDirection()">
       <button ng-hide="!buttonEnabled ||vCode.length >3" class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
               ng-click="resendVCode();" translate>{{'RESUBSCRIBE'}}
       </button>
     </div>
       <br><br>
-      <div ng-show="!buttonEnabled">
-        <span class="padding text-left " style="text-align:left;white-space: normal; border:0;" translate>
-            {{'VER_F_MSG3'}}</span><span id="countdown"> </span> seconds.
+      <div ng-show="!buttonEnabled" ng-style="getDirection()">
+        <span class="padding " style="white-space: normal; border:0;" translate>
+            {{'VER_F_MSG3'}}</span><span id="countdown"> </span> <span translate> {{'SECONDS'}}</span>
 
       </div>
     <!--<ion-input ng-model="settings.mobileNo">Mobile Number</ion-input>

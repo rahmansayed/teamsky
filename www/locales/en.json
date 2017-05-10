@@ -47,7 +47,10 @@
   "LANGUAGE_SELECT":"Select Language",
   "CHOOSE_PREFERRED_LANG":"Choose Preferred Language",
   "RESUBSCRIBE":"Resend Verification Code",  
-  "VER_F_MSG3":"You can request another verification code after"
+  "VER_F_MSG3":"You can request another verification code after",
+  "SECONDS":"seconds.",
+  "TOTAl_ITEM":"Total Items:",
+  "NO_ENTRY":"No Entries!"
     
 }
 
