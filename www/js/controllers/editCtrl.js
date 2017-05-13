@@ -71,7 +71,7 @@ angular.module('starter.controllers')
           function (index) {
             switch (index) {
               case 1:
-                localListHandlerV2.kickContact(list.listServerId,listUser.contactServerId)
+                localListHandlerV2.kickContact(list.listLocalId,listUser.contactLocalId)
                   .then(function (ret) {
                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                     $state.reload();
@@ -99,7 +99,7 @@ angular.module('starter.controllers')
         confirmPopup.then(function (res) {
             alert('delete'+listUser.contactName);
           if (res) {
-            localListHandlerV2.kickContact(listUser.listServerId,list.contactServerId)
+            localListHandlerV2.kickContact(listUser.listLocalId,list.contactLocalId)
               .then(function (ret) {
                 console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                 $state.reload();

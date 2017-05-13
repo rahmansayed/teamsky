@@ -204,14 +204,14 @@ angular.module('starter.services')
             for (i = 0; i < result.rows.length; i++) {
               var list = result.rows.item(i);
               var listDetails =
-                  {
-                    listLocalId: list.listLocalId,
-                    listName: list.listName,
-                    listDesc: list.listDesc,
-                    listColour: list.listColour,
-                    listOrder: list.listOrder
-                  }
-                ;
+                {
+                  listLocalId: list.listLocalId,
+                  listName: list.listName,
+                  listDesc: list.listDesc,
+                  listColour: list.listColour,
+                  listOrder: list.listOrder
+                }
+              ;
 
               console.log("serverHandlerListV2.syncListsUpstream calling createlist for " + JSON.stringify(listDetails));
               promises.push(createList(listDetails));
@@ -500,16 +500,45 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function kickContact(listServerId, contactServerId) {
+      function kickContact(listLocalId, contactLocalId) {
 
-        var data = {
-          listServerId: listServerId,
-          invitedUserServerId: contactServerId,
-          userServerId: global.userServerId,
-          deviceServerId: global.deviceServerId
-        };
+        var defer = $q.defer();
+        // retrieving the serverIds for the list and contact
+        // if the contact does not have a serverId, then send the phone numbers for the prospect
+        global.db.transaction(function (tx) {
+          var query = "select list.ListServerId, contact.contactServerId, phoneNumber, contactStatus" +
+            " from list, contact" +
+            " where list.listLocalId = ? " +
+            " and contact.contactLocalId = ?";
 
-        return $http.post(global.serverIP +"/api/list/kickContact", data);
+          tx.executeSql(query, [listLocalId, contactLocalId], function (tx, res) {
+            var data = {
+              listServerId: res.rows.item(0).listServerId,
+              invitedUserServerId: res.rows.item(0).contactServerId,
+              contactStatus: res.rows.item(0).contactStatus,
+              phoneNumber: res.rows.item(0).phoneNumber,
+              userServerId: global.userServerId,
+              deviceServerId: global.deviceServerId
+            };
+
+            $http.post(global.serverIP + "/api/list/kickContact", data).then(function (res) {
+              defer.resolve(res);
+            }, function (err) {
+              console.error('kickContact server error = ' + JSON.stringify(err));
+              defer.reject();
+            });
+          }, function (err) {
+            console.error('kickContact db query error = ' + JSON.stringify(err));
+            defer.reject();
+          });
+        }, function (err) {
+          console.error('kickContact db error = ' + JSON.stringify(err));
+          defer.reject();
+        }, function () {
+
+        });
+
+        return defer.promise;
       }
 
       return {

@@ -3,56 +3,6 @@ angular.module('starter.services')
   .factory('localListHandlerV2', function ($http, global, dbHandler, $q, serverHandlerListV2) {
 
     /******************************************************************************************************************
-     * returns the list identified by listLocalId
-     * @param listLocalId
-     */
-
-    function getSpecificList(listLocalId) {
-      var defer = $q.defer();
-      /* var specificList = [];*/
-      var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount , l.listOwnerServerId, count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
-        " from " +
-        " ( " +
-        "    (list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and ifnull(eo.deleted,'N') = 'N') " +
-        "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' " +
-        " ) " +
-        " where l.listLocalId = ? " +
-        " and ifnull(l.deleted, 'N') = 'N' " +
-        " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount, l.listOwnerServerId";
-
-      global.db.transaction(function (tx) {
-        tx.executeSql(query, [listLocalId], function (tx, res) {
-          console.log("localListHandlerV2.getSpecificList  success " + JSON.stringify(res.rows));
-
-          var getContactsQuery = "select c.contactName,c.contactServerId,c.photo,c.contactStatus " +
-            " from listUser as lu, contact as c " +
-            " where c.contactLocalId = lu.contactLocalId " +
-            " and lu.listLocalId = ?";
-          var list = res.rows.item(0);
-
-          list.contacts = new Array();
-          tx.executeSql(getContactsQuery, [list.listLocalId], function (tx, res2) {
-            console.log("getSpecificList list.item = " + JSON.stringify(list));
-            for (var j = 0; j < res2.rows.length; j++) {
-              list.contacts.push(res2.rows.item(j));
-            }
-            defer.resolve(list);
-          }, function (err) {
-            console.error("localListHandlerV2.getSpecificList  contacts query error " + err.message);
-            defer.reject(err);
-          });
-        }, function (err) {
-          console.error("localListHandlerV2.getSpecificList  main query error " + err.message);
-          defer.reject(err);
-        });
-      }, function (err) {
-        console.error("localListHandlerV2.getSpecificList  db error " + err.message);
-        defer.reject();
-      }, function () {
-      });
-      return defer.promise;
-    };
-    /******************************************************************************************************************
      * updates a specific list with the new values
      * @param list
      */
@@ -88,7 +38,7 @@ angular.module('starter.services')
      * @param list
      */
     function addNewList(list) {
-      console.log('aalatief - Entered List: '+JSON.stringify(list));
+      console.log('aalatief - Entered List: ' + JSON.stringify(list));
       var deferred = $q.defer();
       var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,newCount, crossCount, lastUpdateDate, lastUpdateBy, origin, flag, listOwnerServerId) " +
         "VALUES (null,?,?,'','','','N',0,0,?,?,'L', 'N', ?)";
@@ -147,9 +97,10 @@ angular.module('starter.services')
           for (var i = 0; i < res.rows.length; i++) {
             serverHandlerListV2.lists.lists.push(res.rows.item(i));
           }
-          var getContactsQuery = "select c.contactName,c.contactServerId,c.photo,c.contactStatus " +
+          var getContactsQuery = "select c.* " +
             " from listUser as lu, contact as c " +
             " where c.contactLocalId = lu.contactLocalId " +
+            " and ifnull(lu.deleted, 'N') = 'N' " +
             " and lu.listLocalId = ?";
 
           console.log("localListHandlerV2.getAllLists  lists " + JSON.stringify(serverHandlerListV2.lists));
@@ -262,32 +213,29 @@ angular.module('starter.services')
       return deferred.promise;
     }
 
-    function kickContact(listServerId, contactServerId) {
+    function kickContact(listLocalId, contactLocalId) {
       var defer = $q.defer();
 
       //calling the server first and delete record after successful server update
-      serverHandlerListV2.kickContact(listServerId, contactServerId).then(function () {
-        global.db.transaction(function (tx) {
-          var query = "delete from listUser " +
-            " where exists " +
-            " (select * " +
-            " from contact, list " +
-            " where list.listServerId = ? " +
-            " and contact.contactServerId = ? " +
-            " and listUser.listLocalId = list.listLocalId " +
-            " and listUser.contactLocalId = contact.contactLocalId " +
-            " )";
-          tx.executeSql(query, [listServerId, contactServerId]);
+      global.db.transaction(function (tx) {
+        var query = "update listUser set deleted = 'Y' where listLocalId = ? and contactLocalId = ?";
+        tx.executeSql(query, [listLocalId, contactLocalId], function (tx, res) {
+          console.log("kickContact db success");
+          serverHandlerListV2.kickContact(listLocalId, contactLocalId).then(function () {
+              var reflectServerStatusQuery = "listUser set deleted = 'S' where listLocalId = ? and contactLocalId = ?";
+              tx.executeSql(reflectServerStatusQuery, [listLocalId, contactLocalId]);
+            },
+            function (err) {
+              console.error("kickContact server error = " + err);
+              defer.reject();
+            });
         }, function (err) {
           console.error("kickContact db error = " + err.message);
           defer.reject();
-        }, function () {
-          console.log("kickContact db success");
-          defer.resolve();
         });
       }, function (err) {
-        console.error("kickContact server error = " + err);
-        defer.reject();
+      }, function () {
+        defer.resolve();
       });
       return defer.promise;
     }
@@ -298,7 +246,6 @@ angular.module('starter.services')
       getAllLists: getAllLists,
       addNewList: addNewList,
       updateList: update,
-      getSpecificList: getSpecificList,
       deactivateList: deactivateList,
       kickContact: kickContact,
       lists: serverHandlerListV2.lists

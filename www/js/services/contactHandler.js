@@ -48,6 +48,39 @@ angular.module('starter.services')
 
     };
 
+    function listContactsUpstreamer() {
+      var defer = $q.defer();
+      var promises = [];
+      global.db.transaction(function (tx) {
+        var query = "select l.*, c.*" +
+          " from list l, listUser lu, contact c" +
+          " where c.contactLocalId = lu.contactLocalId " +
+          " and l.listLocalId = lu.listLocalId " +
+          " and lu.flag = 'N' ";
+        tx.executeSql(query, function (tx, res) {
+          for (var i = 0; i < res.rows.length; i++) {
+            promises.push(addListContactUpstream({
+              listServerId: res.rows.item(i).listServerId
+            }, {
+              contactServerId: res.rows.item(i).contactServerId,
+              contactName: res.rows.item(i).contactName
+            }));
+          }
+          $q.all(promises).then(function () {
+            defer.resolve();
+          }, function () {
+            defer.reject();
+          })
+        });
+      }, function (err) {
+
+      }, function () {
+
+      });
+
+      return defer.promise;
+    }
+
     function addListContactUpstream(list, contact) {
       listDetail = {
         listServerId: list.listServerId,
@@ -110,7 +143,7 @@ angular.module('starter.services')
             var newContact = {
               "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
               "emails": contact.emails || []/*,
-              "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null*/
+               "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null*/
             };
             newContact.numbers = (contact.phoneNumbers || []).map(function (phoneNumber) {
               return formatPhoneNumber(phoneNumber.value);
@@ -120,6 +153,7 @@ angular.module('starter.services')
               if (resultContact.contactLocalId != -1) {
                 addListContact(list.listLocalId, resultContact.contactLocalId).then(function () {
                   addListContactUpstream(list, resultContact).then(function () {
+                    updateListUserStatusAfterSuccessfullServer();
                     $state.reload();
                   });
                   deferred.resolve();
@@ -141,6 +175,7 @@ angular.module('starter.services')
                     addListContact(list.listLocalId, resultContact2.contactLocalId);
                     //call the server invite API
                     addListContactUpstream(list, resultContact2).then(function () {
+                      updateListUserStatusAfterSuccessfullServer();
                       $state.reload();
                     });
                   });
@@ -162,6 +197,24 @@ angular.module('starter.services')
       return deferred.promise;
     }
 
+    function updateListUserStatusAfterSuccessfullServer(listLocalId, contactLocalId) {
+      var defer = $q.defer();
+      global.db.transaction(function (tx) {
+        var query = "update listUser " +
+          " set flag ='S' " +
+          " where listLocalId = ? " +
+          " and contactLocalId = ? ";
+        tx.executeSql(query, [list.listLocalId, resultContact2.contactLocalId]);
+      }, function (err) {
+        console.error("updateListUserStatusAfterSuccessfullServer error = " + err.message);
+        defer.reject();
+      }, function () {
+        defer.resolve();
+      });
+
+      return defer.promise;
+    }
+
     var chooseContact = function () {
 
       var deferred = $q.defer();
@@ -174,7 +227,7 @@ angular.module('starter.services')
             var newContact = {
               "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
               "emails": contact.emails || []/*,
-              "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null*/
+               "photos": contact.photos ? (contact.photos.length == 0 ? null : contact.photos[0].value) : null*/
             };
             newContact.numbers = (contact.phoneNumbers || []).map(function (phoneNumber) {
               return formatPhoneNumber(phoneNumber.value);
@@ -182,14 +235,14 @@ angular.module('starter.services')
             // checking if the contact in the local db
             getContactLocalId(newContact).then(function (resultContact) {
               if (resultContact.contactLocalId != -1) {
-/*                addListContact(list.listLocalId, resultContact.contactLocalId).then(function () {
-                  addListContactUpstream(list, resultContact).then(function () {
-                    $state.reload();
-                  });
-                  deferred.resolve();
-                });*/
-               deferred.resolve();
-               console.log("chooseContact contact = " + JSON.stringify(contact));
+                /*                addListContact(list.listLocalId, resultContact.contactLocalId).then(function () {
+                 addListContactUpstream(list, resultContact).then(function () {
+                 $state.reload();
+                 });
+                 deferred.resolve();
+                 });*/
+                deferred.resolve();
+                console.log("chooseContact contact = " + JSON.stringify(contact));
               }
               else {
                 // check the contact status from the server
@@ -199,22 +252,22 @@ angular.module('starter.services')
                 };
 
                 /*checkProspect(prospect, list.listServerId).then(function (contactServerId) {*/
-                  //newContact.contactServerId = contactServerId;
-                  insertContact(newContact).then(function (resultContact2) {
-                    console.log("chooseContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
-                    // download contact photo if exists.
-                    //downloadContactPhoto(contactServerId);
-                    /*addListContact(list.listLocalId, resultContact2.contactLocalId);*/
-                    //call the server invite API
-     /*               addListContactUpstream(list, resultContact2).then(function () {
-                      $state.reload();
-                    });*/
-                  });
-/*                }, function () {
-                  insertContact(newContact).then(function (resultContact2) {
-                    addListContact(list.listLocalId, resultContact2.contactLocalId);
-                  });
-                });*/
+                //newContact.contactServerId = contactServerId;
+                insertContact(newContact).then(function (resultContact2) {
+                  console.log("chooseContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
+                  // download contact photo if exists.
+                  //downloadContactPhoto(contactServerId);
+                  /*addListContact(list.listLocalId, resultContact2.contactLocalId);*/
+                  //call the server invite API
+                  /*               addListContactUpstream(list, resultContact2).then(function () {
+                   $state.reload();
+                   });*/
+                });
+                /*                }, function () {
+                 insertContact(newContact).then(function (resultContact2) {
+                 addListContact(list.listLocalId, resultContact2.contactLocalId);
+                 });
+                 });*/
               }
             });
 
@@ -227,24 +280,59 @@ angular.module('starter.services')
       }
       return deferred.promise;
     }
-    
-    
+
+
     function addListContact(listLocalId, contactLocalId) {
 
       var deferred = $q.defer();
+      console.log("addListContact listLocalId = " + listLocalId);
+      console.log("addListContact contactLocalId = " + contactLocalId);
+      // check if the contact was added to the list and deactivated
 
-      var query = "insert or ignore into listUser (listLocalId ,contactLocalId ,privilage ,lastUpdateDate ,lastUpdateBy ) values (?,?,?,?,?)";
+      global.db.transaction(function (tx) {
+        var checkQuery = "select deleted " +
+          " from listUser lu" +
+          " where lu.listLocalId = ? " +
+          " and lu.contactLocalId = ? ";
+        tx.executeSql(checkQuery, [listLocalId, contactLocalId], function (tx, res) {
+          if (res.rows.length > 0) {
+            console.log("addListContact res.rows.item(0).deleted = " + res.rows.item(0).deleted);
+            if (res.rows.item(0).deleted != 'N') {
+              var updateQuery = "update listUser " +
+                " set deleted = 'N', flag = 'N' " +
+                " where listLocalId = ? " +
+                " and contactLocalId = ? ";
+              tx.executeSql(updateQuery, [listLocalId, contactLocalId], function (tx, res2) {
+                deferred.resolve();
+              }, function (err) {
+                console.error('addListContact fail update query ' + err.message);
+                deferred.reject();
+              });
+            }
+          }
+          else {
+            var query = "insert " +
+              " into listUser (listLocalId ,contactLocalId ,privilage ,lastUpdateDate ,lastUpdateBy, flag ) values (?,?,?,?,?, 'N')";
 
-      dbHandler.runQuery(query, [listLocalId, contactLocalId, null, new Date().getTime(), null], function (response) {
-        //Success Callback
-        console.log('11/2/2017 - ContactHandler - aalatief : Success List Contact Added' + JSON.stringify(response.rows));
-        listUserId = response.insertId;
-        console.log('contact: ' + JSON.stringify(listUserId));
-        deferred.resolve(response);
-      }, function (error) {
-        //Error Callback
-        console.error('fail Master query ' + error);
-        deferred.reject(error);
+            tx.executeSql(query, [listLocalId, contactLocalId, null, new Date().getTime(), null], function (tx, response) {
+              //Success Callback
+              console.log('addListContact response.insertId' + JSON.stringify(response.insertId));
+              listUserId = response.insertId;
+              console.log('contact: ' + JSON.stringify(listUserId));
+              deferred.resolve(response);
+            }, function (error) {
+              //Error Callback
+              console.error('addListContact fail insert query ' + error);
+              deferred.reject(error);
+            });
+          }
+        }, function (err) {
+          console.error('addListContact fail check query ' + err);
+        });
+      }, function (err) {
+
+      }, function () {
+
       });
       /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
       return deferred.promise;
@@ -433,7 +521,7 @@ angular.module('starter.services')
     function downloadContactPhoto(contactServerId) {
       var defer = $q.defer();
       var fileTransfer = new FileTransfer();
-      var uri = encodeURI(global.serverIP + "/photos/downloadUserPhoto/" + contactServerId+'.jpg');
+      var uri = encodeURI(global.serverIP + "/photos/downloadUserPhoto/" + contactServerId + '.jpg');
 
       fileTransfer.download(
         uri,
@@ -470,7 +558,7 @@ angular.module('starter.services')
 
     return {
       pickContact: pickContact,
-      chooseContact:chooseContact,
+      chooseContact: chooseContact,
       formatPhoneNumber: formatPhoneNumber,
       addListContact: addListContact,
       addListContactUpstream: addListContactUpstream,
@@ -478,7 +566,8 @@ angular.module('starter.services')
       updateContactStatus: updateContactStatus,
       checkProspects: checkProspects,
       upsertContact: upsertContact,
-      downloadContactPhoto: downloadContactPhoto
+      downloadContactPhoto: downloadContactPhoto,
+      listContactsUpstreamer: listContactsUpstreamer
     };
 
 

@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('serverHandler', function ($http, global, $q, dbHandler, serverHandlerCategoryV2, $location, $state,
+  .factory('serverHandler', function ($http, global, $q, dbHandler, serverHandlerCategoryV2, contactHandler, $location, $state,
                                       serverHandlerItemsV2, serverHandlerListV2, serverHandlerEntryV2, serverHandlerRetailerV2, serverHandlerEntryEvents) {
 
 
@@ -20,6 +20,7 @@ angular.module('starter.services')
       var defer = $q.defer();
       serverHandlerListV2.syncListsUpstream().then(function () {
         console.log('serverHandler syncListsUpstream done');
+        contactHandler.listContactsUpstreamer();
         serverHandlerItemsV2.syncLocalItemsUpstream().then(function () {
             console.log('serverHandler syncLocalItemsUpstream done');
             serverHandlerEntryV2.syncEntriesUpstream().then(function () {
