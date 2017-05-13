@@ -509,7 +509,7 @@ angular.module('starter.services')
           deviceServerId: global.deviceServerId
         };
 
-        return $http.post(global.serverIP, +"api/list/kickContact", data);
+        return $http.post(global.serverIP +"/api/list/kickContact", data);
       }
 
       return {

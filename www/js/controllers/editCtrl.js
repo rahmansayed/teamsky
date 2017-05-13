@@ -36,8 +36,8 @@ angular.module('starter.controllers')
 
         if    (!$scope.list.listName)  {
            document.getElementById('listError').innerHTML = "*You must enter list name.";
-    
-      }  
+
+      }
         else{
             document.getElementById('listError').innerHTML = "";
         localListHandlerV2.update($scope.list)
@@ -62,16 +62,16 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------*/
     /*Remove list user Function*/
-    $scope.removeListUser = function (listUser) {
+    $scope.removeListUser = function (list, listUser) {
       /*Handle the case of elete from Device*/
-       console.log('listUser :'+JSON.stringify(listUser)); 
+       console.log('listUser :'+JSON.stringify(listUser));
       document.addEventListener("deviceready", function () {
         navigator.notification.confirm(
           "Are you sure you want to remove this contact from list " + listUser.listName + "?", // the message
           function (index) {
             switch (index) {
               case 1:
-                localListHandlerV2.kickContact(listUser.listServerId,listUser.contactServerId)
+                localListHandlerV2.kickContact(list.listServerId,listUser.contactServerId)
                   .then(function (ret) {
                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                     $state.reload();

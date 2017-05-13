@@ -1,10 +1,10 @@
 angular.module('starter.controllers')
   .controller('langCtrl', function ($scope, $state, $q, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture) {
-    
-     $scope.userData = {};  
-    
-    
-      $scope.saveUserSetting = function () {
+
+    $scope.userData = {};
+
+
+    $scope.saveUserSetting = function () {
       console.log("updateProfile userData = " + JSON.stringify($scope.userData));
       var data = {};
       var promises = [];
@@ -34,15 +34,15 @@ angular.module('starter.controllers')
         $state.go('subscribe');
       });
       // calling the server
-/*      data.userServerId = global.userServerId;
-      data.deviceServerId = global.deviceServerId;
-      $http.post(global.serverIP + "/api/user/updateProfile", data).then(function (res) {
-        console.log('saveUserSetting server res = ' + JSON.stringify(res));
-      }, function (err) {
-        console.error('saveUserSetting server err = ' + JSON.stringify(err));
-      });*/
+      /*      data.userServerId = global.userServerId;
+       data.deviceServerId = global.deviceServerId;
+       $http.post(global.serverIP + "/api/user/updateProfile", data).then(function (res) {
+       console.log('saveUserSetting server res = ' + JSON.stringify(res));
+       }, function (err) {
+       console.error('saveUserSetting server err = ' + JSON.stringify(err));
+       });*/
       $translate.use($scope.userData.language.substr(0, 2));
     }
-    
-    
-});
+
+
+  });

@@ -12,7 +12,7 @@
 
     <ion-nav-title>{{dynamicTitle}} </ion-nav-title>
     <ion-content class="padding">
-        
+
             <div id="bg">
       <img src="img\grocery.jpg" alt="">
     </div >
@@ -45,11 +45,11 @@
 
                 <p ng-style="setColor(listUser.contactStatus,'color')" style="float:left;">{{listUser.contactName}}</p>
 
-                <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeListUser(listUser)"></ion-option-button>
+                <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeListUser(list, listUser)"></ion-option-button>
             </ion-item>
 
         </ion-list>
-        <div id="listError" style="color:red;"></div>  
+        <div id="listError" style="color:red;"></div>
         <div style="text-align: center;">
 
             <i><p class="padding text-center "  ng-show="!listUsers[0].contactName" translate>NOT_SHARED</p></i>

@@ -35,7 +35,7 @@ angular.module('starter.services')
       function doGetCameraPhoto() {
         var defer = $q.defer();
         var options = {
-          quality: 50,
+          quality: 20,
           destinationType: Camera.DestinationType.FILE_URI,
           sourceType: Camera.PictureSourceType.CAMERA,
           correctOrientation: true,
@@ -65,7 +65,7 @@ angular.module('starter.services')
       function doGetGalleryPhoto() {
         var defer = $q.defer();
         var options = {
-          quality: 50,
+          quality: 20,
           destinationType: Camera.DestinationType.FILE_URI,
           sourceType: Camera.PictureSourceType.PHOTOLIBRARY
         };

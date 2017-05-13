@@ -266,7 +266,7 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       //calling the server first and delete record after successful server update
-      serverHandlerListV2.kickContact().then(function () {
+      serverHandlerListV2.kickContact(listServerId, contactServerId).then(function () {
         global.db.transaction(function (tx) {
           var query = "delete from listUser " +
             " where exists " +
@@ -289,7 +289,7 @@ angular.module('starter.services')
         console.error("kickContact server error = " + err);
         defer.reject();
       });
-      return defer;
+      return defer.promise;
     }
 
     return {

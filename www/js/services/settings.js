@@ -42,6 +42,28 @@ angular.module('starter.services')
       };
 
 
+      function addUserSettingtoArray(setting, value) {
+        var settingIdx = -1;
+        for (var i = 0; i < userSetting.length; i++) {
+          if (userSetting[i].setting == setting) {
+            settingIdx = i;
+            break;
+          }
+        }
+        console.log('addUserSettingtoArray settingIdx = ' + settingIdx);
+        if (settingIdx != -1) {
+          userSetting[settingIdx].value = value;
+        }
+        else {
+          userSetting.push({
+            setting: setting,
+            value: value
+          });
+        }
+
+        console.log('addUserSettingtoArray userSetting = ' + JSON.stringify(userSetting));
+      }
+
 /////////////////////////////////////////////////////////////////////////////////
 
       function addUserSetting(setting, value) {
@@ -55,9 +77,11 @@ angular.module('starter.services')
             var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,?,?)";
             tx.executeSql(insertQuery, [setting, value, new Date().getTime(), 'S'], function (tx, res2) {
 //              console.log("addUserSetting res2 = " + JSON.stringify(res2.rowsAffected));
+              addUserSettingtoArray(setting, value);
               deferred.resolve();
             }, function (err) {
               console.error("addUserSetting insert error");
+              // update array
               deferred.reject();
             });
           }, function (err) {
