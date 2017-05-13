@@ -62,22 +62,23 @@ angular.module('starter.controllers')
     };
     /*-----------------------------------------------------------------------------------*/
     /*Remove list user Function*/
-    $scope.removeListUser = function (list) {
+    $scope.removeListUser = function (listUser) {
       /*Handle the case of elete from Device*/
+       console.log('listUser :'+JSON.stringify(listUser)); 
       document.addEventListener("deviceready", function () {
         navigator.notification.confirm(
-          "Are you sure you want to remove this contact from list " + list.listName + "?", // the message
+          "Are you sure you want to remove this contact from list " + listUser.listName + "?", // the message
           function (index) {
             switch (index) {
               case 1:
-/*                localListHandlerV2.deactivateList(list.listLocalId)
+                localListHandlerV2.kickContact(listUser.listServerId,listUser.contactServerId)
                   .then(function (ret) {
                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                     $state.reload();
                   }, function (err) {
                     console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
-                  });*/
-                    alert('delete'+list.contactName);
+                  });
+                    alert('delete'+listUser.contactName);
                 break;
               case 2:
                 // The second button was pressed
@@ -92,13 +93,13 @@ angular.module('starter.controllers')
       if (!(window.cordova)) {
         var confirmPopup = $ionicPopup.confirm({
           title: 'Delete user from list',
-          template: 'Are you sure you want to remove this contact from list  ' + list.listName + "?"
+          template: 'Are you sure you want to remove this contact from list  ' + listUser.listName + "?"
         });
 
         confirmPopup.then(function (res) {
-            alert('delete'+list.contactName);
-/*          if (res) {
-            localListHandlerV2.deactivateList(list.listLocalId)
+            alert('delete'+listUser.contactName);
+          if (res) {
+            localListHandlerV2.kickContact(listUser.listServerId,list.contactServerId)
               .then(function (ret) {
                 console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
                 $state.reload();
@@ -106,7 +107,7 @@ angular.module('starter.controllers')
                 console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
               });
 
-          }*/
+          }
         })
       }
       ;

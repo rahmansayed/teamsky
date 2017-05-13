@@ -40,9 +40,10 @@
             <img class="img-circle"
                  ng-src="{{ listUser.photo }}"
                 ng-show="listUser.photo"
+                style="float:left;"
                 ng-style="setColor(listUser.contactStatus,'border')">
 
-                <p ng-style="setColor(listUser.contactStatus,'color')">{{listUser.contactName}}</p>
+                <p ng-style="setColor(listUser.contactStatus,'color')" style="float:left;">{{listUser.contactName}}</p>
 
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeListUser(listUser)"></ion-option-button>
             </ion-item>
