@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="first">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" afterPath="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/notificationHandler.js" afterPath="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandler.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,8 +26,8 @@
       <file leaf-file-name="listItem.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+            <state relative-caret-position="279">
+              <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -43,9 +36,11 @@
       <file leaf-file-name="localEntryHandlerV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="239" column="52" lean-forward="false" selection-start-line="239" selection-start-column="52" selection-end-line="239" selection-end-column="52" />
-              <folding />
+            <state relative-caret-position="858">
+              <caret line="270" column="52" lean-forward="false" selection-start-line="270" selection-start-column="52" selection-end-line="270" selection-end-column="52" />
+              <folding>
+                <marker date="1494220837300" expanded="true" signature="8743:8846" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,7 +49,7 @@
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="509" column="51" lean-forward="true" selection-start-line="509" selection-start-column="51" selection-end-line="509" selection-end-column="51" />
+              <caret line="509" column="51" lean-forward="false" selection-start-line="509" selection-start-column="51" selection-end-line="509" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -70,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serverHandlerEntryEvents.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serverHandlerEntryEvents.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="76" column="49" lean-forward="false" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+            <state relative-caret-position="120">
+              <caret line="68" column="57" lean-forward="true" selection-start-line="68" selection-start-column="57" selection-end-line="68" selection-end-column="57" />
               <folding>
                 <element signature="e#0#47#0" expanded="false" />
               </folding>
@@ -82,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="68">
+              <caret line="8" column="40" lean-forward="false" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -96,7 +91,7 @@
         <entry file="file://$PROJECT_DIR$/www/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="296">
-              <caret line="38" column="40" lean-forward="true" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+              <caret line="38" column="40" lean-forward="false" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -242,7 +237,6 @@
         <option value="$PROJECT_DIR$/www/js/services/dbHandler.js" />
         <option value="$PROJECT_DIR$/www/templates/items.html" />
         <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
-        <option value="$PROJECT_DIR$/www/js/services/global.js" />
         <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
@@ -250,6 +244,7 @@
         <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js" />
+        <option value="$PROJECT_DIR$/www/js/services/global.js" />
       </list>
     </option>
   </component>
@@ -563,7 +558,7 @@
       <workItem from="1493473020611" duration="8899000" />
       <workItem from="1493636740767" duration="1647000" />
       <workItem from="1493708330725" duration="1119000" />
-      <workItem from="1493710982269" duration="35091000" />
+      <workItem from="1493710982269" duration="35711000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -576,7 +571,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1003891000" />
+    <option name="totallyTimeSpent" value="1004511000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -835,7 +830,7 @@
         <state relative-caret-position="2380">
           <caret line="140" column="0" lean-forward="false" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
           <folding>
-            <marker date="1493530141708" expanded="true" signature="4301:4694" ph="{...}" />
+            <marker date="1494403869662" expanded="true" signature="4738:5131" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -889,8 +884,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+        <state relative-caret-position="279">
+          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -903,18 +898,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
-          <caret line="38" column="40" lean-forward="true" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+          <caret line="38" column="40" lean-forward="false" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -945,27 +932,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="239" column="52" lean-forward="false" selection-start-line="239" selection-start-column="52" selection-end-line="239" selection-end-column="52" />
-          <folding />
+        <state relative-caret-position="858">
+          <caret line="270" column="52" lean-forward="false" selection-start-line="270" selection-start-column="52" selection-end-line="270" selection-end-column="52" />
+          <folding>
+            <marker date="1494220837300" expanded="true" signature="8743:8846" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="509" column="51" lean-forward="true" selection-start-line="509" selection-start-column="51" selection-end-line="509" selection-end-column="51" />
+          <caret line="509" column="51" lean-forward="false" selection-start-line="509" selection-start-column="51" selection-end-line="509" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="76" column="49" lean-forward="false" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+        <state relative-caret-position="120">
+          <caret line="68" column="57" lean-forward="true" selection-start-line="68" selection-start-column="57" selection-end-line="68" selection-end-column="57" />
           <folding>
             <element signature="e#0#47#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="40" lean-forward="false" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
