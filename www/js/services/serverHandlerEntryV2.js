@@ -341,6 +341,75 @@ angular.module('starter.services')
 
       }
 
+      function checkEntryExists(entryServerId) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+          var query = "select * from entry where entry.entryServerId = ?";
+          tx.executeSql(query, [entryServerId], function (tx, res) {
+            defer.resolve(res.rows.length > 0);
+          }, function (err) {
+            console.error('checkEntryExists tx error = ' + err.message);
+            defer.reject(err);
+          });
+        }, function (err) {
+          console.error('checkEntryExists db error = ' + err.message);
+          defer.reject(err);
+        }, function () {
+        });
+        return defer.promise;
+      }
+
+      function insertEntry(entry) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+          var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
+            "listLocalId," +
+            "userServerId," +
+            "itemLocalId," +
+            "entryServerId," +
+            "quantity,uom,retailerLocalId," +
+            "entryCrossedFlag, origin, flag, deliveredFlag, seenFlag, language, deleted) " +
+            "VALUES (null," + //entryLocalId
+            "?," +//listLocalId
+            "?," + //entryOwnerServerId
+            "?," + //itemLocalId
+            "?," + //entryServerId
+            "?," + //quantity
+            "?," + //uom
+            "?," + // retailerLocalId
+            "0, " + //entryCrossedFlag
+            "?," + //origin
+            " ?," + // flag
+            " 0," + //deliveredFlag
+            " ?," + //seenFlag
+            " ?," + //language
+            " 'N')"; //deleted
+          //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
+          tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
+            console.log('addEntry res = ' + JSON.stringify(res.insertId));
+            entry.entryLocalId = res.insertId;
+            serverHandlerEntryEvents.maintainGlobalEntries(entry, 'ADD');
+            var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
+            tx.executeSql(updateQuery, [entry.itemLocalId]);
+            var udpateQuery2 = "update entry set deleted = 'Y' where itemLocalId = ? and entryLocalId <> ? and entryCrossedFlag = 1";
+            console.log('addItemToList entry.entryLocalId  = ' + entry.entryLocalId);
+            tx.executeSql(udpateQuery2, [entry.itemLocalId, entry.entryLocalId]);
+            defer.resolve();
+          }, function (err) {
+            console.error('addItemToList insert error  = ' + err.message);
+          });
+        }, function (err) {
+          console.error('addItemToList db error  = ' + err.message);
+          defer.reject(err);
+        }, function () {
+        });
+
+
+        return defer.promise;
+      }
+
       /*******************************************************************************************************************
        * add item to list and increment item usage, there are three cases:
        * 1. there is no entry in either crossed or not crossed undeleted for the item.
@@ -349,10 +418,10 @@ angular.module('starter.services')
        * @param entry
        */
       function addEntry(entry, mode) {
-        console.log('addItemToList entry = ' + JSON.stringify(entry));
+        console.log('addEntry entry = ' + JSON.stringify(entry));
         //console.log('addItemToList listOpenEntries = ' + JSON.stringify(entries.listOpenEntries));
-        console.log('addItemToList global.currentList = ' + JSON.stringify(global.currentList));
-        var deferred = $q.defer();
+        console.log('addEntry global.currentList = ' + JSON.stringify(global.currentList));
+        var defer = $q.defer();
         //search the item in the listOpen Entries
         var insertFlag = false;
         if (mode == 'S') {
@@ -363,6 +432,7 @@ angular.module('starter.services')
             insertFlag = true;
           }
         }
+        console.log('addEntry insertFlag = ' + JSON.stringify(insertFlag));
         if (insertFlag) {
           entry.flag = mode == 'L' ? 'N' : 'S';
           entry.origin = mode == 'L' ? 'L' : 'S';
@@ -370,51 +440,27 @@ angular.module('starter.services')
           if (mode == 'L')
             entry.seenFlag = 2;
           entry.deliveredFlag = 0;
-          var entryServerId = (mode == 'S') ? entry.entryServerId : '';
-          global.db.transaction(function (tx) {
-            var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
-              "listLocalId," +
-              "userServerId," +
-              "itemLocalId," +
-              "entryServerId," +
-              "quantity,uom,retailerLocalId," +
-              "entryCrossedFlag, origin, flag, deliveredFlag, seenFlag, language, deleted) " +
-              "VALUES (null," + //entryLocalId
-              "?," +//listLocalId
-              "?," + //entryOwnerServerId
-              "?," + //itemLocalId
-              "?," + //entryServerId
-              "?," + //quantity
-              "?," + //uom
-              "?," + // retailerLocalId
-              "0, " + //entryCrossedFlag
-              "?," + //origin
-              " ?," + // flag
-              " 0," + //deliveredFlag
-              " ?," + //seenFlag
-              " ?," + //language
-              " 'N')"; //deleted
-            //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-            tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
-              console.log('addEntry res = ' + JSON.stringify(res.insertId));
-              entry.entryLocalId = res.insertId;
-              serverHandlerEntryEvents.maintainGlobalEntries(entry, 'ADD');
-              var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
-              tx.executeSql(updateQuery, [entry.itemLocalId]);
-              var udpateQuery2 = "update entry set deleted = 'Y' where itemLocalId = ? and entryLocalId <> ? and entryCrossedFlag = 1";
-              console.log('addItemToList entry.entryLocalId  = ' + entry.entryLocalId);
-              tx.executeSql(udpateQuery2, [entry.itemLocalId, entry.entryLocalId]);
-              deferred.resolve();
+          if (mode == 'S') {
+            checkEntryExists(entry.entryServerId).then(function (exists) {
+              if (!exists) {
+                insertEntry(entry).then(function (res) {
+                  defer.resolve();
+                }, function (err) {
+                  defer.reject();
+                });
+              }
+            })
+          }
+          else {
+            entry.entryServerId = '';
+            insertEntry(entry).then(function (res) {
+              defer.resolve();
             }, function (err) {
-              console.error('addItemToList insert error  = ' + err.message);
+              defer.reject();
             });
-          }, function (err) {
-            console.error('addItemToList db error  = ' + err.message);
-            deferred.reject(err);
-          }, function () {
-          });
+          }
         }
-        return deferred.promise;
+        return defer.promise;
       }
 
       /*****************************************************************************************************************

@@ -298,8 +298,11 @@ angular.module('starter.services')
                     maintainGlobalLists(myList, "ADD");
                     upsertProspects(list.list.prospectusers, res.insertId);
                     upsertRelatedUsers(list.list.relatedusers, res.insertId);
+                    defer.resolve({
+                      status: 'Y',
+                      list: myList
+                    });
                   });
-                  defer.resolve({status: 'Y'});
                 }
                 else {
                   myList.listLocalId = result.rows.item(0).listLocalId;
@@ -310,7 +313,10 @@ angular.module('starter.services')
                       defer.resolve({status: 'Y'});
                     });
                   } else {
-                    defer.resolve({status: 'N'});
+                    defer.resolve({
+                      status: 'N',
+                      list: myList
+                    });
                   }
                   upsertProspects(list.list.prospectusers, result.rows.item(0).listLocalId);
                   upsertRelatedUsers(list.list.relatedusers, result.rows.item(0).listLocalId);

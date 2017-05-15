@@ -1,12 +1,18 @@
 angular.module('starter.services')
 
-  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, serverHandlerEntryEvents, serverHandlerListV2, $location, $state, contactHandler, settings) {
+  .factory('notificationHandler', function (global, $q, serverHandlerEntryV2, localListHandlerV2, serverHandlerEntryEvents, serverHandlerListV2, $location, $state, contactHandler, settings) {
 
       function handleNotification(msg) {
         console.log('notificationHandler msg = ' + JSON.stringify(msg));
         switch (msg.additionalData.details.type) {
           case 'NEW LIST':
-            serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function () {
+            serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function (res) {
+              console.log('handleNotification list added res = ' + JSON.stringify(res));
+              if (!msg.additionalData.foreground) {
+                console.log('handleNotification going to list');
+                global.currentList = res.list;
+                $state.go('item');
+              }
             });
             break;
           case "NEW ENTRY":
@@ -15,6 +21,14 @@ angular.module('starter.services')
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
+              if (!msg.additionalData.foreground) {
+                console.log('handleNotification going to list');
+                localListHandlerV2.getAllLists(affectedLists[0].listLocalId).then(function (lists) {
+                  console.log('handleNotification lists = ' + JSON.stringify(lists));
+                  global.currentList = lists.lists[0];
+                  $state.go('item');
+                });
+              }
             });
             break;
           case "CROSSED":

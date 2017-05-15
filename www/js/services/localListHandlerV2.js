@@ -66,7 +66,7 @@ angular.module('starter.services')
     /******************************************************************************************************************
      * returns all lists
      */
-    function getAllLists() {
+    function getAllLists(listLocalId) {
       var defer = $q.defer();
 
       /*      var query = "select distinct l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount,c.photo from (list as l left join listUser as lu on l.listLocalId = lu.listLocalId) left join contact as c on c.contactLocalId = lu.contactLocalId";*/
@@ -86,8 +86,11 @@ angular.module('starter.services')
         "    (list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and ifnull(eo.deleted,'N') = 'N') " +
         "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ifnull(ec.deleted,'N') = 'N' " +
         " ) " +
-        " where ifnull(l.deleted, 'N') = 'N' " +
-        " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount, l.listOwnerServerId";
+        " where ifnull(l.deleted, 'N') = 'N' ";
+      if (listLocalId) {
+        query += " and l.listLocalId = " + listLocalId;
+      }
+      query += " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount, l.listOwnerServerId";
 
 
       global.db.transaction(function (tx) {

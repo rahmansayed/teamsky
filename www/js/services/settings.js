@@ -17,7 +17,7 @@ angular.module('starter.services')
 
       function getSettingValue(settingName) {
 
-        console.log("userSetting: " + JSON.stringify(userSetting));
+//        console.log("userSetting: " + JSON.stringify(userSetting));
         for (var j = 0; j < userSetting.length; j++) {
           if (userSetting[j].setting == settingName) {
             return userSetting[j].value;
