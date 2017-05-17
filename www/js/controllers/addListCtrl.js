@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler) {
-    $scope.dynamicTitle = 'Create new list';
+  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler,$translate) {
+    $scope.dynamicTitle = $translate.instant('CREATE_LIST');
     $scope.list = {};
 
     /*Share with Contact */

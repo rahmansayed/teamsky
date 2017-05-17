@@ -50,7 +50,10 @@
   "VER_F_MSG3":"You can request another verification code after",
   "SECONDS":"seconds.",
   "TOTAl_ITEM":"Total Items:",
-  "NO_ENTRY":"No Entries!"
+  "NO_ENTRY":"No Entries!",
+  "EDIT_LIST":"Edit List : ",
+  "CREATE_LIST":"Create New List : "
+    
     
 }
 

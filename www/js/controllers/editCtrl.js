@@ -1,10 +1,10 @@
 angular.module('starter.controllers')
-  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global) {
+  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global,$translate) {
 
-    $scope.dynamicTitle = 'Edit List';
+    $scope.dynamicTitle = $translate.instant('EDIT_LIST');
     console.log('Edit List: ' + 'global.currentList' + JSON.stringify(global.currentList));
 
-    $scope.dynamicTitle = 'Edit List: '+ global.currentList.listName;
+    $scope.dynamicTitle = $translate.instant('EDIT_LIST')+ global.currentList.listName;
     $scope.list = angular.copy(global.currentList);
 /*
     localListHandlerV2.getSpecificList($state.params.listId)
