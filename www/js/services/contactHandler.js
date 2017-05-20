@@ -204,7 +204,7 @@ angular.module('starter.services')
           " set flag ='S' " +
           " where listLocalId = ? " +
           " and contactLocalId = ? ";
-        tx.executeSql(query, [listLocalId, resultContact2.contactLocalId]);
+        tx.executeSql(query, [listLocalId, contactLocalId]);
       }, function (err) {
         console.error("updateListUserStatusAfterSuccessfullServer error = " + err.message);
         defer.reject();
