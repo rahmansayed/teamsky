@@ -32,77 +32,48 @@ angular.module('starter.services')
         return defer.promise;
       };
 
-      function addItemTranslation(itemLocalId, translation) {
-        var defer = $q.defer();
-
-        var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lowerItemName, lastUpdateBy) values (?,?,?,?,'SS')";
-
-        global.db.transaction(function (tx) {
-          for (var j = 0; j < translation.length; j++) {
-            var transItemName = translation[j].itemName;
-            var transLang = translation[j].lang;
-            tx.executeSql(query_tl_insert, [itemLocalId, transLang, transItemName, transItemName.toLowerCase()]);
-          }
-        }, function (err) {
-          console.error("addItemtranslation db error = " + err.message);
-          defer.reject(err);
-        }, function () {
-          console.error("addItemtranslation resolved");
-          defer.resolve();
-        });
-        return defer.promise;
-      }
-
-      function addItemLocal(item, categoryLocalId) {
-        var defer = $q.defer();
-        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) " +
-          " values (null,?,?," +
-          " ( select categoryLocalId from category where categoryName = ? ) " +
-          ", 'S', 'S',?,0)";
-        global.db.transaction(function (tx) {
-          var genericFlag = 0;
-          if (item.generic) {
-            genericFlag = 1;
-          }
-          tx.executeSql(query_insert_c, [item._id, item.itemName, item.categoryName, genericFlag], function (tx, res) {
-            addItemTranslation(res.insertId, item.translation).then(function () {
-              defer.resolve();
-            }, function (err) {
-              console.error("addItemLocal addItemTranslation error = " + err.message);
-              defer.reject(err);
-            })
-          }, function (err) {
-            console.error("addItemLocal tx error = " + err.message);
-            defer.reject(err);
-          });
-        }, function (err) {
-          console.error("addItemLocal db error = " + err.message);
-          defer.reject(err);
-        });
-        return defer.promise;
-      }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      function addItemsLocal(itemsList) {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      function addItemsLocalV2(itemsList) {
 //        console.log("itemsList = " + JSON.stringify(itemsList));
 
         var defer = $q.defer();
 
-        var promises = [];
-        itemsList.forEach(function (item) {
-          promises.push(addItemLocal(item));
-        });
-        $q.all(promises).then(function () {
-          defer.resolve();
-        }, function () {
-          console.error("addItemsLocal $q error ");
+        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) " +
+          " values (null,?,?," +
+          " ( select categoryLocalId from category where categoryName = ? ) " +
+          ", 'S', 'S',?,0)";
+
+        var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lowerItemName, lastUpdateBy) " +
+          " values (" +
+          " (select itemLocalId from masterItem where itemServerId = ? )" +
+          ",?,?,?,'SS')";
+
+        global.db.transaction(function (tx) {
+          itemsList.forEach(function (item) {
+            var genericFlag = 0;
+            if (item.generic) {
+              genericFlag = 1;
+            }
+            tx.executeSql(query_insert_c, [item._id, item.itemName, item.categoryName, genericFlag]);
+
+            for (var j = 0; j < item.translation.length; j++) {
+              var transItemName = item.translation[j].itemName;
+              var transLang = item.translation[j].lang;
+              tx.executeSql(query_tl_insert, [item._id, transLang, transItemName, transItemName.toLowerCase()]);
+            }
+
+          });
+
+        }, function (err) {
+          console.error("addItemsLocalV2 db error = " + err.message);
           defer.reject();
+        }, function () {
+          defer.resolve();
         });
         return defer.promise;
       }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function syncMasterItemsDownstream() {
 
         //deleteCategoryLocal();
@@ -133,7 +104,7 @@ angular.module('starter.services')
                 .then(function (serverResponse) {
                   console.log("syncMasterItemsDownstream serverResponse.data.length = " + JSON.stringify(serverResponse.data.length));
                   if (serverResponse.data.length > 0) {
-                    addItemsLocal(serverResponse.data).then(function (string) {
+                    addItemsLocalV2(serverResponse.data).then(function (string) {
                       localItemHandlerV2.getAllMasterItem().then(function (res) {
                         global.masterItems = res;
                       });
