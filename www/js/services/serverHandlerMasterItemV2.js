@@ -55,13 +55,16 @@ angular.module('starter.services')
 
       function addItemLocal(item, categoryLocalId) {
         var defer = $q.defer();
-        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) values (null,?,?,?, 'S', 'S',?,0)";
+        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) " +
+          " values (null,?,?," +
+          "((select categoryLocalId from category where categoryName = ? ) " +
+          ", 'S', 'S',?,0)";
         global.db.transaction(function (tx) {
           var genericFlag = 0;
           if (item.generic) {
             genericFlag = 1;
           }
-          tx.executeSql(query_insert_c, [item._id, item.itemName, categoryLocalId, genericFlag], function (tx, res) {
+          tx.executeSql(query_insert_c, [item._id, item.itemName, item.categoryName, genericFlag], function (tx, res) {
             addItemTranslation(res.insertId, item.translation).then(function () {
               defer.resolve();
             }, function (err) {
@@ -85,24 +88,16 @@ angular.module('starter.services')
 
         var defer = $q.defer();
 
-        dbHelper.buildCatgegoriesMap(itemsList).then(function (categoryMap) {
-            var promises = [];
-            itemsList.forEach(function (item) {
-              var categoryLocalId = dbHelper.getCategoryLocalIdfromMap(item.categoryName, categoryMap);
-              promises.push(addItemLocal(item, categoryLocalId));
-            });
-            $q.all(promises).then(function () {
-              defer.resolve();
-            }, function () {
-              console.error("addItemsLocal $q error ");
-              defer.reject();
-            });
-
-          },
-          function (error) {
-            console.error("addItemsLocal buildCatgegoriesMap error " + error.message);
-            defer.reject(error);
-          });
+        var promises = [];
+        itemsList.forEach(function (item) {
+          promises.push(addItemLocal(item));
+        });
+        $q.all(promises).then(function () {
+          defer.resolve();
+        }, function () {
+          console.error("addItemsLocal $q error ");
+          defer.reject();
+        });
         return defer.promise;
       }
 

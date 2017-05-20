@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="first">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/dbHelper.js" afterPath="$PROJECT_DIR$/www/js/services/dbHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandler.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
@@ -98,8 +94,8 @@
       <file leaf-file-name="serverHandlerMasterItemV2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state relative-caret-position="66">
+              <caret line="91" column="43" lean-forward="false" selection-start-line="91" selection-start-column="43" selection-end-line="91" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -241,8 +237,8 @@
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerRetailerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
       </list>
     </option>
   </component>
@@ -502,7 +498,7 @@
       <workItem from="1493708330725" duration="1119000" />
       <workItem from="1493710982269" duration="51753000" />
       <workItem from="1494757544242" duration="13571000" />
-      <workItem from="1495010717597" duration="13933000" />
+      <workItem from="1495010717597" duration="14245000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -515,7 +511,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1048057000" />
+    <option name="totallyTimeSpent" value="1048369000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -936,8 +932,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+        <state relative-caret-position="66">
+          <caret line="91" column="43" lean-forward="false" selection-start-line="91" selection-start-column="43" selection-end-line="91" selection-end-column="43" />
           <folding />
         </state>
       </provider>
