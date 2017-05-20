@@ -48,7 +48,7 @@ angular.module('starter.services')
           console.error("addCategoryTranslation db err = " + err.message);
           defer.reject();
         }, function () {
-          console.log("addCategoryTranslation db success");
+          //console.log("addCategoryTranslation db success");
           defer.resolve();
         });
         return defer.promise;
@@ -67,7 +67,7 @@ angular.module('starter.services')
             tx.executeSql(query_insert, [category._id, category.categoryName], function (tx, res) {
 
               addCategoryTranslation(res.insertId, category.translation).then(function () {
-                console.log("addCategoriesLocal addCategoryTranslation success ");
+            //    console.log("addCategoriesLocal addCategoryTranslation success ");
                 defer.resolve();
               }, function (err) {
                 console.error("addCategoriesLocal addCategoryTranslation error " + error.message);

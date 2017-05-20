@@ -3,7 +3,7 @@ angular.module('starter.services')
   .factory('serverHandlerRetailerV2', function ($http, global, $q, dbHelper) {
 
       function addRetailersDB(retailerList) {
-        console.log("addRetailersDB retailerList = " + JSON.stringify(retailerList));
+        //console.log("addRetailersDB retailerList = " + JSON.stringify(retailerList));
 
         var defer = $q.defer();
 

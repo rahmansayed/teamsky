@@ -123,7 +123,7 @@ angular.module('starter.services')
               console.log("syncMasterItemsDownstream data = " + JSON.stringify(data));
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
-                  console.log(" syncMasterItemsDownstream serverResponse = " + JSON.stringify(serverResponse));
+                  //console.log(" syncMasterItemsDownstream serverResponse = " + JSON.stringify(serverResponse));
                   if (serverResponse.data.length > 0) {
                     addItemsLocal(serverResponse.data).then(function (string) {
                       localItemHandlerV2.getAllMasterItem().then(function (res) {

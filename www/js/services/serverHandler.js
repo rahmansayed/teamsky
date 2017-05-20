@@ -8,8 +8,9 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       serverHandlerCategoryV2.syncCategoriesDownstream().then(function () {
-        console.log('syncInit calling syncMasterItemsDownstream');
+        console.log('syncMasterData calling syncMasterItemsDownstream');
         $q.all([serverHandlerItemsV2.syncMasterItemsDownstream(), serverHandlerRetailerV2.syncMasterRetailersDownstream()]).then(function () {
+          console.log("syncMasterData $q success");
           defer.resolve();
         });
       });
@@ -50,12 +51,20 @@ angular.module('starter.services')
     }
 
     function syncInit() {
-      console.log("Start syncInit");
+      console.log("syncInit start");
       var defer = $q.defer();
       $q.all([syncMasterData(), syncLocalData()]).then(function () {
+        console.log("syncInit $q.all success");
         syncDownStreamData().then(function () {
+          console.log("syncInit syncDownStreamData success");
           defer.resolve();
+        }, function (err) {
+          console.error("syncInit syncDownStreamData error = " + err);
+          defer.reject();
         });
+      }, function () {
+        console.error("syncInit $q.all error");
+        defer.reject();
       });
       return defer.promise;
     }
@@ -64,10 +73,10 @@ angular.module('starter.services')
     function syncDownStreamData() {
       var defer = $q.defer();
       serverHandlerListV2.syncListsDownstream().then(function (res) {
-          console.log("SERVER HANDLER RESOLVED NOTIFICATION " + res);
-          console.log("SERVER HANDLER RESOLVED NOTIFICATION  $location.url() " + $location.url());
+          console.log("syncDownStreamData syncListsDownstream res = " + res);
+          console.log("syncDownStreamData  $location.url() " + $location.url());
           serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
-            // console.log('syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
+            console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
             serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');
             serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
                 console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
@@ -76,21 +85,22 @@ angular.module('starter.services')
                   console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
                   defer.resolve();
                 }, function (err) {
-                  console.error("syncInit syncSeenDownstream err = " + err);
+                  console.error("syncDownStreamData syncEventDownstream SEEN err = " + err);
                   defer.reject();
                 });
               }, function (err) {
-                console.error("syncInit syncDeliveryDownstream err = " + err);
+                console.error("syncDownStreamData syncDownStreamData DELIVER err = " + err);
                 defer.reject();
               }
             );
           }, function (err) {
-            console.error("syncEntrieDownstream ERROR");
+            console.error("syncDownStreamData syncEntrieDownstream ERROR");
             defer.reject();
           });
         },
         function () {
-          console.error("syncListsDownstream ERROR")
+          console.error("syncDownStreamData syncListsDownstream ERROR");
+          defer.reject();
         }
       );
 
