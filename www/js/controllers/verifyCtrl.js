@@ -115,9 +115,9 @@ angular.module('starter.controllers')
       }
 
       $scope.getDirection = function () {
-        console.log('userSetting: ' + JSON.stringify(settings.userSetting));
+      /*  console.log('userSetting: ' + JSON.stringify(settings.userSetting));*/
         $scope.language = settings.getSettingValue('language');
-        console.log('getDirection: ' + JSON.stringify($scope.language));
+        /*console.log('getDirection: ' + JSON.stringify($scope.language));*/
         if ($scope.language == 'english') {
           return {direction: "ltr"};
         }
