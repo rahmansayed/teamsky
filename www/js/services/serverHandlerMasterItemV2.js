@@ -32,64 +32,77 @@ angular.module('starter.services')
         return defer.promise;
       };
 
+      function addItemTranslation(itemLocalId, translation) {
+        var defer = $q.defer();
+
+        var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lowerItemName, lastUpdateBy) values (?,?,?,?,'SS')";
+
+        global.db.transaction(function (tx) {
+          for (var j = 0; j < translation.length; j++) {
+            var transItemName = translation[j].itemName;
+            var transLang = translation[j].lang;
+            tx.executeSql(query_tl_insert, [itemLocalId, transLang, transItemName, transItemName.toLowerCase()]);
+          }
+        }, function (err) {
+          console.error("addItemtranslation db error = " + err.message);
+          defer.reject(err);
+        }, function () {
+          console.error("addItemtranslation resolved");
+          defer.resolve();
+        });
+        return defer.promise;
+      }
+
+      function addItemLocal(item, categoryLocalId) {
+        var defer = $q.defer();
+        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) values (null,?,?,?, 'S', 'S',?,0)";
+        global.db.transaction(function (tx) {
+          var genericFlag = 0;
+          if (item.generic) {
+            genericFlag = 1;
+          }
+          tx.executeSql(query_insert_c, [item._id, item.itemName, categoryLocalId, genericFlag], function (tx, res) {
+            addItemTranslation(res.insertId, item.translation).then(function () {
+              defer.resolve();
+            }, function (err) {
+              console.error("addItemLocal addItemTranslation error = " + err.message);
+              defer.reject(err);
+            })
+          }, function (err) {
+            console.error("addItemLocal tx error = " + err.message);
+            defer.reject(err);
+          });
+        }, function (err) {
+          console.error("addItemLocal db error = " + err.message);
+          defer.reject(err);
+        });
+        return defer.promise;
+      }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addItemsLocal(itemsList) {
-        console.log("itemsList = " + JSON.stringify(itemsList));
+//        console.log("itemsList = " + JSON.stringify(itemsList));
 
         var defer = $q.defer();
 
-        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) values (null,?,?,?, 'S', 'S',?,0)";
-        var query_insert_wc = "insert into masterItem  (itemLocalId,itemServerId,itemName,origin, flag,genericFlag,itemPriority) values (null,?,?,'S','S',?,0)";
-        var query_tl_insert = "insert into masterItem_tl  (itemLocalId,language,itemName,lowerItemName, lastUpdateBy) values (?,?,?,?,'SS')";
-
         dbHelper.buildCatgegoriesMap(itemsList).then(function (categoryMap) {
-            global.db.transaction(function (tx) {
-                itemsList.forEach(function (item) {
-                  var itemServerId = item._id;
-                  var itemName = item.itemName;
-                  console.log("SyncItemsV2 categoryName = " + item.categoryName);
-                  var genericFlag = 0;
-                  if (item.generic) {
-                    genericFlag = 1;
-                  }
-                  if (item.categoryName) {
-                    var categoryLocalId = dbHelper.getCategoryLocalIdfromMap(item.categoryName, categoryMap);
-                    tx.executeSql(query_insert_c, [itemServerId, itemName, categoryLocalId, genericFlag], function (tx, res) {
-                      for (var j = 0; j < item.translation.length; j++) {
-                        var transItemName = item.translation[j].itemName;
-                        var transLang = item.translation[j].lang;
-                        tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName, transItemName.toLowerCase()]);
-                      }
-                    }, function (err) {
-                      console.error("addItemsLocal tx query_insert_c error = " + err.message);
-                      defer.reject(err);
-                    });
-                  }
-                  else {
-                    console.log("addItemsLocal NO cat");
-                    tx.executeSql(query_insert_wc, [itemServerId, itemName, genericFlag], function (tx, res) {
-                      for (var j = 0; j < item.translation.length; j++) {
-                        var transItemName = item.translation[j].itemName;
-                        var transLang = item.translation[j].lang;
-                        tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName, transItemName.toLowerCase()]);
-                      }
-                    }, function (err) {
-                      console.error("addItemsLocal tx query_insert_wc error " + err.message);
-                      defer.reject(err);
-                    });
-                  }
-                });
-              }, function (err) {
-                console.error("addItemsLocal db error " + err.message);
-              }, function () {
-              }
-            );
+            var promises = [];
+            itemsList.forEach(function (item) {
+              var categoryLocalId = dbHelper.getCategoryLocalIdfromMap(item.categoryName, categoryMap);
+              promises.push(addItemLocal(item, categoryLocalId));
+            });
+            $q.all(promises).then(function () {
+              defer.resolve();
+            }, function () {
+              console.error("addItemsLocal $q error ");
+              defer.reject();
+            });
+
           },
           function (error) {
             console.error("addItemsLocal buildCatgegoriesMap error " + error.message);
             defer.reject(error);
           });
-
         return defer.promise;
       }
 
@@ -123,7 +136,7 @@ angular.module('starter.services')
               console.log("syncMasterItemsDownstream data = " + JSON.stringify(data));
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
-                  //console.log(" syncMasterItemsDownstream serverResponse = " + JSON.stringify(serverResponse));
+                  console.log("syncMasterItemsDownstream serverResponse.data.length = " + JSON.stringify(serverResponse.data.length));
                   if (serverResponse.data.length > 0) {
                     addItemsLocal(serverResponse.data).then(function (string) {
                       localItemHandlerV2.getAllMasterItem().then(function (res) {
@@ -145,6 +158,7 @@ angular.module('starter.services')
 
             }, function (error) {
               console.error("syncMasterItemsDownstream db error " + error.message);
+              defer.reject();
             });
         });
         return defer.promise;

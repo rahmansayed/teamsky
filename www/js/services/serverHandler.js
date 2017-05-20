@@ -12,6 +12,9 @@ angular.module('starter.services')
         $q.all([serverHandlerItemsV2.syncMasterItemsDownstream(), serverHandlerRetailerV2.syncMasterRetailersDownstream()]).then(function () {
           console.log("syncMasterData $q success");
           defer.resolve();
+        }, function () {
+          console.error("syncMasterData $q error");
+          defer.reject();
         });
       });
       return defer.promise;
@@ -34,6 +37,9 @@ angular.module('starter.services')
                 console.error('syncLocalData $q.all error ' + JSON.stringify(err));
                 defer.reject();
               });
+            }, function (err) {
+              console.error('syncLocalData syncEntriesUpstream error ' + JSON.stringify(err));
+              defer.reject();
             });
           }, function (err) {
             console.error('syncLocalData syncEntriesUpstream error ' + err);
@@ -53,7 +59,7 @@ angular.module('starter.services')
     function syncInit() {
       console.log("syncInit start");
       var defer = $q.defer();
-      $q.all([syncMasterData(), syncLocalData()]).then(function () {
+      $q.all([syncMasterData(), syncLocalData(), serverHandlerListV2.syncListsDownstream()]).then(function () {
         console.log("syncInit $q.all success");
         syncDownStreamData().then(function () {
           console.log("syncInit syncDownStreamData success");
@@ -72,37 +78,28 @@ angular.module('starter.services')
 // handle a server notification
     function syncDownStreamData() {
       var defer = $q.defer();
-      serverHandlerListV2.syncListsDownstream().then(function (res) {
-          console.log("syncDownStreamData syncListsDownstream res = " + res);
-          console.log("syncDownStreamData  $location.url() " + $location.url());
-          serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
-            console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
-            serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');
-            serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
-                console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
+      serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
+        console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
+        serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');
+        serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
+            console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
 
-                serverHandlerEntryEvents.syncEventDownstream(null, 'SEEN').then(function (affectedLists) {
-                  console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
-                  defer.resolve();
-                }, function (err) {
-                  console.error("syncDownStreamData syncEventDownstream SEEN err = " + err);
-                  defer.reject();
-                });
-              }, function (err) {
-                console.error("syncDownStreamData syncDownStreamData DELIVER err = " + err);
-                defer.reject();
-              }
-            );
+            serverHandlerEntryEvents.syncEventDownstream(null, 'SEEN').then(function (affectedLists) {
+              console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
+              defer.resolve();
+            }, function (err) {
+              console.error("syncDownStreamData syncEventDownstream SEEN err = " + err);
+              defer.reject();
+            });
           }, function (err) {
-            console.error("syncDownStreamData syncEntrieDownstream ERROR");
+            console.error("syncDownStreamData syncDownStreamData DELIVER err = " + err);
             defer.reject();
-          });
-        },
-        function () {
-          console.error("syncDownStreamData syncListsDownstream ERROR");
-          defer.reject();
-        }
-      );
+          }
+        );
+      }, function (err) {
+        console.error("syncDownStreamData syncEntrieDownstream ERROR");
+        defer.reject();
+      });
 
       serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS').then(function (affectedLists) {
         console.log('syncCrossingsDownstream affectedLists = ' + JSON.stringify(affectedLists));

@@ -300,7 +300,7 @@ angular.module('starter.services')
           }
         }
         query = query + ")";
-        console.log("dbHelper.buildCatgegoriesMap query = " + query);
+        //console.log("dbHelper.buildCatgegoriesMap query = " + query);
         global.db.transaction(function (tx) {
           tx.executeSql(query, [], function (tx, res) {
             for (var i = 0; i < res.rows.length; i++) {
@@ -309,7 +309,7 @@ angular.module('starter.services')
                 categoryLocalId: res.rows.item(i).categoryLocalId
               });
             }
-            console.log("dbHelper.buildCatgegoriesMap categoryMap = " + JSON.stringify(categoryMap));
+//            console.log("dbHelper.buildCatgegoriesMap categoryMap = " + JSON.stringify(categoryMap));
             defer.resolve(categoryMap);
           }, function (err) {
             defer.reject(err);

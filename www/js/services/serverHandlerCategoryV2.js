@@ -56,7 +56,7 @@ angular.module('starter.services')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addCategoryLocal(category) {
-        console.log("addCategoriesLocal category = " + JSON.stringify(category));
+        //console.log("addCategoriesLocal category = " + JSON.stringify(category));
 
         var defer = $q.defer();
 
