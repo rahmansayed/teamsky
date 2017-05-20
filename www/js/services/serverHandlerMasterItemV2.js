@@ -57,7 +57,7 @@ angular.module('starter.services')
         var defer = $q.defer();
         var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) " +
           " values (null,?,?," +
-          "((select categoryLocalId from category where categoryName = ? ) " +
+          " ( select categoryLocalId from category where categoryName = ? ) " +
           ", 'S', 'S',?,0)";
         global.db.transaction(function (tx) {
           var genericFlag = 0;
