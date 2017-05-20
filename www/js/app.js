@@ -5,8 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+//JSON.stringify = function(){};
 //console.log = function() {};
 //console.error = function() {};
+
 angular.module('starter', ['ionic',
   'ionic.service.core',
   'starter.controllers',
