@@ -61,11 +61,12 @@ angular.module('starter.services')
                         tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName, transItemName.toLowerCase()]);
                       }
                     }, function (err) {
+                      console.error("addItemsLocal tx query_insert_c error = " + err.message);
                       defer.reject(err);
                     });
                   }
                   else {
-                    console.log("NO cat");
+                    console.log("addItemsLocal NO cat");
                     tx.executeSql(query_insert_wc, [itemServerId, itemName, genericFlag], function (tx, res) {
                       for (var j = 0; j < item.translation.length; j++) {
                         var transItemName = item.translation[j].itemName;
@@ -73,27 +74,23 @@ angular.module('starter.services')
                         tx.executeSql(query_tl_insert, [res.insertId, transLang, transItemName, transItemName.toLowerCase()]);
                       }
                     }, function (err) {
+                      console.error("addItemsLocal tx query_insert_wc error " + err.message);
                       defer.reject(err);
                     });
                   }
                 });
               }, function (err) {
-
+                console.error("addItemsLocal db error " + err.message);
               }, function () {
-                defer.resolve();
               }
             );
           },
           function (error) {
-            console.log("Statement Error additemsLocal " + error.message);
-
-            console.log("ERROR = " + JSON.stringify(error));
-            defer.resolve(error);
+            console.error("addItemsLocal buildCatgegoriesMap error " + error.message);
+            defer.reject(error);
           });
 
-        console.log("End additemLocal");
         return defer.promise;
-
       }
 
 
@@ -126,8 +123,7 @@ angular.module('starter.services')
               console.log("syncMasterItemsDownstream data = " + JSON.stringify(data));
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
-                  console.log(" syncMasterItems Items Server List Back Correctly");
-//                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
+                  console.log(" syncMasterItemsDownstream serverResponse = " + JSON.stringify(serverResponse));
                   if (serverResponse.data.length > 0) {
                     addItemsLocal(serverResponse.data).then(function (string) {
                       localItemHandlerV2.getAllMasterItem().then(function (res) {
@@ -135,6 +131,7 @@ angular.module('starter.services')
                       });
                       defer.resolve(string);
                     }, function (error) {
+                      console.error("syncMasterItemsDownstream addItemsLocal error " + error.message);
                       defer.reject(error);
                     });
                   }
@@ -142,14 +139,12 @@ angular.module('starter.services')
                     defer.resolve();
                   }
                 }, function (err) {
+                  console.error("syncMasterItemsDownstream server error " + error.message);
                   defer.reject(err);
                 });
-              console.log("End Call Server");
-              console.log("///////////////////////////////////////");
-              console.log("///////////////////////////////////////");
 
             }, function (error) {
-              console.log(error);
+              console.error("syncMasterItemsDownstream db error " + error.message);
             });
         });
         return defer.promise;
@@ -171,10 +166,6 @@ angular.module('starter.services')
             console.log(" syncLocalItem Items Server List Back Correctly");
             itemServerId = serverResponse.data.userItemServerId;
 
-//                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
-
-            console.log(" End updateList Response Done");
-
             global.db.transaction(function (tx) {
               var query = "update masterItem set itemServerId = ?, flag = ? where itemLocalId = ?";
               tx.executeSql(query, [itemServerId, 'S', item.itemLocalId], function (tx, res) {
@@ -185,6 +176,8 @@ angular.module('starter.services')
                 defer.reject(error);
               });
             });
+
+          }, function (err) {
 
           });
 
@@ -223,7 +216,7 @@ angular.module('starter.services')
 
                   $http.post(global.serverIP + "/api/items/addmany", data)
                     .then(function (serverResponse) {
-                      console.log("serverHandlerMasterItemV2.syncLocalItems Items Server List Back" + JSON.stringify(serverResponse));
+                      //console.log("serverHandlerMasterItemV2.syncLocalItems Items Server List Back" + JSON.stringify(serverResponse));
                       var query = "update masterItem set itemServerId = ?, flag = ? where itemLocalId = ?";
                       global.db.transaction(function (tx) {
                         for (i = 0; i < serverResponse.data.length; i++) {

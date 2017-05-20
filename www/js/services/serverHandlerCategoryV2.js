@@ -1,24 +1,13 @@
 angular.module('starter.services')
 
   .factory('serverHandlerCategoryV2', function ($http, global, $q, dbHandler) {
-
-      //------------------------Global Variable
-
-      var serviceName = "serverHandlerCategoryV2";
-      //------------------------consoleLog
-      function consoleLog(text) {
-        //return;
-        console.log(serviceName + "  =>  " + text);
-      };
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // this function is used to truncate the categories table
       function deleteCategoryLocal() {
-        consoleLog("Start deleteCategoryLocal");
+        console.log("Start deleteCategoryLocal");
 
         var defer = $q.defer();
         var query = "delete from category ";
-        consoleLog("Statement Run: " + query);
+        console.log("Statement Run: " + query);
 
 
         dbHandler.runQuery(query, [], function (res) {
@@ -44,45 +33,60 @@ angular.module('starter.services')
         return defer.promise;
       };
 
+      function addCategoryTranslation(categoryLocalId, translation) {
+        var defer = $q.defer();
+
+        global.db.transaction(function (tx) {
+          var query_tl_insert = "insert into category_tl (categoryLocalId,language,categoryName) values (?,?,?)";
+          for (var j = 0; j < translation.length; j++) {
+            var transCategoryName = translation[j].name;
+            var transLang = translation[j].lang;
+
+            tx.executeSql(query_tl_insert, [categoryLocalId, transLang, transCategoryName]);
+          }
+        }, function (err) {
+          console.error("addCategoryTranslation db err = " + err.message);
+          defer.reject();
+        }, function () {
+          console.log("addCategoryTranslation db success");
+          defer.resolve();
+        });
+        return defer.promise;
+      }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addCategoryLocal(category) {
-        console.log("serverHandlerCategoryV2.addCategoriesLocal category = " + JSON.stringify(category));
+        console.log("addCategoriesLocal category = " + JSON.stringify(category));
 
         var defer = $q.defer();
 
         var query_insert = "insert into category (categoryLocalId,categoryServerId,categoryName) values (null,?,?)";
-        var query_tl_insert = "insert into category_tl (categoryLocalId,language,categoryName) values (?,?,?)";
-
 
         global.db.transaction(function (tx) {
 
             tx.executeSql(query_insert, [category._id, category.categoryName], function (tx, res) {
-              for (var j = 0; j < category.translation.length; j++) {
 
-                var transCategoryName = category.translation[j].name;
-                var transLang = category.translation[j].lang;
-
-                tx.executeSql(query_tl_insert, [res.insertId, transLang, transCategoryName]);
-              }
+              addCategoryTranslation(res.insertId, category.translation).then(function () {
+                console.log("addCategoriesLocal addCategoryTranslation success ");
+                defer.resolve();
+              }, function (err) {
+                console.error("addCategoriesLocal addCategoryTranslation error " + error.message);
+                defer.reject(err);
+              });
             }, function (err) {
+              console.error("addCategoriesLocal trx error " + error.message);
               defer.reject(err);
             });
           }
           , function (error) {
-            consoleLog("Statement Error addCategoriesLocal " + error.message);
-
-            consoleLog(error);
+            console.error("addCategoriesLocal db error" + error.message);
             defer.reject(error);
           },
-          function (response) {
-            consoleLog("category Added =>");
-            defer.resolve(response);
+          function () {
           });
 
         return defer.promise;
-
       }
-      ;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,18 +99,10 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
             tx.executeSql(query, [], function (tx, result) {
-              console.log("Statement True");
-              console.log("maxCategoryServerId result.rows = " + JSON.stringify(result.rows));
-              console.log("maxCategoryServerId result.rows.item = " + JSON.stringify(result.rows.item));
-              console.log("maxCategoryServerId result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
+              console.log("syncCategoriesDownstream maxCategoryServerId result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
               var maxCategoryServerId;
-              console.log("Result JSON=> maxCategoryServerId " + maxCategoryServerId);
-
               maxCategoryServerId = result.rows.item(0).maxCategoryServerId || '000000000000000000000000';
-
-              console.log("Result JSON=> maxCategoryServerId 2 " + maxCategoryServerId);
-
-              console.log("Start Call Server");
+              console.log("syncCategoriesDownstream maxCategoryServerId " + maxCategoryServerId);
 
               var data = {
                 maxCategoryServerId: maxCategoryServerId
@@ -114,27 +110,25 @@ angular.module('starter.services')
 
               $http.post(global.serverIP + "/api/categories/get", data)
                 .then(function (serverResponse) {
-                  consoleLog(" Server List Back Correctly");
-                  consoleLog("true");
+                  console.log("syncCategoriesDownstream serverResponse =  " + JSON.stringify(serverResponse));
 
-//                consoleLog(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
-
-                  consoleLog(" End updateList Response Done");
                   var promises = [];
-
                   for (var i = 0; i < serverResponse.data.length; i++) {
                     promises.push(addCategoryLocal(serverResponse.data[i]));
                   }
                   $q.all(promises).then(function () {
+                    console.log('syncCategoriesDownstream $q success');
                     defer.resolve();
                   }, function () {
+                    console.reject('syncCategoriesDownstream $q error');
                     defer.reject();
                   });
                 }, function (err) {
+                  console.error('syncCategoriesDownstream server err ' + err.message);
                   defer.reject(err);
                 });
             }, function (err) {
-              consoleLog("syncCtegories error " + JSON.stringify(err));
+              console.error("syncCategoriesDownstream error " + JSON.stringify(err));
               defer.reject(err);
             });
           }

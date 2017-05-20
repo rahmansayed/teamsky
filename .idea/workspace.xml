@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="first">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/contactHandler.js" afterPath="$PROJECT_DIR$/www/js/services/contactHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,21 +25,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+            <state relative-caret-position="78">
+              <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="contactHandler.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="contactHandler.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/contactHandler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="545" column="23" lean-forward="false" selection-start-line="545" selection-start-column="23" selection-end-line="545" selection-end-column="23" />
+            <state relative-caret-position="270">
+              <caret line="538" column="0" lean-forward="true" selection-start-line="538" selection-start-column="0" selection-end-line="538" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="serverHandlerCategoryV2.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="114" column="36" lean-forward="true" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="serverHandlerMasterItemV2.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="222" column="42" lean-forward="false" selection-start-line="222" selection-start-column="42" selection-end-line="222" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -94,31 +117,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="listItem.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1768">
-              <caret line="104" column="33" lean-forward="false" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="notificationHandler.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/notificationHandler.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
               <caret line="27" column="50" lean-forward="false" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dbHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="50" lean-forward="false" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -135,7 +138,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>syncCrossingsDownstream</find>
       <find>list</find>
       <find>cross</find>
       <find>deletes</find>
@@ -165,13 +167,14 @@
       <find>ng-click</find>
       <find>entry</find>
       <find>getAll</find>
+      <find>consoleLog</find>
     </findStrings>
     <replaceStrings>
-      <replace>console.log</replace>
       <replace>serverHandlerEntryEvents.getEntryFromLocalDB</replace>
       <replace>buildAffectedLists</replace>
       <replace>serverHandlerEntryEvents.updateListNotificationCount</replace>
       <replace>serverHandlerEntryEvents.maintainGlobalEntries</replace>
+      <replace>console.log</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\Abdul Rahman\Projects\TeamSky\www\js</dir>
@@ -198,7 +201,6 @@
         <option value="$PROJECT_DIR$/www/js/services.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerRetailerV2.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/AccountCtrl.js" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
         <option value="$PROJECT_DIR$/config.xml" />
         <option value="$PROJECT_DIR$/www/js/controllers/addListCtrl.js" />
         <option value="$PROJECT_DIR$/www/js/router.js" />
@@ -214,7 +216,6 @@
         <option value="$PROJECT_DIR$/www/locales/ar.json" />
         <option value="$PROJECT_DIR$/www/templates/subscribe.html" />
         <option value="$PROJECT_DIR$/www/templates/account.html" />
-        <option value="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/accountCtrl.js" />
         <option value="$PROJECT_DIR$/www/templates/itemDetails.html" />
@@ -240,8 +241,10 @@
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
-        <option value="$PROJECT_DIR$/www/js/services/global.js" />
         <option value="$PROJECT_DIR$/www/js/services/contactHandler.js" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js" />
+        <option value="$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js" />
+        <option value="$PROJECT_DIR$/www/js/services/global.js" />
       </list>
     </option>
   </component>
@@ -501,7 +504,7 @@
       <workItem from="1493708330725" duration="1119000" />
       <workItem from="1493710982269" duration="51753000" />
       <workItem from="1494757544242" duration="13571000" />
-      <workItem from="1495010717597" duration="4909000" />
+      <workItem from="1495010717597" duration="10266000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -514,7 +517,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1039033000" />
+    <option name="totallyTimeSpent" value="1044390000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -532,6 +535,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21354167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5029762" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27857935" sideWeight="0.49702382" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -555,7 +559,6 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -670,24 +673,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="44" column="29" lean-forward="false" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/dbHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4998">
           <caret line="294" column="39" lean-forward="false" selection-start-line="294" selection-start-column="39" selection-end-line="294" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="67" column="32" lean-forward="false" selection-start-line="67" selection-start-column="32" selection-end-line="67" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -870,14 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -902,18 +883,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+    <entry file="file://$PROJECT_DIR$/www/js/services/contactHandler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+        <state relative-caret-position="270">
+          <caret line="538" column="0" lean-forward="true" selection-start-line="538" selection-start-column="0" selection-end-line="538" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/contactHandler.js">
+    <entry file="file://$PROJECT_DIR$/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="545" column="23" lean-forward="false" selection-start-line="545" selection-start-column="23" selection-end-line="545" selection-end-column="23" />
+        <state relative-caret-position="221">
+          <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerCategoryV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="114" column="36" lean-forward="true" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerMasterItemV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="222" column="42" lean-forward="false" selection-start-line="222" selection-start-column="42" selection-end-line="222" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
           <folding />
         </state>
       </provider>
