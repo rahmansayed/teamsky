@@ -33,7 +33,7 @@ angular.module('starter.services')
             break;
           case "CROSSED":
             serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'CROSS').then(function (affectedLists) {
-              serverHandlerEntryEvents.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
+              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
@@ -51,7 +51,7 @@ angular.module('starter.services')
 
           case "DELETED":
             serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'DELETE').then(function (affectedLists) {
-              serverHandlerEntryEvents.maintainGlobalLists(affectedLists[0], "DELETE ENTRY");
+              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "DELETE ENTRY");
               console.log("handleNotification affectedLists = " + JSON.stringify(affectedLists));
               console.log("handleNotification  $state.params = " + JSON.stringify($state.params));
               console.log("handleNotification  $state.current.name = " + JSON.stringify($state.current.name));
