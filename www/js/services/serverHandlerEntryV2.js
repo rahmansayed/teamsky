@@ -453,6 +453,7 @@ angular.module('starter.services')
           }
           else {
             entry.entryServerId = '';
+            entry.userServerId = global.userServerId;
             insertEntry(entry).then(function (res) {
               defer.resolve();
             }, function (err) {
