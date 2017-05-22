@@ -78,6 +78,7 @@ angular.module('starter.services')
 // handle a server notification
     function syncDownStreamData() {
       var defer = $q.defer();
+      contactHandler.downloadContactsPhotos();
       serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
         console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
         serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');

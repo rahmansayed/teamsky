@@ -64,6 +64,34 @@ angular.module('starter.services')
         console.log('addUserSettingtoArray userSetting = ' + JSON.stringify(userSetting));
       }
 
+      function addUserSettingV2(settings) {
+
+        var deferred = $q.defer();
+
+        global.db.transaction(function (tx) {
+            var updateQuery = "UPDATE userSetting set value = ? where setting = ?";
+            var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,?,?)";
+            settings.forEach(function (setting) {
+              tx.executeSql(updateQuery, [setting.value, setting.name]);
+//            console.log("addUserSetting res1 = " + JSON.stringify(res.rowsAffected));
+              tx.executeSql(insertQuery, [setting.name, setting.value, new Date().getTime(), 'S']);
+//              console.log("addUserSetting res2 = " + JSON.stringify(res2.rowsAffected));
+              addUserSettingtoArray(setting.name, setting.value);
+              deferred.resolve();
+            });
+          },
+          function (err) {
+            console.error("addUserSetting db err = " + err.message);
+            deferred.reject(err);
+          },
+          function () {
+            deferred.resolve();
+          }
+        );
+        return deferred.promise;
+      }
+
+
 /////////////////////////////////////////////////////////////////////////////////
 
       function addUserSetting(setting, value) {
@@ -141,6 +169,40 @@ angular.module('starter.services')
         return $q.all(promises);
       }
 
+
+      function setSettingsV2(updates) {
+        var settings = [];
+        for (var i in updates) {
+          switch (i) {
+            case "name" :
+              settings.push({
+                name: "displayName",
+                value: updates[i]
+              });
+              break;
+            case "preferredLanguage":
+              settings.push({
+                name: "language",
+                value: updates[i]
+              });
+              break;
+            case "currentLocation":
+              settings.push({
+                name: "country",
+                value: updates[i]
+              });
+              break;
+            default:
+              settings.push({
+                name: i,
+                value: updates[i]
+              });
+              break;
+          }
+        }
+        return addUserSettingV2(settings);
+      }
+
 ///////////////////////////////////////////////////////////////////////
 
       return {
@@ -152,9 +214,11 @@ angular.module('starter.services')
         getDeviceServerId: getDeviceServerId,
         getSettingValue: getSettingValue,
         setSettings: setSettings,
+        setSettingsV2: setSettingsV2,
         userSetting: userSetting
 
       };
     }
-  );
+  )
+;
 

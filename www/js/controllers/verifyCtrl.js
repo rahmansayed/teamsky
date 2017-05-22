@@ -87,13 +87,15 @@ angular.module('starter.controllers')
               countryCode: data.countryCode
             };
 
-            settings.setSettings(otherSettings).then(function () {
+            settings.setSettingsV2(otherSettings).then(function () {
               contactHandler.downloadContactPhoto(global.userServerId).then(function (res) {
-                settings.addUserSetting('photo', res);
-                console.log('User Setting: ' + JSON.stringify(response));
+                settings.addUserSetting('photo', res).then(function () {
+                  $state.go('account');
+                });
+                console.log('downloadContactPhoto User Setting: ' + JSON.stringify(settings.userSetting));
               }, function () {
+                $state.go('account');
               });
-              $state.go('account');
             });
 
             serverHandler.syncInit()
@@ -115,7 +117,7 @@ angular.module('starter.controllers')
       }
 
       $scope.getDirection = function () {
-      /*  console.log('userSetting: ' + JSON.stringify(settings.userSetting));*/
+        /*  console.log('userSetting: ' + JSON.stringify(settings.userSetting));*/
         $scope.language = settings.getSettingValue('language');
         /*console.log('getDirection: ' + JSON.stringify($scope.language));*/
         if ($scope.language == 'english') {

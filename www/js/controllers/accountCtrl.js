@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture,settings) {
+  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, localItemHandlerV2) {
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
 
@@ -1130,65 +1130,70 @@ angular.module('starter.controllers')
     //$scope.getDays(/*$scope.currMonth*/2,2017/*$scope.currYear*/);
 
     $scope.saveUserSetting = function () {
-        
-      if    (!$scope.userData.displayName)  {
-           document.getElementById('accountError').innerHTML = "*You must your name."
-    
-      }  
+
+      if (!$scope.userData.displayName) {
+        document.getElementById('accountError').innerHTML = "*You must your name."
+
+      }
       else {
-           document.getElementById('accountError').innerHTML =' '
-      console.log("updateProfile userData = " + JSON.stringify($scope.userData));
-      var data = {};
-      var promises = [];
-      for (var attribute in $scope.userData) {
-        if ($scope.userData[attribute]) {
-          console.log("updateProfile userData['" + attribute + "'] = " + JSON.stringify($scope.userData[attribute]));
-          switch (attribute) {
-            case  'country' :
-              promises.push(settings.addUserSetting(attribute, $scope.userData[attribute].code));
-              data.currentLocation = $scope.userData[attribute].code;
-              break;
-            case 'selected':
-              if (($scope.userData.selected.selectedYear != 0) && ($scope.userData.selected.selectedMonth.id != 0) && ($scope.userData.selected.selectedDay != 0)) {
-                var dob = new Date($scope.userData.selected.selectedYear,
-                  $scope.userData.selected.selectedMonth.id - 1, $scope.userData.selected.selectedDay);
-                //dob = dob + dob.getTimezoneOffset() * 60000;
-                promises.push(settings.addUserSetting('dateOfBirth', dob));
-                data.dateOfBirth = dob;
-              }
-              break;
-            default:
-              promises.push(settings.addUserSetting(attribute, $scope.userData[attribute]));
-              data[attribute] = $scope.userData[attribute];
+        document.getElementById('accountError').innerHTML = ' ';
+        console.log("updateProfile userData = " + JSON.stringify($scope.userData));
+        var data = {};
+        var promises = [];
+        for (var attribute in $scope.userData) {
+          if ($scope.userData[attribute]) {
+            console.log("updateProfile userData['" + attribute + "'] = " + JSON.stringify($scope.userData[attribute]));
+            switch (attribute) {
+              case  'country' :
+                promises.push(settings.addUserSetting(attribute, $scope.userData[attribute].code));
+                data.currentLocation = $scope.userData[attribute].code;
+                break;
+              case 'selected':
+                if (($scope.userData.selected.selectedYear != 0) && ($scope.userData.selected.selectedMonth.id != 0) && ($scope.userData.selected.selectedDay != 0)) {
+                  var dob = new Date($scope.userData.selected.selectedYear,
+                    $scope.userData.selected.selectedMonth.id - 1, $scope.userData.selected.selectedDay);
+                  //dob = dob + dob.getTimezoneOffset() * 60000;
+                  promises.push(settings.addUserSetting('dateOfBirth', dob));
+                  data.dateOfBirth = dob;
+                }
+                break;
+              default:
+                promises.push(settings.addUserSetting(attribute, $scope.userData[attribute]));
+                data[attribute] = $scope.userData[attribute];
+            }
           }
         }
+        $q.all(promises).then(function () {
+          alert('Profile Info Saved');
+          // reloading the items with proper category language
+          localItemHandlerV2.getAllMasterItem().then(function (res) {
+            global.masterItems = res;
+            $state.go('lists');
+          });
+
+        });
+        // calling the server
+        data.userServerId = global.userServerId;
+        data.deviceServerId = global.deviceServerId;
+        $http.post(global.serverIP + "/api/user/updateProfile", data).then(function (res) {
+          console.log('saveUserSetting server res = ' + JSON.stringify(res));
+        }, function (err) {
+          console.error('saveUserSetting server err = ' + JSON.stringify(err));
+        });
+        $translate.use($scope.userData.language.substr(0, 2));
       }
-      $q.all(promises).then(function () {
-        alert('Profile Info Saved');
-        $state.go('lists');
-      });
-      // calling the server
-      data.userServerId = global.userServerId;
-      data.deviceServerId = global.deviceServerId;
-      $http.post(global.serverIP + "/api/user/updateProfile", data).then(function (res) {
-        console.log('saveUserSetting server res = ' + JSON.stringify(res));
-      }, function (err) {
-        console.error('saveUserSetting server err = ' + JSON.stringify(err));
-      });
-      $translate.use($scope.userData.language.substr(0, 2));
-    }
     }
 
-    $scope.getDirection = function (){
-        $scope.language = settings.getSettingValue('language'); 
-       /* console.log('getDirection: '+JSON.stringify( $scope.language));*/
-        if ( $scope.language == 'english'){
-            return {direction: "ltr"};
-        }
-        else{
-            return {direction: "rtl"};
-        }
-        
+    $scope.getDirection = function () {
+      $scope.language = settings.getSettingValue('language');
+      /* console.log('getDirection: '+JSON.stringify( $scope.language));*/
+      if ($scope.language == 'english') {
+        return {direction: "ltr"};
+      }
+      else {
+        return {direction: "rtl"};
+      }
+
     }
-   
+
   });

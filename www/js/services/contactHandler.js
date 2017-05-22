@@ -515,6 +515,27 @@ angular.module('starter.services')
       return defer.promise;
     }
 
+    function downloadContactsPhotos() {
+      var defer = $q.defer();
+      var promises = [];
+      promises.push(downloadContactPhoto(global.userServerId));
+      global.db.transaction(function (tx) {
+        var query = "select * from contact where contactStatus = 'S'";
+
+        tx.executeSql(query, [], function (tx, res) {
+          for (var i = 0; i < res.rows.length; i++) {
+            promises.push(downloadContactPhoto(res.rows.item(i).contactServerId));
+          }
+          $q.all(promises).then(function () {
+            defer.resolve();
+          }, function () {
+            defer.reject();
+          });
+        });
+      })
+      return defer.promise;
+    }
+
     /*----------------------------------------------------------------------------------------*/
 
 
@@ -525,7 +546,7 @@ angular.module('starter.services')
 
       fileTransfer.download(
         uri,
-        cordova.file.externalApplicationStorageDirectory + '/contactPhotos/' + contactServerId + '.jpg',
+        cordova.file.externalApplicationStorageDirectory + 'contactPhotos/' + contactServerId + '.jpg',
         function (entry) {
           console.log("download complete entry.toURL(): " + entry.toURL());
           console.log("download complete entry.toURI(): " + entry.toURI());
@@ -567,7 +588,8 @@ angular.module('starter.services')
       checkProspects: checkProspects,
       upsertContact: upsertContact,
       downloadContactPhoto: downloadContactPhoto,
-      listContactsUpstreamer: listContactsUpstreamer
+      listContactsUpstreamer: listContactsUpstreamer,
+      downloadContactsPhotos: downloadContactsPhotos
     };
 
 

@@ -49,7 +49,7 @@ angular.module('starter.services')
                     if ((result.rows.item(i).retailerOrigin == 'L') || (result.rows.item(i).retailerOrigin == 'O' )) {
                       entries.entries[entries.entries.length - 1].userRetailerServerId = result.rows.item(i).retailerServerId;
                     }
-                    else {
+                    else if (result.rows.item(i).retailerServerId) {
                       entries.entries[entries.entries.length - 1].retailerServerId = result.rows.item(i).retailerServerId;
                     }
 
@@ -135,14 +135,17 @@ angular.module('starter.services')
         console.log("In syncListEntriesUpdates");
         global.db.transaction(function (tx) {
             var query = "select entry.*, list.listServerId, masterItem.itemServerId, masterItem.origin itemOrigin,retailer.retailerServerId, retailer.origin retailerOrigin" +
-              " from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
+              " from entry " +
+              " left join list on entry.listLocalId = list.listLocalId " +
+              " left join masterItem on entry.itemLocalId = masterItem.itemLocalId " +
+              " left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
               " where entry.flag = 'E'" +
               " and entry.entryServerId <> ''" +
               " and list.listServerId = ?";
             tx.executeSql(query, [listServerId], function (tx, result) {
 //                console.log("syncListEntriesUpdates result = " + JSON.stringify(result));
 //                console.log("syncListEntriesUpdates result.rows = " + JSON.stringify(result.rows));
-//                console.log("syncListEntriesUpdates result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
+                console.log("syncListEntriesUpdates result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
 //                console.log("syncListEntriesUpdates result.rows.length = " + JSON.stringify(result.rows.length));
                 if (result.rows.length > 0) {
                   var entries = {
@@ -158,9 +161,10 @@ angular.module('starter.services')
                     };
 
                     if (result.rows.item(i).retailerOrigin == 'L') {
-                      entry.userRetailerServerId = result.rows.item(i).retailerServerId;
+                      if (result.rows.item(i).retailerServerId)
+                        entry.userRetailerServerId = result.rows.item(i).retailerServerId;
                     }
-                    else {
+                    else if (result.rows.item(i).retailerServerId) {
                       entry.retailerServerId = result.rows.item(i).retailerServerId;
                     }
 
@@ -611,8 +615,8 @@ angular.module('starter.services')
           myPromise = $q.resolve({
             data: {
               updates: [{
-                entryServerId: entryUpdate.entry.entryServerId,
-                _id: entryUpdate.entry._id,
+                entryServerId: entryUpdate.entry._id,
+                _id: entryUpdate._id,
                 uom: entryUpdate.entry.uom || '',
                 qty: entryUpdate.entry.qty || 1,
                 retailerServerId: entryUpdate.entry.retailerServerId,
@@ -639,13 +643,14 @@ angular.module('starter.services')
                       res.data.updates.forEach(function (update) {
                         var updatesArray = [];
                         var query;
+                        var retailer;
                         if (update.retailerServerId) {
                           query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
-                          var retailer = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
+                          retailer = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
                           updatesArray = [update.uom,
                             update.qty, retailer.retailerLocalId, update.entryServerId];
                         } else if (update.userRetailerServerId) {
-                          var retailer = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
+                          retailer = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
                           query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
                           updatesArray = [update.uom, update.qty, retailer.retailerLocalId, update.entryServerId];
                         } else {
@@ -656,8 +661,10 @@ angular.module('starter.services')
                         tx.executeSql(query, updatesArray);
                         // getting the entry to reflect on UI
                         serverHandlerEntryEvents.getEntryFromLocalDB(update.entryServerId).then(function (entry) {
-                            entry.retailerLocalId = retailer.retailerLocalId;
-                            entry.retailerName = retailer.retailerName;
+                            if (retailer) {
+                              entry.retailerLocalId = retailer.retailerLocalId;
+                              entry.retailerName = retailer.retailerName;
+                            }
                             entry.qty = update.qty;
                             entry.uom = update.uom;
                             serverHandlerEntryEvents.maintainGlobalEntries(entry, 'UPDATE');
