@@ -184,7 +184,7 @@ angular.module('starter.services')
       };
       function buildListEntries(listLocalId) {
         var defer = $q.defer();
-        $q.all([getAllEntry(listLocalId), getCheckedItem(listLocalId),getSuggestedItem()]).then(function (res) {
+        $q.all([getAllEntry(listLocalId), getCheckedItem(listLocalId), getSuggestedItem()]).then(function (res) {
           global.currentListLocalId = listLocalId;
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
@@ -229,22 +229,23 @@ angular.module('starter.services')
           }
           ,
           function (err) {
+            console.error("updateEntry  db err " + err.message);
             deferred.reject(err);
           }
         );
         return deferred.promise;
       };
 //----------------------------------------------------------
-    /*Return all checked entries in array checkedItems*/
+      /*Return all checked entries in array checkedItems*/
       function getSuggestedItem() {
         var deferred = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "select * from masterItem order by itemPriority limit 20" ;
+          var query = "select * from masterItem order by itemPriority limit 20";
 
           console.log("localEntryHandlerV2.getSuggestedItem query res = " + query);
-          
-         //settings.getSettingValue('language').toUpperCase().substr(0, 2));
+
+          //settings.getSettingValue('language').toUpperCase().substr(0, 2));
 
           tx.executeSql(query, [], function (tx, res) {
 
@@ -271,7 +272,7 @@ angular.module('starter.services')
         deactivateItem: serverHandlerEntryV2.deleteLocalEntry,
         updateEntry: updateEntry,
         buildListEntries: buildListEntries,
-        getSuggestedItem:getSuggestedItem
+        getSuggestedItem: getSuggestedItem
 
       };
     }
