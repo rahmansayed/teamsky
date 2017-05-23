@@ -483,7 +483,11 @@ angular.module('starter.services')
         var affectedLists = [];
         if (entryDetails) {
           myPromise = $q.resolve({
-            data: entryDetails
+            data: {
+              entries: [entryDetails.entries],
+              items: [entryDetails.item],
+              retailers: [entryDetails.retailer]
+            }
           });
         } else {
           myPromise = $http.post(global.serverIP + "/api/entry/getpending", data);
@@ -495,7 +499,7 @@ angular.module('starter.services')
 
 //            console.log("serverHandlerEntry syncEntriesDownstream server response " + JSON.stringify(response));
 
-          syncDependentDownstream(response.data.items, response.data.retailer).then(function () {
+          syncDependentDownstream(response.data.items, response.data.retailers).then(function () {
 
             dbHelper.buildLocalIds(response.data.entries).then(function (result) {
                 console.log("serverHandlerEntryV2 localIds = " + JSON.stringify(result));
