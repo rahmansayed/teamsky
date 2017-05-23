@@ -151,6 +151,7 @@ angular.module('starter.services')
                   var entries = {
                     listServerId: listServerId,
                     deviceServerId: global.deviceServerId,
+                    userServerId: global.userServerId,
                     entries: []
                   };
                   for (i = 0; i < result.rows.length; i++) {
@@ -620,7 +621,7 @@ angular.module('starter.services')
                 uom: entryUpdate.entry.uom || '',
                 qty: entryUpdate.entry.qty || 1,
                 retailerServerId: entryUpdate.entry.retailerServerId,
-                userRetailerServerId: entryUpdate.entry.userRetailerServerId,
+                userRetailerServerId: entryUpdate.entry.userRetailerServerId
               }],
               retailers: (entryUpdate.retailer) ? [entryUpdate.retailer] : []
             }
