@@ -1,6 +1,7 @@
 angular.module('starter.services')
 
-  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2, settings, serverHandlerEntryEvents) {
+  .factory('localEntryHandlerV2', function ($q, $timeout, dbHandler, $state, global, serverHandlerEntryV2,
+                                            settings, serverHandlerEntryEvents, serverHandlerRetailerV2) {
 
       var selected = [];
       var items = [];
@@ -224,8 +225,13 @@ angular.module('starter.services')
             deferred.reject(err);
           },
           function () {
-            serverHandlerEntryV2.syncUpdatesUpstream();
-            deferred.resolve();
+            serverHandlerRetailerV2.syncLocalRetailerUpstream().then(function () {
+              serverHandlerEntryV2.syncUpdatesUpstream();
+              deferred.resolve();
+            }, function (err) {
+              console.error("updateEntry  serverHandlerRetailerV2 err " + err.message);
+              deferred.resolve();
+            });
           }
         );
         return deferred.promise;
