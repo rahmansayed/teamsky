@@ -213,28 +213,24 @@ angular.module('starter.services')
        * @param entry
        */
       function updateEntry(entry) {
-        console.log('4/4/2017 - localEntryHandlerV2 - aalatief - Entry: ' + JSON.stringify(entry));
+        console.log('updateEntry Entry = ' + JSON.stringify(entry));
         var deferred = $q.defer();
         global.db.transaction(function (tx) {
-
             var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, flag = 'E' where entryLocalId = ?";
-            tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId], function (tx, res) {
-              //console.log("updateEntry res " + JSON.stringify(res));
-              deferred.resolve(res);
-              serverHandlerEntryV2.syncUpdatesUpstream();
-            }, function (err) {
-              console.error("updateEntry  updateQuery err " + err.message);
-              deferred.reject(err);
-            });
-          }
-          ,
+            tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId]);
+          },
           function (err) {
             console.error("updateEntry  db err " + err.message);
             deferred.reject(err);
+          },
+          function () {
+            serverHandlerEntryV2.syncUpdatesUpstream();
+            deferred.resolve();
           }
         );
         return deferred.promise;
-      };
+      }
+
 //----------------------------------------------------------
       /*Return all checked entries in array checkedItems*/
       function getSuggestedItem() {

@@ -145,65 +145,61 @@ angular.module('starter.services')
             tx.executeSql(query, [listServerId], function (tx, result) {
 //                console.log("syncListEntriesUpdates result = " + JSON.stringify(result));
 //                console.log("syncListEntriesUpdates result.rows = " + JSON.stringify(result.rows));
-                console.log("syncListEntriesUpdates result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
+              console.log("syncListEntriesUpdates result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
 //                console.log("syncListEntriesUpdates result.rows.length = " + JSON.stringify(result.rows.length));
-                if (result.rows.length > 0) {
-                  var entries = {
-                    listServerId: listServerId,
-                    deviceServerId: global.deviceServerId,
-                    userServerId: global.userServerId,
-                    entries: []
+              if (result.rows.length > 0) {
+                var entries = {
+                  listServerId: listServerId,
+                  deviceServerId: global.deviceServerId,
+                  userServerId: global.userServerId,
+                  entries: []
+                };
+                for (i = 0; i < result.rows.length; i++) {
+                  var entry = {
+                    entryServerId: result.rows.item(i).entryServerId,
+                    qty: result.rows.item(i).quantity,
+                    uom: result.rows.item(i).uom
                   };
-                  for (i = 0; i < result.rows.length; i++) {
-                    var entry = {
-                      entryServerId: result.rows.item(i).entryServerId,
-                      qty: result.rows.item(i).quantity,
-                      uom: result.rows.item(i).uom
-                    };
 
-                    if (result.rows.item(i).retailerOrigin == 'L') {
-                      if (result.rows.item(i).retailerServerId)
-                        entry.userRetailerServerId = result.rows.item(i).retailerServerId;
-                    }
-                    else if (result.rows.item(i).retailerServerId) {
-                      entry.retailerServerId = result.rows.item(i).retailerServerId;
-                    }
-
-                    entries.entries.push(entry);
+                  if (result.rows.item(i).retailerOrigin == 'L') {
+                    if (result.rows.item(i).retailerServerId)
+                      entry.userRetailerServerId = result.rows.item(i).retailerServerId;
+                  }
+                  else if (result.rows.item(i).retailerServerId) {
+                    entry.retailerServerId = result.rows.item(i).retailerServerId;
                   }
 
-                  $http.post(global.serverIP + "/api/entry/updatemany", entries)
-                    .then(function (response) {
+                  entries.entries.push(entry);
+                }
+
+                $http.post(global.serverIP + "/api/entry/updatemany", entries)
+                  .then(function (response) {
 //                      console.log("syncListEntriesUpdates updatemany server Response Result => " + JSON.stringify(response));
-                      global.db.transaction(function (tx) {
-                          var query = "update entry set flag= 'S', seenFlag = 2 where entryServerId = ?";
-                          for (var i = 0; i < entries.entries.length; i++) {
-                            tx.executeSql(query, [entries.entries[i].entryServerId]);
-                          }
-                        }, function (err) {
-                          console.error("syncListEntriesUpdates DB update Error = " + err);
-                          defer.reject(err);
-                        }, function () {
-                          console.log("syncListEntriesUpdates DB update successfull");
-                          defer.resolve();
-                        }
-                      );
-                    }, function (error) {
-                      console.error("syncListEntriesUpdates Server Sync error = " + JSON.stringify(error));
-                      defer.reject(error);
+                    var query = "update entry set flag= 'S', seenFlag = 2 where entryServerId = ?";
+                    global.db.transaction(function (tx) {
+                      for (var i = 0; i < entries.entries.length; i++) {
+                        tx.executeSql(query, [entries.entries[i].entryServerId]);
+                      }
+                    }, function (err) {
+                      console.error("syncListEntriesUpdates update db error = " + err.message);
+                    }, function () {
+                      defer.resolve();
                     });
-                }
-                else {
-                  defer.resolve();
-                }
-              }, function (error) {
-                console.error("syncListEntriesUpdates db error = " + JSON.stringify(error));
-                defer.reject(error);
+                  }, function (error) {
+                    console.error("syncListEntriesUpdates Server Sync error = " + JSON.stringify(error));
+                    defer.reject(error);
+                  });
               }
-            );
-          }
-          ,
+              else {
+                defer.resolve();
+              }
+            }, function (error) {
+              console.error("syncListEntriesUpdates tx error = " + JSON.stringify(error));
+              defer.reject(error);
+            });
+          },
           function (err) {
+            console.error("syncListEntriesUpdates db error = " + JSON.stringify(error));
             defer.reject(err);
           }
           ,

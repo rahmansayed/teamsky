@@ -39,10 +39,11 @@ angular.module('starter.services')
             console.log('dbHelper getItemslocalIds itemsRet ' + JSON.stringify(itemsRet));
             defer.resolve(itemsRet);
           }, function (err) {
-            console.log('dbHelper getItemslocalIds error ' + err.message);
+            console.error('dbHelper getItemslocalIds error ' + err.message);
+            defer.reject();
           });
         }, function (err) {
-          console.log('dbHelper getItemslocalIds error ' + err.message);
+          console.error('dbHelper getItemslocalIds error ' + err.message);
           defer.reject();
         }, function () {
           console.log('dbHelper getItemslocalIds DONE');
@@ -83,10 +84,11 @@ angular.module('starter.services')
             console.log('dbHelper getListsLocalIds listRet ' + JSON.stringify(listsRet));
             defer.resolve(listsRet);
           }, function (err) {
-            console.log('dbHelper getListsLocalIds error ' + err.message);
+            console.error('dbHelper getListsLocalIds error ' + err.message);
+            defer.reject();
           });
         }, function (err) {
-          console.log('dbHelper getListsLocalIds error ' + err.message);
+          console.error('dbHelper getListsLocalIds error ' + err.message);
           defer.reject();
         }, function () {
           console.log('dbHelper getListsLocalIds DONE');
@@ -119,10 +121,11 @@ angular.module('starter.services')
             console.log('dbHelper getRetailersLocalIds retailerRet ' + JSON.stringify(retailersRet));
             defer.resolve(retailersRet);
           }, function (err) {
-            console.log('dbHelper getRetailersLocalIds error ' + err.message);
+            console.error('dbHelper getRetailersLocalIds error ' + err.message);
+            defer.reject();
           });
         }, function (err) {
-          console.log('dbHelper getRetailersLocalIds error ' + err.message);
+          console.error('dbHelper getRetailersLocalIds error ' + err.message);
           defer.reject();
         }, function () {
           console.log('dbHelper getRetailersLocalIds DONE');
@@ -164,11 +167,11 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
             // checking if there are items that need to be sync'd
             retailers.forEach(function (retailer) {
-              var query = "insert into retailer " +
+              var query = "insert or ignore into retailer " +
                 "(retailerLocalId, retailerName, retailerServerId, origin, flag) values" +
                 "(null,?, ?, 'O', 'S')";
               tx.executeSql(query, [retailer.retailerName, retailer._id], function (tx, res) {
-                var query_tl_insert = "insert into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
+                var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
                 tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailer.retailerName]);
                 tx.executeSql(query_tl_insert, [res.insertId, 'AR', retailer.retailerName]);
               });
@@ -176,13 +179,13 @@ angular.module('starter.services')
           }
           ,
           function (err) {
-            console.log("insertLocalRetailerDownstream error " + JSON.stringify(err.message));
+            console.error("insertLocalRetailerDownstream error " + JSON.stringify(err.message));
             defer.reject(err);
           }
           ,
           function () {
-            defer.resolve();
             console.log("insertLocalRetailerDownstream successfully");
+            defer.resolve();
           }
         );
 
@@ -210,11 +213,12 @@ angular.module('starter.services')
             });
           });
         }, function (err) {
-          console.log("insertLocalItemsDownstream error " + JSON.stringify(err.message));
+          console.error("insertLocalItemsDownstream error " + JSON.stringify(err.message));
           defer.reject(err);
         }, function () {
-          defer.resolve();
           console.log("insertLocalItemsDownstream loaded successfully");
+
+          defer.resolve();
         });
 
         return defer.promise;
@@ -281,6 +285,7 @@ angular.module('starter.services')
             ret.categoryLocalId = res.rows.item(0).categoryLocalId;
             defer.resolve(ret);
           }, function (err) {
+            console.error("dbHelper.getCategoryLocalIdByName err = " + err.message);
             defer.reject(err);
           });
         return defer.promise;
@@ -312,10 +317,11 @@ angular.module('starter.services')
 //            console.log("dbHelper.buildCatgegoriesMap categoryMap = " + JSON.stringify(categoryMap));
             defer.resolve(categoryMap);
           }, function (err) {
+            console.error("dbHelper.buildCatgegoriesMap err = " + err.message);
             defer.reject(err);
-            console.log("dbHelper.buildCatgegoriesMap err = " + err.message);
           });
         }, function (err) {
+          console.error("dbHelper.buildCatgegoriesMap err = " + err.message);
           defer.reject(err);
         }, function () {
           defer.resolve();
