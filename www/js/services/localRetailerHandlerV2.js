@@ -17,11 +17,11 @@ angular.module('starter.services')
           defer.resolve(retailers);
 
         }, function (err) {
-          console.log("getAllRetailers query err = " + err.message);
+          console.error("getAllRetailers query err = " + err.message);
           defer.reject();
         })
       }, function (err) {
-        console.log("getAllRetailers query err = " + err.message);
+        console.error("getAllRetailers query err = " + err.message);
         defer.reject();
       }, function () {
       });

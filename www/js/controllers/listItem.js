@@ -21,7 +21,7 @@ angular.module('starter.controllers')
     });
     $scope.myUserId = global.userServerId;
     /*Drag to refresh functionality*/
-   
+
     $scope.refresh = function () {
 
       console.log('Refreshing!');
@@ -59,7 +59,7 @@ angular.module('starter.controllers')
     localEntryHandlerV2.buildListEntries(global.currentList.listLocalId).then(function () {
       $scope.entries = global.currentListEntries;
       $scope.suggestedItem = global.suggestedItem.suggested;
-      console.log('4/5/2017 - $scope.suggestedItem = ' + JSON.stringify($scope.suggestedItem));    
+      console.log('4/5/2017 - $scope.suggestedItem = ' + JSON.stringify($scope.suggestedItem));
     });
 
     /*------------------------------------------------------------------*/
@@ -292,12 +292,8 @@ angular.module('starter.controllers')
 
       localRetailerHandlerV2.addRetailer(entry.retailerName)
         .then(function (response) {
-
-          if (!entry.retailerLocalId && entry.retailerName) {
-            entry.retailerLocalId = response;
-            console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(entry.retailerName));
-
-          }
+          entry.retailerLocalId = response;
+          console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(entry.retailerName));
           console.log('4/4/2017 - listItem - aalatief - Entry' + JSON.stringify(entry));
           localEntryHandlerV2.updateEntry(entry);
 
@@ -438,24 +434,24 @@ angular.module('starter.controllers')
 
     $scope.closeButton = false;
 
-    $scope.openSuggest = function (){
-        
-      document.getElementById('suggest').style.cssText ='position:fixed;top:150%;left: 25%;z-index: 3;opacity: 0.95;width:80%;';
-      document.getElementById('suggestButton').style.cssText ='position:fixed;top:110px;left: 45%;z-index: 1;';
-      document.getElementById('suggestContent').style.cssText ='z-index:4;height:50%;margin-left:40%;background-color:yellow;'; 
-      document.getElementById('suggestButtonClose').style.cssText ='position:fixed;top:110px;left: 18%;z-index: 2;';
-      document.getElementById('suggestList').style.cssText ='margin-left:10%';
+    $scope.openSuggest = function () {
+
+      document.getElementById('suggest').style.cssText = 'position:fixed;top:150%;left: 25%;z-index: 3;opacity: 0.95;width:80%;';
+      document.getElementById('suggestButton').style.cssText = 'position:fixed;top:110px;left: 45%;z-index: 1;';
+      document.getElementById('suggestContent').style.cssText = 'z-index:4;height:50%;margin-left:40%;background-color:yellow;';
+      document.getElementById('suggestButtonClose').style.cssText = 'position:fixed;top:110px;left: 18%;z-index: 2;';
+      document.getElementById('suggestList').style.cssText = 'margin-left:10%';
       $scope.closeButton = true;
-        
+
     };
-    
-        $scope.closeSuggest = function (){
-        
-      document.getElementById('suggest').style.cssText ='position:fixed;top:150%;left: 100%;z-index: 3;opacity: 0.95;width:80%;';
-      document.getElementById('suggestButton').style.cssText ='position:fixed;top:110px;left: 80%;z-index: 2;';
-      document.getElementById('suggestContent').style.cssText ='z-index:4;height:50%;margin-left:95                                                                                                        %;background-color:yellow;';  
-      document.getElementById('suggestButtonClose').style.cssText ='position:fixed;top:110px;left: 95%;z-index: 1;';
-      //document.getElementById('suggestList').style.cssText ='width;';   
+
+    $scope.closeSuggest = function () {
+
+      document.getElementById('suggest').style.cssText = 'position:fixed;top:150%;left: 100%;z-index: 3;opacity: 0.95;width:80%;';
+      document.getElementById('suggestButton').style.cssText = 'position:fixed;top:110px;left: 80%;z-index: 2;';
+      document.getElementById('suggestContent').style.cssText = 'z-index:4;height:50%;margin-left:95                                                                                                        %;background-color:yellow;';
+      document.getElementById('suggestButtonClose').style.cssText = 'position:fixed;top:110px;left: 95%;z-index: 1;';
+      //document.getElementById('suggestList').style.cssText ='width;';
       $scope.closeButton = false;
     };
     //This will show the entry DIV by default.

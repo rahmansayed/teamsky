@@ -299,7 +299,22 @@ angular.module('starter.services')
 
         var defer = $q.defer();
 
-        $q.all([dbHelper.insertLocalItemsDownstream(items), dbHelper.insertLocalRetailerDownstream(retailers)])
+        var itemsPromise;
+        var retailersPromise;
+        if (items.length > 0) {
+          itemsPromise = dbHelper.insertLocalItemsDownstream(items);
+        }
+        else {
+          itemsPromise = $q.resolve();
+        }
+        ;
+        if (retailers.length > 0) {
+          retailersPromise = dbHelper.insertLocalRetailerDownstream(retailers);
+        }
+        else {
+          retailersPromise = $q.resolve();
+        }
+        $q.all([itemsPromise, retailersPromise])
           .then(function () {
 
             serverHandlerItemsV2.syncDownstreamedItemsBack().then(function () {
@@ -480,9 +495,9 @@ angular.module('starter.services')
         if (entryDetails) {
           myPromise = $q.resolve({
             data: {
-              entries: [entryDetails.entries],
-              items: [entryDetails.item],
-              retailers: [entryDetails.retailer]
+              entries: [entryDetails.entry],
+              items: entryDetails.item,
+              retailers: entryDetails.retailer
             }
           });
         } else {
