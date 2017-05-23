@@ -32,18 +32,26 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       global.db.transaction(function (tx) {
-        var query = "insert or ignore into retailer (retailerLocalId, retailerName, retailerServerId, origin, flag) " +
-          " values (null,?,'', 'L', 'N')";
-        tx.executeSql(query, [retailerName], function (tx, res) {
-          console.log("addRetailer query res = " + JSON.stringify(res));
-          serverHandlerRetailerV2.syncLocalRetailerUpstream();
-          var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
-          tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailerName]);
-          tx.executeSql(query_tl_insert, [res.insertId, 'AR', retailerName]);
-          defer.resolve(res.insertId);
-        }, function (err) {
-          console.error("addRetailer query err = " + err.message);
-          defer.reject();
+        var checkQuery = "select retailerLocalId from retailer where retailerName = ?";
+        tx.executeSql(checkQuery, [retailerName], function (tx, res) {
+          if (res.rows.length > 0) {
+            defer.resolve(res.rows.item(0).retailerLocalId);
+          } else {
+            var insertQuery = "insert or ignore into retailer (retailerLocalId, retailerName, retailerServerId, origin, flag) " +
+              " values (null,?,'', 'L', 'N')";
+            tx.executeSql(insertQuery, [retailerName], function (tx, res) {
+              console.log("addRetailer query res.insertId = " + JSON.stringify(res.insertId));
+              serverHandlerRetailerV2.syncLocalRetailerUpstream();
+              var query_tl_insert = "insert or ignore into retailer_tl  (retailerLocalId,language,retailerName) values (?,?,?)";
+              tx.executeSql(query_tl_insert, [res.insertId, 'EN', retailerName]);
+              tx.executeSql(query_tl_insert, [res.insertId, 'AR', retailerName]);
+              defer.resolve(res.insertId);
+            }, function (err) {
+              console.error("addRetailer query err = " + err.message);
+              defer.reject();
+            });
+
+          }
         });
       }, function (err) {
         console.error("addRetailer query err = " + err.message);
