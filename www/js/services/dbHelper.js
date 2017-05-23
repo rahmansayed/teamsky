@@ -209,6 +209,7 @@ angular.module('starter.services')
               tx.executeSql(query, [item.itemName, res.rows.item(0).categoryLocalId, item._id], function (tx, res2) {
                 var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
                 tx.executeSql(query_lang, [res2.insertId, 'EN', item.itemName, item.itemName.toLowerCase()]);
+                tx.executeSql(query_lang, [res2.insertId, 'AR', item.itemName, item.itemName.toLowerCase()]);
               });
             });
           });
