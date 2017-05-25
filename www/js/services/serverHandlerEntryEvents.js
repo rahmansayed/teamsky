@@ -475,7 +475,7 @@ angular.module('starter.services')
             if (openIdx > -1)
               global.currentListEntries.listOpenEntries.entries[openIdx].seenFlag = 3;
             break;
-          case 'DELIVERED':
+          case 'DELIVER':
             if (openIdx > -1)
               global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 1;
             break;
