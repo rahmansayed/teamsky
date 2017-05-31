@@ -5,6 +5,9 @@ angular.module('starter.services')
       function handleNotification(msg) {
         console.log('notificationHandler msg = ' + JSON.stringify(msg));
         switch (msg.additionalData.details.type) {
+          case "PHOTO UPLOADED":
+            contactHandler.downloadContactPhoto(msg.additionalData.details.userServerId);
+            break;
           case 'NEW LIST':
             serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function (res) {
               console.log('handleNotification list added res = ' + JSON.stringify(res));
