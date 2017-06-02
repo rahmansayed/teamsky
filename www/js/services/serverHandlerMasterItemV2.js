@@ -34,7 +34,7 @@ angular.module('starter.services')
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addItemsLocalV2(itemsList) {
-//        console.log("itemsList = " + JSON.stringify(itemsList));
+//        console.log("itemsList = " + angular.toJson(itemsList));
 
         var defer = $q.defer();
 
@@ -85,7 +85,7 @@ angular.module('starter.services')
           tx.executeSql(query, [],
             function (tx, localResponse) {
 
-              console.log("serverHandlerMasterItemV2 syncMasterItemsDownstream localResponse.rows = " + JSON.stringify(localResponse.rows));
+              console.log("serverHandlerMasterItemV2 syncMasterItemsDownstream localResponse.rows = " + angular.toJson(localResponse.rows));
               var maxItemServerId;
 
               maxItemServerId = localResponse.rows.item(0).maxItemServerId || '000000000000000000000000';
@@ -99,10 +99,10 @@ angular.module('starter.services')
                 countryCode: global.countryCode
               };
 
-              console.log("syncMasterItemsDownstream data = " + JSON.stringify(data));
+              console.log("syncMasterItemsDownstream data = " + angular.toJson(data));
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
-                  console.log("syncMasterItemsDownstream serverResponse.data.length = " + JSON.stringify(serverResponse.data.length));
+                  console.log("syncMasterItemsDownstream serverResponse.data.length = " + angular.toJson(serverResponse.data.length));
                   if (serverResponse.data.length > 0) {
                     addItemsLocalV2(serverResponse.data).then(function (string) {
                       localItemHandlerV2.getAllMasterItem().then(function (res) {
@@ -152,7 +152,7 @@ angular.module('starter.services')
                 console.log("Item updated successfully");
                 defer.resolve(string);
               }, function (tx, error) {
-                console.log("Error = " + JSON.stringify(error));
+                console.log("Error = " + angular.toJson(error));
                 defer.reject(error);
               });
             });
@@ -181,7 +181,7 @@ angular.module('starter.services')
               function (tx, result) {
 
                 console.log("Statement True");
-                console.log("localResponse.rows = " + JSON.stringify(result.rows));
+                console.log("localResponse.rows = " + angular.toJson(result.rows));
 
                 if (result.rows.length > 0) {
                   var data = {
@@ -196,7 +196,7 @@ angular.module('starter.services')
 
                   $http.post(global.serverIP + "/api/items/addmany", data)
                     .then(function (serverResponse) {
-                      //console.log("serverHandlerMasterItemV2.syncLocalItems Items Server List Back" + JSON.stringify(serverResponse));
+                      //console.log("serverHandlerMasterItemV2.syncLocalItems Items Server List Back" + angular.toJson(serverResponse));
                       var query = "update masterItem set itemServerId = ?, flag = ? where itemLocalId = ?";
                       global.db.transaction(function (tx) {
                         for (i = 0; i < serverResponse.data.length; i++) {
@@ -244,7 +244,7 @@ angular.module('starter.services')
           tx.executeSql(query, [],
             function (tx, result) {
 
-              console.log("serverHandlerMasterItemV2 syncotheruserslocalItems localResponse.rows = " + JSON.stringify(result.rows));
+              console.log("serverHandlerMasterItemV2 syncotheruserslocalItems localResponse.rows = " + angular.toJson(result.rows));
 
               if (result.rows.length > 0) {
                 var data = {
@@ -258,7 +258,7 @@ angular.module('starter.services')
                 }
                 $http.post(global.serverIP + "/api/items/syncOtherUserItems", data)
                   .then(function (serverResponse) {
-                    console.log("syncotheruserslocalItems Items Server List Back Correctly " + JSON.stringify(serverResponse));
+                    console.log("syncotheruserslocalItems Items Server List Back Correctly " + angular.toJson(serverResponse));
                     defer.resolve();
                   });
               }

@@ -10,12 +10,12 @@ angular.module('starter.controllers')
       contactHandler.pickContact(list);
       $state.reload();
     };
-    
+
     $scope.showAllContacts = function(){
       contactHandler.chooseContact().then(function(contact){
-            
+
       },function(){
-          
+
       });
       $state.reload();
     };
@@ -49,32 +49,32 @@ angular.module('starter.controllers')
 
     $scope.saveList = function (list) {
               if    (!list.listName)  {
-                console.log('4/5/2017 - List: '+JSON.stringify(list));  
+                console.log('4/5/2017 - List: '+angular.toJson(list));
            document.getElementById('listError').innerHTML = "*You must enter list name.";
-    
-      }  
-        else{    
+
+      }
+        else{
          document.getElementById('listError').innerHTML = "";
-      console.log('aalatief - Entered List: '+JSON.stringify(list));
+      console.log('aalatief - Entered List: '+angular.toJson(list));
       localListHandlerV2.addNewList(list)
         .then(function (insertId) {
-            console.log('4/5/2017 - List: '+JSON.stringify(list));  
-            console.log('aalatief: List insertId:' + JSON.stringify(insertId));
+            console.log('4/5/2017 - List: '+angular.toJson(list));
+            console.log('aalatief: List insertId:' + angular.toJson(insertId));
             list.listLocalId = insertId;
             //Server Call for Create List in Server DB
             serverHandlerListV2.createList(list)
               .then(function (result) {
-                  console.log('aalatief: List Server create success:' + JSON.stringify(result));
+                  console.log('aalatief: List Server create success:' + angular.toJson(result));
                 },
                 function (error) {
-                  console.log('aalatief: List Server create fail:' + JSON.stringify(error));
+                  console.log('aalatief: List Server create fail:' + angular.toJson(error));
                 }
               );
-            console.log('04/02/2017 - aalatief - : Lists array after create:' + JSON.stringify(list));
+            console.log('04/02/2017 - aalatief - : Lists array after create:' + angular.toJson(list));
             $state.go('lists');
           },
           function (err) {
-            console.log('23/2/2017 - aalatief: List Server create fail:' + JSON.stringify(err));
+            console.log('23/2/2017 - aalatief: List Server create fail:' + angular.toJson(err));
 
           });
 

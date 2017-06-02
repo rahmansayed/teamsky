@@ -5,12 +5,12 @@ angular.module('starter.controllers')
 
 
     $scope.saveUserSetting = function () {
-      console.log("updateProfile userData = " + JSON.stringify($scope.userData));
+      console.log("updateProfile userData = " + angular.toJson($scope.userData));
       var data = {};
       var promises = [];
       for (var attribute in $scope.userData) {
         if ($scope.userData[attribute]) {
-          console.log("updateProfile userData['" + attribute + "'] = " + JSON.stringify($scope.userData[attribute]));
+          console.log("updateProfile userData['" + attribute + "'] = " + angular.toJson($scope.userData[attribute]));
           switch (attribute) {
             case  'country' :
               promises.push(settings.addUserSetting(attribute, $scope.userData[attribute].code));
@@ -37,9 +37,9 @@ angular.module('starter.controllers')
       /*      data.userServerId = global.userServerId;
        data.deviceServerId = global.deviceServerId;
        $http.post(global.serverIP + "/api/user/updateProfile", data).then(function (res) {
-       console.log('saveUserSetting server res = ' + JSON.stringify(res));
+       console.log('saveUserSetting server res = ' + angular.toJson(res));
        }, function (err) {
-       console.error('saveUserSetting server err = ' + JSON.stringify(err));
+       console.error('saveUserSetting server err = ' + angular.toJson(err));
        });*/
       $translate.use($scope.userData.language.substr(0, 2));
     }

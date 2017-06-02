@@ -72,7 +72,7 @@ angular.module('starter.services')
     };
 
     function applyEvent(entry, event, source) {
-      console.log('applyEvent entry = ' + JSON.stringify(entry));
+      console.log('applyEvent entry = ' + angular.toJson(entry));
       console.log('applyEvent event = ' + event);
       console.log('applyEvent source = ' + source);
       var deferred = $q.defer();
@@ -88,7 +88,7 @@ angular.module('starter.services')
         }
       });
 
-      console.log("applyEvent queries = " + JSON.stringify(queries));
+      console.log("applyEvent queries = " + angular.toJson(queries));
 
       global.db.transaction(function (tx) {
         queries.forEach(function (query) {
@@ -131,23 +131,23 @@ angular.module('starter.services')
         " and entry.flag = 'E'";
 
       console.log("syncEventUpstream query = " + query);
-      console.log("syncEventUpstream Events[event] = " + JSON.stringify(Events[event]));
+      console.log("syncEventUpstream Events[event] = " + angular.toJson(Events[event]));
 
       global.db.transaction(function (tx) {
           tx.executeSql(query, [], function (tx, res) {
             if (res.rows.length > 0) {
               var promises = [];
               for (var i = 0; i < res.rows.length; i++) {
-                console.log('syncEventUpstream  crossedListId ' + JSON.stringify(res.rows.item(i)));
+                console.log('syncEventUpstream  crossedListId ' + angular.toJson(res.rows.item(i)));
                 promises.push(syncEventUptreamperList(res.rows.item(i), event));
               }
 
-              console.log("syncEventUpstream promises = " + JSON.stringify(promises));
+              console.log("syncEventUpstream promises = " + angular.toJson(promises));
               $q.all(promises).then(function (res) {
-                console.log('syncEventUpstream  $q.all resolved ' + JSON.stringify(res));
+                console.log('syncEventUpstream  $q.all resolved ' + angular.toJson(res));
                 defer.resolve();
               }, function (err) {
-                console.error('syncEventUpstream  $q.all err ' + JSON.stringify(err));
+                console.error('syncEventUpstream  $q.all err ' + angular.toJson(err));
                 defer.reject(err);
               });
             }
@@ -155,12 +155,12 @@ angular.module('starter.services')
               defer.resolve();
             }
           }, function (err) {
-            console.error('syncEventUpstream  db query err ' + JSON.stringify(err));
+            console.error('syncEventUpstream  db query err ' + angular.toJson(err));
             defer.reject(err);
           });
         },
         function (err) {
-          console.error('syncEventUpstream  db err ' + JSON.stringify(err));
+          console.error('syncEventUpstream  db err ' + angular.toJson(err));
           defer.reject(err);
         },
         function () {
@@ -188,20 +188,20 @@ angular.module('starter.services')
           for (var i = 0; i < res.rows.length; i++) {
             entryServerIds.push(res.rows.item(i).entryServerId);
           }
-          console.log('syncEventUptreamperList  entryServerIds ' + JSON.stringify(entryServerIds));
+          console.log('syncEventUptreamperList  entryServerIds ' + angular.toJson(entryServerIds));
           syncEventUptreamUpdateServer(list.listServerId, entryServerIds, event).then(function () {
             console.log('syncEventUptreamperList  called successfully');
             defer.resolve();
           }, function (err) {
-            console.error('syncEventUptreamperList  syncEventUptreamUpdateServer ' + JSON.stringify(err));
+            console.error('syncEventUptreamperList  syncEventUptreamUpdateServer ' + angular.toJson(err));
             defer.reject();
           })
         }, function (err) {
-//            console.error('syncCrossingsUptreamperList  db query err ' + JSON.stringify(err));
+//            console.error('syncCrossingsUptreamperList  db query err ' + angular.toJson(err));
           defer.reject();
         });
       }, function (err) {
-//          console.error('syncCrossingsUptreamperList  db err ' + JSON.stringify(err));
+//          console.error('syncCrossingsUptreamperList  db err ' + angular.toJson(err));
         defer.reject();
       }, function (res) {
       });
@@ -227,7 +227,7 @@ angular.module('starter.services')
           defer.reject();
         });
       }, function (err) {
-//          console.error('syncCrossingsUptreamUpdateServer server err ' + JSON.stringify(err));
+//          console.error('syncCrossingsUptreamUpdateServer server err ' + angular.toJson(err));
         defer.reject();
       });
       return defer.promise;
@@ -318,7 +318,7 @@ angular.module('starter.services')
 
       console.log('syncBackEvent data = ' + data);
       $http.post(global.serverIP + Events[event].downstreamBackAPI, data).then(function (res) {
-//          console.log('syncBackCrossings server reply = ' + JSON.stringify(res));
+//          console.log('syncBackCrossings server reply = ' + angular.toJson(res));
         defer.resolve(res);
       }, function (err) {
         console.error('syncBackEvent server error ' + err.message);
@@ -408,7 +408,7 @@ angular.module('starter.services')
           tx.executeSql(query, [list.cnt, list.listLocalId]);
         });
       }, function (err) {
-        //console.error('updateListNotificationCount db err ' + JSON.stringify(err));
+        //console.error('updateListNotificationCount db err ' + angular.toJson(err));
         defer.reject();
       }, function () {
         console.log('updateListNotificationCount db completed');
@@ -418,11 +418,11 @@ angular.module('starter.services')
     }
 
     function maintainGlobalEntries(entry, operation) {
-      console.log('maintainGlobalEntries entry = ' + JSON.stringify(entry));
+      console.log('maintainGlobalEntries entry = ' + angular.toJson(entry));
       console.log('maintainGlobalEntries operation = ' + operation);
 
       if (entry.listLocalId == global.currentList.listLocalId) {
-        console.log('maintainGlobalEntries global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
+        console.log('maintainGlobalEntries global.currentListEntries = ' + angular.toJson(global.currentListEntries));
         var openIdx = -1;
         var crossedIdx = -1;
         var categoryIdx = -1;
@@ -505,7 +505,7 @@ angular.module('starter.services')
             }
             break;
         }
-        console.log('maintainGlobalEntries AFTER global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
+        console.log('maintainGlobalEntries AFTER global.currentListEntries = ' + angular.toJson(global.currentListEntries));
       }
     }
 
@@ -517,7 +517,7 @@ angular.module('starter.services')
 
     function getCategoryIndex(categoryName, categoryList) {
       var idx = -1;
-      //console.log("getCategoryIndex categoryList = " + JSON.stringify(categoryList));
+      //console.log("getCategoryIndex categoryList = " + angular.toJson(categoryList));
       for (var i = 0; i < categoryList.length; i++) {
         if (categoryList[i].categoryName == categoryName) {
           idx = i;

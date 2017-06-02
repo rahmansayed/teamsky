@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-//JSON.stringify = function(){};
+//angular.toJson = function(){};
 //console.log = function() {};
 //console.error = function() {};
 
@@ -48,7 +48,7 @@ angular.module('starter', ['ionic',
                         }
                         ,
                         function (error) {
-                          console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                          console.error('global.masterItems Item Load Fail:' + angular.toJson(error));
                         }
                       );
                     if (settings.isVerified()) {
@@ -72,7 +72,7 @@ angular.module('starter', ['ionic',
                   },
                   function (error) {
 
-                    console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + JSON.stringify(error));
+                    console.log('02/02/2017 - app.run - aalatief: userSetting Fail:' + angular.toJson(error));
                     ;
                   }
                 );
@@ -83,7 +83,7 @@ angular.module('starter', ['ionic',
 
             },
             function (error) {
-              console.log('02/02/2017 - app.run - aalatief: initDB Fail' + JSON.stringify(error));
+              console.log('02/02/2017 - app.run - aalatief: initDB Fail' + angular.toJson(error));
             });
       }
 
@@ -124,10 +124,10 @@ angular.module('starter', ['ionic',
         //window.open("whatsapp://send?text=Hello&phone=+201147940889&abid=+31611111111", "_system");
 
         window.plugins.sim.getSimInfo(function (result) {
-          console.log('window.plugins.sim = ' + JSON.stringify(result));
+          console.log('window.plugins.sim = ' + angular.toJson(result));
           global.simCountry = result.countryCode.toUpperCase();
         }, function (error) {
-          console.error('window.plugins.sim = ' + JSON.stringify(error));
+          console.error('window.plugins.sim = ' + angular.toJson(error));
         });
 
         global.deviceUUID = device.uuid;

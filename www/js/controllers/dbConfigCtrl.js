@@ -23,7 +23,7 @@ angular.module('starter.controllers')
 
       .then(function(result){
       $scope.users = settings.selectedUser();
-      console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
+      console.log('aalatief: Ionic Load success:'+angular.toJson($scope.users));
 
          if (settings.isUserVerified(deviceLocalId)){
         $ionicLoading.hide();
@@ -39,15 +39,15 @@ angular.module('starter.controllers')
   }*/
 
     $ionicPlatform.ready(function () {
-        
-       
+
+
 /*     settings.getUserSetting()
 
       .then(function(result){*/
 /*      $scope.users = settings.userSetting();
       global.userServerId = settings.getUserServerId();
       global.deviceServerId = settings.getDeviceServerId();
-      console.log('aalatief: Ionic Load success:'+JSON.stringify($scope.users));
+      console.log('aalatief: Ionic Load success:'+angular.toJson($scope.users));
       console.log('aalatief: User Server ID:'+global.userServerId);
       console.log('aalatief: Device Server ID:'+global.deviceServerId); */
 /*         if (settings.isVerified()){
@@ -65,7 +65,7 @@ angular.module('starter.controllers')
 /*    , function(error) {
     // error handling here
     $ionicLoading.hide()
-    console.log('aalatief: Ionic Load Fail:'+JSON.stringify(error));;
+    console.log('aalatief: Ionic Load Fail:'+angular.toJson(error));;
     $ionicLoading.show({
       template: "unable to connect",
       noBackdrop: true

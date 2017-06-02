@@ -56,7 +56,7 @@ angular.module('starter.services')
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addCategoryLocal(category) {
-        //console.log("addCategoriesLocal category = " + JSON.stringify(category));
+        //console.log("addCategoriesLocal category = " + angular.toJson(category));
 
         var defer = $q.defer();
 
@@ -99,7 +99,7 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
             tx.executeSql(query, [], function (tx, result) {
-              console.log("syncCategoriesDownstream maxCategoryServerId result.rows.item(0) = " + JSON.stringify(result.rows.item(0)));
+              console.log("syncCategoriesDownstream maxCategoryServerId result.rows.item(0) = " + angular.toJson(result.rows.item(0)));
               var maxCategoryServerId;
               maxCategoryServerId = result.rows.item(0).maxCategoryServerId || '000000000000000000000000';
               console.log("syncCategoriesDownstream maxCategoryServerId " + maxCategoryServerId);
@@ -110,7 +110,7 @@ angular.module('starter.services')
 
               $http.post(global.serverIP + "/api/categories/get", data)
                 .then(function (serverResponse) {
-                  console.log("syncCategoriesDownstream serverResponse =  " + JSON.stringify(serverResponse));
+                  console.log("syncCategoriesDownstream serverResponse =  " + angular.toJson(serverResponse));
 
                   var promises = [];
                   for (var i = 0; i < serverResponse.data.length; i++) {
@@ -128,7 +128,7 @@ angular.module('starter.services')
                   defer.reject(err);
                 });
             }, function (err) {
-              console.error("syncCategoriesDownstream error " + JSON.stringify(err));
+              console.error("syncCategoriesDownstream error " + angular.toJson(err));
               defer.reject(err);
             });
           }

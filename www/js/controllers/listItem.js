@@ -17,7 +17,7 @@ angular.module('starter.controllers')
 
     localUOMHandlerV2.getAllUOMs().then(function (uoms) {
       $scope.uoms = uoms;
-      console.log('listItem $scope.uoms = ' + JSON.stringify($scope.uoms));
+      console.log('listItem $scope.uoms = ' + angular.toJson($scope.uoms));
     });
     $scope.myUserId = global.userServerId;
     /*Drag to refresh functionality*/
@@ -25,7 +25,7 @@ angular.module('starter.controllers')
     $scope.refresh = function () {
 
       console.log('Refreshing!');
-      console.log('$scope.entries = ' + JSON.stringify($scope.entries));
+      console.log('$scope.entries = ' + angular.toJson($scope.entries));
       $timeout(function () {
         $state.reload();
         //Stop the ion-refresher from spinning
@@ -36,7 +36,7 @@ angular.module('starter.controllers')
     };
     $scope.dynamicListTitle = global.currentList.listName;
 
-    console.log('$state.params = ' + JSON.stringify($state.params));
+    console.log('$state.params = ' + angular.toJson($state.params));
     // localListHandlerV2.getSpecificList($state.params.listLocalId)
     //   .then(function (response) {
     //
@@ -59,7 +59,7 @@ angular.module('starter.controllers')
     localEntryHandlerV2.buildListEntries(global.currentList.listLocalId).then(function () {
       $scope.entries = global.currentListEntries;
       $scope.suggestedItem = global.suggestedItem.suggested;
-      console.log('4/5/2017 - $scope.suggestedItem = ' + JSON.stringify($scope.suggestedItem));
+      console.log('4/5/2017 - $scope.suggestedItem = ' + angular.toJson($scope.suggestedItem));
     });
 
     /*------------------------------------------------------------------*/
@@ -101,26 +101,26 @@ angular.module('starter.controllers')
           //entryCrossedFlag: item.entryCrossedFlag,
           language: item.language
         };
-      console.log('Master Item Searched: ' + JSON.stringify($scope.entries.listOpenEntries));
+      console.log('Master Item Searched: ' + angular.toJson($scope.entries.listOpenEntries));
       localEntryHandlerV2.addItemToList($scope.selectedItem, 'L')
         .then(function (res) {
           $scope.data.items = [];
           $scope.data.search = '';
-          console.log('selectItem $scope.entries.listOpenEntries' + JSON.stringify($scope.entries.listOpenEntries));
+          console.log('selectItem $scope.entries.listOpenEntries' + angular.toJson($scope.entries.listOpenEntries));
           serverHandlerEntryV2.syncEntriesUpstream();
           //$scope.listItems = res.listOpenEntries;
           //$scope.checkedItems = res.listCrossedEntries;
           //$state.reload();
         }, function (error) {
-          console.error('24/2/2017 - aalatief - Selected Item error: ' + JSON.stringify(error));
+          console.error('24/2/2017 - aalatief - Selected Item error: ' + angular.toJson(error));
         });
     };
     /*------------------------------------------------------------------*/
     /*Check item in list*/
     $scope.itemChecked = function (listItem) {
-      console.log('24/2/2017 - aalatief - checked item: ' + JSON.stringify(listItem));
+      console.log('24/2/2017 - aalatief - checked item: ' + angular.toJson(listItem));
       localEntryHandlerV2.checkItem(listItem, $scope.entries).then(function (res) {
-        console.log("listOpenEntries global.currentListEntries = " + JSON.stringify(global.currentListEntries));
+        console.log("listOpenEntries global.currentListEntries = " + angular.toJson(global.currentListEntries));
         /*$scope.$apply(function () {
          $scope.selectedItems = res.listOpenEntries;
          $scope.checkedItems = res.listCrossedEntries;
@@ -139,7 +139,7 @@ angular.module('starter.controllers')
 
     /*UnCheck item in list*/
     $scope.unCheckItem = function (checkedItem) {
-      console.log('24/2/2017 - aalatief - uncheck item: ' + JSON.stringify(checkedItem));
+      console.log('24/2/2017 - aalatief - uncheck item: ' + angular.toJson(checkedItem));
       localEntryHandlerV2.unCheckItem(checkedItem);
 
     };
@@ -173,8 +173,8 @@ angular.module('starter.controllers')
       localItemHandlerV2.addMasterItem($scope.enteredItem)
 
         .then(function (response) {
-            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item added' + JSON.stringify(response));
-            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id' + JSON.stringify(response) + 'Entered Item Name: ' + $scope.enteredItem.itemName);
+            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item added' + angular.toJson(response));
+            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item Local Id' + angular.toJson(response) + 'Entered Item Name: ' + $scope.enteredItem.itemName);
 
             $scope.selectedItem =
               {
@@ -205,7 +205,7 @@ angular.module('starter.controllers')
           },
           function (error) {
 
-            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item errored' + JSON.stringify(error));
+            console.log('07/02/2017 - listItemCtrl - aalatief:Master Item errored' + angular.toJson(error));
           }
         );
     }
@@ -222,10 +222,10 @@ angular.module('starter.controllers')
               case 1:
                 localEntryHandlerV2.deactivateItem(listItem, 'OPEN')
                   .then(function (ret) {
-                    console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + JSON.stringify(ret));
+                    console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + angular.toJson(ret));
                     $state.reload();
                   }, function (err) {
-                    console.log('25/02/2017 - listItem - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                    console.log('25/02/2017 - listItem - aalatief - ERROR Rows affected: ' + angular.toJson(err));
                   });
                 break;
               case 2:
@@ -248,11 +248,11 @@ angular.module('starter.controllers')
           if (res) {
             localEntryHandlerV2.deactivateItem(listItem, 'OPEN')
               .then(function (ret) {
-                console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + JSON.stringify(ret));
+                console.log('25/02/2017 - listItem - aalatief - Rows affected: ' + angular.toJson(ret));
                 //$state.reload();
                 //$scope.$apply();
               }, function (err) {
-                console.log('25/02/2017 - listItem - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                console.log('25/02/2017 - listItem - aalatief - ERROR Rows affected: ' + angular.toJson(err));
               });
 
           }
@@ -287,18 +287,18 @@ angular.module('starter.controllers')
 
       $scope.entryLocalId = entry.entryLocalId;
 
-      console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + JSON.stringify(entry));
+      console.log('11/03/2017 - listItem - aalatief - Entry Obj: ' + angular.toJson(entry));
 
 
       localRetailerHandlerV2.addRetailer(entry.retailerName)
         .then(function (response) {
           entry.retailerLocalId = response;
-          console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + JSON.stringify(entry.retailerName));
-          console.log('4/4/2017 - listItem - aalatief - Entry' + JSON.stringify(entry));
+          console.log('4/4/2017 - listItem - aalatief - retailer local Id' + entry.retailerLocalId + ' New Retailer: ' + angular.toJson(entry.retailerName));
+          console.log('4/4/2017 - listItem - aalatief - Entry' + angular.toJson(entry));
           localEntryHandlerV2.updateEntry(entry);
 
         }, function (error) {
-          console.error('4/4/2017 - listItem - aalatief - Error: ' + JSON.stringify(error));
+          console.error('4/4/2017 - listItem - aalatief - Error: ' + angular.toJson(error));
         });
 
 
@@ -310,7 +310,7 @@ angular.module('starter.controllers')
       localRetailerHandlerV2.getAllRetailers()
         .then(function (result) {
           $scope.retailerList = result;
-          console.log('11/03/2017 - listItem - aalatief - Retailer: ' + JSON.stringify($scope.retailerList));
+          console.log('11/03/2017 - listItem - aalatief - Retailer: ' + angular.toJson($scope.retailerList));
           $scope.retailerList.selected = $scope.retailerList[0];
         }, function (error) {
 
@@ -329,7 +329,7 @@ angular.module('starter.controllers')
         function (matches) {
 
           $scope.retailerData.retailers = matches;
-          console.log('13/3/2017 - aalatief -Search Result after promise: ' + JSON.stringify($scope.retailerData.retailers));
+          console.log('13/3/2017 - aalatief -Search Result after promise: ' + angular.toJson($scope.retailerData.retailers));
         }
       )
     };

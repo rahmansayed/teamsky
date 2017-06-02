@@ -29,7 +29,7 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
           tx.executeSql(query, [settings.getSettingValue('language').substr(0, 2).toUpperCase(), listId], function (tx, result) {
-//          console.log("localEntryHandlerV2.getAllEntry query res = " + JSON.stringify(result));
+//          console.log("localEntryHandlerV2.getAllEntry query res = " + angular.toJson(result));
               var openEntryList = {
                 entries: [],
                 categories: []
@@ -94,12 +94,12 @@ angular.module('starter.services')
           console.log("localEntryHandlerV2.getCheckedItem query settings.getSettingValue('language') = " + settings.getSettingValue('language').toUpperCase().substr(0, 2));
 
           tx.executeSql(query, [settings.getSettingValue('language').substr(0, 2).toUpperCase(), listLocalId], function (tx, res) {
-//          console.log("localEntryHandlerV2.getCheckedItem query res = " + JSON.stringify(res));
+//          console.log("localEntryHandlerV2.getCheckedItem query res = " + angular.toJson(res));
             var crossedEntries = [];
             for (var i = 0; i < res.rows.length; i++) {
               crossedEntries.push(res.rows.item(i));
             }
-//          console.log("localEntryHandlerV2.getCheckedItem crossedEntries = " + JSON.stringify(crossedEntries));
+//          console.log("localEntryHandlerV2.getCheckedItem crossedEntries = " + angular.toJson(crossedEntries));
             deferred.resolve(crossedEntries);
           }, function (err) {
             console.error("localEntryHandlerV2.getCheckedItem query err = " + err.message);
@@ -154,7 +154,7 @@ angular.module('starter.services')
       /*Mark item as uncrossed*/
       function repeatEntry(entry) {
         serverHandlerEntryV2.addEntry(entry, 'L').then(function (res) {
-          console.log('repeatEntry res = ' + JSON.stringify(res));
+          console.log('repeatEntry res = ' + angular.toJson(res));
           serverHandlerEntryV2.syncEntriesUpstream();
         });
         serverHandlerEntryV2.maintainGlobalEntries(entry, 'DELETE');
@@ -190,8 +190,8 @@ angular.module('starter.services')
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
           global.suggestedItem.suggested = res[2];
-          console.log('buildListEntries global.currentListEntries = ' + JSON.stringify(global.currentListEntries));
-          console.log('4/5/2017 - aalatief - suggested Items:  ' + JSON.stringify(global.suggestedItem));
+          console.log('buildListEntries global.currentListEntries = ' + angular.toJson(global.currentListEntries));
+          console.log('4/5/2017 - aalatief - suggested Items:  ' + angular.toJson(global.suggestedItem));
           defer.resolve();
         });
 
@@ -214,7 +214,7 @@ angular.module('starter.services')
        * @param entry
        */
       function updateEntry(entry) {
-        console.log('updateEntry Entry = ' + JSON.stringify(entry));
+        console.log('updateEntry Entry = ' + angular.toJson(entry));
         var deferred = $q.defer();
         global.db.transaction(function (tx) {
             var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, flag = 'E' where entryLocalId = ?";

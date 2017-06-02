@@ -34,11 +34,11 @@ angular.module('starter.services')
                 serverHandlerEntryEvents.syncEventUpstream('CROSS')]).then(function () {
                 defer.resolve();
               }, function (err) {
-                console.error('syncLocalData $q.all error ' + JSON.stringify(err));
+                console.error('syncLocalData $q.all error ' + angular.toJson(err));
                 defer.reject();
               });
             }, function (err) {
-              console.error('syncLocalData syncEntriesUpstream error ' + JSON.stringify(err));
+              console.error('syncLocalData syncEntriesUpstream error ' + angular.toJson(err));
               defer.reject();
             });
           }, function (err) {
@@ -80,13 +80,13 @@ angular.module('starter.services')
       var defer = $q.defer();
       contactHandler.downloadContactsPhotos();
       serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
-        console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + JSON.stringify(affectedLists));
+        console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + angular.toJson(affectedLists));
         serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');
         serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
-            console.log('syncDeliveryDownstream affectedLists = ' + JSON.stringify(affectedLists));
+            console.log('syncDeliveryDownstream affectedLists = ' + angular.toJson(affectedLists));
 
             serverHandlerEntryEvents.syncEventDownstream(null, 'SEEN').then(function (affectedLists) {
-              console.log('syncSeenDownstream affectedLists = ' + JSON.stringify(affectedLists));
+              console.log('syncSeenDownstream affectedLists = ' + angular.toJson(affectedLists));
               defer.resolve();
             }, function (err) {
               console.error("syncDownStreamData syncEventDownstream SEEN err = " + err);
@@ -103,7 +103,7 @@ angular.module('starter.services')
       });
 
       serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS').then(function (affectedLists) {
-        console.log('syncCrossingsDownstream affectedLists = ' + JSON.stringify(affectedLists));
+        console.log('syncCrossingsDownstream affectedLists = ' + angular.toJson(affectedLists));
         serverHandlerEntryEvents.syncEventUpstream('CROSS');
       });
 

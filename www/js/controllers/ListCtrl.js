@@ -18,10 +18,10 @@ angular.module('starter.controllers')
     localListHandlerV2.getAllLists()
       .then(function (lists) {
           $scope.lists = lists;
-          console.log('listCtrl - localListHandlerV2 $scope.lists :' + JSON.stringify($scope.lists));
+          console.log('listCtrl - localListHandlerV2 $scope.lists :' + angular.toJson($scope.lists));
         },
         function (error) {
-          console.log('listCtrl - localListHandlerV2 ERROR $scope.lists:' + JSON.stringify(error));
+          console.log('listCtrl - localListHandlerV2 ERROR $scope.lists:' + angular.toJson(error));
         });
 
 
@@ -68,10 +68,10 @@ angular.module('starter.controllers')
               case 1:
                 localListHandlerV2.deactivateList(list)
                   .then(function (ret) {
-                    console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
+                    console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + angular.toJson(ret));
                     $state.reload();
                   }, function (err) {
-                    console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                    console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + angular.toJson(err));
                   });
                 break;
               case 2:
@@ -94,10 +94,10 @@ angular.module('starter.controllers')
           if (res) {
             localListHandlerV2.deactivateList(list)
               .then(function (ret) {
-                console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
+                console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + angular.toJson(ret));
                 $state.reload();
               }, function (err) {
-                console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + angular.toJson(err));
               });
 
           }
@@ -122,7 +122,7 @@ angular.module('starter.controllers')
 
     /*Route to Add item Page*/
     $scope.addItem = function (list) {
-      console.log('list id sent : ' + JSON.stringify(list));
+      console.log('list id sent : ' + angular.toJson(list));
       global.currentList = list;
       $state.go('item');
     };
@@ -218,9 +218,9 @@ angular.module('starter.controllers')
     });
 
     $scope.getDirection = function () {
-//        console.log('userSetting: ' + JSON.stringify(settings.userSetting));
+//        console.log('userSetting: ' + angular.toJson(settings.userSetting));
       $scope.language = settings.getSettingValue('language');
-//        console.log('getDirection: '+JSON.stringify( $scope.language));
+//        console.log('getDirection: '+angular.toJson( $scope.language));
       if ($scope.language == 'english') {
         return {direction: "ltr"};
       }
@@ -231,7 +231,7 @@ angular.module('starter.controllers')
     }
     /*$scope.openPopover = function($event) {
 
-     alert('Popover Show: '+JSON.stringify($event)   );
+     alert('Popover Show: '+angular.toJson($event)   );
      $scope.popover.show($event);
 
      };

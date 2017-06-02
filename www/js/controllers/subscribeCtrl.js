@@ -21,10 +21,10 @@ angular.module('starter.controllers')
 
 
     /* .then(function(response){
-     console.log('All Users: ' + JSON.stringify($scope.users)) ;
+     console.log('All Users: ' + angular.toJson($scope.users)) ;
      });
      */
-    /*    console.log('All Users: ' + JSON.stringify($scope.users)) ;
+    /*    console.log('All Users: ' + angular.toJson($scope.users)) ;
      console.log('Is user Verified?: '+settings.isUserVerified($scope.deviceLocalId));
      */
 
@@ -37,7 +37,7 @@ angular.module('starter.controllers')
     $scope.subscribeUser = function (enteredNumber) {
 
 
-      console.log('subscribeCtrl enteredNumber = ' + JSON.stringify(enteredNumber) + 'No of Digits: ' + enteredNumber.phoneNumber);
+      console.log('subscribeCtrl enteredNumber = ' + angular.toJson(enteredNumber) + 'No of Digits: ' + enteredNumber.phoneNumber);
 
       if (!enteredNumber.phoneNumber) {
         document.getElementById('subscribeError').innerHTML = "*You must enter phone number."
@@ -57,15 +57,15 @@ angular.module('starter.controllers')
           countryCode: enteredNumber.countryCode,
           deviceUUID: global.deviceUUID
         };
-        console.log('subscribeCtrl user = ' + JSON.stringify(user));
-        console.log('subscribeCtrl $scope.country = ' + JSON.stringify($scope.selected));
+        console.log('subscribeCtrl user = ' + angular.toJson(user));
+        console.log('subscribeCtrl $scope.country = ' + angular.toJson($scope.selected));
 
 
         settings.addUserSetting('country', $scope.selected.country.code);
         $http.post(global.serverIP + "/api/user/subscribe", user).then(function (response) {
 
           console.log("subscribeUser response.data.vCode = " + response.data.vCode);
-          alert('Verification code: ' + JSON.stringify(response.data.vCode));
+          alert('Verification code: ' + angular.toJson(response.data.vCode));
 
           settings.verificationData = {
             deviceLocalId: $scope.deviceLocalId,
@@ -77,7 +77,7 @@ angular.module('starter.controllers')
           global.deviceServerId = response.data.deviceServerId;
           global.userServerId = response.data.userServerId;
 
-          console.log('11/03/2017 - aalatief - subscribeCtrl: ' + JSON.stringify(settings.verificationData));
+          console.log('11/03/2017 - aalatief - subscribeCtrl: ' + angular.toJson(settings.verificationData));
           $location.path("/verify");
         }, function (error) {
           console.log(error);
@@ -89,19 +89,19 @@ angular.module('starter.controllers')
       }
       ;
     };
-    
-    
+
+
         $scope.getDirection = function (){
-       /* console.log('userSetting: ' + JSON.stringify(settings.userSetting));    */
-        $scope.language = settings.getSettingValue('language'); 
-       /* console.log('getDirection: '+JSON.stringify( $scope.language));*/
+       /* console.log('userSetting: ' + angular.toJson(settings.userSetting));    */
+        $scope.language = settings.getSettingValue('language');
+       /* console.log('getDirection: '+angular.toJson( $scope.language));*/
         if ( $scope.language == 'english'){
             return {direction: "ltr"};
         }
         else{
             return {direction: "rtl"};
         }
-        
+
     }
 
     $scope.countries = [

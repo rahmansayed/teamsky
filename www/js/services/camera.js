@@ -100,15 +100,15 @@ angular.module('starter.services')
             }, function () {
               // If don't get the FileEntry (which may happen when testing
               // on some emulators), copy to a new FileEntry.
-              console.error("window.resolveLocalFileSystemURL(imageURI) error " + JSON.stringify(err));
+              console.error("window.resolveLocalFileSystemURL(imageURI) error " + angular.toJson(err));
             });
           }, function () {
             // If don't get the FileEntry (which may happen when testing
             // on some emulators), copy to a new FileEntry.
-            console.error("window.resolveLocalFileSystemURL(imageURI) error " + JSON.stringify(err));
+            console.error("window.resolveLocalFileSystemURL(imageURI) error " + angular.toJson(err));
           });
         }, function (err) {
-          console.error("window.resolveLocalFileSystemURL(imgUri) error " + JSON.stringify(err));
+          console.error("window.resolveLocalFileSystemURL(imgUri) error " + angular.toJson(err));
         });
         return defer.promise;
       };
@@ -128,7 +128,7 @@ angular.module('starter.services')
             console.log("Code = " + res.responseCode);
           },
           function (error) {
-            console.error("upload error = " + JSON.stringify(error));
+            console.error("upload error = " + angular.toJson(error));
             alert("An error has occurred: Code = " + error.code);
           },
           options);

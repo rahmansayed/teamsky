@@ -2,19 +2,19 @@ angular.module('starter.controllers')
   .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global,$translate) {
 
     $scope.dynamicTitle = $translate.instant('EDIT_LIST');
-    console.log('Edit List: ' + 'global.currentList' + JSON.stringify(global.currentList));
+    console.log('Edit List: ' + 'global.currentList' + angular.toJson(global.currentList));
 
     $scope.dynamicTitle = $translate.instant('EDIT_LIST')+ global.currentList.listName;
     $scope.list = angular.copy(global.currentList);
 /*
     localListHandlerV2.getSpecificList($state.params.listId)
     .then(function(res){
-        console.log('23/02/2017 - aalatief: specific List success:'+JSON.stringify(res));
+        console.log('23/02/2017 - aalatief: specific List success:'+angular.toJson(res));
         $scope.list=angular.copy(res);
 
     },
     function(error){
-        console.log('aalatief: specific List fail:'+JSON.stringify(error));
+        console.log('aalatief: specific List fail:'+angular.toJson(error));
 
     });
 */
@@ -23,11 +23,11 @@ angular.module('starter.controllers')
 /*
     localListHandlerV2.getListUsers($state.params.listId)
     .then(function(res){
-        console.log('23/03/2017 - aalatief: List userssuccess:'+JSON.stringify(res));
+        console.log('23/03/2017 - aalatief: List userssuccess:'+angular.toJson(res));
         $scope.listUsers=/!*angular.copy(*!/res/!*)*!/;
     },
     function(error){
-        console.log('aalatief: specific List fail:'+JSON.stringify(error));
+        console.log('aalatief: specific List fail:'+angular.toJson(error));
 
     });
 */
@@ -43,19 +43,19 @@ angular.module('starter.controllers')
         localListHandlerV2.update($scope.list)
         .then(function(response){
             $state.go('lists');
-            console.log('23/2/2017 - aalatief: List local update success:'+JSON.stringify($scope.list)+' , '+JSON.stringify(response));
+            console.log('23/2/2017 - aalatief: List local update success:'+angular.toJson($scope.list)+' , '+angular.toJson(response));
         },function(error){
-            console.log('23/2/2017 - aalatief: List local update fail:'+JSON.stringify($scope.list)+' , '+JSON.stringify(error));
+            console.log('23/2/2017 - aalatief: List local update fail:'+angular.toJson($scope.list)+' , '+angular.toJson(error));
         },function(error){
         });
 
         serverHandlerListV2.updateList($scope.list)
         .then(function(result){
-            console.log('23/2/2017 - aalatief: List Server update success:'+JSON.stringify(result));
+            console.log('23/2/2017 - aalatief: List Server update success:'+angular.toJson(result));
         },
         function(error){
 
-             console.log('aalatief: List Server update fail:'+JSON.stringify(error));
+             console.log('aalatief: List Server update fail:'+angular.toJson(error));
         });
 
     }
@@ -64,7 +64,7 @@ angular.module('starter.controllers')
     /*Remove list user Function*/
     $scope.removeListUser = function (list, listUser) {
       /*Handle the case of elete from Device*/
-       console.log('listUser :'+JSON.stringify(listUser));
+       console.log('listUser :'+angular.toJson(listUser));
       document.addEventListener("deviceready", function () {
         navigator.notification.confirm(
           "Are you sure you want to remove this contact from list " + listUser.listName + "?", // the message
@@ -73,10 +73,10 @@ angular.module('starter.controllers')
               case 1:
                 localListHandlerV2.kickContact(list.listLocalId,listUser.contactLocalId)
                   .then(function (ret) {
-                    console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
+                    console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + angular.toJson(ret));
                     $state.reload();
                   }, function (err) {
-                    console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                    console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + angular.toJson(err));
                   });
                     alert('delete'+listUser.contactName);
                 break;
@@ -101,10 +101,10 @@ angular.module('starter.controllers')
           if (res) {
             localListHandlerV2.kickContact(listUser.listLocalId,list.contactLocalId)
               .then(function (ret) {
-                console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + JSON.stringify(ret));
+                console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + angular.toJson(ret));
                 $state.reload();
               }, function (err) {
-                console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + JSON.stringify(err));
+                console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + angular.toJson(err));
               });
 
           }

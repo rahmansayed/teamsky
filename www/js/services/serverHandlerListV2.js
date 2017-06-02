@@ -14,11 +14,11 @@ angular.module('starter.services')
       };
 
       function maintainGlobalLists(list, operation) {
-        console.log('maintainGlobalLists entry = ' + JSON.stringify(list));
+        console.log('maintainGlobalLists entry = ' + angular.toJson(list));
         console.log('maintainGlobalLists operation = ' + operation);
 
         if ($state.current.name == "lists") {
-          console.log('maintainGlobalLists global.lists = ' + JSON.stringify(lists));
+          console.log('maintainGlobalLists global.lists = ' + angular.toJson(lists));
           var listIdx = -1;
 
           for (var i = 0; i < lists.lists.length; i++) {
@@ -61,7 +61,7 @@ angular.module('starter.services')
               }
               break;
           }
-          console.log('maintainGlobalLists AFTER lists = ' + JSON.stringify(lists));
+          console.log('maintainGlobalLists AFTER lists = ' + angular.toJson(lists));
         }
       }
 
@@ -82,11 +82,11 @@ angular.module('starter.services')
         $http.post(global.serverIP + "/api/user/check", data)
 
           .then(function (response) {
-              console.log('serverListHandler checkUser reponse' + JSON.stringify(response));
+              console.log('serverListHandler checkUser reponse' + angular.toJson(response));
               defer.resolve(response.data.userServerId);
             },
             function (error) {
-              console.error('serverListHandler checkUser error' + JSON.stringify(error));
+              console.error('serverListHandler checkUser error' + angular.toJson(error));
               defer.reject(error);
             });
 
@@ -109,7 +109,7 @@ angular.module('starter.services')
           listServerId: listServerId,
           deviceServerId: deviceServerId
         };
-        console.log("inviteToList  List to Be inviteToList => " + JSON.stringify(data));
+        console.log("inviteToList  List to Be inviteToList => " + angular.toJson(data));
 
         $http.post(global.serverIP + "/api/list/invite", data)
 
@@ -119,7 +119,7 @@ angular.module('starter.services')
             consoleLog(" inviteToList Response Done");
           }, function (error) {
             defer.reject(error);
-            console.error("serverHandlerListV2 " + " inviteToList " + " error " + JSON.stringify(error));
+            console.error("serverHandlerListV2 " + " inviteToList " + " error " + angular.toJson(error));
           });
 
         return defer.promise;
@@ -134,7 +134,7 @@ angular.module('starter.services')
             console.log("ServerHandlerListV2 invite userServerId = " + result.userServerId);
             inviteToList(listServerId, result.userServerId);
           }, function (error) {
-            console.error("ServerHandlerListV2 invite error " + JSON.stringify(error));
+            console.error("ServerHandlerListV2 invite error " + angular.toJson(error));
           }
         );
         return defer.promise;
@@ -147,7 +147,7 @@ angular.module('starter.services')
 
       function createList(list) {
 
-        console.log("serverListHandler.createList list = " + JSON.stringify(list));
+        console.log("serverListHandler.createList list = " + angular.toJson(list));
         var defer = $q.defer();
 
         data = {
@@ -162,11 +162,11 @@ angular.module('starter.services')
           }
         };
 
-        console.log("createList List to Be Created = " + JSON.stringify(data));
+        console.log("createList List to Be Created = " + angular.toJson(data));
 
         $http.post(global.serverIP + "/api/list/create", data)
           .then(function (response) {
-              console.log("serverListHandler.createList server response " + JSON.stringify(response));
+              console.log("serverListHandler.createList server response " + angular.toJson(response));
               global.db.transaction(function (tx) {
                 var query = "update list set listServerId = ? , flag = 'S' where listLocalId = ?";
                 tx.executeSql(query, [response.data.listServerId, list.listLocalId], function (tx, result) {
@@ -175,13 +175,13 @@ angular.module('starter.services')
                   list.listServerId = response.data.listServerId;
                   maintainGlobalLists(list, "UPDATE SERVERID");
                 }, function (error) {
-                  console.error("serverListHandler.createList db update error = " + JSON.stringify(error));
+                  console.error("serverListHandler.createList db update error = " + angular.toJson(error));
                   defer.reject(error);
                 });
               });
             },
             function (error) {
-              console.error("serverListHandler.createList error " + JSON.stringify(error));
+              console.error("serverListHandler.createList error " + angular.toJson(error));
               defer.reject(error);
             });
 
@@ -198,9 +198,9 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "select * from list where listServerId = ''";
           tx.executeSql(query, [], function (tx, result) {
-//            consoleLog("result = " + JSON.stringify(result));
-// consoleLog("result.rows = " + JSON.stringify(result.rows));
-//            consoleLog("result.rows.length = " + JSON.stringify(result.rows.length));
+//            consoleLog("result = " + angular.toJson(result));
+// consoleLog("result.rows = " + angular.toJson(result.rows));
+//            consoleLog("result.rows.length = " + angular.toJson(result.rows.length));
             for (i = 0; i < result.rows.length; i++) {
               var list = result.rows.item(i);
               var listDetails =
@@ -213,7 +213,7 @@ angular.module('starter.services')
                 }
               ;
 
-              console.log("serverHandlerListV2.syncListsUpstream calling createlist for " + JSON.stringify(listDetails));
+              console.log("serverHandlerListV2.syncListsUpstream calling createlist for " + angular.toJson(listDetails));
               promises.push(createList(listDetails));
             }
             $q.all(promises).then(function () {
@@ -222,7 +222,7 @@ angular.module('starter.services')
               defer.reject();
             });
           }, function (error) {
-            console.error("error = " + JSON.stringify(error));
+            console.error("error = " + angular.toJson(error));
             defer.reject();
           });
         });
@@ -291,7 +291,7 @@ angular.module('starter.services')
                   listOwnerServerId: list.ownerServerId
                 };
                 if (result.rows.length == 0) {
-                  console.log("serverHandlerListV2.upsertServer ListInserting list " + JSON.stringify(list));
+                  console.log("serverHandlerListV2.upsertServer ListInserting list " + angular.toJson(list));
                   var insertQuery = "insert into list(listLocalId,listName,listServerId, flag, origin, listOwnerServerId, newCount, crossCount) values (null,?,?, 'S', 'S', ?, 0, 0)";
                   tx.executeSql(insertQuery, [list.list.listname, list.list._id, list.ownerServerId], function (tx, res) {
                     myList.listLocalId = res.insertId;
@@ -324,14 +324,14 @@ angular.module('starter.services')
               }
               ,
               function (error) {
-                console.error("serverHandlerListV2.upsertServer count query = " + JSON.stringify(error.message));
+                console.error("serverHandlerListV2.upsertServer count query = " + angular.toJson(error.message));
                 defer.reject(error);
               }
             );
           }
           ,
           function (error) {
-            console.error("serverHandlerListV2.upsertServer db error " + JSON.stringify(error.message));
+            console.error("serverHandlerListV2.upsertServer db error " + angular.toJson(error.message));
             defer.reject(error);
           }
           ,
@@ -364,13 +364,13 @@ angular.module('starter.services')
                 }
               },
               function (error) {
-                console.error("serverHandlerListV2.deactivateServerList db error " + JSON.stringify(error.message));
+                console.error("serverHandlerListV2.deactivateServerList db error " + angular.toJson(error.message));
                 defer.reject(error);
               });
           }
           ,
           function (error) {
-            console.error("serverHandlerListV2.deactivateServerList db error " + JSON.stringify(error.message));
+            console.error("serverHandlerListV2.deactivateServerList db error " + angular.toJson(error.message));
             defer.reject(error);
           },
           function () {
@@ -394,11 +394,11 @@ angular.module('starter.services')
           userServerId: global.userServerId
         };
 
-        console.log("Start syncListsDownstream data = " + JSON.stringify(data));
+        console.log("Start syncListsDownstream data = " + angular.toJson(data));
 
         $http.post(global.serverIP + "/api/list/user", data)
           .then(function (response) {
-            console.log("serverHandlerListV2.syncListsDownstream http Response Result =  " + JSON.stringify(response));
+            console.log("serverHandlerListV2.syncListsDownstream http Response Result =  " + angular.toJson(response));
             // will check if the list already exist in the local table if not then create it
             for (var i = 0; i < response.data.length; i++) {
               if (response.data[i].ownerServerId == global.userServerId) {
@@ -428,7 +428,7 @@ angular.module('starter.services')
             $q.all(upsertPromises).then(function (res) {
               var anyNew = false;
               for (var i = 0; i < res.length; i++) {
-                console.log("syncListsDownstream $q Result " + i + " " + JSON.stringify(res[i].status));
+                console.log("syncListsDownstream $q Result " + i + " " + angular.toJson(res[i].status));
                 if (res[i].status == 'Y') {
                   anyNew = true;
                   break;
@@ -462,12 +462,12 @@ angular.module('starter.services')
           deviceServerId: global.deviceServerId
         };
 
-        console.log("deleteList List to Be Deleted => " + JSON.stringify(data));
+        console.log("deleteList List to Be Deleted => " + angular.toJson(data));
 
         $http.post(global.serverIP + "/api/list/deactivate", data)
 
           .then(function (response) {
-            console.log(" deleteList Response Result => " + JSON.stringify(response));
+            console.log(" deleteList Response Result => " + angular.toJson(response));
 
             defer.resolve(response.data.listServerId);
             console.log(" deleteList Response Done");
@@ -494,7 +494,7 @@ angular.module('starter.services')
           listColour: "Red",
           listOrder: "1"
         };
-        console.log(" List to Be Updated => " + JSON.stringify(data));
+        console.log(" List to Be Updated => " + angular.toJson(data));
 
         $http.post(global.serverIP + "/api/list/update", data)
           .then(function (response) {
@@ -530,15 +530,15 @@ angular.module('starter.services')
             $http.post(global.serverIP + "/api/list/kickContact", data).then(function (res) {
               defer.resolve(res);
             }, function (err) {
-              console.error('kickContact server error = ' + JSON.stringify(err));
+              console.error('kickContact server error = ' + angular.toJson(err));
               defer.reject();
             });
           }, function (err) {
-            console.error('kickContact db query error = ' + JSON.stringify(err));
+            console.error('kickContact db query error = ' + angular.toJson(err));
             defer.reject();
           });
         }, function (err) {
-          console.error('kickContact db error = ' + JSON.stringify(err));
+          console.error('kickContact db error = ' + angular.toJson(err));
           defer.reject();
         }, function () {
 
