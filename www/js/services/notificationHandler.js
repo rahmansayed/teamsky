@@ -124,7 +124,7 @@ angular.module('starter.services')
           case "PROFILE UPDATE":
             settings.setSettings(msg.additionalData.details.update).then(function () {
               settings.getUserSetting().then(function () {
-                if ($state.current.name == 'account') {
+                if (($state.current.name == 'account') || ($state.current.name == "lists")) {
                   $state.reload();
                 }
               });
