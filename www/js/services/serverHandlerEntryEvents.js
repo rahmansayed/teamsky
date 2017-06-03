@@ -60,7 +60,7 @@ angular.module('starter.services')
       "DELIVER": {
         check: {
           flag: "deliveredFlag",
-          value: "1"
+          value: "3"
         },
         action: {
           "server": ["update entry set deliveredFlag = 3 "]
@@ -475,7 +475,7 @@ angular.module('starter.services')
             break;
           case 'DELIVER':
             if (openIdx > -1)
-              global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 1;
+              global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 3;
             break;
           case 'UPLOADED':
             if (openIdx > -1)
