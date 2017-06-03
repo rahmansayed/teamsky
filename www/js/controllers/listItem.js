@@ -56,6 +56,7 @@ angular.module('starter.controllers')
       })
     }
 
+    global.status = 'foreground';
     localEntryHandlerV2.buildListEntries(global.currentList.listLocalId).then(function () {
       $scope.entries = global.currentListEntries;
       $scope.suggestedItem = global.suggestedItem.suggested;
