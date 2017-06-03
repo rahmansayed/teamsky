@@ -24,7 +24,7 @@ angular.module('starter.services')
           " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
           " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = ?" +
           " where l.listLocalId = ? " +
-          " and ifnull(e.deleted,'N')  !='Y'" +
+          " and e.deleted = 0 " +
           " and e.entryCrossedFlag = 0";
 
         global.db.transaction(function (tx) {

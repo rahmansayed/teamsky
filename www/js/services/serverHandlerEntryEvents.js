@@ -18,8 +18,8 @@ angular.module('starter.services')
           value: "1"
         },
         action: {
-          local: ["update entry set entryCrossedFlag = 1, flag = 'E' "],
-          server: ["update entry set entryCrossedFlag = 1, flag = 'S' "]
+          local: ["update entry set entryCrossedFlag = 1 "],
+          server: ["update entry set entryCrossedFlag = 3 "]
         },
         upstreamServerAPI: "/api/entry/crossmany",
         downstreamServerAPI: "/api/entry/getCrossings",
@@ -29,11 +29,11 @@ angular.module('starter.services')
       "DELETE": {
         check: {
           flag: "deleted",
-          value: "Y"
+          value: 1
         },
         action: {
-          local: ["update entry set deleted = 'Y', flag = 'E' "],
-          server: ["update entry set deleted = 'Y', flag = 'S' "]
+          local: ["update entry set deleted = 1 "],
+          server: ["update entry set deleted = 3 "]
         },
         upstreamServerAPI: "/api/entry/deletemany",
         downstreamServerAPI: "/api/entry/getDeletes",
@@ -49,8 +49,8 @@ angular.module('starter.services')
           value: "2"
         },
         action: {
-          local: ["update entry set seenFlag = 1, flag = 'E' "],
-          server: ["update entry set seenFlag = 3, flag = 'S' "]
+          local: ["update entry set seenFlag = 1 "],
+          server: ["update entry set seenFlag = 3 "]
         },
         upstreamServerAPI: "/api/entry/seemany",
         downstreamServerAPI: "/api/entry/getSeens",
@@ -63,7 +63,7 @@ angular.module('starter.services')
           value: "1"
         },
         action: {
-          "server": ["update entry set deliveredFlag = 1, flag = 'S' "]
+          "server": ["update entry set deliveredFlag = 3 "]
         },
         downstreamServerAPI: "/api/entry/getDelivers",
         downstreamBackAPI: "/api/entry/syncDeliversBack",
@@ -127,8 +127,7 @@ angular.module('starter.services')
         "from entry, list " +
         "where entry.listLocalId = list.listLocalId " +
         " and entry." + Events[event].check.flag + " = '" + Events[event].check.value + "'" +
-        " and entry.entryServerId <> ''" +
-        " and entry.flag = 'E'";
+        " and entry.entryServerId <> ''";
 
       console.log("syncEventUpstream query = " + query);
       console.log("syncEventUpstream Events[event] = " + angular.toJson(Events[event]));
@@ -177,7 +176,6 @@ angular.module('starter.services')
           "where entry.listLocalId = list.listLocalId " +
           " and entry." + Events[event].check.flag + " = '" + Events[event].check.value + "'" +
           " and ifnull(entry.entryServerId,'') <> '' " +
-          " and entry.flag = 'E'" +
           " and list.listServerId = '" + list.listServerId + "'";
 
         console.log('syncEventUptreamperList query = ' + query);

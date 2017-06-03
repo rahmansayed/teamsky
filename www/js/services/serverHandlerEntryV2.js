@@ -401,7 +401,7 @@ angular.module('starter.services')
             " 0," + //deliveredFlag
             " ?," + //seenFlag
             " ?," + //language
-            " 'N')"; //deleted
+            " 0)"; //deleted
           //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
           tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
             console.log('addEntry res = ' + angular.toJson(res.insertId));
