@@ -31,7 +31,8 @@ angular.module('starter.services')
                   console.log('handleNotification lists = ' + angular.toJson(lists));
                   global.currentList = lists.lists[0];
                   global.status = 'background';
-                  $state.go('item');
+                  if (msg.coldstart)
+                    $state.go('item');
                 });
               }
             });
