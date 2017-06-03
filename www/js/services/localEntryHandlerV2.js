@@ -178,7 +178,8 @@ angular.module('starter.services')
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
           global.suggestedItem.suggested = res[2];
-          serverHandlerEntryEvents.syncEventUpstream('SEEN');
+          if (global.status != 'background')
+            serverHandlerEntryEvents.syncEventUpstream('SEEN');
           console.log('buildListEntries global.currentListEntries = ' + angular.toJson(global.currentListEntries));
           console.log('4/5/2017 - aalatief - suggested Items:  ' + angular.toJson(global.suggestedItem));
           defer.resolve();

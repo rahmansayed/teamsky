@@ -3,6 +3,7 @@ angular.module('starter.services')
     var db = {};
     var settings = new Array();
     var dataKey;
+    var status = 'foreground';
     var serverIP = 'https://secret-savannah-80432.herokuapp.com';
     //var serverIP = 'http://129.0.90.36:4000';
     //var serverIP = 'http://129.0.90.36:4000';
@@ -20,7 +21,7 @@ angular.module('starter.services')
     var currentListEntries = {listOpenEntries: {}, listCrossedEntries: []};
     var currentList = {};
 
-    var suggestedItem = {suggested:[]};
+    var suggestedItem = {suggested: []};
 
     function initialize() {
       global.db.transaction(function (tx) {
@@ -43,8 +44,9 @@ angular.module('starter.services')
       deviceUUID: deviceUUID,
       currentListEntries: currentListEntries,
       currentList: currentList,
-      suggestedItem:suggestedItem,
-      simCountry: simCountry
+      suggestedItem: suggestedItem,
+      simCountry: simCountry,
+      status: status
     };
   });
 

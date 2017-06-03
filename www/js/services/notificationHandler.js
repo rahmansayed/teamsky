@@ -14,6 +14,7 @@ angular.module('starter.services')
               if (!msg.additionalData.foreground) {
                 console.log('handleNotification going to list');
                 global.currentList = res.list;
+                global.status = 'background';
                 $state.go('item');
               }
             });
@@ -29,6 +30,7 @@ angular.module('starter.services')
                 localListHandlerV2.getAllLists(affectedLists[0].listLocalId).then(function (lists) {
                   console.log('handleNotification lists = ' + angular.toJson(lists));
                   global.currentList = lists.lists[0];
+                  global.status = 'background';
                   $state.go('item');
                 });
               }
