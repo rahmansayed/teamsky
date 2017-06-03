@@ -33,7 +33,10 @@ angular.module('starter.services')
                   console.log('handleNotification lists = ' + angular.toJson(lists));
                   global.currentList = lists.lists[0];
                   if (!msg.additionalData.coldstart && !msg.additionalData.foreground)
-                    $state.go('item');
+                    if ($state.current.name != 'item')
+                      $state.go('item');
+                    else
+                      $state.reload();
                 });
               }
 
