@@ -62,18 +62,18 @@ angular.module('starter.controllers')
           vCode: vCode,
           countryCode: settings.verificationData.countryCode
         };
-        /*  console.log('aalatief Verify, User Data:'+JSON.stringify($scope.verify));    */
-        console.log('28/2/2017 - aalatief : date: ' + JSON.stringify(data));
+        /*  console.log('aalatief Verify, User Data:'+angular.toJson($scope.verify));    */
+        console.log('28/2/2017 - aalatief : date: ' + angular.toJson(data));
         //$scope.settings.mobile = '999';
         $http.post(global.serverIP + "/api/user/activate", data)
           .then(function (response) {
-            alert(JSON.stringify(response.data));
+            alert(angular.toJson(response.data));
             global.userServerId = response.data.userServerId;
             global.deviceServerId = response.data.deviceServerId;
 
             console.log('06/02/2017 - verifyCtrl - aalatief after Verify: User Server ID:' + global.userServerId);
             console.log('06/02/2017 - verifyCtrl - aalatief after Verify: Device Server ID:' + global.deviceServerId);
-            /*console.log('aaaltief: user to be updated:'+JSON.stringify(data)); */
+            /*console.log('aaaltief: user to be updated:'+angular.toJson(data)); */
 
             var otherSettings = {
               /*preferredLanguage: response.data.preferredLanguage,*/
@@ -92,7 +92,7 @@ angular.module('starter.controllers')
                 settings.addUserSetting('photo', res).then(function () {
                   $state.go('account');
                 });
-                console.log('downloadContactPhoto User Setting: ' + JSON.stringify(settings.userSetting));
+                console.log('downloadContactPhoto User Setting: ' + angular.toJson(settings.userSetting));
               }, function () {
                 $state.go('account');
               });
@@ -106,20 +106,20 @@ angular.module('starter.controllers')
                         console.log('13/03/2017 - aalatief - global.masterItems populated = ');
                       }
                       , function (error) {
-                        console.error('global.masterItems Item Load Fail:' + JSON.stringify(error));
+                        console.error('global.masterItems Item Load Fail:' + angular.toJson(error));
                       });
                 },
                 function (error) {
                 });
-            /*console.log('USER VERIFIED, User Data:'+JSON.stringify($scope.verify)); */
+            /*console.log('USER VERIFIED, User Data:'+angular.toJson($scope.verify)); */
             //TODO go to lists only after succussfull verification
           });
       }
 
       $scope.getDirection = function () {
-        /*  console.log('userSetting: ' + JSON.stringify(settings.userSetting));*/
+        /*  console.log('userSetting: ' + angular.toJson(settings.userSetting));*/
         $scope.language = settings.getSettingValue('language');
-        /*console.log('getDirection: ' + JSON.stringify($scope.language));*/
+        /*console.log('getDirection: ' + angular.toJson($scope.language));*/
         if ($scope.language == 'english') {
           return {direction: "ltr"};
         }
@@ -140,7 +140,7 @@ angular.module('starter.controllers')
         };
 
         $http.post(global.serverIP + "/api/user/resendVerificationCode", data).then(function (res) {
-          alert(JSON.stringify(res.data));
+          alert(angular.toJson(res.data));
         }, function (err) {
           console.error('resendVerificationCode error = ' + err.message);
         });

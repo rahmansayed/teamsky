@@ -99,11 +99,11 @@ angular.module('starter.services')
       console.log("pickContact ");
       /*
        var onSuccess = function (contact) {
-       console.log("pickContact findContact contact = " + JSON.stringify(contact));
+       console.log("pickContact findContact contact = " + angular.toJson(contact));
        };
 
        var onError = function (error) {
-       console.log("pickContact findContact error = " + JSON.stringify(error));
+       console.log("pickContact findContact error = " + angular.toJson(error));
        };
        var options = new ContactFindOptions();
        options.filter = "0595976779";
@@ -116,7 +116,7 @@ angular.module('starter.services')
        try {
        navigator.contacts.find(fields, onSuccess, onError, options);
        } catch (err) {
-       console.log("pickContact navigator.contacts.find contact = " + JSON.stringify(err));
+       console.log("pickContact navigator.contacts.find contact = " + angular.toJson(err));
        }
 
        var opts = {                                           //search options
@@ -131,15 +131,15 @@ angular.module('starter.services')
       /*
        try {
        $cordovaContacts.find(opts).then(function (contact) {
-       console.log("pickContact $cordovaContacts contact = " + JSON.stringify(contact));
+       console.log("pickContact $cordovaContacts contact = " + angular.toJson(contact));
        });
        } catch (err) {
-       console.err('$cordovaContacts.find err = ' + JSON.stringify(err));
+       console.err('$cordovaContacts.find err = ' + angular.toJson(err));
        }
        */
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
-            console.log("pickContact contact = " + JSON.stringify(contact));
+            console.log("pickContact contact = " + angular.toJson(contact));
             var newContact = {
               "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
               "emails": contact.emails || []/*,
@@ -169,7 +169,7 @@ angular.module('starter.services')
                 checkProspect(prospect, list.listServerId).then(function (contactServerId) {
                   newContact.contactServerId = contactServerId;
                   insertContact(newContact).then(function (resultContact2) {
-                    console.log("pickContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
+                    console.log("pickContact insertContact resultContact2 = " + angular.toJson(resultContact2));
                     // download contact photo if exists.
                     downloadContactPhoto(contactServerId);
                     addListContact(list.listLocalId, resultContact2.contactLocalId);
@@ -223,7 +223,7 @@ angular.module('starter.services')
 
       if (navigator && navigator.contacts) {
         navigator.contacts.pickContact(function (contact) {
-            console.log("chooseContact contact = " + JSON.stringify(contact));
+            console.log("chooseContact contact = " + angular.toJson(contact));
             var newContact = {
               "contactName": contact.name.formatted || contact.name.givenName + " " + contact.name.familyName || "Mystery Person",
               "emails": contact.emails || []/*,
@@ -242,7 +242,7 @@ angular.module('starter.services')
                  deferred.resolve();
                  });*/
                 deferred.resolve();
-                console.log("chooseContact contact = " + JSON.stringify(contact));
+                console.log("chooseContact contact = " + angular.toJson(contact));
               }
               else {
                 // check the contact status from the server
@@ -254,7 +254,7 @@ angular.module('starter.services')
                 /*checkProspect(prospect, list.listServerId).then(function (contactServerId) {*/
                 //newContact.contactServerId = contactServerId;
                 insertContact(newContact).then(function (resultContact2) {
-                  console.log("chooseContact insertContact resultContact2 = " + JSON.stringify(resultContact2));
+                  console.log("chooseContact insertContact resultContact2 = " + angular.toJson(resultContact2));
                   // download contact photo if exists.
                   //downloadContactPhoto(contactServerId);
                   /*addListContact(list.listLocalId, resultContact2.contactLocalId);*/
@@ -316,9 +316,9 @@ angular.module('starter.services')
 
             tx.executeSql(query, [listLocalId, contactLocalId, null, new Date().getTime(), null], function (tx, response) {
               //Success Callback
-              console.log('addListContact response.insertId' + JSON.stringify(response.insertId));
+              console.log('addListContact response.insertId' + angular.toJson(response.insertId));
               listUserId = response.insertId;
-              console.log('contact: ' + JSON.stringify(listUserId));
+              console.log('contact: ' + angular.toJson(listUserId));
               deferred.resolve(response);
             }, function (error) {
               //Error Callback
@@ -334,7 +334,7 @@ angular.module('starter.services')
       }, function () {
 
       });
-      /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
+      /*console.log('Master Deferred Promise: '+ angular.toJson(deferred.promise));*/
       return deferred.promise;
     };
 
@@ -346,21 +346,21 @@ angular.module('starter.services')
 
       dbHandler.runQuery(query, [status, contactServerId, new Date().getTime(), 'S', contactLocalId], function (response) {
         //Success Callback
-        console.log('13/2/2017 - ContactHandler - aalatief : Success Contact Status - Server Id update' + JSON.stringify(response));
+        console.log('13/2/2017 - ContactHandler - aalatief : Success Contact Status - Server Id update' + angular.toJson(response));
         /*            listUserId = response;
-         console.log('contact: ' + JSON.stringify(listUserId));*/
+         console.log('contact: ' + angular.toJson(listUserId));*/
         deferred.resolve(response);
       }, function (error) {
         //Error Callback
         console.error('13/2/2017 - ContactHandler - aalatief : Fail Contact Status - Server Id update ' + error);
         deferred.reject(error);
       });
-      /*console.log('Master Deferred Promise: '+ JSON.stringify(deferred.promise));*/
+      /*console.log('Master Deferred Promise: '+ angular.toJson(deferred.promise));*/
       return deferred.promise;
     };
 
     function checkProspect(prospect, listServerId) {
-      console.log("checkProspect prospect = " + JSON.stringify(prospect));
+      console.log("checkProspect prospect = " + angular.toJson(prospect));
       var defer = $q.defer();
       var data = {
         userServerId: global.userServerId,
@@ -369,13 +369,13 @@ angular.module('starter.services')
       };
 
       $http.post(global.serverIP + '/api/user/check', data).then(function (res) {
-        console.log("checkProspect " + JSON.stringify(prospect) + " server response " + JSON.stringify(res));
+        console.log("checkProspect " + angular.toJson(prospect) + " server response " + angular.toJson(res));
         if (prospect.prospectLocalId) {
           updateContactStatus(prospect.prospectLocalId, 'S', res.userServerId);
         }
         defer.resolve(res.data.userServerId);
       }, function (err) {
-        console.log("checkProspect prospect = " + JSON.stringify(prospect));
+        console.log("checkProspect prospect = " + angular.toJson(prospect));
         defer.reject('0000');
       });
       return defer.promise;
@@ -410,7 +410,7 @@ angular.module('starter.services')
 
     function getContactLocalId(contact) {
       var defer = $q.defer();
-      console.log("getContactLocalId contact = " + JSON.stringify(contact));
+      console.log("getContactLocalId contact = " + angular.toJson(contact));
       global.db.transaction(function (tx) {
         var query = "select contactLocalId, contactServerId, contactName from contact where ";
         query = contact.numbers.reduce(function (query, number) {
@@ -442,7 +442,7 @@ angular.module('starter.services')
     function insertContact(contact) {
       var defer = $q.defer();
 
-      console.log('insertContact contact = ' + JSON.stringify(contact));
+      console.log('insertContact contact = ' + angular.toJson(contact));
       global.db.transaction(function (tx) {
           var insertQuery = "insert into contact (contactLocalId, contactName, phoneNumber, contactStatus, contactServerId, photo) " +
             " values (null, ?, ?, ?, ?, ?) ";
@@ -457,11 +457,11 @@ angular.module('starter.services')
             defer.resolve(contact);
           }, function (err) {
             console.error("insertContact insertQuery err = " + err.message);
-            console.error("insertContact insertQuery err contact = " + JSON.stringify(contact));
-            console.error("insertContact insertQuery err numberList = " + JSON.stringify(numberList));
-            console.error("insertContact insertQuery err contactServerId = " + JSON.stringify(contactServerId));
-            console.error("insertContact insertQuery err contactPhoto = " + JSON.stringify(contactPhoto));
-            console.error("insertContact insertQuery err contactStatus = " + JSON.stringify(contactStatus));
+            console.error("insertContact insertQuery err contact = " + angular.toJson(contact));
+            console.error("insertContact insertQuery err numberList = " + angular.toJson(numberList));
+            console.error("insertContact insertQuery err contactServerId = " + angular.toJson(contactServerId));
+            console.error("insertContact insertQuery err contactPhoto = " + angular.toJson(contactPhoto));
+            console.error("insertContact insertQuery err contactStatus = " + angular.toJson(contactStatus));
             defer.reject(err);
           });
         }
@@ -475,7 +475,7 @@ angular.module('starter.services')
 
     function upsertContact(contact) {
       var defer = $q.defer();
-      console.log("upsertContact contact = " + JSON.stringify(contact));
+      console.log("upsertContact contact = " + angular.toJson(contact));
       global.db.transaction(function (tx) {
         var query = "select contactLocalId, contactServerId, contactName from contact where ";
         query = contact.numbers.reduce(function (query, number) {
@@ -502,11 +502,11 @@ angular.module('starter.services')
               defer.resolve(contact);
             }, function (err) {
               console.error("insertContact insertQuery err = " + err.message);
-              console.error("insertContact insertQuery err contact = " + JSON.stringify(contact));
-              console.error("insertContact insertQuery err numberList = " + JSON.stringify(numberList));
-              console.error("insertContact insertQuery err contactServerId = " + JSON.stringify(contactServerId));
-              console.error("insertContact insertQuery err contactPhoto = " + JSON.stringify(contactPhoto));
-              console.error("insertContact insertQuery err contactStatus = " + JSON.stringify(contactStatus));
+              console.error("insertContact insertQuery err contact = " + angular.toJson(contact));
+              console.error("insertContact insertQuery err numberList = " + angular.toJson(numberList));
+              console.error("insertContact insertQuery err contactServerId = " + angular.toJson(contactServerId));
+              console.error("insertContact insertQuery err contactPhoto = " + angular.toJson(contactPhoto));
+              console.error("insertContact insertQuery err contactStatus = " + angular.toJson(contactStatus));
               defer.reject(err);
             });
           }
@@ -555,7 +555,7 @@ angular.module('starter.services')
             var query = "UPDATE contact SET photo = ? where contactServerId = ?";
             tx.executeSql(query, [entry.toURL(), contactServerId]);
           }, function (err) {
-            console.error("downloadContactPhoto db transaction failed err = " + JSON.stringify(err));
+            console.error("downloadContactPhoto db transaction failed err = " + angular.toJson(err));
           }, function () {
 
           });

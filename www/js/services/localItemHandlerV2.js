@@ -16,7 +16,7 @@ angular.module('starter.services')
             " order by i.itemPriority desc, i.genericFlag desc";
           console.log("localItemHandlerV2.getAllMasterItem settings.getSettingValue('language') = " + settings.getSettingValue('language'));
           tx.executeSql(query, [settings.getSettingValue('language').toUpperCase().substr(0, 2)], function (tx, res) {
-            //console.log("localItemHandlerV2.getAllMasterItem query res = " + JSON.stringify(res));
+            //console.log("localItemHandlerV2.getAllMasterItem query res = " + angular.toJson(res));
             for (var i = 0; i < res.rows.length; i++) {
               items.push(res.rows.item(i));
             }
@@ -41,7 +41,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "SELECT i.itemLocalId from masterItem as i where i.itemName = ?";
           tx.executeSql(query, [itemName], function (tx, res) {
-              console.log("localItemHandlerV2.getLocalItemId query res = " + JSON.stringify(res));
+              console.log("localItemHandlerV2.getLocalItemId query res = " + angular.toJson(res));
               defer.resolve(res.rows.item(0).itemLocalId);
             }, function (err) {
               console.log("localItemHandlerV2.getLocalItemId query err = " + err.message);
@@ -107,7 +107,7 @@ angular.module('starter.services')
           for (var j = 0; j < items.length; j++) {
             var match = true;
             for (var i = 0; i < words.length; i++) {
-              //console.log("searchItems items[j] = " + JSON.stringify(items[j]))
+              //console.log("searchItems items[j] = " + angular.toJson(items[j]))
               if (items[j].lowerItemName.indexOf(words[i]) == -1 ||
                 items[j].language != lang
               ) {
@@ -137,7 +137,7 @@ angular.module('starter.services')
             " where ";
 
           var words = searchFilter.toLowerCase().split(" ").map(function (word) {
-            return " (itl.lowerItemName like '%" + word + "%' )"
+            return " (lower(itl) like '%" + word + "%' )"
           });
           for (var i = 0; i < words.length; i++) {
             if (i == 0) {
@@ -160,7 +160,7 @@ angular.module('starter.services')
                 matchedItems.push(res.rows.item(i));
               }
               deferred.resolve(matchedItems);
-              console.log('res = ' + JSON.stringify(res));
+              console.log('res = ' + angular.toJson(res));
             }, function (err) {
               console.error('searchItemsDB err = ' + err.message);
             });
@@ -182,7 +182,7 @@ angular.module('starter.services')
         if (!masterItemExist(item)) {
 
           item.language = 'EN';
-          console.log('addMaserItem item = ' + JSON.stringify(item));
+          console.log('addMaserItem item = ' + angular.toJson(item));
 
           global.db.transaction(function (tx) {
             var query_item = "INSERT INTO masterItem " +

@@ -20,10 +20,10 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
         tx.executeSql(query, [list.listName, list.listDescription, list.listColor, list.listOrder, 'L', list.listLocalId],
           function (tx, res) {
-            console.log("localListHandlerV2.update + res " + JSON.stringify(res));
+            console.log("localListHandlerV2.update + res " + angular.toJson(res));
             defer.resolve(res);
           }, function (err) {
-            console.log("localListHandlerV2.update + err " + query + ' ' + JSON.stringify(err));
+            console.log("localListHandlerV2.update + err " + query + ' ' + angular.toJson(err));
             defer.reject(err);
           })
       }, function (err) {
@@ -38,7 +38,7 @@ angular.module('starter.services')
      * @param list
      */
     function addNewList(list) {
-      console.log('aalatief - Entered List: ' + JSON.stringify(list));
+      console.log('aalatief - Entered List: ' + angular.toJson(list));
       var deferred = $q.defer();
       var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,newCount, crossCount, lastUpdateDate, lastUpdateBy, origin, flag, listOwnerServerId) " +
         "VALUES (null,?,?,'','','','N',0,0,?,?,'L', 'N', ?)";
@@ -46,7 +46,7 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
         tx.executeSql(query, [list.listName, list.listDescription, new Date().getTime(), 'L', global.userServerId], function (tx, response) {
           //Success Callback
-          console.log("localListHandlerV2.addNewList  res " + JSON.stringify(response));
+          console.log("localListHandlerV2.addNewList  res " + angular.toJson(response));
           list.listLocalId = response.insertId;
           serverHandlerListV2.maintainGlobalLists(list, "ADD");
           deferred.resolve(response.insertId);
@@ -55,7 +55,7 @@ angular.module('starter.services')
           deferred.reject(error);
         });
       }, function (err) {
-        console.error("localListHandlerV2.addNewList  error " + JSON.stringify(error));
+        console.error("localListHandlerV2.addNewList  error " + angular.toJson(error));
         defer.reject(err);
       }, function () {
 
@@ -96,7 +96,7 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
         serverHandlerListV2.lists.lists = [];
         tx.executeSql(query, [], function (tx, res) {
-          console.log("localListHandlerV2.getAllLists  success " + JSON.stringify(res.rows));
+          console.log("localListHandlerV2.getAllLists  success " + angular.toJson(res.rows));
           for (var i = 0; i < res.rows.length; i++) {
             serverHandlerListV2.lists.lists.push(res.rows.item(i));
           }
@@ -106,11 +106,11 @@ angular.module('starter.services')
             " and ifnull(lu.deleted, 'N') = 'N' " +
             " and lu.listLocalId = ?";
 
-          console.log("localListHandlerV2.getAllLists  lists " + JSON.stringify(serverHandlerListV2.lists));
+          console.log("localListHandlerV2.getAllLists  lists " + angular.toJson(serverHandlerListV2.lists));
           serverHandlerListV2.lists.lists.forEach(function (list) {
             list.contacts = new Array();
             tx.executeSql(getContactsQuery, [list.listLocalId], function (tx, res2) {
-              console.log("getAllLists list.item = " + JSON.stringify(list));
+              console.log("getAllLists list.item = " + angular.toJson(list));
               for (var j = 0; j < res2.rows.length; j++) {
                 list.contacts.push(res2.rows.item(j));
               }
@@ -145,12 +145,12 @@ angular.module('starter.services')
 
           var query = "select * from list where listLocalId = ?";
           tx.executeSql(query, [listLocalId], function (tx, res) {
-              console.log("localListHandlerV2.deleteList  query res " + JSON.stringify(res));
+              console.log("localListHandlerV2.deleteList  query res " + angular.toJson(res));
               var deleteQuery = "delete from list where listLocalId = ?";
               var ret = {};
               ret.list = res.rows.item(0);
               tx.executeSql(deleteQuery, [listLocalId], function (tx, res) {
-                console.log("localListHandlerV2.deleteList  deleteQuery res " + JSON.stringify(res));
+                console.log("localListHandlerV2.deleteList  deleteQuery res " + angular.toJson(res));
                 ret.rowsAffected = res.rowsAffected;
                 defer.resolve(ret);
               }, function (err) {
@@ -186,12 +186,12 @@ angular.module('starter.services')
 
           var query = "select * from list where listLocalId = ?";
           tx.executeSql(query, [list.listLocalId], function (tx, res) {
-              console.log("localListHandlerV2.deactivateList  query res " + JSON.stringify(res));
+              console.log("localListHandlerV2.deactivateList  query res " + angular.toJson(res));
               var deleteQuery = "update list set deleted = 'Y' where listLocalId = ?";
               var ret = {};
               ret.list = res.rows.item(0);
               tx.executeSql(deleteQuery, [list.listLocalId], function (tx, res) {
-                console.log("localListHandlerV2.deactivateList  deleteQuery res " + JSON.stringify(res));
+                console.log("localListHandlerV2.deactivateList  deleteQuery res " + angular.toJson(res));
                 ret.rowsAffected = res.rowsAffected;
                 serverHandlerListV2.deleteList(list);
                 deferred.resolve(ret);

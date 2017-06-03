@@ -8,9 +8,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -363,7 +363,7 @@ define("cordova/android/promptbasednativeapi", function(require, exports, module
 
 module.exports = {
     exec: function(bridgeSecret, service, action, callbackId, argsJson) {
-        return prompt(argsJson, 'gap:'+JSON.stringify([bridgeSecret, service, action, callbackId]));
+        return prompt(argsJson, 'gap:'+angular.toJson([bridgeSecret, service, action, callbackId]));
     },
     setNativeToJsBridgeMode: function(bridgeSecret, value) {
         prompt(value, 'gap_bridge_mode:' + bridgeSecret);
@@ -931,7 +931,7 @@ function androidExec(success, fail, service, action, args) {
     }
 
     var callbackId = service + cordova.callbackId++,
-        argsJson = JSON.stringify(args);
+        argsJson = angular.toJson(args);
 
     if (success || fail) {
         cordova.callbacks[callbackId] = {success:success, fail:fail};
@@ -1080,7 +1080,7 @@ function processMessage(message) {
         buildPayload(payload, payloadMessage);
         cordova.callbackFromNative(callbackId, success, status, payload, keepCallback);
     } else {
-        console.log("processMessage failed: invalid message: " + JSON.stringify(message));
+        console.log("processMessage failed: invalid message: " + angular.toJson(message));
     }
 }
 

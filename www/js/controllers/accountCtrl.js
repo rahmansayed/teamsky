@@ -3,7 +3,7 @@ angular.module('starter.controllers')
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
 
-    console.log('11/4/2017 - user setting: ' + JSON.stringify(settings.userSetting));
+    console.log('11/4/2017 - user setting: ' + angular.toJson(settings.userSetting));
     $scope.days = ['1', '2'];
 
     $scope.selectedYear = 0;
@@ -1044,12 +1044,12 @@ angular.module('starter.controllers')
         }
       }
       else {
-        console.log("year: " + JSON.stringify($scope.userData.selected.selectedYear) + "month: " + JSON.stringify($scope.userData.selected.selectedMonth));
+        console.log("year: " + angular.toJson($scope.userData.selected.selectedYear) + "month: " + angular.toJson($scope.userData.selected.selectedMonth));
         for (var i = 1; i <= new Date($scope.userData.selected.selectedYear, $scope.userData.selected.selectedMonth.id, 0).getDate(); i++) {
           $scope.days.push(i);
         }
       }
-      console.log('Days: ' + JSON.stringify($scope.days));
+      console.log('Days: ' + angular.toJson($scope.days));
       //return days;
     };
 
@@ -1071,7 +1071,7 @@ angular.module('starter.controllers')
         selected: setSelectedDOB()
       };
     });
-    console.log("$scope.userData  " + JSON.stringify($scope.userData));
+    console.log("$scope.userData  " + angular.toJson($scope.userData));
 
     function setCountry() {
       var cntry = settings.getSettingValue('country');
@@ -1137,12 +1137,12 @@ angular.module('starter.controllers')
       }
       else {
         document.getElementById('accountError').innerHTML = ' ';
-        console.log("updateProfile userData = " + JSON.stringify($scope.userData));
+        console.log("updateProfile userData = " + angular.toJson($scope.userData));
         var data = {};
         var promises = [];
         for (var attribute in $scope.userData) {
           if ($scope.userData[attribute]) {
-            console.log("updateProfile userData['" + attribute + "'] = " + JSON.stringify($scope.userData[attribute]));
+            console.log("updateProfile userData['" + attribute + "'] = " + angular.toJson($scope.userData[attribute]));
             switch (attribute) {
               case  'country' :
                 promises.push(settings.addUserSetting(attribute, $scope.userData[attribute].code));
@@ -1176,9 +1176,9 @@ angular.module('starter.controllers')
         data.userServerId = global.userServerId;
         data.deviceServerId = global.deviceServerId;
         $http.post(global.serverIP + "/api/user/updateProfile", data).then(function (res) {
-          console.log('saveUserSetting server res = ' + JSON.stringify(res));
+          console.log('saveUserSetting server res = ' + angular.toJson(res));
         }, function (err) {
-          console.error('saveUserSetting server err = ' + JSON.stringify(err));
+          console.error('saveUserSetting server err = ' + angular.toJson(err));
         });
         $translate.use($scope.userData.language.substr(0, 2));
       }
@@ -1186,7 +1186,7 @@ angular.module('starter.controllers')
 
     $scope.getDirection = function () {
       $scope.language = settings.getSettingValue('language');
-      /* console.log('getDirection: '+JSON.stringify( $scope.language));*/
+      /* console.log('getDirection: '+angular.toJson( $scope.language));*/
       if ($scope.language == 'english') {
         return {direction: "ltr"};
       }

@@ -12,7 +12,7 @@ angular.module('starter.services')
           successCb(res);
         }, function (err) {
           //errorCb(err);
-          console.log('Error Query Run!!' + 'Query: ' + query + JSON.stringify(err));
+          console.log('Error Query Run!!' + 'Query: ' + query + angular.toJson(err));
         });
       }.bind(this));
       // console.log('Init Query Run!!');
@@ -32,7 +32,7 @@ angular.module('starter.services')
        }
        else {*/
       console.log('11/02/2017 - aalatief - initDb from Browser');
-      global.db = window.openDatabase("teamSky1_32.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+      global.db = window.openDatabase("teamSky1_34.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
       /*$location.path("/subscribe");*/
       //}
@@ -60,7 +60,6 @@ angular.module('starter.services')
        });
        */
 
-
       var query = [
         /*"drop table entry",
 
@@ -75,7 +74,6 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS list_tl (listLocalId integer,language text,listName text,lastUpdateDate integer,lastUpdateBy text )",
 
-
         "CREATE TABLE IF NOT EXISTS listUser (listLocalId integer,contactLocalId integer,privilage text,lastUpdateDate integer,lastUpdateBy text, deleted text,  flag text, UNIQUE(listLocalId, contactLocalId))",
 
         "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer primary key,contactName text,phoneNumber text UNIQUE,phoneType text,contactServerId text,contactStatus text,photo text,lastUpdateDate integer,lastUpdateBy text)",
@@ -84,22 +82,22 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS masterItem_tl(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
 
+//        "CREATE INDEX masterItem_tl_idx1 ON masterItem_tl (language, lower(itemName))",
+
         "CREATE TABLE IF NOT EXISTS category (categoryLocalId integer primary key,categoryName text,categoryServerId text,lastUpdateDate integer,lastUpdateBy text)",
 
         "CREATE TABLE IF NOT EXISTS category_tl (categoryLocalId text ,language text,categoryName text,lastUpdateDate integer,lastUpdateBy text)",
-
 
         "CREATE TABLE IF NOT EXISTS vendor (vendorLocalId integer primary key,vendorName text,vendorServerId text,lastUpdateDate integer,lastUpdateBy text)",
 
         "CREATE TABLE IF NOT EXISTS vendor_tl (vendorLocalId integer,language text,vendorName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId text, itemLocalId integer,origin text, flag text, deliveredFlag number, seenFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag text,deleted text,lastUpdateDate integer,lastUpdateBy text, language text)",
+        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId text, itemLocalId integer,origin text, flag text, deliveredFlag number, seenFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text)",
 
         "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text UNIQUE,retailerServerId text,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
 
         "CREATE TABLE IF NOT EXISTS retailer_tl (retailerLocalId integer ,language text,retailerName text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(retailerLocalId, language))",
 
-        "CREATE TABLE IF NOT EXISTS sync (tableName text primary key,lastSyncDate integer)",
         "CREATE TABLE IF NOT EXISTS uoms (uomName text primary key)",
 
         "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(setting))"

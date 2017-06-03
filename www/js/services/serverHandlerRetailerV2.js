@@ -3,7 +3,7 @@ angular.module('starter.services')
   .factory('serverHandlerRetailerV2', function ($http, global, $q, dbHelper) {
 
       function addRetailersDB(retailerList) {
-        //console.log("addRetailersDB retailerList = " + JSON.stringify(retailerList));
+        //console.log("addRetailersDB retailerList = " + angular.toJson(retailerList));
 
         var defer = $q.defer();
 
@@ -44,7 +44,7 @@ angular.module('starter.services')
           tx.executeSql(query, [],
             function (tx, localResponse) {
 
-              console.log("syncMasterRetailersDownstream localResponse.rows = " + JSON.stringify(localResponse.rows));
+              console.log("syncMasterRetailersDownstream localResponse.rows = " + angular.toJson(localResponse.rows));
               var maxItemServerId;
 
               maxRetailerServerId = localResponse.rows.item(0).maxRetailerServerId || '000000000000000000000000';
@@ -60,7 +60,7 @@ angular.module('starter.services')
               $http.post(global.serverIP + "/api/retailer/get", data)
                 .then(function (serverResponse) {
                   console.log(" syncMasterRetailersDownstream Server List Back Correctly");
-//                console.log(" updateList Response Result => categoryListServer " + JSON.stringify(categoryListServer));
+//                console.log(" updateList Response Result => categoryListServer " + angular.toJson(categoryListServer));
                   if (serverResponse.data.length > 0) {
                     addRetailersDB(serverResponse.data).then(function (string) {
                       defer.resolve(string);
@@ -97,7 +97,7 @@ angular.module('starter.services')
             tx.executeSql(query, [],
               function (tx, result) {
 
-                console.log("syncLocalRetailerUpstream localResponse.rows = " + JSON.stringify(result.rows));
+                console.log("syncLocalRetailerUpstream localResponse.rows = " + angular.toJson(result.rows));
 
                 if (result.rows.length > 0) {
                   var data = {
@@ -112,7 +112,7 @@ angular.module('starter.services')
 
                   $http.post(global.serverIP + "/api/retailer/addmany", data)
                     .then(function (serverResponse) {
-                      console.log("syncLocalRetailerUpstream Server List Back" + JSON.stringify(serverResponse));
+                      console.log("syncLocalRetailerUpstream Server List Back" + angular.toJson(serverResponse));
                       var query = "update retailer set retailerServerId = ?, flag = ? where retailerLocalId = ?";
                       global.db.transaction(function (tx) {
                         for (i = 0; i < serverResponse.data.length; i++) {
@@ -160,7 +160,7 @@ angular.module('starter.services')
           tx.executeSql(query, [],
             function (tx, result) {
 
-              console.log("syncDownstreamedRetailerBack localResponse.rows = " + JSON.stringify(result.rows));
+              console.log("syncDownstreamedRetailerBack localResponse.rows = " + angular.toJson(result.rows));
 
               if (result.rows.length > 0) {
                 var data = {
@@ -174,7 +174,7 @@ angular.module('starter.services')
                 }
                 $http.post(global.serverIP + "/api/retailer/syncOtherUserRetailers", data)
                   .then(function (serverResponse) {
-                    console.log("syncDownstreamedRetailerBack Server List Back Correctly " + JSON.stringify(serverResponse));
+                    console.log("syncDownstreamedRetailerBack Server List Back Correctly " + angular.toJson(serverResponse));
                     defer.resolve();
                   });
               }

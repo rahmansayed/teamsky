@@ -37,11 +37,11 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "SELECT uomName from UOMS";
           tx.executeSql(query, [], function (tx, res) {
-            //console.log("localUOMHandlerV2.getAllUOMs query res = " + JSON.stringify(res));
+            //console.log("localUOMHandlerV2.getAllUOMs query res = " + angular.toJson(res));
             for (var i = 0; i < res.rows.length; i++) {
               uoms.push(res.rows.item(i).uomName);
             }
-            console.log("localUOMHandlerV2.getAllUOMs uoms = " + JSON.stringify(uoms));
+            console.log("localUOMHandlerV2.getAllUOMs uoms = " + angular.toJson(uoms));
             defer.resolve(uoms);
 
           }, function (err) {
@@ -95,7 +95,7 @@ angular.module('starter.services')
           for (var j = 0; j < uoms.length; j++) {
             var match = true;
             for (var i = 0; i < words.length; i++) {
-              //console.log("searchItems items[j] = " + JSON.stringify(items[j]))
+              //console.log("searchItems items[j] = " + angular.toJson(items[j]))
               if (uoms[j].indexOf(words[i]) == -1) {
                 match = false;
                 break;
@@ -121,7 +121,7 @@ angular.module('starter.services')
 
         if (!uomsExist(uom)) {
 
-          console.log('addMasterUOM uom = ' + JSON.stringify(uom));
+          console.log('addMasterUOM uom = ' + angular.toJson(uom));
 
           global.db.transaction(function (tx) {
             var query_uom = "INSERT INTO UOMS (uomName) values (?)";
