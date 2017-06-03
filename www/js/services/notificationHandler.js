@@ -31,7 +31,8 @@ angular.module('starter.services')
                   global.currentList = lists.lists[0];
                   global.status = 'background';
                   if (!msg.coldstart && !msg.foreground)
-                    $state.go('item');
+                    null;
+                  //$state.go('item');
                 });
               }
             });
