@@ -7,7 +7,7 @@ angular.module('starter.services')
       /*Get All Master items and push on items Array*/
       function getAllMasterItem() {
         var defer = $q.defer();
-
+        //console.log ("Setting Language: "+ JSON.stringify(settings.getSettingValue('language')));
         global.db.transaction(function (tx) {
           var query = "SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, ctl.categoryName , itl.language " +
             " FROM (category as c INNER JOIN masterItem as i ON c.categoryLocalId = i.categoryLocalId) " +

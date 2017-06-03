@@ -12,7 +12,7 @@
             ng-click="toggleLeft()"></button>
   </ion-nav-buttons>
 
-  <ion-floating-button click="addList()" has-footer="false" button-color="#09d261" icon="ion-android-list larger"
+  <ion-floating-button  id="focus-item" click="addList()" has-footer="false" button-color="#09d261" icon="ion-android-list larger"
                        icon-color="#fff">
   </ion-floating-button>
 
@@ -34,6 +34,19 @@
         
       <ion-nav-view animation="slide-left-right">
         <ion-content class="padding" style="padding-bottom:100px;">
+            
+<!-- <walkthrough
+            wid="Demo2"
+            walkthrough-type="transparency"
+            focus-element-selector="#focus-item"
+            icon="arrow"
+            icon-padding-left="30"
+            icon-padding-top="0"
+            force-caption-location="TOP"
+            is-active="true"
+            use-button="true">
+      </walkthrough> -->
+            
         <div id="bg">
       <img src="img\grocery.jpg" alt="" style="opacity=0.5">
     </div>

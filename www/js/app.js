@@ -17,7 +17,8 @@ angular.module('starter', ['ionic',
   'ion-floating-menu',
   'angular.filter',
   'ngRoute',
-  'pascalprecht.translate'])
+  'pascalprecht.translate',
+  'ng-walkthrough'])
 /*var db = null;*/
 
 
