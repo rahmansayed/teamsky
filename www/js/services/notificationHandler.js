@@ -11,7 +11,7 @@ angular.module('starter.services')
           case 'NEW LIST':
             serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function (res) {
               console.log('handleNotification list added res = ' + angular.toJson(res));
-              if (!msg.foreground) {
+              if (!msg.additionalData.foreground) {
                 console.log('handleNotification going to list');
                 global.currentList = res.list;
                 $state.go('item');
@@ -19,25 +19,24 @@ angular.module('starter.services')
             });
             break;
           case "NEW ENTRY":
+            global.status = msg.additionalData.foreground ? "foreground" : 'background';
+            console.log('handleNotification global.status = ' + global.status);
+
             serverHandlerEntryV2.syncEntrieDownstream(msg.additionalData.details).then(function (affectedLists) {
               serverHandlerListV2.maintainGlobalLists(affectedLists[0], "ADD ENTRY");
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
-              if (!msg.foreground) {
-                global.status = 'background';
+              if (!msg.additionalData.foreground) {
                 console.log('handleNotification going to list');
                 localListHandlerV2.getAllLists(affectedLists[0].listLocalId).then(function (lists) {
                   console.log('handleNotification lists = ' + angular.toJson(lists));
                   global.currentList = lists.lists[0];
-                  if (!msg.coldstart && !msg.foreground)
-                    null;
-                  //$state.go('item');
+                  if (!msg.additionalData.coldstart && !msg.additionalData.foreground)
+                    $state.go('item');
                 });
               }
-              else {
-                global.status = 'foreground';
-              }
+
             });
             break;
           case "CROSSED":

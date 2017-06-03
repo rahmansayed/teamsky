@@ -462,9 +462,17 @@ angular.module('starter.services')
                 insertEntry(entry).then(function (res) {
                   defer.resolve();
                 }, function (err) {
+                  console.error('addEntry insertEntry err = ' + angular.toJson(err));
                   defer.reject();
                 });
               }
+              else {
+                console.log('addEntry ALREADY EXISTS ');
+                defer.resolve();
+              }
+            }, function (err) {
+              console.error('addEntry checkEntryExists err = ' + angular.toJson(err));
+              defer.reject();
             })
           }
           else {
@@ -473,6 +481,7 @@ angular.module('starter.services')
             insertEntry(entry).then(function (res) {
               defer.resolve();
             }, function (err) {
+              console.error('addEntry insertEntry err = ' + angular.toJson(err));
               defer.reject();
             });
           }
@@ -485,6 +494,8 @@ angular.module('starter.services')
        */
       function syncEntriesDownstream(entryDetails) {
         var defer = $q.defer();
+
+        console.log("syncEntriesDownstream global.status = " + global.status);
 
         var data = {
           userServerId: global.userServerId,
@@ -519,8 +530,8 @@ angular.module('starter.services')
                 for (var i = 0; i < response.data.entries.length; i++) {
 
                   var localIds = dbHelper.getLocalIds(response.data.entries[i], result);
-                  console.log("serverHandlerEntry syncEntriesDownstream entry i =" + i + " " + angular.toJson(response.data.entries[i]));
-                  console.log("serverHandlerEntry syncEntriesDownstream localIds =" + angular.toJson(localIds));
+                  console.log("syncEntriesDownstream entry i =" + i + " " + angular.toJson(response.data.entries[i]));
+                  console.log("syncEntriesDownstream localIds =" + angular.toJson(localIds));
 
 
                   if (!localIds.retailerLocalId)
@@ -540,8 +551,8 @@ angular.module('starter.services')
                     qty = 1.0;
                   }
 //                        console.log("serverHandlerEntry.syncEntriesDownstream localValues listLocalId = " + angular.toJson(localIds));
-                  console.log("serverHandlerEntry.syncEntriesDownstream localValues qty = " + qty);
-                  console.log("serverHandlerEntry.syncEntriesDownstream localValues uom = " + uom);
+                  console.log("syncEntriesDownstream localValues qty = " + qty);
+                  console.log("syncEntriesDownstream localValues uom = " + uom);
 
                   var entry = {
                     listLocalId: localIds.listLocalId,
@@ -551,7 +562,7 @@ angular.module('starter.services')
                     quantity: qty,
                     uom: uom,
                     entryCrossedFlag: 0,
-                    deleted: 'N',
+                    deleted: 0,
                     //seenFlag: 0,
                     retailerLocalId: localIds.retailerLocalId,
                     retailerName: localIds.retailerName,
@@ -559,9 +570,10 @@ angular.module('starter.services')
                     entryServerId: response.data.entries[i]._id,
                     userServerId: response.data.entries[i].userServerId
                   };
-                  console.log("serverHandlerEntry.syncEntriesDownstream $state.current.name = " + $state.current.name);
-                  console.log("serverHandlerEntry.syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
-                  console.log("serverHandlerEntry.syncEntriesDownstream global.currentList = " + global.currentList);
+                  console.log("syncEntriesDownstream $state.current.name = " + $state.current.name);
+                  console.log("syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
+                  console.log("syncEntriesDownstream global.currentList = " + global.currentList);
+                  console.log("syncEntriesDownstream global.status = " + global.status);
 
                   if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
                     entry.seenFlag = 1;
@@ -572,20 +584,23 @@ angular.module('starter.services')
                   insertPromises.push(addEntry(entry, 'S'));
                 }
                 $q.all(insertPromises).then(function () {
-                  console.log("serverHandlerEntry.syncEntriesDownstream db insert success");
+                  console.log("syncEntriesDownstream db insert success");
                   syncBackMany(response.data.entries);
                   serverHandlerEntryEvents.syncEventUpstream('SEEN');
                   serverHandlerEntryEvents.updateListNotificationCount('newCount', affectedLists);
                   defer.resolve(affectedLists);
+                }, function () {
+                  console.error("syncEntriesDownstream did not insert resolving affected lists " + angular.toJson(affectedLists));
+                  defer.resolve(affectedLists);
                 });
               },
               function (err) {
-                console.error("serverHandlerEntryV2 localIds errors");
+                console.error("syncEntriesDownstream localIds errors");
                 defer.reject(err);
               });
           });
         }, function (err) {
-          console.error("serverHandlerEntryV2 server response error " + err.message);
+          console.error("syncEntriesDownstream server response error " + err.message);
           defer.reject(err);
         });
         return defer.promise;
