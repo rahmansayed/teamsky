@@ -55,7 +55,7 @@ angular.module('starter.controllers')
       }  
         else{    
            
-
+        list.listDescription = list.listDescription||"No notes added for this list.";
          document.getElementById('listError').innerHTML = "";
       console.log('aalatief - Entered List: '+angular.toJson(list));
       localListHandlerV2.addNewList(list)
