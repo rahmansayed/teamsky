@@ -563,7 +563,7 @@ angular.module('starter.services')
                   console.log("serverHandlerEntry.syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
                   console.log("serverHandlerEntry.syncEntriesDownstream global.currentList = " + global.currentList);
 
-                  if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId) {
+                  if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
                     entry.seenFlag = 1;
                   } else {
                     entry.seenFlag = 0;

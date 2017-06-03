@@ -25,15 +25,18 @@ angular.module('starter.services')
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
               if (!msg.foreground) {
+                global.status = 'background';
                 console.log('handleNotification going to list');
                 localListHandlerV2.getAllLists(affectedLists[0].listLocalId).then(function (lists) {
                   console.log('handleNotification lists = ' + angular.toJson(lists));
                   global.currentList = lists.lists[0];
-                  global.status = 'background';
                   if (!msg.coldstart && !msg.foreground)
                     null;
                   //$state.go('item');
                 });
+              }
+              else {
+                global.status = 'foreground';
               }
             });
             break;
