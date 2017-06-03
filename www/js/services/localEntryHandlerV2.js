@@ -43,6 +43,11 @@ angular.module('starter.services')
                   });
                 openEntryList.entries.push(result.rows.item(i));
               }
+              var query2 = "update entry set seenFlag = 1, flag='E' where origin = 'S' and seenFlag = 0 and listLocalId = ?";
+              tx.executeSql(query2, [listId]);
+              var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 where listLocalId = ?";
+              tx.executeSql(query3, [listId]);
+
               defer.resolve(openEntryList);
             }
             ,
@@ -51,25 +56,8 @@ angular.module('starter.services')
               defer.reject();
             }
           );
-
-          //update seen status
-          global.db.transaction(function (tx) {
-              var query2 = "update entry set seenFlag = 1, flag='E' where origin = 'S' and seenFlag = 0 and listLocalId = ?";
-              tx.executeSql(query2, [listId]);
-              var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 where listLocalId = ?";
-              tx.executeSql(query3, [listId]);
-            }, function (err) {
-              console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
-            },
-            function () {
-              serverHandlerEntryEvents.syncEventUpstream('SEEN');
-            });
-        }, function (err) {
-          console.error("localEntryHandlerV2.getAllEntry query err = " + err.message);
-          defer.reject();
-        }, function () {
-
         });
+
         return defer.promise;
       };
 
@@ -190,23 +178,13 @@ angular.module('starter.services')
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
           global.suggestedItem.suggested = res[2];
+          serverHandlerEntryEvents.syncEventUpstream('SEEN');
           console.log('buildListEntries global.currentListEntries = ' + angular.toJson(global.currentListEntries));
           console.log('4/5/2017 - aalatief - suggested Items:  ' + angular.toJson(global.suggestedItem));
           defer.resolve();
         });
 
         return defer.promise;
-      }
-
-      /*-------------------------------------------------------------------------------------*/
-      /*Retrun entries for list*/
-      function selectedItem(listLocalId) {
-        return getAllEntry(listLocalId);
-      };
-      /*-------------------------------------------------------------------------------------*/
-      /*Retrun crossed entries for list*/
-      function checkedItem(listLocalId) {
-        return getCheckedItem(listLocalId);
       }
 
       /*******************************************************************************************************************
