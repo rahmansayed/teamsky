@@ -79,7 +79,7 @@ angular.module('starter', ['ionic',
                 );
               // if the device goes online, we should sync all the locally changed data
               document.addEventListener("online", function () {
-                serverHandler.syncLocalData();
+                serverHandler.syncInit();
               }, false);
 
             },
