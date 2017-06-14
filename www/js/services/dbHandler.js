@@ -92,7 +92,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS vendor_tl (vendorLocalId integer,language text,vendorName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId text, itemLocalId integer,origin text, flag text, deliveredFlag number, seenFlag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text)",
+        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId text, itemLocalId integer,origin text, updatedFlag number, flag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text)",
 
         "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text UNIQUE,retailerServerId text,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
 

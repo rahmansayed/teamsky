@@ -80,7 +80,8 @@ angular.module('starter.services')
 
 
           case "DELIVERED":
-            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'DELIVER').then(function (affectedLists) {
+            console.log("handleNotification mainEvent = " + msg.additionalData.details.mainEvent);
+            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, msg.additionalData.details.mainEvent + '-' + 'DELIVER').then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
@@ -95,7 +96,8 @@ angular.module('starter.services')
             break;
 
           case "SEEN":
-            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'SEEN').then(function (affectedLists) {
+            console.log("handleNotification mainEvent = " + msg.additionalData.details.mainEvent);
+            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, msg.additionalData.details.mainEvent + '-' + 'SEEN').then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));

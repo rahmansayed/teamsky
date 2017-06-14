@@ -19,7 +19,11 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set entryCrossedFlag = 1 "],
-          server: ["update entry set entryCrossedFlag = 3 "]
+          server: ["update entry set entryCrossedFlag = 5 "]
+        },
+        upstreamReplyAction: {
+          flag: "entryCrossedFlag",
+          value: "2"
         },
         upstreamServerAPI: "/api/entry/crossmany",
         downstreamServerAPI: "/api/entry/getCrossings",
@@ -33,40 +37,134 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set deleted = 1 "],
-          server: ["update entry set deleted = 3 "]
+          server: ["update entry set deleted = 5 "]
+        },
+        upstreamReplyAction: {
+          flag: "deleted",
+          value: "2"
         },
         upstreamServerAPI: "/api/entry/deletemany",
         downstreamServerAPI: "/api/entry/getDeletes",
         downstreamBackAPI: "/api/entry/syncDeletesBack"
       },
-      "SEEN": {
+      "CREATE-SEEN": {
         check: {
-          flag: "seenFlag",
-          value: "1"
+          flag: "flag",
+          value: "6"
         },
         upstreamReplyAction: {
-          flag: "seenFlag",
-          value: "2"
+          flag: "flag",
+          value: "7"
         },
         action: {
-          local: ["update entry set seenFlag = 1 "],
-          server: ["update entry set seenFlag = 3 "]
+          local: ["update entry set flag = 6 "],
+          server: ["update entry set flag = 4 "]
         },
-        upstreamServerAPI: "/api/entry/seemany",
-        downstreamServerAPI: "/api/entry/getSeens",
-        downstreamBackAPI: "/api/entry/syncSeensBack",
+        upstreamServerAPI: "/api/entry/seeEntryEvent/CREATE",
+        downstreamServerAPI: "/api/entry/getSeens/CREATE",
+        downstreamBackAPI: "/api/entry/syncSeensBack/CREATE",
         listNotification: "seenCount"
       },
-      "DELIVER": {
+      "CREATE-DELIVER": {
         check: {
-          flag: "deliveredFlag",
-          value: "3"
+          flag: "flag",
+          value: "5"
         },
         action: {
-          "server": ["update entry set deliveredFlag = 3 "]
+          "server": ["update entry set flag = 3 "]
         },
-        downstreamServerAPI: "/api/entry/getDelivers",
-        downstreamBackAPI: "/api/entry/syncDeliversBack",
+        downstreamServerAPI: "/api/entry/getDelivers/CREATE",
+        downstreamBackAPI: "/api/entry/syncDeliversBack/CREATE",
+        listNotification: "deliverCount"
+      },
+      "UPDATE-SEEN": {
+        check: {
+          flag: "updatedFlag",
+          value: "6"
+        },
+        upstreamReplyAction: {
+          flag: "updatedFlag",
+          value: "7"
+        },
+        action: {
+          local: ["update entry set updatedFlag = 6 "],
+          server: ["update entry set updatedFlag = 4 "]
+        },
+        upstreamServerAPI: "/api/entry/seeEntryEvent/UPDATE",
+        downstreamServerAPI: "/api/entry/getSeens/UPDATE",
+        downstreamBackAPI: "/api/entry/syncSeensBack/UPDATE",
+        listNotification: "seenCount"
+      },
+      "UPDATE-DELIVER": {
+        check: {
+          flag: "updatedFlag",
+          value: "5"
+        },
+        action: {
+          "server": ["update entry set updatedFlag = 3 "]
+        },
+        downstreamServerAPI: "/api/entry/getDelivers/UPDATE",
+        downstreamBackAPI: "/api/entry/syncDeliversBack/UPDATE",
+        listNotification: "deliverCount"
+      },
+      "CROSS-SEEN": {
+        check: {
+          flag: "entryCrossedFlag",
+          value: "6"
+        },
+        upstreamReplyAction: {
+          flag: "entryCrossedFlag",
+          value: "7"
+        },
+        action: {
+          local: ["update entry set entryCrossedFlag = 6 "],
+          server: ["update entry set entryCrossedFlag = 4 "]
+        },
+        upstreamServerAPI: "/api/entry/seeEntryEvent/CROSS",
+        downstreamServerAPI: "/api/entry/getSeens/CROSS",
+        downstreamBackAPI: "/api/entry/syncSeensBack/CROSS",
+        listNotification: "seenCount"
+      },
+      "CROSS-DELIVER": {
+        check: {
+          flag: "entryCrossedFlag",
+          value: "5"
+        },
+        action: {
+          "server": ["update entry set entryCrossedFlag = 3 "]
+        },
+        downstreamServerAPI: "/api/entry/getDelivers/CROSS",
+        downstreamBackAPI: "/api/entry/syncDeliversBack/CROSS",
+        listNotification: "deliverCount"
+      },
+      "DELETE-SEEN": {
+        check: {
+          flag: "deleted",
+          value: "6"
+        },
+        upstreamReplyAction: {
+          flag: "deleted",
+          value: "7"
+        },
+        action: {
+          local: ["update entry set deleted = 6 "],
+          server: ["update entry set deleted = 4 "]
+        },
+        upstreamServerAPI: "/api/entry/seeEntryEvent/DELETE",
+        downstreamServerAPI: "/api/entry/getSeens/DELETE",
+        downstreamBackAPI: "/api/entry/syncSeensBack/DELETE",
+        listNotification: "seenCount"
+      },
+      "DELETE-DELIVER": {
+        check: {
+          flag: "deleted",
+          value: "5"
+        },
+        action: {
+          "server": ["update entry set deleted = 3 "]
+        },
+        downstreamServerAPI: "/api/entry/getDelivers/DELETE",
+        downstreamBackAPI: "/api/entry/syncDeliversBack/DELETE",
         listNotification: "deliverCount"
       }
     };
@@ -280,7 +378,6 @@ angular.module('starter.services')
       }
       myPromise.then(function (res) {
 
-          var promises = [];
           res.data.forEach(function (entry) {
             getEntryFromLocalDB(entry.entryServerId).then(function (res) {
               applyEvent(res, event, 'server');
@@ -469,11 +566,35 @@ angular.module('starter.services')
               global.currentListEntries.listOpenEntries.categories.splice(categoryIdx, 1);
             }
             break;
-          case 'SEEN':
+          case 'CREATE-SEEN':
             if (openIdx > -1)
-              global.currentListEntries.listOpenEntries.entries[openIdx].seenFlag = 3;
+              global.currentListEntries.listOpenEntries.entries[openIdx].flag = 4;
             break;
-          case 'DELIVER':
+          case 'CREATE-DELIVER':
+            if (openIdx > -1)
+              global.currentListEntries.listOpenEntries.entries[openIdx].flag = 3;
+            break;
+          case 'CROSS-SEEN':
+            if (openIdx > -1)
+              global.currentListEntries.listOpenEntries.entries[openIdx].entryCrossedFlag = 4;
+            break;
+          case 'CROSS-DELIVER':
+            if (openIdx > -1)
+              global.currentListEntries.listOpenEntries.entries[openIdx].entryCrossedFlag = 3;
+            break;
+          case 'UPDATE-SEEN':
+            if (openIdx > -1)
+              global.currentListEntries.listOpenEntries.entries[openIdx].updatedFlag = 4;
+            break;
+          case 'UPDATE-DELIVER':
+            if (openIdx > -1)
+              global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 3;
+            break;
+          case 'DELETE-SEEN':
+            if (openIdx > -1)
+              global.currentListEntries.listOpenEntries.entries[openIdx].deleted = 4;
+            break;
+          case 'DELETE-DELIVER':
             if (openIdx > -1)
               global.currentListEntries.listOpenEntries.entries[openIdx].deliveredFlag = 3;
             break;

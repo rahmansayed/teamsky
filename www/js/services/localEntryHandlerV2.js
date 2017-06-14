@@ -178,8 +178,12 @@ angular.module('starter.services')
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
           global.suggestedItem.suggested = res[2];
-          if (global.status != 'background')
-            serverHandlerEntryEvents.syncEventUpstream('SEEN');
+          if (global.status != 'background') {
+            serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN');
+            serverHandlerEntryEvents.syncEventUpstream('CROSS-SEEN');
+            serverHandlerEntryEvents.syncEventUpstream('UPDATE-SEEN');
+            serverHandlerEntryEvents.syncEventUpstream('DELETE-SEEN');
+          }
           console.log('buildListEntries global.currentListEntries = ' + angular.toJson(global.currentListEntries));
           console.log('4/5/2017 - aalatief - suggested Items:  ' + angular.toJson(global.suggestedItem));
           defer.resolve();

@@ -59,7 +59,7 @@ angular.module('starter.services')
                     .then(function (response) {
 //                      console.log("syncListEntries createEntries server Response Result => " + angular.toJson(response));
                       global.db.transaction(function (tx) {
-                          var query = "update entry set entryServerId = ?, flag= 'S', seenFlag = 2 where entryLocalId = ?";
+                          var query = "update entry set entryServerId = ?, flag = 2 where entryLocalId = ?";
                           for (var i = 0; i < response.data.length; i++) {
                             tx.executeSql(query, [response.data[i].entryServerId, response.data[i].entryLocalId]);
                             serverHandlerEntryEvents.getEntryFromLocalDB(response.data[i].entryServerId).then(function (entry) {
@@ -139,7 +139,7 @@ angular.module('starter.services')
               " left join list on entry.listLocalId = list.listLocalId " +
               " left join masterItem on entry.itemLocalId = masterItem.itemLocalId " +
               " left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
-              " where entry.flag = 'E'" +
+              " where entry.updatedFlag = 1" +
               " and entry.entryServerId <> ''" +
               " and list.listServerId = ?";
             tx.executeSql(query, [listServerId], function (tx, result) {
@@ -175,7 +175,7 @@ angular.module('starter.services')
                 $http.post(global.serverIP + "/api/entry/updatemany", entries)
                   .then(function (response) {
 //                      console.log("syncListEntriesUpdates updatemany server Response Result => " + angular.toJson(response));
-                    var query = "update entry set flag= 'S', seenFlag = 2 where entryServerId = ?";
+                    var query = "update entry set updatedFlag = 2 where entryServerId = ?";
                     global.db.transaction(function (tx) {
                       for (var i = 0; i < entries.entries.length; i++) {
                         tx.executeSql(query, [entries.entries[i].entryServerId]);
@@ -218,7 +218,7 @@ angular.module('starter.services')
         global.db.transaction(function (tx) {
           var query = "select list.listServerId, count(*) cnt " +
             " from entry left join list on entry.listLocalId = list.listLocalId left join masterItem on entry.itemLocalId = masterItem.itemLocalId left join retailer  on entry.retailerLocalId = retailer.retailerLocalId " +
-            " where entry.flag = 'E' " +
+            " where entry.updatedFlag = 1 " +
             " and entry.entryServerId <> ''" +
             " group by list.listServerId";
           tx.executeSql(query, [], function (tx, result) {
@@ -241,7 +241,11 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-
+      /**********************************************************************************************************************
+       * This function is used to inform the server about the successful downstream
+       * @param entryList
+       * @returns {Promise}
+       */
       function syncBackMany(entryList) {
         var defer = $q.defer();
 
@@ -386,7 +390,7 @@ angular.module('starter.services')
             "itemLocalId," +
             "entryServerId," +
             "quantity,uom,retailerLocalId," +
-            "entryCrossedFlag, origin, flag, deliveredFlag, seenFlag, language, deleted) " +
+            "entryCrossedFlag, origin, flag, updatedFlag, language, deleted) " +
             "VALUES (null," + //entryLocalId
             "?," +//listLocalId
             "?," + //entryOwnerServerId
@@ -398,8 +402,7 @@ angular.module('starter.services')
             "0, " + //entryCrossedFlag
             "?," + //origin
             " ?," + // flag
-            " 0," + //deliveredFlag
-            " ?," + //seenFlag
+            " 0," + //updatedFlag
             " ?," + //language
             " 0)"; //deleted
           //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
@@ -450,12 +453,8 @@ angular.module('starter.services')
         }
         console.log('addEntry insertFlag = ' + angular.toJson(insertFlag));
         if (insertFlag) {
-          entry.flag = mode == 'L' ? 'N' : 'S';
+          entry.flag = mode == 'L' ? 1 : 2;
           entry.origin = mode == 'L' ? 'L' : 'S';
-          var seenFlag;
-          if (mode == 'L')
-            entry.seenFlag = 2;
-          entry.deliveredFlag = 0;
           if (mode == 'S') {
             checkEntryExists(entry.entryServerId).then(function (exists) {
               if (!exists) {
@@ -563,6 +562,8 @@ angular.module('starter.services')
                     uom: uom,
                     entryCrossedFlag: 0,
                     deleted: 0,
+                    updatedFlag: 0,
+                    flag: 5,
                     //seenFlag: 0,
                     retailerLocalId: localIds.retailerLocalId,
                     retailerName: localIds.retailerName,
@@ -576,9 +577,7 @@ angular.module('starter.services')
                   console.log("syncEntriesDownstream global.status = " + global.status);
 
                   if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
-                    entry.seenFlag = 1;
-                  } else {
-                    entry.seenFlag = 0;
+                    entry.flag = 6;
                   }
 
                   insertPromises.push(addEntry(entry, 'S'));
@@ -630,10 +629,6 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function syncDeletesUpstream() {
-        return serverHandlerEntryEvents.syncEventUpstream("DELETE");
-      }
-
       function syncUpdatesDownstream(entryUpdate) {
         var defer = $q.defer();
 
@@ -659,6 +654,13 @@ angular.module('starter.services')
         } else {
           myPromise = $http.post(global.serverIP + '/api/entry/getUpdates', data);
         }
+
+        var updateFlag;
+        if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
+          updateFlag = 6
+        } else {
+          updateFlag = 5;
+        }
         myPromise.then(function (res) {
 
             if (res.data.updates.length > 0) {
@@ -676,17 +678,17 @@ angular.module('starter.services')
                         var query;
                         var retailer;
                         if (update.retailerServerId) {
-                          query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
+                          query = "update entry set uom = ?, quantity=?, retailerLocalId = ?, updatedFlag = ? where entryServerId = ?";
                           retailer = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
                           updatesArray = [update.uom,
-                            update.qty, retailer.retailerLocalId, update.entryServerId];
+                            update.qty, retailer.retailerLocalId, updateFlag, update.entryServerId];
                         } else if (update.userRetailerServerId) {
                           retailer = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
-                          query = "update entry set uom = ?, quantity=?, retailerLocalId = ? where entryServerId = ?";
-                          updatesArray = [update.uom, update.qty, retailer.retailerLocalId, update.entryServerId];
+                          query = "update entry set uom = ?, quantity=?, retailerLocalId = ?, updatedFlag = ? where entryServerId = ?";
+                          updatesArray = [update.uom, update.qty, retailer.retailerLocalId, updateFlag, update.entryServerId];
                         } else {
-                          query = "update entry set uom = ?, quantity=? where entryServerId = ?";
-                          updatesArray = [update.uom, update.qty, update.entryServerId];
+                          query = "update entry set uom = ?, quantity=? , updatedFlag = ? where entryServerId = ? ";
+                          updatesArray = [update.uom, update.qty, updateFlag, update.entryServerId];
                         }
 
                         tx.executeSql(query, updatesArray);
