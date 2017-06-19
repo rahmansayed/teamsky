@@ -27,7 +27,7 @@
         <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="323">
-              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -46,8 +46,8 @@
       <file leaf-file-name="serverHandlerEntryEvents.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="421" column="50" lean-forward="false" selection-start-line="421" selection-start-column="50" selection-end-line="421" selection-end-column="50" />
+            <state relative-caret-position="391">
+              <caret line="398" column="42" lean-forward="false" selection-start-line="398" selection-start-column="42" selection-end-line="398" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -56,8 +56,8 @@
       <file leaf-file-name="serverHandlerEntryV2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6103">
-              <caret line="359" column="45" lean-forward="false" selection-start-line="359" selection-start-column="45" selection-end-line="359" selection-end-column="45" />
+            <state relative-caret-position="481">
+              <caret line="476" column="37" lean-forward="true" selection-start-line="476" selection-start-column="37" selection-end-line="476" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -136,7 +136,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>settings</find>
       <find>userSetting</find>
       <find>downloadContactsPhoto</find>
       <find>downloadContactPhotos</find>
@@ -166,6 +165,7 @@
       <find>syncEventUptreamUpdateServer</find>
       <find>CREATE-DELIVER</find>
       <find>cross</find>
+      <find>syncbackman</find>
     </findStrings>
     <replaceStrings>
       <replace>serverHandlerEntryEvents.getEntryFromLocalDB</replace>
@@ -572,7 +572,7 @@
       <workItem from="1496645593935" duration="6953000" />
       <workItem from="1496821034802" duration="5066000" />
       <workItem from="1497339868980" duration="23609000" />
-      <workItem from="1497860803214" duration="1885000" />
+      <workItem from="1497860803214" duration="3619000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -585,7 +585,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1140145000" />
+    <option name="totallyTimeSpent" value="1141879000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -992,14 +992,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6103">
-          <caret line="359" column="45" lean-forward="false" selection-start-line="359" selection-start-column="45" selection-end-line="359" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
@@ -1013,15 +1005,23 @@
     <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="476" column="37" lean-forward="true" selection-start-line="476" selection-start-column="37" selection-end-line="476" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="421" column="50" lean-forward="false" selection-start-line="421" selection-start-column="50" selection-end-line="421" selection-end-column="50" />
+        <state relative-caret-position="391">
+          <caret line="398" column="42" lean-forward="false" selection-start-line="398" selection-start-column="42" selection-end-line="398" selection-end-column="42" />
           <folding />
         </state>
       </provider>
