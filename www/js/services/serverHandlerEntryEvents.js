@@ -395,7 +395,7 @@ angular.module('starter.services')
           });
 
           if (res.data.entries.length > 0) {
-            syncBackEvent(res.data, event).then(function (res1) {
+            syncBackEvent(res.data.entries, event).then(function (res1) {
               buildAffectedLists(res.data).then(function (res2) {
                 updateListNotificationCount(Events[event].listNotification, res2);
                 defer.resolve(res2);
@@ -419,7 +419,7 @@ angular.module('starter.services')
 
       data.entries = entryUpdates.map(function (entryUpdate) {
         return {
-          entryServerId: entryUpdate.entryServerId._id,
+          entryServerId: entryUpdate.entryServerId,
           entryUpdateId: entryUpdate._id
         };
       });
