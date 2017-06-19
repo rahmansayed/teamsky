@@ -221,6 +221,8 @@ angular.module('starter.services')
     function syncEventUpstream(event) {
       var defer = $q.defer();
       // building the list queries
+      console.log("syncEventUpstream Events[" + event + "] = " + angular.toJson(Events[event]));
+
       var query = "select distinct list.listServerId, list.listLocalId " +
         "from entry, list " +
         "where entry.listLocalId = list.listLocalId " +
@@ -228,7 +230,7 @@ angular.module('starter.services')
         " and entry.entryServerId <> ''";
 
       console.log("syncEventUpstream query = " + query);
-      console.log("syncEventUpstream Events[event] = " + angular.toJson(Events[event]));
+
 
       global.db.transaction(function (tx) {
           tx.executeSql(query, [], function (tx, res) {
@@ -306,6 +308,9 @@ angular.module('starter.services')
 
     function syncEventUptreamUpdateServer(listServerId, entryServerIds, event) {
       var defer = $q.defer();
+      console.log('syncEventUptreamUpdateServer listServerId  = ' + listServerId);
+      console.log('syncEventUptreamUpdateServer entryServerIds  = ' + entryServerIds);
+      console.log('syncEventUptreamUpdateServer event  = ' + event);
 
       var data = {
         deviceServerId: global.deviceServerId,
@@ -335,9 +340,9 @@ angular.module('starter.services')
       global.db.transaction(function (tx) {
 
         //TODO consider the new flag of origin
-        var query = "update entry set flag = 'S' ";
+        var query = "update entry set ";
         if (Events[event].upstreamReplyAction) {
-          query = query + ", " + Events[event].upstreamReplyAction.flag + " = " + Events[event].upstreamReplyAction.value;
+          query = query + Events[event].upstreamReplyAction.flag + " = " + Events[event].upstreamReplyAction.value;
         }
         query = query + " where entryServerId in ( ";
         query = entryServerIds.reduce(function (query, entryServerId) {
@@ -362,29 +367,34 @@ angular.module('starter.services')
     function syncEventDownstream(entryUpdate, event) {
       var defer = $q.defer();
 
+      console.error('syncEventDownstream event = ' + event);
+
       var data = {
         deviceServerId: global.deviceServerId
       };
       var myPromise;
       if (entryUpdate) {
         myPromise = $q.resolve({
-          data: [{
-            entryServerId: entryUpdate.entryServerId,
-            _id: entryUpdate._id
-          }]
-        });
+          data: {
+            entries: [{
+              entryServerId: entryUpdate.entryServerId,
+              _id: entryUpdate._id
+            }]
+          }
+        })
+        ;
       } else {
         myPromise = $http.post(global.serverIP + Events[event].downstreamServerAPI, data);
       }
       myPromise.then(function (res) {
 
-          res.data.forEach(function (entry) {
+          res.data.entries.forEach(function (entry) {
             getEntryFromLocalDB(entry.entryServerId).then(function (res) {
               applyEvent(res, event, 'server');
             });
           });
 
-          if (res.data.length > 0) {
+          if (res.data.entries.length > 0) {
             syncBackEvent(res.data, event).then(function (res1) {
               buildAffectedLists(res.data).then(function (res2) {
                 updateListNotificationCount(Events[event].listNotification, res2);
@@ -407,8 +417,11 @@ angular.module('starter.services')
         deviceServerId: global.deviceServerId
       };
 
-      data.entryUpdates = entryUpdates.map(function (entryUpdate) {
-        return entryUpdate._id;
+      data.entries = entryUpdates.map(function (entryUpdate) {
+        return {
+          entryServerId: entryUpdate.entryServerId._id,
+          entryUpdateId: entryUpdate._id
+        };
       });
 
       console.log('syncBackEvent data = ' + data);

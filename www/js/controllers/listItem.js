@@ -100,7 +100,8 @@ angular.module('starter.controllers')
           retailerName: "",
           userServerId: global.userServerId,
           //entryCrossedFlag: item.entryCrossedFlag,
-          language: item.language
+          language: item.language,
+          flag: 1
         };
       console.log('Master Item Searched: ' + angular.toJson($scope.entries.listOpenEntries));
       localEntryHandlerV2.addItemToList($scope.selectedItem, 'L')
@@ -189,7 +190,8 @@ angular.module('starter.controllers')
                 retailerLocalId: "",
                 userServerId: global.userServerId,
                 retailerName: "",
-                language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN'
+                language: localItemHandlerV2.isRTL(itemName) ? 'AR' : 'EN',
+                flag:1
               };
             localEntryHandlerV2.addItemToList($scope.selectedItem, 'L');
             $scope.data.items = [];

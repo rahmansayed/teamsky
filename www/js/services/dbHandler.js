@@ -32,7 +32,7 @@ angular.module('starter.services')
        }
        else {*/
       console.log('11/02/2017 - aalatief - initDb from Browser');
-      global.db = window.openDatabase("teamSky1_34.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
+      global.db = window.openDatabase("teamSky1_35.db", '1.0', 'Team Sky DB', 2 * 1024 * 1024);
 
       /*$location.path("/subscribe");*/
       //}

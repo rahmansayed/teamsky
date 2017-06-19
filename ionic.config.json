@@ -1,5 +1,8 @@
 {
   "name": "TeamSky",
   "app_id": "4d50448f",
-  "type": "ionic1"
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*"
+  ]
 }

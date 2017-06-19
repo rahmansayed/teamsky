@@ -29,7 +29,12 @@ angular.module('starter.services')
             console.log('serverHandler syncLocalItemsUpstream done');
             serverHandlerEntryV2.syncEntriesUpstream().then(function () {
               $q.all([
-                serverHandlerEntryEvents.syncEventUpstream('SEEN'),
+                serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN'),
+                //serverHandlerEntryEvents.syncEventUpstream('CREATE-DELIVER'),
+                serverHandlerEntryEvents.syncEventUpstream('CROSS-SEEN'),
+                serverHandlerEntryEvents.syncEventUpstream('CROSS-DELIVER'),
+                serverHandlerEntryEvents.syncEventUpstream('UPDATE-SEEN'),
+                serverHandlerEntryEvents.syncEventUpstream('UPDATE-DELIVER'),
                 serverHandlerEntryV2.syncUpdatesUpstream(),
                 serverHandlerEntryEvents.syncEventUpstream('CROSS')]).then(function () {
                 defer.resolve();
@@ -82,10 +87,10 @@ angular.module('starter.services')
       serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
         console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + angular.toJson(affectedLists));
         serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');
-        serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
+        serverHandlerEntryEvents.syncEventDownstream(null, 'CREATE-DELIVER').then(function (affectedLists) {
             console.log('syncDeliveryDownstream affectedLists = ' + angular.toJson(affectedLists));
 
-            serverHandlerEntryEvents.syncEventDownstream(null, 'SEEN').then(function (affectedLists) {
+            serverHandlerEntryEvents.syncEventDownstream(null, 'CREATE-SEEN').then(function (affectedLists) {
               console.log('syncSeenDownstream affectedLists = ' + angular.toJson(affectedLists));
               defer.resolve();
             }, function (err) {

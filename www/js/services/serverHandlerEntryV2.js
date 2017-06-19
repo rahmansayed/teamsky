@@ -406,7 +406,7 @@ angular.module('starter.services')
             " ?," + //language
             " 0)"; //deleted
           //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-          tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.seenFlag, entry.language], function (tx, res) {
+          tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.language], function (tx, res) {
             console.log('addEntry res = ' + angular.toJson(res.insertId));
             entry.entryLocalId = res.insertId;
             serverHandlerEntryEvents.maintainGlobalEntries(entry, 'ADD');
@@ -453,7 +453,6 @@ angular.module('starter.services')
         }
         console.log('addEntry insertFlag = ' + angular.toJson(insertFlag));
         if (insertFlag) {
-          entry.flag = mode == 'L' ? 1 : 2;
           entry.origin = mode == 'L' ? 'L' : 'S';
           if (mode == 'S') {
             checkEntryExists(entry.entryServerId).then(function (exists) {
@@ -585,7 +584,7 @@ angular.module('starter.services')
                 $q.all(insertPromises).then(function () {
                   console.log("syncEntriesDownstream db insert success");
                   syncBackMany(response.data.entries);
-                  serverHandlerEntryEvents.syncEventUpstream('SEEN');
+                  serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN');
                   serverHandlerEntryEvents.updateListNotificationCount('newCount', affectedLists);
                   defer.resolve(affectedLists);
                 }, function () {

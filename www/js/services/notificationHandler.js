@@ -164,10 +164,10 @@ angular.module('starter.services')
                   serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS').then(function (affectedLists) {
                     console.log('syncCrossingsDownstream affectedLists = ' + angular.toJson(affectedLists));
                   });
-                  serverHandlerEntryEvents.syncEventDownstream(null, 'DELIVER').then(function (affectedLists) {
+                  serverHandlerEntryEvents.syncEventDownstream(null, 'CREATE-DELIVER').then(function (affectedLists) {
                     console.log('syncDeliveryDownstream affectedLists = ' + angular.toJson(affectedLists));
                   });
-                  serverHandlerEntryEvents.syncEventDownstream(null, 'SEEN').then(function (affectedLists) {
+                  serverHandlerEntryEvents.syncEventDownstream(null, 'CREATE-SEEN').then(function (affectedLists) {
                     console.log('syncSeenDownstream affectedLists = ' + angular.toJson(affectedLists));
                   });
                   serverHandlerEntryV2.syncUpdatesDownstream().then(function (affectedLists) {

@@ -14,7 +14,7 @@ angular.module('starter.services')
       /*Return all entries in array selectedItems*/
       function getAllEntry(listId) {
         var defer = $q.defer();
-        var query = "SELECT e.entryLocalId, e.userServerId, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag,e.retailerLocalId, e.flag, e.deliveredFlag, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
+        var query = "SELECT e.entryLocalId, e.userServerId, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.retailerLocalId, e.flag, e.updatedFlag, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
           " FROM ( " +
           " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
           " left join retailer as r on e.retailerLocalId = r.retailerLocalId " +
@@ -68,15 +68,21 @@ angular.module('starter.services')
         var deferred = $q.defer();
 
         global.db.transaction(function (tx) {
-          var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.seenFlag, e.language,e.deliveredFlag" +
+          var query = "SELECT e.entryLocalId,l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted, e.language,e.updatedFlag" +
             " FROM ( " +
             "(masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
             " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
             " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
             " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
             " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = ?" +
-            " where l.listLocalId = ? and ifnull(e.deleted,'N')  !='Y'" +
-            " and entryCrossedFlag = 1";
+            " where l.listLocalId = ? and ifnull(e.deleted,0)  = 0" +
+            " and entryCrossedFlag != 0 " +
+            " and entryLocalId = (select max(entryLocalId) "+
+                                  " from entry "+
+                                  " where entry.itemLocalId = e.itemLocalId "+
+                                  " and entry.listLocalId = e.listLocalId "+
+                                  " and entry.entryCrossedFlag != 0" +
+                                  " )";
 
           console.log("localEntryHandlerV2.getCheckedItem query res = " + query);
           console.log("localEntryHandlerV2.getCheckedItem query settings.getSettingValue('language') = " + settings.getSettingValue('language').toUpperCase().substr(0, 2));
@@ -178,11 +184,40 @@ angular.module('starter.services')
           global.currentListEntries.listOpenEntries = res[0];
           global.currentListEntries.listCrossedEntries = res[1];
           global.suggestedItem.suggested = res[2];
+          console.log('buildListEntries global.status = ' + global.status);
           if (global.status != 'background') {
-            serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN');
-            serverHandlerEntryEvents.syncEventUpstream('CROSS-SEEN');
-            serverHandlerEntryEvents.syncEventUpstream('UPDATE-SEEN');
-            serverHandlerEntryEvents.syncEventUpstream('DELETE-SEEN');
+            // getting all unseen entries, mark as seen and sync with the server
+            var createPromies = [];
+            var updatePromises = [];
+            var crossPromises = [];
+            //var deletePromises = [];
+
+            global.currentListEntries.listOpenEntries.entries.forEach(function (entry) {
+              if (entry.flag == 5) {
+                createPromies.push(serverHandlerEntryEvents.applyEvent(entry, 'CREATE-SEEN', 'local'));
+              }
+              if (entry.updatedFlag == 5) {
+                updatePromises.push(serverHandlerEntryEvents.applyEvent(entry, 'UPDATE-SEEN', 'local'));
+              }
+            });
+            global.currentListEntries.listCrossedEntries.forEach(function (entry) {
+              if (entry.entryCrossedFlag == 5) {
+                crossPromises.push(serverHandlerEntryEvents.applyEvent(entry, 'CROSS-SEEN', 'local'));
+              }
+            });
+
+            $q.all(createPromies).then(function () {
+              serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN');
+            });
+
+            $q.all(crossPromises).then(function () {
+              serverHandlerEntryEvents.syncEventUpstream('CROSS-SEEN');
+            });
+
+            $q.all(updatePromises).then(function () {
+              serverHandlerEntryEvents.syncEventUpstream('UPDATE-SEEN');
+            });
+            //serverHandlerEntryEvents.syncEventUpstream('DELETE-SEEN');
           }
           console.log('buildListEntries global.currentListEntries = ' + angular.toJson(global.currentListEntries));
           console.log('4/5/2017 - aalatief - suggested Items:  ' + angular.toJson(global.suggestedItem));
