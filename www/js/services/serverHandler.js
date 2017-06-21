@@ -84,8 +84,8 @@ angular.module('starter.services')
     function syncDownStreamData() {
       var defer = $q.defer();
       contactHandler.downloadContactsPhotos();
-      serverHandlerEntryV2.syncEntrieDownstream().then(function (affectedLists) {
-        console.log('syncDownStreamData syncEntrieDownstream affectedLists ' + angular.toJson(affectedLists));
+      serverHandlerEntryV2.syncEntriesDownstream().then(function (affectedLists) {
+        console.log('syncDownStreamData syncEntriesDownstream affectedLists ' + angular.toJson(affectedLists));
         serverHandlerEntryEvents.syncEventDownstream(null, 'CROSS');
         serverHandlerEntryEvents.syncEventDownstream(null, 'CREATE-DELIVER').then(function (affectedLists) {
             console.log('syncDeliveryDownstream affectedLists = ' + angular.toJson(affectedLists));
@@ -103,7 +103,7 @@ angular.module('starter.services')
           }
         );
       }, function (err) {
-        console.error("syncDownStreamData syncEntrieDownstream ERROR");
+        console.error("syncDownStreamData syncEntriesDownstream ERROR");
         defer.reject();
       });
 

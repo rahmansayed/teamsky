@@ -22,7 +22,7 @@ angular.module('starter.services')
             global.status = msg.additionalData.foreground ? "foreground" : 'background';
             console.log('handleNotification global.status = ' + global.status);
 
-            serverHandlerEntryV2.syncEntrieDownstream(msg.additionalData.details).then(function (affectedLists) {
+            serverHandlerEntryV2.syncEntriesDownstream(msg.additionalData.details).then(function (affectedLists) {
               serverHandlerListV2.maintainGlobalLists(affectedLists[0], "ADD ENTRY");
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
@@ -149,7 +149,7 @@ angular.module('starter.services')
                 if ($state.current.name == "lists") {
                   $state.reload();
                 }
-                serverHandlerEntryV2.syncEntrieDownstream().then(function (res) {
+                serverHandlerEntryV2.syncEntriesDownstream().then(function (res) {
                   if ($state.current.name == "item") {
                     console.log('NOTIFICATION ENTRY RES ' + angular.toJson(res));
                     for (var i = 0; i < res.length; i++) {

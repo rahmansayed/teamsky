@@ -246,7 +246,7 @@ angular.module('starter.services')
        * @param entryList
        * @returns {Promise}
        */
-      function syncBackMany(entryList) {
+/*      function syncBackMany(entryList) {
         var defer = $q.defer();
 
 //        console.log("serverHandlerItemsV2.syncBackMany entryList = " + angular.toJson(entryList));
@@ -291,7 +291,7 @@ angular.module('starter.services')
 
         return defer.promise;
 
-      }
+      }*/
 
       /*****************************************************************************************************************
        * This function is used to sync other user items and other user retailers in the local db prior to creating
@@ -488,6 +488,35 @@ angular.module('starter.services')
       }
 
       /*****************************************************************************************************************
+       * this function is used to build the promise after which the actual insertion of update occurs
+       * @param entryEvent
+       * @param event
+       */
+      function buildPromise(entryEvent, event) {
+
+        var myPromise;
+        if (entryEvent) {
+          myPromise = $q.resolve({
+            data: {
+              entries: [entryEvent.entryServerId],
+              items: [entryEvent.item],
+              retailers: [entryEvent.retailer]
+            }
+          });
+        } else {
+          var data = {
+            userServerId: global.userServerId,
+            deviceServerId: global.deviceServerId
+          };
+          var url = global.serverIP + "/api/entry/" + (event == "CREATE" ? "getpending" : "getUpdates");
+
+          myPromise = $http.post(url + "/api/entry/getpending", data);
+        }
+        return myPromise;
+
+      }
+
+      /*****************************************************************************************************************
        * this function is used to retrieve new entries from the server
        */
       function syncEntriesDownstream(entryDetails) {
@@ -495,27 +524,7 @@ angular.module('starter.services')
 
         console.log("syncEntriesDownstream global.status = " + global.status);
 
-        var data = {
-          userServerId: global.userServerId,
-          deviceServerId: global.deviceServerId
-        };
-        var myPromise;
-        var affectedLists = [];
-        if (entryDetails) {
-          myPromise = $q.resolve({
-            data: {
-              entries: [entryDetails.entry],
-              items: entryDetails.item,
-              retailers: entryDetails.retailer
-            }
-          });
-        } else {
-          myPromise = $http.post(global.serverIP + "/api/entry/getpending", data);
-        }
-
-        var categoryName;
-        var entry = {};
-        myPromise.then(function (response) {
+        buildPromise(entryDetails, "CREATE").then(function (response) {
 
 //            console.log("serverHandlerEntry syncEntriesDownstream server response " + angular.toJson(response));
 
@@ -583,7 +592,7 @@ angular.module('starter.services')
                 }
                 $q.all(insertPromises).then(function () {
                   console.log("syncEntriesDownstream db insert success");
-                  syncBackMany(response.data.entries);
+                  serverHandlerEntryEvents.syncBackEvent(response.data.entries, "CREATE");
                   serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN');
                   serverHandlerEntryEvents.updateListNotificationCount('newCount', affectedLists);
                   defer.resolve(affectedLists);
@@ -604,7 +613,72 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function syncBackUpdates(updates) {
+      function syncUpdatesDownstream(entryUpdate) {
+        var defer = $q.defer();
+
+        buildPromise(entryUpdate, "UPDATE").then(function (res) {
+          var updateFlag;
+          if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
+            updateFlag = 6
+          } else {
+            updateFlag = 5;
+          }
+
+          if (res.data.entries.length > 0) {
+            console.log('syncUpdatesDownstream res.data = ' + angular.toJson(res.data));
+            syncDependentDownstream(response.data.items, response.data.retailers).then(function () {
+                global.db.transaction(function (tx) {
+                    res.data.entries.forEach(function (update) {
+                      var entryRetailerServerId = update.retailerServerId || update.userRetailerServerId || '';
+                      var query = "update entry set uom = ?," +
+                        " quantity = ?, " +
+                        " retailerLocalId = (select retailerLocalId from retailer r where r.retailerServerId = ?)," +
+                        " updatedFlag = ? " +
+                        " where entryServerId = ?";
+
+                      var updatesArray = [update.uom,
+                        update.qty, entryRetailerServerId, updateFlag, update.entryServerId._id];
+
+                      tx.executeSql(query, updatesArray);
+                    });
+                  },
+                  function (err) {
+                    console.error("syncUpdatesDownstream db update err " + err.message);
+                    defer.reject();
+                  }, function () {
+                    console.log("syncUpdatesDownstream db update complete");
+                    serverHandlerEntryEvents.syncBackEvent(res.data.entries, "UPDATE").then(function (res1) {
+                      console.log('syncUpdatesDownstream serverHandlerEntryEvents.buildAffectedLists after syncBackSeens');
+                      serverHandlerEntryEvents.buildAffectedLists(res.data.entries).then(function (res2) {
+                        serverHandlerEntryEvents.updateListNotificationCount('updateCount', res2);
+                        defer.resolve(res2);
+                      }, function (err) {
+                        console.error('syncUpdatesDownstream serverHandlerEntryEvents.buildAffectedLists error');
+                      });
+                    });
+                    // getting the entry to reflect on UI
+                    res.data.entries.forEach(function (update) {
+                      serverHandlerEntryEvents.getEntryFromLocalDB(update.entryServerId._id).then(function (entry) {
+                          serverHandlerEntryEvents.maintainGlobalEntries(entry, 'UPDATE');
+                        }
+                      );
+                    });
+                  });
+              }
+              , function (err) {
+                console.error("syncUpdatesDownstream insertLocalRetailerDownstream err " + angular.toJson(err));
+                defer.reject();
+              });
+          }
+          else {
+            defer.resolve();
+          }
+
+        });
+        return defer.promise;
+      }
+
+/*      function syncBackUpdates(updates) {
         var defer = $q.defer();
 
         var data = {
@@ -626,127 +700,12 @@ angular.module('starter.services')
         });
 
         return defer.promise;
-      }
-
-      function syncUpdatesDownstream(entryUpdate) {
-        var defer = $q.defer();
-
-        var data = {
-          deviceServerId: global.deviceServerId
-        };
-
-        var myPromise;
-        if (entryUpdate) {
-          myPromise = $q.resolve({
-            data: {
-              updates: [{
-                entryServerId: entryUpdate.entry._id,
-                _id: entryUpdate._id,
-                uom: entryUpdate.entry.uom || '',
-                qty: entryUpdate.entry.qty || 1,
-                retailerServerId: entryUpdate.entry.retailerServerId,
-                userRetailerServerId: entryUpdate.entry.userRetailerServerId
-              }],
-              retailers: (entryUpdate.retailer) ? [entryUpdate.retailer] : []
-            }
-          });
-        } else {
-          myPromise = $http.post(global.serverIP + '/api/entry/getUpdates', data);
-        }
-
-        var updateFlag;
-        if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
-          updateFlag = 6
-        } else {
-          updateFlag = 5;
-        }
-        myPromise.then(function (res) {
-
-            if (res.data.updates.length > 0) {
-              console.log('syncUpdatesDownstream res.data = ' + angular.toJson(res.data));
-              dbHelper.insertLocalRetailerDownstream(res.data.retailers).then(function () {
-
-                var retailers = res.data.updates.map(function (update) {
-                  return update.retailerServerId || update.userRetailerServerId;
-                });
-
-                dbHelper.getRetailersLocalIds(retailers).then(function (retailerMap) {
-                  global.db.transaction(function (tx) {
-                      res.data.updates.forEach(function (update) {
-                        var updatesArray = [];
-                        var query;
-                        var retailer;
-                        if (update.retailerServerId) {
-                          query = "update entry set uom = ?, quantity=?, retailerLocalId = ?, updatedFlag = ? where entryServerId = ?";
-                          retailer = dbHelper.getRetailerLocalIdfromMap(update.retailerServerId, retailerMap);
-                          updatesArray = [update.uom,
-                            update.qty, retailer.retailerLocalId, updateFlag, update.entryServerId];
-                        } else if (update.userRetailerServerId) {
-                          retailer = dbHelper.getRetailerLocalIdfromMap(update.userRetailerServerId, retailerMap);
-                          query = "update entry set uom = ?, quantity=?, retailerLocalId = ?, updatedFlag = ? where entryServerId = ?";
-                          updatesArray = [update.uom, update.qty, retailer.retailerLocalId, updateFlag, update.entryServerId];
-                        } else {
-                          query = "update entry set uom = ?, quantity=? , updatedFlag = ? where entryServerId = ? ";
-                          updatesArray = [update.uom, update.qty, updateFlag, update.entryServerId];
-                        }
-
-                        tx.executeSql(query, updatesArray);
-                        // getting the entry to reflect on UI
-                        serverHandlerEntryEvents.getEntryFromLocalDB(update.entryServerId).then(function (entry) {
-                            if (retailer) {
-                              entry.retailerLocalId = retailer.retailerLocalId;
-                              entry.retailerName = retailer.retailerName;
-                            }
-                            entry.qty = update.qty;
-                            entry.uom = update.uom;
-                            serverHandlerEntryEvents.maintainGlobalEntries(entry, 'UPDATE');
-                          }
-                        );
-                      });
-                    }
-                    ,
-                    function (err) {
-                      console.error("syncUpdatesDownstream db update err " + err.message);
-                      defer.reject();
-                    }
-                    ,
-                    function () {
-                      console.log("syncUpdatesDownstream db update complete");
-                      syncBackUpdates(res.data.updates).then(function (res1) {
-                        console.log('syncUpdatesDownstream serverHandlerEntryEvents.buildAffectedLists after syncBackSeens');
-                        serverHandlerEntryEvents.buildAffectedLists(res.data.updates).then(function (res2) {
-                          serverHandlerEntryEvents.updateListNotificationCount('updateCount', res2);
-                          defer.resolve(res2);
-                        }, function (err) {
-                          console.error('syncUpdatesDownstream serverHandlerEntryEvents.buildAffectedLists error');
-                        });
-                      }, function (err) {
-                        console.error("syncUpdatesDownstream db update complete");
-                        defer.reject();
-                      });
-                    }
-                  );
-                });
-              });
-            } else {
-              defer.resolve();
-            }
-          }
-          ,
-          function (err) {
-//            console.error('syncSeenDownstream server err ' + angular.toJson(err));
-            defer.reject();
-          }
-        );
-
-        return defer.promise;
-      }
-
+      }*/
 
       return {
         addEntry: addEntry,
         syncEntriesUpstream: synEntriesUpstream,
-        syncEntrieDownstream: syncEntriesDownstream,
+        syncEntriesDownstream: syncEntriesDownstream,
         crossLocalEntry: crossLocalEntry,
         deleteLocalEntry: deleteLocalEntry,
         syncUpdatesUpstream: syncUpdatesUpstream,

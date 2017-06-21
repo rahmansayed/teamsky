@@ -47,6 +47,13 @@ angular.module('starter.services')
         downstreamServerAPI: "/api/entry/getDeletes",
         downstreamBackAPI: "/api/entry/syncDeletesBack"
       },
+      "UPDATE": {
+        downstreamBackAPI: "/api/entry/syncUpdatesBack"
+      },
+      "CREATE": {
+        downstreamBackAPI: "/api/entry/syncBackMany"
+      },
+
       "CREATE-SEEN": {
         check: {
           flag: "flag",
@@ -370,14 +377,16 @@ angular.module('starter.services')
       console.error('syncEventDownstream event = ' + event);
 
       var data = {
-        deviceServerId: global.deviceServerId
+        deviceServerId: global.deviceServerId,
+        userServerId: global.userServerId
       };
+
       var myPromise;
       if (entryUpdate) {
         myPromise = $q.resolve({
           data: {
             entries: [{
-              entryServerId: entryUpdate.entryServerId,
+              entryServerId: typeof entryUpdate.entryServerId === 'object' ? entryUpdate.entryServerId._id : entryUpdate.entryServerId,
               _id: entryUpdate._id
             }]
           }
@@ -419,7 +428,7 @@ angular.module('starter.services')
 
       data.entries = entryUpdates.map(function (entryUpdate) {
         return {
-          entryServerId: entryUpdate.entryServerId,
+          entryServerId: typeof entryUpdate.entryServerId === 'object' ? entryUpdate.entryServerId._id : entryUpdate.entryServerId,
           entryUpdateId: entryUpdate._id
         };
       });
@@ -440,15 +449,18 @@ angular.module('starter.services')
       var defer = $q.defer();
 
       global.db.transaction(function (tx) {
-        var query = "select e.*, mtl.itemName, ctl.categoryName " +
-          " from masterItem mi, masterItem_tl mtl, category c, category_tl  ctl , entry e " +
-          " where mi.itemLocalId = mtl.itemLocalId " +
-          " and mi.categoryLocalId = c.categoryLocalId " +
-          " and ctl.categoryLocalId = c.categoryLocalId " +
-          " and mi.itemLocalId = e.itemLocalId " +
-          " and mtl.language = e.language " +
-          " and ctl.language = e.language " +
-          " and e.entryServerId = ?";
+
+        var query = "SELECT e.entryLocalId, e.userServerId, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.retailerLocalId, e.flag, e.updatedFlag, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
+          " FROM ( " +
+          " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
+          " left join retailer as r on e.retailerLocalId = r.retailerLocalId " +
+          " left join retailer_tl as rtl on r.retailerLocalId = rtl.retailerLocalId and rtl.language = e.language" +
+          " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
+          " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
+          " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
+          " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = ?" +
+          " where e.entryServerId = ? ";
+
         tx.executeSql(query, [entryServerId], function (tx, res) {
           if (res.rows.length > 0) {
             defer.resolve(res.rows.item(0));
@@ -475,7 +487,7 @@ angular.module('starter.services')
       var defer = $q.defer();
       var query = "select listLocalId, count(*) as cnt from entry where entryServerId in ( ";
       var query = entries.reduce(function (query, entry) {
-        return query + "'" + entry.entryServerId + "', ";
+        return query + "'" + entry.entryServerId._id + "', ";
       }, query);
 
       query = query.substr(0, query.length - 2) + ')';
@@ -661,6 +673,7 @@ angular.module('starter.services')
 
     return {
       syncEventUpstream: syncEventUpstream,
+      syncBackEvent: syncBackEvent,
       getEntryFromLocalDB: getEntryFromLocalDB,
       updateListNotificationCount: updateListNotificationCount,
       buildAffectedLists: buildAffectedLists,
