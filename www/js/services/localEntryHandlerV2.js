@@ -235,7 +235,7 @@ angular.module('starter.services')
         console.log('updateEntry Entry = ' + angular.toJson(entry));
         var deferred = $q.defer();
         global.db.transaction(function (tx) {
-            var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, flag = 'E' where entryLocalId = ?";
+            var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, updatedFlag = 1 where entryLocalId = ?";
             tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId]);
           },
           function (err) {
