@@ -140,17 +140,17 @@ angular.module('starter.services')
         var lists = [];
 
         for (var i = 0; i < entries.length; i++) {
-          lists.push(entries[i].listServerId);
-          if (entries[i].userItemServerId) {
-            items.push(entries[i].userItemServerId);
+          lists.push(entries[i].entryServerId.listServerId);
+          if (entries[i].entryServerId.userItemServerId) {
+            items.push(entries[i].entryServerId.userItemServerId);
           }
           else {
-            items.push(entries[i].itemServerId);
+            items.push(entries[i].entryServerId.itemServerId);
           }
-          if (entries[i].retailerServerId)
-            retailers.push(entries[i].retailerServerId);
-          else if (entries[i].userRetailerServerId) {
-            retailers.push(entries[i].userRetailerServerId);
+          if (entries[i].entryServerId.retailerServerId)
+            retailers.push(entries[i].entryServerId.retailerServerId);
+          else if (entries[i].entryServerId.userRetailerServerId) {
+            retailers.push(entries[i].entryServerId.userRetailerServerId);
           }
         }
 

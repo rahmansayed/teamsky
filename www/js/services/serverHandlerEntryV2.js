@@ -246,52 +246,52 @@ angular.module('starter.services')
        * @param entryList
        * @returns {Promise}
        */
-/*      function syncBackMany(entryList) {
-        var defer = $q.defer();
+      /*      function syncBackMany(entryList) {
+       var defer = $q.defer();
 
-//        console.log("serverHandlerItemsV2.syncBackMany entryList = " + angular.toJson(entryList));
-        var data = {
-          userServerId: global.userServerId,
-          deviceServerId: global.deviceServerId,
-          entries: []
-        };
+       //        console.log("serverHandlerItemsV2.syncBackMany entryList = " + angular.toJson(entryList));
+       var data = {
+       userServerId: global.userServerId,
+       deviceServerId: global.deviceServerId,
+       entries: []
+       };
 
-        global.db.transaction(function (tx) {
-          var query = "select entryLocalId, entryServerId from entry where entryServerId in ( ";
-          for (var i = 0; i < entryList.length; i++) {
-            query = query + "'" + entryList[i]._id + "'";
-            if (i < entryList.length - 1) {
-              query = query + ",";
-            }
-          }
-          query = query + " )";
+       global.db.transaction(function (tx) {
+       var query = "select entryLocalId, entryServerId from entry where entryServerId in ( ";
+       for (var i = 0; i < entryList.length; i++) {
+       query = query + "'" + entryList[i]._id + "'";
+       if (i < entryList.length - 1) {
+       query = query + ",";
+       }
+       }
+       query = query + " )";
 
-          tx.executeSql(query, [], function (tx, result) {
-            for (var i = 0; i < result.rows.length; i++) {
-              data.entries.push({
-                entryLocalId: result.rows.item(i).entryLocalId,
-                entryServerId: result.rows.item(i).entryServerId
-              });
-            }
+       tx.executeSql(query, [], function (tx, result) {
+       for (var i = 0; i < result.rows.length; i++) {
+       data.entries.push({
+       entryLocalId: result.rows.item(i).entryLocalId,
+       entryServerId: result.rows.item(i).entryServerId
+       });
+       }
 
-            $http.post(global.serverIP + "/api/entry/syncBackMany", data).then(function (response) {
-              defer.resolve();
-            }, function (err) {
-              defer.reject(err);
-            });
+       $http.post(global.serverIP + "/api/entry/syncBackMany", data).then(function (response) {
+       defer.resolve();
+       }, function (err) {
+       defer.reject(err);
+       });
 
-          });
+       });
 
-        }, function (err) {
-          console.error("serverHandlerV2.syncBackMany db operation ERROR " + err.message);
-          defer.reject();
-        }, function () {
-          console.log("serverHandlerV2.syncBackMany db operation complete");
-        });
+       }, function (err) {
+       console.error("serverHandlerV2.syncBackMany db operation ERROR " + err.message);
+       defer.reject();
+       }, function () {
+       console.log("serverHandlerV2.syncBackMany db operation complete");
+       });
 
-        return defer.promise;
+       return defer.promise;
 
-      }*/
+       }*/
 
       /*****************************************************************************************************************
        * This function is used to sync other user items and other user retailers in the local db prior to creating
@@ -334,6 +334,9 @@ angular.module('starter.services')
             });
 
             defer.resolve();
+          }, function () {
+            console.error("syncDependentDownstream $q.all err");
+            defer.reject();
           });
 
         return defer.promise;
@@ -498,11 +501,16 @@ angular.module('starter.services')
         if (entryEvent) {
           myPromise = $q.resolve({
             data: {
-              entries: [entryEvent.entryServerId],
-              items: [entryEvent.item],
-              retailers: [entryEvent.retailer]
+              entries: [{
+                entryServerId: entryEvent.entry,
+                _id: entryEvent._id
+              }
+              ],
+              items: entryEvent.item,
+              retailers: entryEvent.retailer
             }
-          });
+          })
+          ;
         } else {
           var data = {
             userServerId: global.userServerId,
@@ -510,7 +518,7 @@ angular.module('starter.services')
           };
           var url = global.serverIP + "/api/entry/" + (event == "CREATE" ? "getpending" : "getUpdates");
 
-          myPromise = $http.post(url + "/api/entry/getpending", data);
+          myPromise = $http.post(url, data);
         }
         return myPromise;
 
@@ -526,7 +534,7 @@ angular.module('starter.services')
 
         buildPromise(entryDetails, "CREATE").then(function (response) {
 
-//            console.log("serverHandlerEntry syncEntriesDownstream server response " + angular.toJson(response));
+          console.log("syncEntriesDownstream server response " + angular.toJson(response));
 
           syncDependentDownstream(response.data.items, response.data.retailers).then(function () {
 
@@ -536,7 +544,7 @@ angular.module('starter.services')
                 var insertPromises = [];
                 for (var i = 0; i < response.data.entries.length; i++) {
 
-                  var localIds = dbHelper.getLocalIds(response.data.entries[i], result);
+                  var localIds = dbHelper.getLocalIds(response.data.entries[i].entryServerId, result);
                   console.log("syncEntriesDownstream entry i =" + i + " " + angular.toJson(response.data.entries[i]));
                   console.log("syncEntriesDownstream localIds =" + angular.toJson(localIds));
 
@@ -575,9 +583,9 @@ angular.module('starter.services')
                     //seenFlag: 0,
                     retailerLocalId: localIds.retailerLocalId,
                     retailerName: localIds.retailerName,
-                    language: response.data.entries[i].language,
-                    entryServerId: response.data.entries[i]._id,
-                    userServerId: response.data.entries[i].userServerId
+                    language: response.data.entries[i].entryServerId.language,
+                    entryServerId: response.data.entries[i].entryServerId._id,
+                    userServerId: response.data.entries[i].entryServerId.userServerId
                   };
                   console.log("syncEntriesDownstream $state.current.name = " + $state.current.name);
                   console.log("syncEntriesDownstream localIds.listLocalId = " + localIds.listLocalId);
@@ -678,29 +686,29 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-/*      function syncBackUpdates(updates) {
-        var defer = $q.defer();
+      /*      function syncBackUpdates(updates) {
+       var defer = $q.defer();
 
-        var data = {
-          userServerId: global.userServerId,
-          deviceServerId: global.deviceServerId
-        };
+       var data = {
+       userServerId: global.userServerId,
+       deviceServerId: global.deviceServerId
+       };
 
-        data.updates = updates.map(function (update) {
-          return update._id;
-        });
+       data.updates = updates.map(function (update) {
+       return update._id;
+       });
 
-        console.log('syncBackUpdates data = ' + data);
-        $http.post(global.serverIP + '/api/entry/syncUpdatesBack', data).then(function (res) {
-//          console.log('syncBackUpdates server reply = ' + angular.toJson(res));
-          defer.resolve(res);
-        }, function (err) {
-          console.error('syncBackUpdates server error ' + err.message);
-          defer.reject(err);
-        });
+       console.log('syncBackUpdates data = ' + data);
+       $http.post(global.serverIP + '/api/entry/syncUpdatesBack', data).then(function (res) {
+       //          console.log('syncBackUpdates server reply = ' + angular.toJson(res));
+       defer.resolve(res);
+       }, function (err) {
+       console.error('syncBackUpdates server error ' + err.message);
+       defer.reject(err);
+       });
 
-        return defer.promise;
-      }*/
+       return defer.promise;
+       }*/
 
       return {
         addEntry: addEntry,
