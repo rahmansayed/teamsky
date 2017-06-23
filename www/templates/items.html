@@ -169,23 +169,23 @@
 
                     <div ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline; float:right; ">
         
-                      <div align="right" ng-show="listItem.flag=='N'" style="display:inline;">
+                      <div align="right" ng-show="listItem.flag=='1'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>
                         </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag=='S'&&listItem.deliveredFlag==0"
+                      <div align="right" ng-show="listItem.flag=='2'"
                            style="display:inline;">
                         <p style="display:inline; ">&#10004; </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.deliveredFlag==3&&listItem.seenFlag!=3"
+                      <div align="right" ng-show="listItem.flag==3"
                            style="display:inline;">
                         <p style="display:inline;">&#10004;&#10004;</p>
                       </div>
 
-                      <div align="right" ng-show="listItem.seenFlag==3" style="display:inline;">
+                      <div align="right" ng-show="listItem.flag==4">
                         <p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>
                       </div>
                     </div>
