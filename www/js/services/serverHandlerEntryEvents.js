@@ -19,7 +19,10 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set entryCrossedFlag = 1 "],
-          server: ["update entry set entryCrossedFlag = 5 "]
+          server: {
+            "BACKGROUND": ["update entry set entryCrossedFlag = 5 "],
+            "FOREGROUND": ["update entry set entryCrossedFlag = 7 "]
+          }
         },
         upstreamReplyAction: {
           flag: "entryCrossedFlag",
@@ -37,7 +40,10 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set deleted = 1 "],
-          server: ["update entry set deleted = 5 "]
+          server: {
+            "BACKGROUND": ["update entry set deleted = 5 "],
+            "FOREGROUND": ["update entry set deleted = 5 "]
+          }
         },
         upstreamReplyAction: {
           flag: "deleted",
@@ -65,7 +71,10 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set flag = 6 "],
-          server: ["update entry set flag = 4 "]
+          server: {
+            "BACKGROUND": ["update entry set flag = 4 "],
+            "FOREGROUND": ["update entry set flag = 4 "]
+          }
         },
         upstreamServerAPI: "/api/entry/seeEntryEvent/CREATE",
         downstreamServerAPI: "/api/entry/getSeens/CREATE",
@@ -78,7 +87,10 @@ angular.module('starter.services')
           value: "5"
         },
         action: {
-          "server": ["update entry set flag = 3 "]
+          "server": {
+            "BACKGROUND": ["update entry set flag = 3 "],
+            "FOREGROUND": ["update entry set flag = 3 "]
+          }
         },
         downstreamServerAPI: "/api/entry/getDelivers/CREATE",
         downstreamBackAPI: "/api/entry/syncDeliversBack/CREATE",
@@ -95,7 +107,10 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set updatedFlag = 6 "],
-          server: ["update entry set updatedFlag = 4 "]
+          server: {
+            "BACKGROUND": ["update entry set updatedFlag = 4 "],
+            "FOREGROUND": ["update entry set updatedFlag = 4 "]
+          }
         },
         upstreamServerAPI: "/api/entry/seeEntryEvent/UPDATE",
         downstreamServerAPI: "/api/entry/getSeens/UPDATE",
@@ -108,7 +123,10 @@ angular.module('starter.services')
           value: "5"
         },
         action: {
-          "server": ["update entry set updatedFlag = 3 "]
+          "server": {
+            "BACKGROUND": ["update entry set updatedFlag = 3 "],
+            "FOREGROUND": ["update entry set updatedFlag = 3 "]
+          }
         },
         downstreamServerAPI: "/api/entry/getDelivers/UPDATE",
         downstreamBackAPI: "/api/entry/syncDeliversBack/UPDATE",
@@ -125,7 +143,10 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set entryCrossedFlag = 6 "],
-          server: ["update entry set entryCrossedFlag = 4 "]
+          server: {
+            "BACKGROUND": ["update entry set entryCrossedFlag = 4 "],
+            "FOREGROUND": ["update entry set entryCrossedFlag = 4 "]
+          }
         },
         upstreamServerAPI: "/api/entry/seeEntryEvent/CROSS",
         downstreamServerAPI: "/api/entry/getSeens/CROSS",
@@ -138,7 +159,11 @@ angular.module('starter.services')
           value: "5"
         },
         action: {
-          "server": ["update entry set entryCrossedFlag = 3 "]
+          "server": {
+            "BACKGROUND": ["update entry set entryCrossedFlag = 3 "],
+            "FOREGROUND": ["update entry set entryCrossedFlag = 3 "]
+          }
+
         },
         downstreamServerAPI: "/api/entry/getDelivers/CROSS",
         downstreamBackAPI: "/api/entry/syncDeliversBack/CROSS",
@@ -155,7 +180,10 @@ angular.module('starter.services')
         },
         action: {
           local: ["update entry set deleted = 6 "],
-          server: ["update entry set deleted = 4 "]
+          server: {
+            "BACKGROUND": ["update entry set deleted = 4 "],
+            "FOREGROUND": ["update entry set deleted = 4 "]
+          }
         },
         upstreamServerAPI: "/api/entry/seeEntryEvent/DELETE",
         downstreamServerAPI: "/api/entry/getSeens/DELETE",
@@ -168,7 +196,10 @@ angular.module('starter.services')
           value: "5"
         },
         action: {
-          "server": ["update entry set deleted = 3 "]
+          "server": {
+            "BACKGROUND": ["update entry set deleted = 3 "],
+            "FOREGROUND": ["update entry set deleted = 3 "]
+          }
         },
         downstreamServerAPI: "/api/entry/getDelivers/DELETE",
         downstreamBackAPI: "/api/entry/syncDeliversBack/DELETE",
@@ -182,16 +213,25 @@ angular.module('starter.services')
       console.log('applyEvent source = ' + source);
       var deferred = $q.defer();
       var queries = [];
-      Events[event].action[source].forEach(function (action) {
-        switch (source) {
-          case "server":
+      var mode;
+      if ($state.current.name == 'item' && global.currentList.listServerId == entry.listServerId && global.status == 'foreground') {
+        mode = 'FOREGROUND';
+      } else {
+        mode = 'BACKGROUND';
+      }
+      switch (source) {
+        case "server":
+          Events[event].action[source][mode].forEach(function (action) {
             queries.push(action + "where entryServerId =?");
-            break;
-          case "local":
+          });
+          break;
+        case "local":
+          Events[event].action[source].forEach(function (action) {
             queries.push(action + "where  entryLocalId=?");
-            break;
-        }
-      });
+          });
+          break;
+      }
+
 
       console.log("applyEvent queries = " + angular.toJson(queries));
 
