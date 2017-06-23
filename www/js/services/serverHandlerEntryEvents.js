@@ -438,8 +438,12 @@ angular.module('starter.services')
       myPromise.then(function (res) {
 
           res.data.entries.forEach(function (entry) {
-            getEntryFromLocalDB(entry.entryServerId).then(function (res) {
-              applyEvent(res, event, 'server');
+            getEntryFromLocalDB(entry.entryServerId).then(function (entry) {
+              applyEvent(entry, event, 'server').then(function () {
+                if ($state.current.name == 'item' && global.currentList.listServerId == entry.listServerId && global.status == 'foreground') {
+                  applyEvent(entry, event || '-SEEN', 'server');
+                }
+              });
             });
           });
 
