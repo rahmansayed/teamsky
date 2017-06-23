@@ -502,7 +502,7 @@ angular.module('starter.services')
           myPromise = $q.resolve({
             data: {
               entries: [{
-                entryServerId: entryEvent.entry,
+                entryServerId: entryEvent.entry || entryEvent.entryServerId,
                 _id: entryEvent._id
               }
               ],
@@ -626,7 +626,7 @@ angular.module('starter.services')
 
         buildPromise(entryUpdate, "UPDATE").then(function (res) {
           var updateFlag;
-          if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
+          if ($state.current.name == 'item' && global.currentList.listServerId == entryUpdate.listServerId && global.status == 'foreground') {
             updateFlag = 6
           } else {
             updateFlag = 5;
@@ -634,18 +634,18 @@ angular.module('starter.services')
 
           if (res.data.entries.length > 0) {
             console.log('syncUpdatesDownstream res.data = ' + angular.toJson(res.data));
-            syncDependentDownstream(response.data.items, response.data.retailers).then(function () {
+            syncDependentDownstream(res.data.items, res.data.retailers).then(function () {
                 global.db.transaction(function (tx) {
                     res.data.entries.forEach(function (update) {
-                      var entryRetailerServerId = update.retailerServerId || update.userRetailerServerId || '';
+                      var entryRetailerServerId = update.entryServerId.retailerServerId || update.entryServerId.userRetailerServerId || '';
                       var query = "update entry set uom = ?," +
                         " quantity = ?, " +
                         " retailerLocalId = (select retailerLocalId from retailer r where r.retailerServerId = ?)," +
                         " updatedFlag = ? " +
                         " where entryServerId = ?";
 
-                      var updatesArray = [update.uom,
-                        update.qty, entryRetailerServerId, updateFlag, update.entryServerId._id];
+                      var updatesArray = [update.entryServerId.uom,
+                        update.entryServerId.qty, entryRetailerServerId, updateFlag, update.entryServerId._id];
 
                       tx.executeSql(query, updatesArray);
                     });

@@ -450,7 +450,7 @@ angular.module('starter.services')
 
       global.db.transaction(function (tx) {
 
-        var query = "SELECT e.entryLocalId, e.userServerId, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.retailerLocalId, e.flag, e.updatedFlag, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
+        var query = "SELECT e.*, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName, ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
           " FROM ( " +
           " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
           " left join retailer as r on e.retailerLocalId = r.retailerLocalId " +
@@ -458,7 +458,7 @@ angular.module('starter.services')
           " INNER JOIN masterItem_tl AS itl on e.language = itl.language and itl.itemlocalId = i.itemLocalId " +
           " INNER JOIN list AS l ON e.listLocalId = l.listLocalId) " +
           " INNER JOIN category AS c ON i.categoryLocalId = c.categoryLocalId " +
-          " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = ?" +
+          " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = e.language" +
           " where e.entryServerId = ? ";
 
         tx.executeSql(query, [entryServerId], function (tx, res) {
@@ -470,7 +470,7 @@ angular.module('starter.services')
             defer.reject();
           }
         }, function (err) {
-          console.error('getCrossedEntryFromLocalDB db error');
+          console.error('getCrossedEntryFromLocalDB db error' + angular.toJson(err));
           defer.reject();
         });
       });
