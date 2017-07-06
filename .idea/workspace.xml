@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="first">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js" afterPath="$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/global.js" afterPath="$PROJECT_DIR$/www/js/services/global.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+            <state relative-caret-position="102">
+              <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -43,13 +43,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serverHandlerEntryEvents.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serverHandlerEntryEvents.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="450" column="37" lean-forward="true" selection-start-line="450" selection-start-column="37" selection-end-line="450" selection-end-column="37" />
+            <state relative-caret-position="153">
+              <caret line="323" column="26" lean-forward="true" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
               <folding>
-                <element signature="e#391#6362#0" expanded="false" />
                 <element signature="e#3609#4058#0" expanded="false" />
                 <element signature="e#4080#4752#0" expanded="false" />
                 <element signature="e#4777#5240#0" expanded="false" />
@@ -239,11 +238,11 @@
         <option value="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
-        <option value="$PROJECT_DIR$/www/js/services/global.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
         <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js" />
+        <option value="$PROJECT_DIR$/www/js/services/global.js" />
       </list>
     </option>
   </component>
@@ -576,7 +575,7 @@
       <workItem from="1496821034802" duration="5066000" />
       <workItem from="1497339868980" duration="23609000" />
       <workItem from="1497860803214" duration="26336000" />
-      <workItem from="1498214194750" duration="3737000" />
+      <workItem from="1498214194750" duration="5320000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -589,7 +588,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1168333000" />
+    <option name="totallyTimeSpent" value="1169916000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -969,14 +968,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1031,16 +1022,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandlerEntryEvents.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="450" column="37" lean-forward="true" selection-start-line="450" selection-start-column="37" selection-end-line="450" selection-end-column="37" />
+        <state relative-caret-position="153">
+          <caret line="323" column="26" lean-forward="true" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
           <folding>
-            <element signature="e#391#6362#0" expanded="false" />
             <element signature="e#3609#4058#0" expanded="false" />
             <element signature="e#4080#4752#0" expanded="false" />
             <element signature="e#4777#5240#0" expanded="false" />
             <element signature="e#5263#5893#0" expanded="false" />
             <element signature="e#5919#6356#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
