@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6d2d3a7-db2f-4f55-91f7-11dd4454c7a3" name="Default" comment="first">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/dbHelper.js" afterPath="$PROJECT_DIR$/www/js/services/dbHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/notificationHandler.js" afterPath="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/dbHandler.js" afterPath="$PROJECT_DIR$/www/js/services/dbHandler.js" />
     </list>
     <ignored path="TeamSky.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -85,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="notificationHandler.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="notificationHandler.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/notificationHandler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="89" lean-forward="false" selection-start-line="7" selection-start-column="89" selection-end-line="7" selection-end-column="89" />
+            <state relative-caret-position="136">
+              <caret line="8" column="40" lean-forward="false" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
               <folding>
                 <element signature="e#849#10332#0" expanded="false" />
               </folding>
@@ -120,18 +118,18 @@
       <file leaf-file-name="dbHelper.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/js/services/dbHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="228" column="57" lean-forward="false" selection-start-line="228" selection-start-column="42" selection-end-line="228" selection-end-column="57" />
+            <state relative-caret-position="179">
+              <caret line="230" column="0" lean-forward="true" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="listItem.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/controllers/listItem.js">
+      <file leaf-file-name="dbHandler.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1003">
-              <caret line="59" column="34" lean-forward="false" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+            <state relative-caret-position="299">
+              <caret line="34" column="50" lean-forward="false" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -247,7 +245,6 @@
         <option value="$PROJECT_DIR$/www/js/services/localItemHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/services/localListHandlerV2.js" />
         <option value="$PROJECT_DIR$/www/js/app.js" />
-        <option value="$PROJECT_DIR$/www/js/services/dbHandler.js" />
         <option value="$PROJECT_DIR$/www/js/controllers/listItem.js" />
         <option value="$PROJECT_DIR$/www/js/services/serverHandler.js" />
         <option value="$PROJECT_DIR$/www/js/services/localEntryHandlerV2.js" />
@@ -256,6 +253,7 @@
         <option value="$PROJECT_DIR$/www/js/services/global.js" />
         <option value="$PROJECT_DIR$/www/js/services/dbHelper.js" />
         <option value="$PROJECT_DIR$/www/js/services/notificationHandler.js" />
+        <option value="$PROJECT_DIR$/www/js/services/dbHandler.js" />
       </list>
     </option>
   </component>
@@ -570,7 +568,7 @@
       <workItem from="1496821034802" duration="5066000" />
       <workItem from="1497339868980" duration="23609000" />
       <workItem from="1497860803214" duration="26336000" />
-      <workItem from="1498214194750" duration="8208000" />
+      <workItem from="1498214194750" duration="8451000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1478953931274</created>
@@ -583,7 +581,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1172804000" />
+    <option name="totallyTimeSpent" value="1173047000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -596,12 +594,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21354167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32569557" sideWeight="0.5029762" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32569557" sideWeight="0.5029762" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27857935" sideWeight="0.49702382" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -949,13 +946,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="34" column="18" lean-forward="false" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/serverHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -988,14 +978,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/controllers/verifyCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -1015,14 +997,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/dbHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="228" column="57" lean-forward="false" selection-start-line="228" selection-start-column="42" selection-end-line="228" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/settings.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1033,11 +1007,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/notificationHandler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="89" lean-forward="false" selection-start-line="7" selection-start-column="89" selection-end-line="7" selection-end-column="89" />
+        <state relative-caret-position="136">
+          <caret line="8" column="40" lean-forward="false" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
           <folding>
             <element signature="e#849#10332#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/dbHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="230" column="0" lean-forward="true" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/dbHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="34" column="50" lean-forward="false" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
