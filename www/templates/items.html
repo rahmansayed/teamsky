@@ -51,24 +51,24 @@
                              icon="ion-plus-round larger" icon-color="#fff"
                              ng-show="data.search.length >2">
         </ion-floating-button>
-        
-          
+
+
 <!--          items suggest section
           <ion-content id="suggestContent" class="padding" style="z-index:4;height:50%;margin-left:95%;background-color:yellow;">
                  <div id="suggest" style="height:50%;position:fixed;top:50%;left: 100%;bottom:50%;z-index: 3;opacity: 0.95;width:80%;">
             <ion-list id="suggestList" >
-              <ion-item 
+              <ion-item
                         class="item"
                         ng-repeat="item in suggestedItem"
                         ng-click="selectItems(item)"
                         style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
                         >{{item.itemName}}
-                        
+
 
               </ion-item>
 
             </ion-list>
-           
+
           </div>
             <div id="suggestButton" style="position:fixed;top:90px;left:80%;z-index: 2;">
             <button class="button button-balanced ion-chevron-left larger padding text-left"
@@ -76,7 +76,7 @@
                     ng-show="!closeButton"
                     style="background-color:rgba(0, 0, 0, 0.75); border-top-left-radius:100px;border-bottom-left-radius:100px;height:100px;width:5px;"></button>
           </div>
-        
+
          <div id="suggestButtonClose" style="position:fixed;top:110px;left: 95%;z-index: 1;">
             <button class="button button-balanced ion-chevron-right larger padding text-left"
                     ng-click="closeSuggest()"
@@ -85,7 +85,7 @@
           </div>
           </ion-content>
           End items suggest section-->
-          
+
 
         <ion-content class="padding" >
           <div id="bg">
@@ -102,7 +102,7 @@
                         ng-click="selectItems(item)"
                         style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
                         >{{item.itemName}}
-                        
+
 
 
 
@@ -110,10 +110,10 @@
 
             </ion-list>
           </div>
-       
 
 
-               
+
+
 
           <ion-list show-reorder="reorderFlag" style="position: absolute;z-index: 1;width:100%">
             <div class="list">
@@ -168,14 +168,14 @@
 
 
                     <div ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline; float:right; ">
-        
+
                       <div align="right" ng-show="listItem.flag=='1'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>
                         </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag=='2'"
+                      <div align="right" ng-show="listItem.flag==2"
                            style="display:inline;">
                         <p style="display:inline; ">&#10004; </p>
                       </div>
@@ -212,9 +212,9 @@
                             style=" border-radius:15px;">
 
                     <h2><s>{{checkedItem.itemName}}</s></h2>
-                      
+
                    <div class="no-padding" style="display:inline; float:right; ">
-                       
+
                       <div align="right" ng-show="checkedItem.entryCrossedFlag=='1'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>
@@ -234,7 +234,7 @@
                       <div align="right" ng-show="checkedItem.entryCrossedFlag==4">
                         <p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>
                       </div>
-                    </div>  
+                    </div>
                   </ion-item>
                 </div>
               </ion-list>

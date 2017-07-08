@@ -669,7 +669,7 @@ angular.module('starter.services')
             break;
           case 'UPLOADED':
             if (openIdx > -1)
-              global.currentListEntries.listOpenEntries.entries[openIdx].flag = 'S';
+              global.currentListEntries.listOpenEntries.entries[openIdx].flag = 2;
             break;
           case 'DELETE':
             if (openIdx != -1) {
