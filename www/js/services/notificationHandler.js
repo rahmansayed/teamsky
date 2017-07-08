@@ -4,6 +4,18 @@ angular.module('starter.services')
 
       function handleNotification(msg) {
         console.log('notificationHandler msg = ' + angular.toJson(msg));
+        // we need to make sure prior to handling a notification, that the user settings are already loaded
+        console.log('handleNotification settings.userSetting = ' + settings.userSetting);
+        if (!settings.userSetting || settings.userSetting.length == 0) {
+          settings.getUserSetting().then(function () {
+            handleTheNotification(msg);
+          });
+        } else {
+          handleTheNotification(msg);
+        }
+      }
+
+      function handleTheNotification(msg) {
         switch (msg.additionalData.details.type) {
           case "PHOTO UPLOADED":
             contactHandler.downloadContactPhoto(msg.additionalData.details.userServerId);

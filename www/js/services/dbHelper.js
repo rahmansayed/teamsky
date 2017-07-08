@@ -226,6 +226,7 @@ angular.module('starter.services')
       }
 
       function getLocalIds(entry, localIdsMap) {
+        console.log("getLocalIds settings.getSettingValue('language').substr(0, 2).toUpperCase())  = " + settings.getSettingValue('language').substr(0, 2).toUpperCase());
         var result = {};
 
         for (var i = 0; i < localIdsMap.lists.length; i++) {
@@ -352,7 +353,6 @@ angular.module('starter.services')
 
 
       return {
-        getItemslocalIds: getItemslocalIds,
         getListsLocalIds: getListsLocalIds,
         getRetailersLocalIds: getRetailersLocalIds,
         buildLocalIds: buildLocalIds,
