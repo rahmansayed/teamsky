@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "992783511835",
+    "firebase_url": "https://teamsky-67b49.firebaseio.com",
+    "project_id": "teamsky-67b49",
+    "storage_bucket": "teamsky-67b49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992783511835:android:196fb2f3ed1eecdb",
+        "android_client_info": {
+          "package_name": "com.ionicframework.teamsky629638"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992783511835-br70bb0bm68td6901rbdv6eo9l8i8b6v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwN8EzPZa9oM9BuI1CuRCAoXHAoFju2l4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
