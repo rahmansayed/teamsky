@@ -1,4 +1,4 @@
-<ion-view >
+<ion-view hide-nav-bar="true">
   <ion-nav-bar class="theme-color">
 <ion-nav-title >Language / اللغة</ion-nav-title>
     <ion-nav-buttons side="right">
@@ -12,16 +12,42 @@
 
 
 
+    
+     
 
-  <ion-content style="padding-bottom:100px;">
-
-            <div id="bg">
-      <img src="img\grocery.jpg" alt="">
-    </div>
+  <ion-content class="ionBody" style="padding-bottom:100px;">
+   
+      
+        <div class="container header-index">
+  
+  	<div class="logo ">
+    
+    	<img src="img/logo.png" class="center-block img-responsive animated bounceInDown">
+        
+  	</div><!----logo--->
+  		  
+          
+  </div><!---container-logo-----> 
+      
+      
+      <div class="lange ">
+        <h1 class="center-block animated  fadeInDown" style="font-family: GessLight;">اختر اللغة المفضلة </h1>
+        <h4 class="center-block animated  fadeInDown">Choose Preferred Language</h4>
+<!--        <div class="lange-items">
+        <div class="col-sm-6 col-md-6 col-xs-6 col-lg-6">
+        <a href="#"  class="btn btn-default animated delay1 bounceIn">العربية</a>
+        </div>
+        <div class="col-sm-6 col-md-6 col-xs-6 col-lg-6">
+        <a href="#"  class="btn btn-default animated delay1 bounceIn">English</a>
+        </div>
+        </div>-->
+     </div>
+      
+      <!-----lange----->
  
     <div class="col text-center" style="height:100px;">
     </div>
-    <div >
+<!--    <div >
 
       <h1 class="text-center item"
           style="text-align:center; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
@@ -34,9 +60,10 @@
         <br>
 
       </h1>
-    </div>
+    </div>-->
       <div align="center" >
-<!--        <ion-radio ng-model="userData.language" ng-value="'arabic'"
+<!--
+        <ion-radio ng-model="userData.language" ng-value="'arabic'"
                    style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
                    name="lang"
                    align="center"
@@ -47,18 +74,19 @@
                    name="lang"
                    align="center"
                    >English
-        </ion-radio>-->
+        </ion-radio>
+-->
 
           
-          <label class="item item-radio" style="width: 60%;border-radius:15px;">
-            <input type="radio" ng-model="userData.language" ng-value="'arabic'">
+          <label class="item item-radio animated delay1 bounceIn" style="width: 60%;border-radius:15px;">
+            <input type="radio" ng-model="userData.language" ng-value="'arabic'"  ng-click="saveUserSetting()">
               <div style="width:100%;border-radius:15px;font-size:200% !important;text-align:center;">
                العربية
               </div>
               </label>
           
-            <label class="item item-radio" style=" width: 60%;border-radius:15px;">
-            <input type="radio" ng-model="userData.language" ng-value="'english'">
+            <label class="item item-radio animated delay1 bounceIn" style=" width: 60%;border-radius:15px;">
+            <input type="radio" ng-model="userData.language" ng-value="'english'"  ng-click="saveUserSetting()">
               <div  style="width:100%;border-radius:15px;font-size:200% !important;text-align:center;">
                English
               </div>

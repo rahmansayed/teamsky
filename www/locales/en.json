@@ -1,5 +1,5 @@
 {
-  "WELCOME": "Welcome to Team Sky",
+  "WELCOME": "Welcome to Kani & Mani",
   "MOBILE": "Your mobile number",
   "NOTE": "Note: You will recieve SMS with verification code in a moment.",
   "ACCOUNT_SETTING": "Account Setting",  
@@ -52,7 +52,8 @@
   "TOTAl_ITEM":"Total Items:",
   "NO_ENTRY":"No Entries!",
   "EDIT_LIST":"Edit List : ",
-  "CREATE_LIST":"Create New List"
+  "CREATE_LIST":"Create New List",
+    "SAVELIST":"Save List"
     
     
 }

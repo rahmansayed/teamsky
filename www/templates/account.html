@@ -1,53 +1,66 @@
-<ion-view view-title="Account">
+<ion-view view-title="Account" hide-nav-bar="true">
   <ion-nav-bar class="theme-color">
     <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
     <ion-nav-buttons side="right">
-      <button class="theme-color button button-clear icon-left ion-checkmark-round"
+<!--      <button class="theme-color button button-clear icon-left ion-checkmark-round"
               ng-click="saveUserSetting()"
               style="padding-right:7px;">
 
-      </button>
+      </button>-->
     </ion-nav-buttons>
   </ion-nav-bar>
 
   <ion-nav-title translate>ACCOUNT_SETTING</ion-nav-title>
+        <div class="img-body" >
+ <img src="img/logo.png"  style="z-index:11;position:fixed;">
+ </div>
 
+  <ion-content style="padding-bottom:100px;">
 
-  <ion-content class="padding" style="padding-bottom:100px;">
+  <div class="header container-fluid ">
+  
+      	<img src="img/logo.png" class=" img-responsive ">
+        <span translate>ACCOUNT_SETTING</span>
 
-    <div id="bg">
-      <img src="img\grocery.jpg" alt="">
+  </div>
+
+    <div style="opacity=0;height:100px;">
     </div>
-    <div id="profile-bg"></div>
-    <div id="content" ng-style="getDirection()">
-      <img id="profile-info">
 
+    <div class="profile-pic" id="content" ng-style="getDirection()" style="background-image: url(img/logo.png);">
+          <span class="glyphicon glyphicon-camera"></span>
+      <span>Change Image</span>
 
-        <img id="profile-image" ng-src="{{userData.photo}}" ng-click="downloadPhoto()"></img>
+        <img ng-src="{{userData.photo}}" ng-click="downloadPhoto()"></img>
 
-        <button class="button button-balanced ion-camera larger padding text-center"
+<!--        <button class="button button-balanced ion-camera larger padding text-center"
                 ng-click="openCamera()" 
                 
-                style=" border-radius: 50%;height:60px;width:60px;background-color:#941540;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"></button>
+                style=" border-radius: 50%;height:60px;width:60px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"></button>-->
 
-
+      
+      
         <h3 id="profile-name">{{userData.displayName}}</h3>
       </div>
     </div>
 
     <br><br><br>
     <div ng-style="getDirection()">
-
-      <label translate >DISPLAY_NAME</label>
-      <div class="item item-input has-float-label" style="font-size:100%;border-radius:15px;">
-        <input type="text"
+     <div class="form-group">
+    <div class="col-md-4">
+      <label class="col-md-4 control-label" for="textinput" translate >DISPLAY_NAME</label>
+      <div >
+        <input 
                placeholder="{{'ENTER_NAME' | translate}}"
-               ng-model="userData.displayName" ng-required="true">
-
-      </div>
+               ng-model="userData.displayName" ng-required="true" class="form-control input-md">
+        </div>
+        </div>
+      
         <div id="accountError" style="color:red;"></div>  
       <br>
-      <label translate>GENDER</label>
+      
+         
+         <label translate>GENDER</label>
       <div>
 <!--        <ion-radio ng-model="userData.gender" ng-value="'male'"
                    style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
@@ -64,6 +77,8 @@
            MALE
           </div>
           </label>
+          
+          
 
         <label class="item item-radio" style=" width: 50%;border-radius:15px;float:right;">
         <input type="radio" ng-model="userData.gender" ng-value="'female'">
@@ -74,14 +89,9 @@
 
       </div>
 
-
-      <br><br><br><br>
       <label translate>CURR_LOC</label>
-      <div class="item item-input item-select " style="border-radius:15px;">
-        <div class="input-label">
-          &nbsp;
-        </div>
-        <select ng-model="userData.country" ng-init="country=countries[defaultCountryIdx]"
+      <div class="col-md-4">
+        <select  class="form-control" ng-model="userData.country" ng-init="country=countries[defaultCountryIdx]"
                 ng-options="(country.name) for country in countries"
         ></select>
 
@@ -89,13 +99,14 @@
 
       <br>
       <label translate>DOB</label>
-      <div>
+      <div class="col-md-4">
         <select required type="text"
-                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:5%;background-color:white;height:35px;"
+                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:5%;height:35px;"
                 ng-model="userData.selected.selectedMonth"
                 ng-change="getDays(userData.selected.selectedMonth.id,userData.selected.selectedYear)"
-                ng-options="month as month.name for month in months">
-          <option value="" disabled selected>MM</option>
+                ng-options="month as (month.name) for month in months"
+                class="form-control">
+          <option  class="form-control" value="" disabled selected>MM</option>
           <!--<option ng-repeat="month in months" >{{month.name}}</option>-->
         </select>
 
@@ -103,24 +114,25 @@
                                 style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"> -->
 
         <select required type="text"
-                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"
+                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;height:35px;"
                 ng-change="getDays(selectedMonth,selectedYear)"
                 ng-model="userData.selected.selectedYear"
-                ng-options="year for year in years">
+                ng-options="year for year in years"
+                class="form-control">
           <option value="" disabled selected>YY</option>
         </select>
 
         <select required type="text"
-                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"
+                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;height:35px;"
                 ng-model="userData.selected.selectedDay"
-                ng-options="day for day in days">
+                ng-options="day for day in days"
+                class="form-control">
           <option value="" disabled selected>DD</option>
           <option value=""></option>
         </select>
 
       </div>
-      <br><br><br><br>
-
+      
       <label translate>PREFERRED_LANG</label>
       <div >
         <label class="item item-radio" style="width: 50%;border-radius:15px;float:left;">
@@ -138,6 +150,12 @@
         </label> 
 
       </div>
+         
+         
+         
+         
+         
+         
     </div>
 
     <br><br><br><br>

@@ -1,61 +1,87 @@
-<ion-view  ng-controller="subscribeCtrl">
+ <ion-view  ng-controller="subscribeCtrl" hide-nav-bar="true">
   <ion-nav-bar class="theme-color">
     <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
 <ion-nav-title translate> {{'WELCOME'}}</ion-nav-title>
-  <ion-content >
-    <div id="bg">
-      <img src="img\grocery.jpg" alt="" style="opacity=0.5">
-    </div>
+  
+        <div class="img-body" >
+ <img src="img/logo.png"  style="z-index:11;position:fixed;">
+ </div>  
+     <ion-content >
+   
+  <div class="header container-fluid ">
+  
+      	<img src="img/logo.png" class=" img-responsive ">
+        <span translate>WELCOME</span>
 
-    <div class="col" style="opacity=0;height:100px;">
+  </div>
+
+    <div style="opacity=0;height:100px;">
     </div>
     <div ng-style="getDirection()">
 
-      <h1 class="item"
-          style="font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
+<!--      <h1 class="item"
+          style="font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">-->
         <br>
-        <strong translate>{{'SUBSCRIBE_NUMBER'}} </strong>
+          <!--<div translate class="margin-top-ex text"><h3>{{'SUBSCRIBE_NUMBER'}}</h3> </div>-->
+         <Div class="text">
+ 
+         <h3 translate>{{'SUBSCRIBE_NUMBER'}}</h3>
+         <h5 class="padding" style="white-space: normal;" ng-style="getDirection()" translate>{{'NOTE'}}</h5>
+         </Div>
         <br>
         <br>
 
-        <p class="padding" style="white-space: normal;" ng-style="getDirection()" translate>
-          {{'NOTE'}} </p>
+<!--        <p class="padding" style="white-space: normal;" ng-style="getDirection()" translate>
+          {{'NOTE'}} </p>-->
         <br>
 
-      </h1>
+      <!--</h1>-->
     </div>
 
 
-    <div ng-style="getDirection()">
-      <div class="item item-input item-select ">
+    <div ng-style="getDirection()" class="form-group">
+      <div class="col-md-4">
         <div class="input-label">
           &nbsp;
         </div>
-        <select ng-model="selected.country" ng-init="selected.country=countries[defaultCountryIdx]"
+        <select class="form-control" ng-model="selected.country" ng-init="selected.country=countries[defaultCountryIdx]"
                 ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
 
       </div>
+      
 
-      <div class="item item-input item-input">
+      <div class="form-group ">
+          <div class="col-md-4">
         <!--<input type="text" ng-model="country.dial_code"  readonly="readonly" width="6">-->
-        <input type="tel" placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber"  maxlength="11"
-               minlenght="8" ng-required="true">
-      </div>
-        <div id="subscribeError" style="color:red;"></div>    
+          <!--<input id="textinput" name="textinput" type="text" placeholder="54xxxxxxxx" class="form-control input-md ">-->
+        <input  class="form-control input-md " placeholder="{{'REG_F_MOBILE_NO' | translate}}"  placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber"  maxlength="11" minlenght="8" ng-required="true" style="padding-left:15px;">
+          </div>
+        </div>
+        <div id="subscribeError" style="color:red;padding-left:15x;"></div>    
      <!-- <div style="color:red;" ng-show="showEmptyError"> *You must enter phone number</div>
       <div style="color:red;" ng-show="showCountError"> *You phone number cannot be less than 8 digits based on your selected country</div>
       <div style="color:red;" ng-show="showInitError"> *Please enter your phone number without the 0 in the beginning.</div>-->
       <!-- <p> {{ country | json}} </p>-->
     </div>
-    <div class="padding" ng-style="getDirection()">
-      <button  class="button button-block button-positive" style="background-color:#941540;border-radius: 15px;"
+    
+    <div class="form-group" ng-style="getDirection()">
+  <label class="col-md-4 control-label" for="singlebutton"></label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-block btn-success" ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})"  translate> {{'SUBSCRIBE'}}</button>
+          <p class="padding help-block" style="white-space: normal;"  translate>
+        {{'REG_F_MSG1'}} </p>  
+  </div>
+</div>     
+         
+<!--    <div class="form-group padding" ng-style="getDirection()">
+      <button  class="col-md-4 btn btn-success" 
               ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})" translate>{{'SUBSCRIBE'}}
       </button>
 
-      <p class="padding " style="white-space: normal;"  translate>
+      <p class="padding help-block" style="white-space: normal;"  translate>
         {{'REG_F_MSG1'}} </p>
-    </div>
+    </div>-->
 
   </ion-content>
 </ion-view>

@@ -40,14 +40,14 @@ angular.module('starter.controllers')
       console.log('subscribeCtrl enteredNumber = ' + angular.toJson(enteredNumber) + 'No of Digits: ' + enteredNumber.phoneNumber);
 
       if (!enteredNumber.phoneNumber) {
-        document.getElementById('subscribeError').innerHTML = "*You must enter phone number."
+        document.getElementById('subscribeError').innerHTML = " *You must enter phone number."
 
       }
       else if (enteredNumber.phoneNumber.toString().length < 8) {
-        document.getElementById('subscribeError').innerHTML = "*You phone number cannot be less than 8 digits based on your selected country"
+        document.getElementById('subscribeError').innerHTML = " *You phone number cannot be less than 8 digits based on your selected country"
       }
       else if (enteredNumber.phoneNumber.toString().substr(0, 1) == 0) {
-        document.getElementById('subscribeError').innerHTML = "*Please enter your phone number without the 0 in the beginning."
+        document.getElementById('subscribeError').innerHTML = " *Please enter your phone number without the 0 in the beginning."
       }
       else {
         document.getElementById('subscribeError').innerHTML = " ";

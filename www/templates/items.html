@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view hide-nav-bar="true">
 
   <ion-nav-bar class="theme-color">
     <!--  <ion-nav-back-button></ion-nav-back-button>-->
@@ -24,25 +24,14 @@
       </ion-nav-bar>
       <ion-nav-view animation="slide-left-right">
 
-        <ion-header-bar class="bar-subheader item-input-inset">
+<!--        <ion-header-bar class="bar-subheader item-input-inset">
           <label class="item-input-wrapper">
             <i class="icon placeholder-icon ion-android-search"></i>
             <input type="search" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search">
 
           </label>
-          <!--    <div class="buttons">
-                <button class="button button-light icon-left ion-plus-round" ng-click="addMasterItem(data.search)"
-                        ng-show="data.search != data.items">Add
-                </button>
 
-                   <button class="button button-balanced ion-plus-round larger padding text-center"
-                   ng-click="addMasterItem(data.search)"
-               style=" border-radius: 50%;height:60px;width:60px;background-color:#09d261;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"
-                            ng-show="!data.items.length && data.search.length >2"></button>
-
-              </div>-->
-
-        </ion-header-bar>
+        </ion-header-bar>-->
         <!--
         <ion-floating-button click="modal.show()" has-footer="false" button-color="#941540" icon="ion-plus" icon-color="#fff">
         </ion-floating-button>-->
@@ -86,12 +75,42 @@
           </ion-content>
           End items suggest section-->
 
+        <div class="img-body" >
+ <img src="img/logo.png"  style="z-index:11;position:fixed;">
+ </div>  
+     
+          <ion-content class = "padding">
+   
+  <div class="header container-fluid ">
+  
+      	<img src="img/logo.png" class=" img-responsive ">
+        <span translate>{{dynamicListTitle}}</span>
 
-        <ion-content class="padding" >
-          <div id="bg">
-            <img src="img\grocery.jpg" alt="" style="opacity=0.5">
-          </div>
+  </div>
+         
+<!--         <div class="col-md-4 ">
+          
+            <i class="icon placeholder-icon ion-android-search"></i>
+              <div class="input-group">
+            <input class = "form-control" type="search" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search">
+              </div>
+         
 
+        </div>
+         -->
+<div class="container">              
+<div class="form-group margin-top">
+  <div class="col-md-4"><!-----grid bootstrab system "col-md-4 size refer to take 4 colum from 12 as simple 4/12 so this area = 25% from width screen "-->
+    <div class="input-group"><!-----parent class for textBox ---->
+      <input  class="form-control input-md" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search"><!---textBoxControl----->
+      <span class="input-group-addon"><!-----addon is agray area background For search icon ---->
+      <i class="fa fa-search"></i></span><!---iconsfor textbox---->
+    </div>
+
+  </div>
+</div><!-----end FormGroup----->
+              </div>
+              
           <!--    <ion-refresher on-refresh="refresh()">
 
               </ion-refresher>-->
