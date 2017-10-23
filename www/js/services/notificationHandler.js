@@ -16,14 +16,15 @@ angular.module('starter.services')
       }
 
       function handleTheNotification(msg) {
-        switch (msg.additionalData.details.type) {
+        var details = angular.fromJson(msg.additionalData);
+        switch (details.type) {
           case "PHOTO UPLOADED":
-            contactHandler.downloadContactPhoto(msg.additionalData.details.userServerId);
+            contactHandler.downloadContactPhoto(details.userServerId);
             break;
           case 'NEW LIST':
-            serverHandlerListV2.upsertServerList(msg.additionalData.details.list).then(function (res) {
+            serverHandlerListV2.upsertServerList(details.list).then(function (res) {
               console.log('handleNotification list added res = ' + angular.toJson(res));
-              if (!msg.additionalData.foreground) {
+              if (!details.foreground) {
                 console.log('handleNotification going to list');
                 global.currentList = res.list;
                 $state.go('item');
@@ -31,20 +32,20 @@ angular.module('starter.services')
             });
             break;
           case "NEW ENTRY":
-            global.status = msg.additionalData.foreground ? "foreground" : 'background';
+            global.status = details.foreground ? "foreground" : 'background';
             console.log('handleNotification global.status = ' + global.status);
 
-            serverHandlerEntryV2.syncEntriesDownstream(msg.additionalData.details).then(function (affectedLists) {
+            serverHandlerEntryV2.syncEntriesDownstream(details.details).then(function (affectedLists) {
               serverHandlerListV2.maintainGlobalLists(affectedLists[0], "ADD ENTRY");
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
-              if (!msg.additionalData.foreground) {
+              if (!details.foreground) {
                 console.log('handleNotification going to list');
                 localListHandlerV2.getAllLists(affectedLists[0].listLocalId).then(function (lists) {
                   console.log('handleNotification lists = ' + angular.toJson(lists));
                   global.currentList = lists.lists[0];
-                  if (!msg.additionalData.coldstart && !msg.additionalData.foreground)
+                  if (!details.coldstart && !details.foreground)
                     if ($state.current.name != 'item')
                       $state.go('item');
                     else
@@ -55,7 +56,7 @@ angular.module('starter.services')
             });
             break;
           case "CROSSED":
-            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'CROSS').then(function (affectedLists) {
+            serverHandlerEntryEvents.syncEventDownstream(details.details, 'CROSS').then(function (affectedLists) {
               serverHandlerListV2.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
@@ -73,7 +74,7 @@ angular.module('starter.services')
             break;
 
           case "DELETED":
-            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, 'DELETE').then(function (affectedLists) {
+            serverHandlerEntryEvents.syncEventDownstream(details.details, 'DELETE').then(function (affectedLists) {
               serverHandlerListV2.maintainGlobalLists(affectedLists[0], "DELETE ENTRY");
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
@@ -92,8 +93,8 @@ angular.module('starter.services')
 
 
           case "DELIVERED":
-            console.log("handleNotification mainEvent = " + msg.additionalData.details.mainEvent);
-            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, msg.additionalData.details.mainEvent + '-' + 'DELIVER').then(function (affectedLists) {
+            console.log("handleNotification mainEvent = " + details.details.mainEvent);
+            serverHandlerEntryEvents.syncEventDownstream(details.details, details.details.mainEvent + '-' + 'DELIVER').then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
@@ -108,8 +109,8 @@ angular.module('starter.services')
             break;
 
           case "SEEN":
-            console.log("handleNotification mainEvent = " + msg.additionalData.details.mainEvent);
-            serverHandlerEntryEvents.syncEventDownstream(msg.additionalData.details, msg.additionalData.details.mainEvent + '-' + 'SEEN').then(function (affectedLists) {
+            console.log("handleNotification mainEvent = " + details.details.mainEvent);
+            serverHandlerEntryEvents.syncEventDownstream(details.details, details.details.mainEvent + '-' + 'SEEN').then(function (affectedLists) {
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
@@ -144,7 +145,7 @@ angular.module('starter.services')
             });
             break;
           case "PROFILE UPDATE":
-            settings.setSettings(msg.additionalData.details.update).then(function () {
+            settings.setSettings(details.details.update).then(function () {
               settings.getUserSetting().then(function () {
                 if (($state.current.name == 'account') || ($state.current.name == "lists")) {
                   $state.reload();

@@ -1,0 +1,334 @@
+/* Empty. Add your own CSS if you like */
+.float-button {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 30px;
+  padding: 30px;
+  font-size: 40px;
+  background: $warning;
+  position: fixed;
+  bottom: 20px; /* Adjust to where you want it */
+  right: 20px; /* Adjust to where you want it */
+  z-index: 9999;
+}
+
+.float-button .height_fix {
+  margin-top: 100%;
+}
+
+.float-button .content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: -20px; /* Note, this must be half the font size */
+  color: $light;
+}
+
+
+/*aalatief*/
+
+/*
+.field--wrapper {
+  position:relative;
+  margin-bottom:20px;
+}
+label {
+  position:absolute;
+  top:-13px;
+  left:0;
+  font-size:11px;
+  color:#aaa;
+  transition: all 0.1s linear;
+  opacity:0;
+  font-weight:bold;
+}
+label.on {
+  color:#4481C4;
+}
+label.show {
+  top:-15px;
+  opacity:1;
+}
+*/
+
+
+/*body {
+  padding:20px;
+   the following line fixes a blink in chrome https://code.google.com/p/chromium/issues/detail?id=108025 
+  -webkit-backface-visibility: hidden;
+}*/
+
+/*.item .item-content {
+  background-color: transparent !important;
+}*/
+
+
+.classS { 
+    background-color: #DCF8C6;
+}
+
+.classP { 
+    background-color: #ffe6e6;
+}
+
+.classNa { 
+    background-color: #e6e6e6;
+}
+
+.item-select select
+{
+    right: 0;
+    left: 0;
+    direction: ltr;
+    padding:auto 0;
+    width: 100% ;
+}
+/*Footer*/
+#footer {
+  position : absolute;
+  bottom : 0;
+  height : 40px;
+  margin-top : 40px;
+  border-top:  1px solid;
+}
+
+/*Header Color*/
+.theme-color {
+background-color: #941540/*9f0011*//*941540*/ !important;
+color: #ffffff !important;}
+
+
+/*Back Button color*/
+.back-button {
+  color: #ffffff !important;
+}
+
+.item-avatar i:first-child, .item-avatar .item-img {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 36px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 100%;
+    border-radius: 4px; }
+
+
+/*Make padding equal for ion item*/
+ .item-content {
+  padding-right: 4% !important;
+  padding-left: 4% !important;
+}
+
+/*CSS required for new directive inputdropdown */
+
+.input-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.input-dropdown .dropdown {
+   /* display: none;*/
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 2px;
+    background: #EEE;
+    z-index: 9999;
+}
+.input-dropdown .dropdown div {
+    cursor: pointer;
+    padding: 2px 5px;
+    z-index: 9999;
+}
+.input-dropdown input:focus + .dropdown {
+    display: block;
+}
+/*End of directive*/
+
+
+#wrapper{
+    margin-left:auto;
+    margin-right:auto;
+    height:auto; 
+    width:auto;
+}
+
+
+.img-circle {
+    border-radius:3px;
+    background-size:cover;
+    width:40px;
+    height:40px;
+   
+}
+
+
+.larger {
+    font-size: 20px;
+}
+
+em,i{
+    font-style:italic;
+}
+
+
+.my-floating-button {
+    bottom: 20px;
+    position: fixed;
+    right: 20px;
+    z-index : 9999;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+}
+
+.my-item {
+  /*border-color: red;*/
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+  transform: translate3d(0, 0, 0);
+}
+
+select:required:invalid {
+  color: #A9A9A9;
+}
+/*option[value=""][disabled] {
+  display: none;
+}*/
+option {
+  color: black;
+}
+     
+invalid{
+    color: brown;
+}
+#profile-bg {
+        position: fixed;
+        left: 0;
+        top: 44px;
+        width: 100%;
+        height: 150px;
+
+   /*     background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/94311/bg.jpg') no-repeat transparent;*/
+        background-size: 100%;
+        background-position: 50% 20%;
+
+        text-align: center;
+      }
+
+      #profile-image {
+        display: block;
+        border-radius: 100px;
+        border: 1px solid #fff;
+        width: 128px;
+        height: 128px;
+        margin: 30px auto 0;
+        box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
+      }
+
+      #profile-name {
+        color: #444;
+        font-size: 26px;
+      }
+
+.button-bar > .button{
+  border: 1px solid #cfcfcf;
+}
+
+.button-bar > .button:last-child {
+  border-radius: 20px 20px 20px 20px !important;
+}
+.button-bar > .button:first-child {
+    border-radius: 20px 20px 20px 20px !important;
+}
+
+
+#bg {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+}
+#bg img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+  opacity: 0.1;
+}
+
+.centered {
+    margin:auto;
+    height: 50px;
+    width: 200px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    border-radius:15px;  
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+input[type="radio"]:checked+div{ 
+    background:  #941540; 
+    color:white; 
+   } 
+
+.myModal {
+background-color:/*transparent;*/rgba(0, 0, 0, 0.5); 
+color: Black;
+position: absolute !important;
+width: 75% !important;
+/*height: 20% ;*/
+top: 45%!important;
+bottom: 0 !important;
+left: 0 !important;
+right: 0 !important;
+margin: auto !important;
+border:0;
+/*border-style: solid;
+border-width: 1px;
+border-radius: 10px !important;
+border-color: black;*/
+overflow: hidden !important;
+
+}
+
+
+/*
+.leftReorderButton .item-right-edit {
+  left: 0;
+    
+}
+
+.leftReorderButton .item-content {
+  padding-left:25px !important;
+  
+}
+*/
+
