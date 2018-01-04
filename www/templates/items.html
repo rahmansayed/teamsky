@@ -24,56 +24,12 @@
       </ion-nav-bar>
       <ion-nav-view animation="slide-left-right">
 
-<!--        <ion-header-bar class="bar-subheader item-input-inset">
-          <label class="item-input-wrapper">
-            <i class="icon placeholder-icon ion-android-search"></i>
-            <input type="search" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search">
-
-          </label>
-
-        </ion-header-bar>-->
-        <!--
-        <ion-floating-button click="modal.show()" has-footer="false" button-color="#941540" icon="ion-plus" icon-color="#fff">
-        </ion-floating-button>-->
 
         <ion-floating-button click="addMasterItem(data.search)" has-footer="false" button-color="#09d261"
                              icon="ion-plus-round larger" icon-color="#fff"
                              ng-show="data.search.length >2">
         </ion-floating-button>
 
-
-<!--          items suggest section
-          <ion-content id="suggestContent" class="padding" style="z-index:4;height:50%;margin-left:95%;background-color:yellow;">
-                 <div id="suggest" style="height:50%;position:fixed;top:50%;left: 100%;bottom:50%;z-index: 3;opacity: 0.95;width:80%;">
-            <ion-list id="suggestList" >
-              <ion-item
-                        class="item"
-                        ng-repeat="item in suggestedItem"
-                        ng-click="selectItems(item)"
-                        style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
-                        >{{item.itemName}}
-
-
-              </ion-item>
-
-            </ion-list>
-
-          </div>
-            <div id="suggestButton" style="position:fixed;top:90px;left:80%;z-index: 2;">
-            <button class="button button-balanced ion-chevron-left larger padding text-left"
-                    ng-click="openSuggest()"
-                    ng-show="!closeButton"
-                    style="background-color:rgba(0, 0, 0, 0.75); border-top-left-radius:100px;border-bottom-left-radius:100px;height:100px;width:5px;"></button>
-          </div>
-
-         <div id="suggestButtonClose" style="position:fixed;top:110px;left: 95%;z-index: 1;">
-            <button class="button button-balanced ion-chevron-right larger padding text-left"
-                    ng-click="closeSuggest()"
-                    ng-show="closeButton"
-                    style="background-color:rgba(0, 0, 0, 0.75); border-top-left-radius:100px;border-bottom-left-radius:100px;height:100px;width:5px;"></button>
-          </div>
-          </ion-content>
-          End items suggest section-->
 
         <div class="img-body" >
  <img src="img/logo.png"  style="z-index:11;position:fixed;">
@@ -87,17 +43,7 @@
         <span translate>{{dynamicListTitle}}</span>
 
   </div>
-         
-<!--         <div class="col-md-4 ">
-          
-            <i class="icon placeholder-icon ion-android-search"></i>
-              <div class="input-group">
-            <input class = "form-control" type="search" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search">
-              </div>
-         
 
-        </div>
-         -->
 <div class="container">              
 <div class="form-group margin-top">
   <div class="col-md-4"><!-----grid bootstrab system "col-md-4 size refer to take 4 colum from 12 as simple 4/12 so this area = 25% from width screen "-->
@@ -111,9 +57,9 @@
 </div><!-----end FormGroup----->
               </div>
               
-          <!--    <ion-refresher on-refresh="refresh()">
+         
 
-              </ion-refresher>-->
+           
           <div style="position: absolute;z-index: 2;opacity: 0.95;width:80%;">
             <ion-list>
               <ion-item class="item"
@@ -121,7 +67,7 @@
                         ng-click="selectItems(item)"
                         style="background-color:rgba(0, 0, 0, 0.75);color:white;width:100%"
                         >{{item.itemName}}
-
+                        
 
 
 
@@ -143,10 +89,16 @@
                      style="padding-bottom:20px;">
 
                   <p>
-                  <h2 style="padding-bottom:10px;font-size=30px;font-weight: bold;"
+                  <h2 
                       align="center"
                       ng-click="category.foldStatus = ! category.foldStatus">
-                    {{category.categoryName}} </h2>
+                      
+                                     <div class="panel-heading text-center" style="color: #fff;
+	                                                          background-color: #65b043;
+                                                              border-color: #ddd;
+                                                              font-family: GessBold;"> 
+                                         {{category.categoryName}}</div>
+                    </h2>
 
 
                   </p>
@@ -155,7 +107,7 @@
                   <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
                             ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category.categoryName }"
                             ng-click="itemChecked(listItem)"
-                            style=" border-radius:15px;background-color:white;"
+                            style=" border-radius:15px;background-color:white;padding:0px;margin: 0;border:0px; "
                             ng-hide="category.foldStatus">
 
 
@@ -218,11 +170,16 @@
             <div class="list"
                  style="padding-bottom:30px;">
               <ion-list show-reorder="reorderFlag">
-                <button class="button button-block button-balanced"
+<!--                <button class="btn btn-block btn-success"
                         ng-show="entries.listCrossedEntries.length != 0"
-                        style="background-color:#941540;color:white;padding-top:5px;" translate>
+                        style="background-color:#941540;color:white;padding-top:5px;height:15px;" translate>
                   CROSSED
-                </button>
+                </button>-->
+                  
+                   <Div class="text">
+ 
+                     <h5 class="padding" style="white-space: normal;height:45px;" ng-style="getDirection()" translate>{{'CROSSED'}}</h5>
+                     </Div>
 
                 <div style="padding-right:20px;padding-left:20px;">
                   <ion-item class="my-item no-padding item-remove-animate item-icon-right"
@@ -283,14 +240,6 @@
       </ion-content>
     </ion-side-menu>
 
-
-    <!--  <ion-side-menu side="right" >
-        <ion-header-bar class="theme-color" title="Search"></ion-header-bar>
-        <ion-content has-header="true">
-
-        </ion-content>
-      </ion-side-menu>
-    </ion-side-menus>-->
 
 
 </ion-view>
