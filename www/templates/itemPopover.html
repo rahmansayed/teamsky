@@ -1,6 +1,6 @@
       <ion-popover-view>
-        <ion-content>
-          <div class="list">
+        <ion-content >
+<!--          <div class="list">
             <a class="item" ng-click = "refresh();popover.hide();">
               Reload
             </a>
@@ -13,6 +13,37 @@
             <a class="item"  ng-click="showHideItemDetails();popover.hide();">
               Hide/Show Details
             </a>
-          </div>
+          </div>-->
+            
+            
+            
+            <div class="navbar navbar-default navbar-fixed-top"  >  
+             
+          <ul class="list nav navbar-nav navbar-left"  >
+           <li><a class="item" href="#account" ng-click = "popover.hide();"><span class="fa fa-user" ></span>
+              Account
+                </a></li>
+              <div style="height: 1px;"></div>
+            <li><a class="item" ng-click = "refresh();popover.hide();"><span class="fa fa-user" ></span>
+              Reload
+                </a></li>
+              <div style="height: 1px;"></div>
+            <li><a class="item" ng-click="changeFoldAll();popover.hide();"><span class="fa fa-user" ></span>
+              Fold/Unfold All 
+            </a></li>
+           <div style="height: 1px;"></div>           
+           <li> <a class="item"  ng-click="showHideItemDetails();popover.hide();"><span class="fa fa-user" ></span>
+              Hide/Show Details
+            </a></li>
+           <div style="height: 1px;"></div>              
+           <li> <a class="item"  ><span class="fa fa-user" ></span>
+             Help
+            </a></li>
+          </ul>
+            </div>
+            
+            
+            
+            
         </ion-content>
       </ion-popover-view>

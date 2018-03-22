@@ -30,9 +30,9 @@
   </div><!---container-logo-----> 
       
       
-      <div class="lange ">
+<!--      <div class="lange ">
         <h1 class="center-block animated  fadeInDown" style="font-family: GessLight;">اختر اللغة المفضلة </h1>
-        <h4 class="center-block animated  fadeInDown">Choose Preferred Language</h4>
+        <h4 class="center-block animated  fadeInDown">Choose Preferred Language</h4>-->
 <!--        <div class="lange-items">
         <div class="col-sm-6 col-md-6 col-xs-6 col-lg-6">
         <a href="#"  class="btn btn-default animated delay1 bounceIn">العربية</a>
@@ -41,62 +41,43 @@
         <a href="#"  class="btn btn-default animated delay1 bounceIn">English</a>
         </div>
         </div>-->
-     </div>
+<!--     </div>-->
       
       <!-----lange----->
- 
-    <div class="col text-center" style="height:100px;">
-    </div>
-<!--    <div >
 
-      <h1 class="text-center item"
-          style="text-align:center; font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
-        <br>
-        <br>  
-          <strong >Choose Preferred language </strong>
-        <br>
-        <strong > اختر اللغة المفضلة </strong>
-        <br>
-        <br>
-
-      </h1>
-    </div>-->
       <div align="center" >
-<!--
-        <ion-radio ng-model="userData.language" ng-value="'arabic'"
-                   style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
-                   name="lang"
-                   align="center"
-                   >العربية
-        </ion-radio>
-        <ion-radio ng-model="userData.language" ng-value="'english'"
-                   style="width:60%;border-radius:15px;font-size:200% !important;text-align:center;"
-                   name="lang"
-                   align="center"
-                   >English
-        </ion-radio>
--->
 
-          
-          <label class="item item-radio animated delay1 bounceIn" style="width: 60%;border-radius:15px;">
-            <input type="radio" ng-model="userData.language" ng-value="'arabic'"  ng-click="saveUserSetting()">
-              <div style="width:100%;border-radius:15px;font-size:200% !important;text-align:center;">
-               العربية
+<div class="lange ">
+<h1 class="center-block animated  fadeInDown">اختر اللغة المفضلة </h1>
+<h4 class="center-block animated  fadeInDown">Choose Preferred Language</h4>
+<div class="lange-items">
+    
+          <label  class="col-sm-6 col-md-6 col-xs-6 col-lg-6">
+            <input type="radio" style = " opacity: 0" ng-model="userData.language" ng-value="'arabic'"  ng-click="saveUserSetting()">
+         
+            <div  class="btn btn-default animated delay1 bounceIn" style="width:120px !important;height:120px !important; text-align: center !important;">
+              <p style="padding-top:30%;font-size:200% !important;"> العربية</p>
               </div>
               </label>
           
-            <label class="item item-radio animated delay1 bounceIn" style=" width: 60%;border-radius:15px;">
-            <input type="radio" ng-model="userData.language" ng-value="'english'"  ng-click="saveUserSetting()">
-              <div  style="width:100%;border-radius:15px;font-size:200% !important;text-align:center;">
-               English
+            <label lass="col-sm-6 col-md-6 col-xs-6 col-lg-6">
+            <input type="radio" style = " opacity: 0" ng-model="userData.language" ng-value="'english'"  ng-click="saveUserSetting()">
+              <div  class="btn btn-default animated delay1 bounceIn" style="width:120px !important;height:120px !important; text-align: center !important;" >
+                  <p style="padding-top:30%;font-size:200% !important;">English</p>
               </div>
               </label>
-          
-        
-          
-          
+              
       </div>
-
+     </div>      
+<!--              <div class="form-group" ng-style="getDirection()">
+     <label class="col-md-4 control-label" for="singlebutton"></label>
+      <div class="col-md-4">
+          <button id="singlebutton" name="singlebutton" class="btn btn-block btn-success"  
+              ng-click="saveUserSetting();" translate>{{'SAVELIST'}}
+      </button>
+          
+          </div>
+    </div>-->
     <br><br><br><br>
   </ion-content>
 

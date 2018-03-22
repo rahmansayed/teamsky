@@ -2,7 +2,7 @@
   <ion-nav-bar class="theme-color">
     <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
-<ion-nav-title translate> {{'WELCOME'}}</ion-nav-title>
+<ion-nav-title translate style="dir: rtl" > {{'WELCOME'}}</ion-nav-title>
   
         <div class="img-body" >
  <img src="img/logo.png"  style="z-index:11;position:fixed;">
@@ -12,7 +12,7 @@
   <div class="header container-fluid ">
   
       	<img src="img/logo.png" class=" img-responsive ">
-        <span translate>WELCOME</span>
+        <span translate style="dir: rtl" >WELCOME</span>
 
   </div>
 
@@ -46,7 +46,7 @@
           &nbsp;
         </div>
         <select class="form-control" ng-model="selected.country" ng-init="selected.country=countries[defaultCountryIdx]"
-                ng-options="(country.name).concat('(').concat(country.dial_code).concat(')') for country in countries"></select>
+                ng-options="(country.name).concat(' ( ').concat(country.dial_code).concat(' ) ') for country in countries"></select>
 
       </div>
       

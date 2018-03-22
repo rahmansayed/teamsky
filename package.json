@@ -32,6 +32,10 @@
         "gulp-util": "^2.2.14",
         "shelljs": "^0.3.0"
     },
+    "config": {
+    "ionic_source_map_type": "eval"
+    },
+    
     "cordovaPlugins": [
         "cordova-plugin-device",
         "cordova-plugin-console",
@@ -63,7 +67,8 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
-            "phonegap-plugin-push": {}
+            "phonegap-plugin-push": {},
+            "cordova-plugin-file": {}
         },
         "platforms": [
             "android"

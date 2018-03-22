@@ -30,7 +30,7 @@ angular.module('starter.controllers')
         }
       }
       $q.all(promises).then(function () {
-        alert('Profile Info Saved');
+        /*alert('Profile Info Saved');*/
         $state.go('subscribe');
       });
       // calling the server

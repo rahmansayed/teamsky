@@ -68,6 +68,7 @@ angular.module('starter.controllers')
         $http.post(global.serverIP + "/api/user/activate", data)
           .then(function (response) {
             alert(angular.toJson(response.data));
+            $state.go('account');
             global.userServerId = response.data.userServerId;
             global.deviceServerId = response.data.deviceServerId;
 

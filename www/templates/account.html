@@ -1,4 +1,4 @@
-<ion-view view-title="Account" hide-nav-bar="true">
+<ion-view view-title="Account" hide-nav-bar="true" style = "padding-left=0;">
   <ion-nav-bar class="theme-color">
     <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
     <ion-nav-buttons side="right">
@@ -10,21 +10,25 @@
     </ion-nav-buttons>
   </ion-nav-bar>
 
-  <ion-nav-title translate>ACCOUNT_SETTING</ion-nav-title>
-        <div class="img-body" >
- <img src="img/logo.png"  style="z-index:11;position:fixed;">
+  <ion-nav-title translate >ACCOUNT_SETTING</ion-nav-title>
+        <div class="img-body " >
+ <img src="img/logo.png"  style="z-index:11;position:fixed;
+    overflow:visible;
+    pointer-events:none;
+    background:none !important;">
  </div>
 
-  <ion-content style="padding-bottom:100px;">
+  <ion-content >
 
-  <div class="header container-fluid ">
+    <div class="container" ng-style="getDirection()" >
+      <div class="header container-fluid ">
   
       	<img src="img/logo.png" class=" img-responsive ">
         <span translate>ACCOUNT_SETTING</span>
 
-  </div>
+     </div>
 
-    <div style="opacity=0;height:100px;">
+    <div style="opacity=0;height:70px;">
     </div>
 
     <div class="profile-pic" id="content" ng-style="getDirection()" style="background-image: url(img/logo.png);">
@@ -32,44 +36,77 @@
       <span>Change Image</span>
 
         <img ng-src="{{userData.photo}}" ng-click="downloadPhoto()"></img>
-
+    </div>
 <!--        <button class="button button-balanced ion-camera larger padding text-center"
                 ng-click="openCamera()" 
                 
                 style=" border-radius: 50%;height:60px;width:60px;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"></button>-->
 
-      
-      
-        <h3 id="profile-name">{{userData.displayName}}</h3>
-      </div>
-    </div>
 
-    <br><br><br>
-    <div ng-style="getDirection()">
-     <div class="form-group">
-    <div class="col-md-4">
-      <label class="col-md-4 control-label" for="textinput" translate >DISPLAY_NAME</label>
+      
+
+
+    
+     <div style="width:280;padding:15px;">
+          <!--<h3 >{{userData.displayName}}</h3>-->
+         <h3 class="padding text-left " style="text-align:left;white-space: normal;"> <span translate>WELCOME_ACCOUNT</span> {{userData.displayName}} </h3>
+      </div>
+    
+    <div ng-style="getDirection()"  class="form-group col-md-4" >
+  
+     <div >
+      <label class="control-label" for="textinput" translate >DISPLAY_NAME</label>
       <div >
         <input 
                placeholder="{{'ENTER_NAME' | translate}}"
                ng-model="userData.displayName" ng-required="true" class="form-control input-md">
         </div>
         </div>
-      
+     
         <div id="accountError" style="color:red;"></div>  
-      <br>
+  
+          <label class="padding" translate>DOB</label>
+         
+
+  
+
+      <div class="form-group">
+        <select required type="text"
+                style="width:30%;display:inline;border-radius:15px;padding-left:5%;height:35px;"
+                ng-model="userData.selected.selectedMonth"
+                ng-change="getDays(userData.selected.selectedMonth.id,userData.selected.selectedYear)"
+                ng-options="month as (month.name) for month in months"
+                class="form-control">
+          <option  class="form-control" value="" disabled selected>MM</option>
+
+        </select>
+
+
+        <select required type="text"
+                style="width:30%;display:inline;border-radius:15px;padding-left:10%;height:35px;"
+                ng-change="getDays(selectedMonth,selectedYear)"
+                ng-model="userData.selected.selectedYear"
+                ng-options="year for year in years"
+                class="form-control">
+          <option value="" disabled selected>YY</option>
+        </select>
+
+        <select required type="text"
+                style="width:30%;display:inline;border-radius:15px;padding-left:10%;height:35px;"
+                ng-model="userData.selected.selectedDay"
+                ng-options="day for day in days"
+                class="form-control">
+          <option value="" disabled selected>DD</option>
+          <option value=""></option>
+        </select>
+
+      </div>
+
+  <!--  <div  class="radio-tile-group">-->
       
          
-         <label translate>GENDER</label>
-      <div>
-<!--        <ion-radio ng-model="userData.gender" ng-value="'male'"
-                   style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;"
-                   name="gender">Male
-        </ion-radio>
-        <ion-radio ng-model="userData.gender" ng-value="'female'"
-                   style="width:50%;float:left;border-radius:15px;font-size:100% !important;text-align:center;  "
-                   name="gender">Female
-        </ion-radio>-->
+<!--         <label class = "col-md-4 control-label" translate>GENDER</label>
+      <div >
           
           <label class="item item-radio" style="width: 50%;border-radius:15px;float:left;">
         <input type="radio" ng-model="userData.gender" ng-value="'male'">
@@ -87,53 +124,51 @@
           </div>
         </label> 
 
-      </div>
+      </div>-->
+        
+  <div class="form-group">
+<label class = "col-md-4 control-label" translate>GENDER</label>
+<div class="radio-tile-group">
 
-      <label translate>CURR_LOC</label>
+    <div class="input-container">
+      <input id="walk" class="radio-button" type="radio" name="radio" type="radio" ng-model="userData.gender" ng-value="'male'" />
+      <div class="radio-tile">
+        <div class="icon walk-icon">
+         <img src="img/male.png" class="center-block" style="max-width:35px;"/>
+        </div>
+        <label for="walk" class="radio-tile-label" translate>MALE</label>
+      </div>
+    </div>
+
+  <div class="input-container">
+      <input id="bike" class="radio-button" type="radio" name="radio" />
+      <div class="radio-tile">
+        <div class="icon bike-icon">
+         <img src="img/female.png" class="center-block" style="max-width:35px;"/>
+        </div>
+        <label for="bike" class="radio-tile-label" translate>FEMALE</label>
+      </div>
+    </div>
+</div>
+
+  
+
+
+      
+      <div class="form-group">
+      <label class="padding" translate>CURR_LOC</label>
       <div class="col-md-4">
         <select  class="form-control" ng-model="userData.country" ng-init="country=countries[defaultCountryIdx]"
                 ng-options="(country.name) for country in countries"
         ></select>
 
       </div>
+        </div>
 
-      <br>
-      <label translate>DOB</label>
-      <div class="col-md-4">
-        <select required type="text"
-                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:5%;height:35px;"
-                ng-model="userData.selected.selectedMonth"
-                ng-change="getDays(userData.selected.selectedMonth.id,userData.selected.selectedYear)"
-                ng-options="month as (month.name) for month in months"
-                class="form-control">
-          <option  class="form-control" value="" disabled selected>MM</option>
-          <!--<option ng-repeat="month in months" >{{month.name}}</option>-->
-        </select>
-
-        <!--                 <input type="number" min="1900" max="2099" step="1" placeholder="YY"
-                                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;background-color:white;height:35px;"> -->
-
-        <select required type="text"
-                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;height:35px;"
-                ng-change="getDays(selectedMonth,selectedYear)"
-                ng-model="userData.selected.selectedYear"
-                ng-options="year for year in years"
-                class="form-control">
-          <option value="" disabled selected>YY</option>
-        </select>
-
-        <select required type="text"
-                style="float:left;width:30%;display:inline;border-radius:15px;padding-left:10%;height:35px;"
-                ng-model="userData.selected.selectedDay"
-                ng-options="day for day in days"
-                class="form-control">
-          <option value="" disabled selected>DD</option>
-          <option value=""></option>
-        </select>
-
-      </div>
-      
-      <label translate>PREFERRED_LANG</label>
+<div class="form-group">
+<!--    <div class="col-md-4" >
+         
+      <label class="padding" translate>PREFERRED_LANG</label>
       <div >
         <label class="item item-radio" style="width: 50%;border-radius:15px;float:left;">
         <input type="radio" ng-model="userData.language" ng-value="'arabic'">
@@ -149,16 +184,51 @@
           </div>
         </label> 
 
+      </div>-->
+    
+
+<label class="col-md-4 control-label" for="textinput" translate>PREFERRED_LANG</label>
+<div class="radio-tile-group">
+
+    <div class="input-container">
+      <input id="walk1" class="radio-button" type="radio" name="radio1" ng-model="userData.language" ng-value="'arabic'"/>
+      <div class="radio-tile">
+        <div class="icon walk-icon">
+        <span>ع</span>
+        </div>
       </div>
-         
-         
-         
-         
-         
-         
     </div>
 
-    <br><br><br><br>
+  <div class="input-container">
+      <input id="bike1" class="radio-button" type="radio" name="radio1" ng-model="userData.language" ng-value="'english'"/>
+      <div class="radio-tile">
+        <div class="icon bike-icon">
+         <span >EN</span>
+        </div>
+      </div>
+    </div>
+</div>
+    
+</div>     
+         
+ 
+         
+    </div>
+</div>
+      
+<div class="form-group" ng-style="getDirection()">
+     <label class="col-md-4 control-label" for="singlebutton"></label>
+      <div class="col-md-4">
+          <button id="singlebutton" name="singlebutton" class="btn btn-block btn-success"  
+              ng-click="saveUserSetting();" translate>{{'SAVE_ACCOUNT'}}
+      </button>
+          
+          </div>
+</div>
+      
+      
+      </div>
+
   </ion-content>
 
 </ion-view>

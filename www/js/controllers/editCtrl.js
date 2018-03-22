@@ -61,7 +61,7 @@ angular.module('starter.controllers')
     }
     };
     /*-----------------------------------------------------------------------------------*/
-    /*Remove list user Function*/
+    /*RemoveRemove list user Function*/
     $scope.removeListUser = function (list, listUser) {
       /*Handle the case of elete from Device*/
        console.log('listUser :'+angular.toJson(listUser));

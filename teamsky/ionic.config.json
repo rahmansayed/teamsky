@@ -1,10 +1,10 @@
 {
-  "name": "",
+  "name": "ionic-app-base",
   "app_id": "",
-  "integrations": {
-    "cordova": {}
-  },
   "type": "ionic1",
+  "integrations": {
+    "gulp": {}
+  },
   "watchPatterns": [
     "scss/**/*",
     "www/**/*",

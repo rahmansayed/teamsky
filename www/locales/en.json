@@ -1,5 +1,6 @@
 {
   "WELCOME": "Welcome to Kani & Mani",
+  "WELCOME_ACCOUNT":"Welcome,",
   "MOBILE": "Your mobile number",
   "NOTE": "Note: You will recieve SMS with verification code in a moment.",
   "ACCOUNT_SETTING": "Account Setting",  
@@ -53,7 +54,8 @@
   "NO_ENTRY":"No Entries!",
   "EDIT_LIST":"Edit List : ",
   "CREATE_LIST":"Create New List",
-    "SAVELIST":"Save List"
+  "SAVELIST":"Save List",
+  "SAVE_ACCOUNT":"Save Account"
     
     
 }

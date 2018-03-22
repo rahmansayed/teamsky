@@ -1,6 +1,127 @@
 /* Empty. Add your own CSS if you like */
 
 
+/*ion-option-button.button.button-assertive {
+  font-size:22px;
+  background: #ef473a;
+  color : #fff;
+}*/
+
+
+
+.myDiv {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+    width: 32px;
+    height: 32px;
+    background: url(http://www.gravatar.com/avatar/5cce99e9bf6154703d8ecdf474a750bd?s=32&d=identicon&r=PG) no-repeat;
+}
+/*aalatief : This part is added to expand clickabe area*/
+.dropdown select {
+
+      border: 0 !important;  /*Removes border*/
+      -webkit-appearance: none;  /*Removes default chrome and safari style*/
+      -moz-appearance: none; /* Removes Default Firefox style*/
+      background-position: 80px 8px;  /*Position of the background-image*/
+      width: 100px; /*Width of select dropdown to give space for arrow image*/
+      height: 20px;/*fix for mac input height*/
+      text-indent: 0.01px; /* Removes default arrow from firefox*/
+      text-overflow: "";  /*Removes default arrow from firefox*/
+      cursor: pointer;
+      /*My custom style for fonts*/
+
+  
+}
+
+
+/*aalatief : This part is added to override bootstrap effect on ion-option-button*/
+ ion-option-button.button.button-assertive  {
+    border-color: transparent;
+    background: #ef473a;
+    color: #fff; }
+
+
+    ion-option-button.button.button-assertive:hover {
+      color: #fff;
+      text-decoration: none; }
+    ion-option-button.button.button-assertive.active, .button.button-assertive.activated {
+      border-color: #a2a2a2;
+      background: #e42112; }
+    ion-option-button.button.button-assertive.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #ef473a; }
+    ion-option-button.button.button-assertive.button-icon {
+      border-color: transparent;
+      background: none; }
+    ion-option-button.button.button-assertive.button-outline {
+      border-color: #ef473a;
+      background: transparent;
+      color: #ef473a; }
+      ion-option-button.button.button-assertive.button-outline.active, .button.button-assertive.button-outline.activated {
+        background: #ef473a;
+        box-shadow: none;
+        color: #fff; }
+
+  ion-option-button.button.button-calm {
+    border-color: transparent;
+    background: #11c1f3;
+    color: #fff; }
+     ion-option-button.button.button-calm:hover {
+      color: #fff;
+      text-decoration: none; }
+      ion-option-button.button.button-calm.active, .button.button-calm.activated {
+      border-color: #a2a2a2;
+      background: #0a9dc7; }
+      ion-option-button.button.button-calm.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #11c1f3; }
+      ion-option-button.button.button-calm.button-icon {
+      border-color: transparent;
+      background: none; }
+      ion-option-button.button.button-calm.button-outline {
+      border-color: #11c1f3;
+      background: transparent;
+      color: #11c1f3; }
+        ion-option-button.button.button-calm.button-outline.active, .button.button-calm.button-outline.activated {
+        background: #11c1f3;
+        box-shadow: none;
+        color: #fff; }
+
+ion-option-button.button.button-balanced {
+    border-color: transparent;
+    background: #33cd5f;
+    color: #fff; }
+   ion-option-button.button.button-balanced:hover {
+      color: #fff;
+      text-decoration: none; }
+    ion-option-button.button.button-balanced.active, .button.button-balanced.activated {
+      border-color: #a2a2a2;
+      background: #28a54c; }
+    ion-option-button.button.button-balanced.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #33cd5f; }
+    ion-option-button.button.button-balanced.button-icon {
+      border-color: transparent;
+      background: none; }
+    ion-option-button.button.button-balanced.button-outline {
+      border-color: #33cd5f;
+      background: transparent;
+      color: #33cd5f; }
+      ion-option-button.button.button-balanced.button-outline.active, .button.button-balanced.button-outline.activated {
+        background: #33cd5f;
+        box-shadow: none;
+        color: #fff; }
+/***/
 
 .float-button {
   -webkit-border-radius: 50%;
