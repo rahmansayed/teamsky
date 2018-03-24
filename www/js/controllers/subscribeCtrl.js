@@ -1088,6 +1088,15 @@ angular.module('starter.controllers')
         break;
       }
     }
+    
+      $scope.getImgDirection = function () {
+      $scope.language = settings.getSettingValue('language');
+      /* console.log('getDirection: '+angular.toJson( $scope.language));*/
+      if ($scope.language == 'english') {
+        return {transform: "scaleX(-1)"};
+      }
+
+      }
 
   });
 

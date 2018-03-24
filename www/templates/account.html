@@ -1,4 +1,4 @@
-<ion-view view-title="Account" hide-nav-bar="true" style = "padding-left=0;">
+<ion-view view-title="Account" hide-nav-bar="true">
   <ion-nav-bar class="theme-color">
     <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
     <ion-nav-buttons side="right">
@@ -11,21 +11,18 @@
   </ion-nav-bar>
 
   <ion-nav-title translate >ACCOUNT_SETTING</ion-nav-title>
-        <div class="img-body " >
- <img src="img/logo.png"  style="z-index:11;position:fixed;
-    overflow:visible;
-    pointer-events:none;
-    background:none !important;">
+<div class="img-body " >
+ <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div>
 
-  <ion-content >
+  <ion-content>
 
-    <div class="container" ng-style="getDirection()" >
-      <div class="header container-fluid ">
-  
-      	<img src="img/logo.png" class=" img-responsive ">
-        <span translate>ACCOUNT_SETTING</span>
-
+<!--    <div class="container"  >-->
+      <div class="header container-fluid " ng-style= "getImgDirection()">
+        <div>
+      	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
+        <span translate ng-style= "getImgDirection();" style="padding-top:5%">ACCOUNT_SETTING</span>
+        </div>     
      </div>
 
     <div style="opacity=0;height:70px;">
@@ -47,14 +44,14 @@
 
 
     
-     <div style="width:280;padding:15px;">
+     <div style="width:280;" ng-style="getDirection()">
           <!--<h3 >{{userData.displayName}}</h3>-->
-         <h3 class="padding text-left " style="text-align:left;white-space: normal;"> <span translate>WELCOME_ACCOUNT</span> {{userData.displayName}} </h3>
+         <h3 class="padding" style="white-space: normal;"> <span translate>WELCOME_ACCOUNT</span> {{userData.displayName}} </h3>
       </div>
     
     <div ng-style="getDirection()"  class="form-group col-md-4" >
   
-     <div >
+     <div  class="form-group">
       <label class="control-label" for="textinput" translate >DISPLAY_NAME</label>
       <div >
         <input 
@@ -65,11 +62,10 @@
      
         <div id="accountError" style="color:red;"></div>  
   
-          <label class="padding" translate>DOB</label>
+          
+        
+        <label class="control-label" translate>DOB</label>
          
-
-  
-
       <div class="form-group">
         <select required type="text"
                 style="width:30%;display:inline;border-radius:15px;padding-left:5%;height:35px;"
@@ -126,8 +122,8 @@
 
       </div>-->
         
-  <div class="form-group">
-<label class = "col-md-4 control-label" translate>GENDER</label>
+<!--  <div class="form-group">-->
+<label class = "control-label" translate>GENDER</label>
 <div class="radio-tile-group">
 
     <div class="input-container">
@@ -146,7 +142,7 @@
         <div class="icon bike-icon">
          <img src="img/female.png" class="center-block" style="max-width:35px;"/>
         </div>
-        <label for="bike" class="radio-tile-label" translate>FEMALE</label>
+        <label for="bike" class="radio-tile-label" translate></label>
       </div>
     </div>
 </div>
@@ -156,7 +152,7 @@
 
       
       <div class="form-group">
-      <label class="padding" translate>CURR_LOC</label>
+      <label class="control-label" translate>CURR_LOC</label>
       <div class="col-md-4">
         <select  class="form-control" ng-model="userData.country" ng-init="country=countries[defaultCountryIdx]"
                 ng-options="(country.name) for country in countries"
@@ -187,14 +183,14 @@
       </div>-->
     
 
-<label class="col-md-4 control-label" for="textinput" translate>PREFERRED_LANG</label>
+<label class="control-label" for="textinput" translate>PREFERRED_LANG</label>
 <div class="radio-tile-group">
 
     <div class="input-container">
       <input id="walk1" class="radio-button" type="radio" name="radio1" ng-model="userData.language" ng-value="'arabic'"/>
       <div class="radio-tile">
         <div class="icon walk-icon">
-        <span>ع</span>
+        <span>العربية</span>
         </div>
       </div>
     </div>
@@ -203,7 +199,7 @@
       <input id="bike1" class="radio-button" type="radio" name="radio1" ng-model="userData.language" ng-value="'english'"/>
       <div class="radio-tile">
         <div class="icon bike-icon">
-         <span >EN</span>
+         <span >English</span>
         </div>
       </div>
     </div>
@@ -213,11 +209,10 @@
          
  
          
-    </div>
-</div>
-      
-<div class="form-group" ng-style="getDirection()">
-     <label class="col-md-4 control-label" for="singlebutton"></label>
+<!--    </div>-->
+        
+        <div ng-style="getDirection()">
+  <!--   <label class="col-md-4 control-label" for="singlebutton"></label>-->
       <div class="col-md-4">
           <button id="singlebutton" name="singlebutton" class="btn btn-block btn-success"  
               ng-click="saveUserSetting();" translate>{{'SAVE_ACCOUNT'}}
@@ -225,9 +220,12 @@
           
           </div>
 </div>
+</div>
+      
+
       
       
-      </div>
+<!--      </div>-->
 
   </ion-content>
 

@@ -3,18 +3,23 @@
         <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
     <ion-nav-title translate> {{'VERIFICATION'}}</ion-nav-title>
+    <div class="img-body " >
+ <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
+ </div>
+    
   <ion-content>
-        <div class="header container-fluid ">
-  
-      	<img src="img/logo.png" class=" img-responsive ">
-        <span translate>VERIFICATION</span>
-
-  </div>
+        
+               <div class="header container-fluid " ng-style= "getImgDirection()">
+        <div>
+      	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
+        <span translate ng-style= "getImgDirection();" style="padding-top:5%">VERIFICATION</span>
+        </div>     
+     </div>
 
 <!--    <div style="opacity=0;height:100px;">
     </div>
       -->
-       <div class = "col" style = "height:100px;opacity=0;">
+       <div class = "col" style = "height:150px;opacity=0;">
             </div>
       <div ng-style="getDirection()">
 
@@ -32,8 +37,8 @@
           
         <Div class="text">
  
-         <h3 translate style="font-family: GessLight;">{{'VER_F_MSG1'}}</h3>
-         <h5 class="padding" style="white-space: normal;font-family: GessLight;" ng-style="getDirection()" translate> {{'VER_F_MSG2'}} </h5>
+         <h3 translate >{{'VER_F_MSG1'}}</h3>
+         <h5 class="padding" style="white-space: normal;" ng-style="getDirection()" translate> {{'VER_F_MSG2'}} </h5>
          </Div>
           
       </div>

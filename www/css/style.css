@@ -8,18 +8,6 @@
 }*/
 
 
-
-.myDiv {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
-    width: 32px;
-    height: 32px;
-    background: url(http://www.gravatar.com/avatar/5cce99e9bf6154703d8ecdf474a750bd?s=32&d=identicon&r=PG) no-repeat;
-}
 /*aalatief : This part is added to expand clickabe area*/
 .dropdown select {
 
@@ -154,9 +142,11 @@ ion-option-button.button.button-balanced {
 
 .toolbar-background {
 background-image: url('img/logo.png');
+  
 }
 
-.cyan{background-image: url('img/logo.png')!important;}
+.cyan{background-image: url('img/logo.png')!important;
+}
 /*aalatief*/
 
 /*
@@ -1131,8 +1121,8 @@ overflow: hidden !important;
 	}
 	.radio-tile-group .input-container {
 	position: relative;
-	height: 7rem;
-	width: 7rem;
+	height: 5rem;
+	width: 5rem;
 	margin: 0.5rem;
 	}
 	.radio-tile-group .input-container .radio-button {

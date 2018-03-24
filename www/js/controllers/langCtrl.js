@@ -44,5 +44,13 @@ angular.module('starter.controllers')
       $translate.use($scope.userData.language.substr(0, 2));
     }
 
+          $scope.getImgDirection = function () {
+      $scope.language = settings.getSettingValue('language');
+      /* console.log('getDirection: '+angular.toJson( $scope.language));*/
+      if ($scope.language == 'english') {
+        return {transform: "scaleX(-1)"};
+      }
+
+      }
 
   });

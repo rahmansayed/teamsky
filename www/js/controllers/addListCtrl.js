@@ -46,7 +46,17 @@ angular.module('starter.controllers')
         }
       }
     };
+    
+    
+      $scope.getImgDirection = function () {
+      $scope.language = settings.getSettingValue('language');
+      /* console.log('getDirection: '+angular.toJson( $scope.language));*/
+      if ($scope.language == 'english') {
+        return {transform: "scaleX(-1)"};
+      }
 
+      }
+    
     $scope.saveList = function (list) {
               if    (!list.listName)  {
                 console.log('4/5/2017 - List: '+angular.toJson(list));
