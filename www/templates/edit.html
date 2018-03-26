@@ -14,28 +14,42 @@
 <div class="img-body " >
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div>
-    <ion-content class="padding">
+    <ion-content>
 
-          <div class="header container-fluid ">
-  
-      	<img src="img/logo.png" class=" img-responsive ">
-        <span translate>{{dynamicTitle}}</span>
+        
+    <div class="header container-fluid " ng-style= "getImgDirection()">
+        <div>
+      	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
+        <span translate ng-style= "getImgDirection();" style="padding-top:5%">{{dynamicTitle}}</span>
+        </div>     
+     </div>
 
-  </div>
-
-        <div  ng-style="getDirection()">
-            <br><br><br><br>
-            <div  class="item item-input" style="font-size:100%;border-top-left-radius:15px;border-top-right-radius:15px;" >
-                <input type="text"  ng-model="list.listName" placeholder="{{'LIST_NAME' | translate}}"
-                       >
+        
+            <div style="opacity=0;height:100px;">
             </div>
-            <div class="item item-input" style="font-size:100%;border-bottom-left-radius:15px;border-bottom-right-radius:15px;">
-                <textarea rows="5" ng-model="list.listDescription" placeholder="{{'LIST_DESC' | translate}}"></textarea>
+        
+            <div class="form-group margin-top" ng-style="getDirection()">
+              <label class="col-md-4 control-label" for="textinput" translate> LIST_NAME_LABEL</label>  
+                  <div class="col-md-4">
+                <input  ng-style="getDirection()" class="form-control input-md" ng-model="list.listName" placeholder="{{'LIST_NAME' | translate}}">
+                  </div>
             </div>
-        </div>
 
-          <div  ng-style="setColor(listUser.contactStatus,'color')">
-              <p class="padding text-left " style="text-align:left;white-space: normal;" ><span translate>THE_LIST</span> <b>{{list.listName}}</b> <span translate>SHARED_WITH</span></p>
+
+
+            <!-- Textarea -->
+            <div class="form-group" ng-style="getDirection()">
+              <label class="col-md-4 control-label" for="textarea" translate>  LIST_DESC_LABEL </label>
+              <div class="col-md-4">                     
+                  <textarea class="form-control" id="textarea" name="textarea" ng-style="getDirection()" rows="5" ng-model="list.listDescription" placeholder="{{'LIST_DESC' | translate}}"></textarea>
+              </div>
+            </div>
+
+            
+
+
+          <div  ng-style="setColor(listUser.contactStatus,'color');getDirection();" ng-show="listUsers[0].contactName" >
+              <p class="shared" ><span class="fa fa-info" translate>THE_LIST</span> <b >{{list.listName}}</b> <span translate>SHARED_WITH</span></p>
               {{listUsers.contactName}}
             </div>
 
@@ -58,10 +72,12 @@
 
         </ion-list>
         <div id="listError" style="color:red;"></div>
-        <div style="text-align: center;">
+        <div  ng-style="getDirection()">
 
-            <i><p class="padding text-center "  ng-show="!listUsers[0].contactName" translate>NOT_SHARED</p></i>
-<!--            <div style="text-align: right;">
+           <!-- <i><p class="not-shared fa fa-warning"  ng-show="!listUsers[0].contactName" translate>NOT_SHARED</p></i>-->
+            <p class="not-shared" translate><span class="fa fa-warning"  ng-show="!listUsers[0].contactName" ></span> NOT_SHARED </p>
+            
+            <!--            <div style="text-align: right;">
              <button class="button button-balanced ion-android-person-add larger padding text-center"
                      ng-click="showAllContacts();"
                      style=" border-radius: 50%;height:60px;width:60px;background-color:#09d261;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);transform: translate3d(0, 0, 0);"></button>

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global,$translate) {
+  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global,$translate,settings) {
 
     $scope.dynamicTitle = $translate.instant('EDIT_LIST');
     console.log('Edit List: ' + 'global.currentList' + angular.toJson(global.currentList));
@@ -147,6 +147,18 @@ angular.module('starter.controllers')
       }
     }
     };
+    
+        $scope.getDirection = function () {
+      $scope.language = settings.getSettingValue('language');
+      /* console.log('getDirection: '+angular.toJson( $scope.language));*/
+      if ($scope.language == 'english') {
+        return {direction: "ltr"};
+      }
+      else {
+        return {direction: "rtl"};
+      }
+
+    }
       $scope.getImgDirection = function () {
       $scope.language = settings.getSettingValue('language');
       /* console.log('getDirection: '+angular.toJson( $scope.language));*/

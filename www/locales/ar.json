@@ -55,5 +55,7 @@
   "EDIT_LIST":"تحرير القائمة : ",
   "CREATE_LIST":"انشاء قائمة جديدة",
   "SAVELIST":"حفظ القائمة",
-  "SAVE_ACCOUNT":"حفظ بيانات الحساب"
+  "SAVE_ACCOUNT":"حفظ بيانات الحساب",
+  "LIST_NAME_LABEL":"اسم القائمة",
+  "LIST_DESC_LABEL":"التفاصيل"  
 }

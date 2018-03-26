@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler,$translate) {
+  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler,$translate,settings) {
     $scope.dynamicTitle = $translate.instant('CREATE_LIST');
     $scope.list = {};
 
@@ -47,6 +47,17 @@ angular.module('starter.controllers')
       }
     };
     
+        $scope.getDirection = function () {
+      $scope.language = settings.getSettingValue('language');
+      /* console.log('getDirection: '+angular.toJson( $scope.language));*/
+      if ($scope.language == 'english') {
+        return {direction: "ltr"};
+      }
+      else {
+        return {direction: "rtl"};
+      }
+
+    }
     
       $scope.getImgDirection = function () {
       $scope.language = settings.getSettingValue('language');

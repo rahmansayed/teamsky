@@ -55,7 +55,9 @@
   "EDIT_LIST":"Edit List : ",
   "CREATE_LIST":"Create New List",
   "SAVELIST":"Save List",
-  "SAVE_ACCOUNT":"Save Account"
+  "SAVE_ACCOUNT":"Save Account",
+  "LIST_NAME_LABEL":"List Name",
+  "LIST_DESC_LABEL":"Description"    
     
     
 }
