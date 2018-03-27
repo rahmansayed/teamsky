@@ -57,5 +57,6 @@
   "SAVELIST":"حفظ القائمة",
   "SAVE_ACCOUNT":"حفظ بيانات الحساب",
   "LIST_NAME_LABEL":"اسم القائمة",
-  "LIST_DESC_LABEL":"التفاصيل"  
+  "LIST_DESC_LABEL":"التفاصيل"  ,
+   "CHANGE_IMAGE":"تغيير الصورة"   
 }

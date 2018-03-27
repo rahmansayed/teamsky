@@ -7,12 +7,12 @@
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div>
     
-  <ion-content>
+  <ion-content ng-style= "getDirection();">
         
                <div class="header container-fluid " ng-style= "getImgDirection()">
         <div>
       	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
-        <span translate ng-style= "getImgDirection();" style="padding-top:5%">VERIFICATION</span>
+        <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">VERIFICATION</span>
         </div>     
      </div>
 
@@ -21,7 +21,7 @@
       -->
        <div class = "col" style = "height:150px;opacity=0;">
             </div>
-      <div ng-style="getDirection()">
+      <div >
 
          <!--<h1  class="item" style="font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">
             <br>
@@ -37,8 +37,8 @@
           
         <Div class="text">
  
-         <h3 translate >{{'VER_F_MSG1'}}</h3>
-         <h5 class="padding" style="white-space: normal;" ng-style="getDirection()" translate> {{'VER_F_MSG2'}} </h5>
+         <h3  ng-style= "getDirection();" translate >{{'VER_F_MSG1'}}</h3>
+         <h5  ng-style= "getDirection();" class="padding" style="white-space: normal;" ng-style="getDirection()" translate> {{'VER_F_MSG2'}} </h5>
          </Div>
           
       </div>
@@ -52,7 +52,7 @@
     <div class="form-group" ng-style="getDirection()">
         <label class="col-md-4 control-label" for="singlebutton"></label>
     <div class="col-md-4">    
-      <button ng-show="vCode.length >3 " class="btn btn-block btn-success"   ng-click="verify(vCode)" translate>
+      <button ng-show="vCode.length >3 " class="btn btn-block btn-success"   ng-click="verify(vCode)" style="font-weight:bold;"translate>
         {{'VER_B_DONE'}}
       </button>
         </div>
@@ -60,9 +60,9 @@
           
       <div class="form-group" ng-style="getDirection()">
      <label class="col-md-4 control-label" for="singlebutton"></label>
-      <div class="col-md-4">
+      <div class="col-md-4" >
           <button ng-hide="!buttonEnabled ||vCode.length >3" id="singlebutton" name="singlebutton" class="btn btn-block btn-success"  
-              ng-click="resendVCode();" translate>{{'RESUBSCRIBE'}}
+              ng-click="resendVCode();" style="font-weight:bold;" translate>{{'RESUBSCRIBE'}}
       </button>
           
           </div>
@@ -70,7 +70,7 @@
       
       
       <br><br>
-      <div ng-show="!buttonEnabled" ng-style="getDirection()">
+      <div ng-style= "getDirection();" ng-show="!buttonEnabled" ng-style="getDirection()">
         <span class="padding " style="white-space: normal; border:0;" translate>
             {{'VER_F_MSG3'}}</span><span id="countdown"> </span> <span translate> {{'SECONDS'}}</span>
 

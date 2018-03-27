@@ -491,10 +491,32 @@ overflow: hidden !important;
 	font-family: GessBold;
 	src: url(../fonts/GE_SS_Two_Bold.otf);	
 	}
-	a,button{
+	@font-face {
+	font-family: Aller;
+	src: url(../fonts/Aller_Rg.ttf);	
+	}
+
+	@font-face {
+	font-family: AllerBold;
+	src: url(../fonts/Aller_Bd.ttf);	
+	}
+    
+    
+	@font-face {
+	font-family: AndikaNewBasic;
+	src: url(../fonts/AndikaNewBasic-R.ttf);	
+	}
+
+	@font-face {
+	font-family: AndikaNewBasicBold;
+	src: url(../fonts/AndikaNewBasic-B.ttf);	
+	}
+
+/*	a,button{
 	font-family:GessLight;
 	}
-	*{font-family:GessLight}
+	
+   *{font-family:GessLight}*/
 	
 	/*loading*/
 	

@@ -8,7 +8,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
     .state('config', {
       cache: false,
       url: '/config',
-      templateUrl: 'templates/lists.html'
+      templateUrl: 'templates/config.html'
     })
     .state('lists', {
       cache: false,

@@ -222,10 +222,10 @@ angular.module('starter.controllers')
       $scope.language = settings.getSettingValue('language');
 //        console.log('getDirection: '+angular.toJson( $scope.language));
       if ($scope.language == 'english') {
-        return {direction: "ltr"};
+        return {direction: "ltr",fontFamily:"AndikaNewBasic"};
       }
       else {
-        return {direction: "rtl"};
+        return {direction: "rtl",fontFamily:"GessLight"};
       }
 
     }
@@ -235,7 +235,7 @@ angular.module('starter.controllers')
       $scope.language = settings.getSettingValue('language');
       /* console.log('getDirection: '+angular.toJson( $scope.language));*/
       if ($scope.language == 'english') {
-        return {transform: "scaleX(-1)"};
+        return {transform: "scaleX(-1)",fontFamily:"AndikaNewBasic"};
       }
 
       }

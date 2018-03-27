@@ -3,7 +3,7 @@
   <ion-nav-bar class="theme-color">
     <!--  <ion-nav-back-button></ion-nav-back-button>-->
   </ion-nav-bar>
-  <ion-nav-title> {{dynamicListTitle}}</ion-nav-title>
+  <!--<ion-nav-title> {{dynamicListTitle}}</ion-nav-title>-->
 
 
   <ion-nav-buttons side="left">
@@ -33,16 +33,17 @@
 
 <div class="img-body " >
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
- </div>
-     
-          <ion-content class = "padding">
-   
-  <div class="header container-fluid ">
-  
-      	<img src="img/logo.png" class=" img-responsive ">
-        <span translate>{{dynamicListTitle}}</span>
+ </div> 
+          
+    <ion-content style="padding-bottom:100px;" ng-style="getDirection()">
+            
+      <div class="header container-fluid " ng-style= "getImgDirection()">
+        <div>
+      	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
+            <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">{{dynamicListTitle}}</span>
+        </div>     
+     </div>
 
-  </div>
               
               
 <div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-click="popover.show($event)">
@@ -69,7 +70,7 @@
 <div class="form-group margin-top">
   <div class="col-md-4"><!-----grid bootstrab system "col-md-4 size refer to take 4 colum from 12 as simple 4/12 so this area = 25% from width screen "-->
     <div class="input-group"><!-----parent class for textBox ---->
-      <input  class="form-control input-md" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search"><!---textBoxControl----->
+      <input  ng-style="getDirection()" class="form-control input-md" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search"><!---textBoxControl----->
       <span class="input-group-addon"><!-----addon is agray area background For search icon ---->
       <i class="fa fa-search"></i></span><!---iconsfor textbox---->
     </div>
@@ -114,10 +115,10 @@
                       align="center"
                       >
                       
-                                     <div class="panel-heading text-center" style="color: #fff;
+                                     <div  ng-style="getDirection()" class="panel-heading text-center" style="color: #fff;
 	                                                          background-color: #65b043;
                                                               border-color: #ddd;
-                                                              font-family: GessBold;"
+                                                              font-weight: bold;"
                                           ng-click="category.foldStatus = ! category.foldStatus"> 
                                          {{category.categoryName}}</div>
                     </h2>
@@ -134,7 +135,7 @@
 
 
                     <div style="display:inline; float:center;">
-                      <h2 style="display:inline;text-align:left;white-space: normal;">
+                      <h2  ng-style="getDirection()" style="display:inline;text-align:left;white-space: normal;">
 
                         {{listItem.itemName}}
                         <!--{{listItem.seenFlag}}--></h2>
@@ -146,7 +147,7 @@
                         </ion-delete-button>
                       </div>
                       <div ng-show="showItemDetails">
-                        <p style="text-align:left;white-space: normal;">
+                        <p style="white-space: normal;">
                           <i> {{listItem.quantity}} {{listItem.uom}} <span translate>FROM</span>
                             {{listItem.retailerName}} </i></p>
                         <ion-option-button class="button-assertive icon-left ion-trash-a"

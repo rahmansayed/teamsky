@@ -7,18 +7,18 @@
 <div class="img-body " >
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div>
-     <ion-content >
+     <ion-content ng-style="getDirection()">
          <div class="header container-fluid " ng-style= "getImgDirection()">
         <div>
       	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
-        <span translate ng-style= "getImgDirection();" style="padding-top:5%">WELCOME</span>
+        <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">WELCOME</span>
         </div>     
      </div>
 
 
     <div style="opacity=0;height:100px;">
     </div>
-    <div ng-style="getDirection()">
+    <div >
 
 <!--      <h1 class="item"
           style="font-size:200% ;color:#941540;white-space: normal;padding-left: 20px;border:0;">-->
@@ -26,8 +26,8 @@
           <!--<div translate class="margin-top-ex text"><h3>{{'SUBSCRIBE_NUMBER'}}</h3> </div>-->
          <Div class="text">
  
-         <h3 translate>{{'SUBSCRIBE_NUMBER'}}</h3>
-         <h5 class="padding" style="white-space: normal;" ng-style="getDirection()" translate>{{'NOTE'}}</h5>
+         <h3 ng-style="getDirection()"translate>{{'SUBSCRIBE_NUMBER'}}</h3>
+         <h5 ng-style="getDirection()" style="white-space: normal;"  translate>{{'NOTE'}}</h5>
          </Div>
         <br>
         <br>
@@ -40,12 +40,12 @@
     </div>
 
 
-    <div ng-style="getDirection()" class="form-group">
+    <div  class="form-group">
       <div class="col-md-4">
         <div class="input-label">
           &nbsp;
         </div>
-        <select class="form-control" ng-model="selected.country" ng-init="selected.country=countries[defaultCountryIdx]"
+        <select ng-style="getDirection()" class="form-control" ng-model="selected.country" ng-init="selected.country=countries[defaultCountryIdx]"
                 ng-options="'('.concat(country.dial_code).concat(') ').concat(country.name) for country in countries"></select>
 
       </div>
@@ -65,10 +65,10 @@
       <!-- <p> {{ country | json}} </p>-->
     </div>
     
-    <div class="form-group" ng-style="getDirection()">
+    <div class="form-group" >
   <label class="col-md-4 control-label" for="singlebutton"></label>
   <div class="col-md-4">
-    <button id="singlebutton" name="singlebutton" class="btn btn-block btn-success" ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})"  translate> {{'SUBSCRIBE'}}</button>
+    <button id="singlebutton" name="singlebutton" class="btn btn-block btn-success" ng-click="subscribeUser({countryCode:selected.country.dial_code,phoneNumber:phoneNumber})" style="font-weight:bold;"  translate> {{'SUBSCRIBE'}}</button>
           <p class="padding help-block" style="white-space: normal;"  translate>
         {{'REG_F_MSG1'}} </p>  
   </div>

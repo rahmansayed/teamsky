@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover,settings) {
 
 
     $scope.uoms = [];
@@ -455,7 +455,20 @@ angular.module('starter.controllers')
         return {transform: "scaleX(-1)"};
       }
 
+      };
+      
+        $scope.getDirection = function () {
+//        console.log('userSetting: ' + angular.toJson(settings.userSetting));
+      $scope.language = settings.getSettingValue('language');
+//        console.log('getDirection: '+angular.toJson( $scope.language));
+      if ($scope.language == 'english') {
+        return {direction: "ltr",fontFamily:"AndikaNewBasic"};
       }
+      else {
+        return {direction: "rtl",fontFamily:"GessLight"};
+      }
+
+    };
 
     $scope.closeSuggest = function () {
 
