@@ -127,15 +127,15 @@
                   </p>
 
 
-                  <ion-item class="my-item no-padding item-profile item-remove-animate item-icon-right item calm-bg"
+                  <ion-item class="my-item "
                             ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category.categoryName }"
                             ng-click="itemChecked(listItem)"
-                            style=" border-radius:15px;background-color:white;padding:0px;margin: 0;border:0px; "
+                            style=" border-radius:15px;background-color:white;padding-top:0px;padding-buttom:0px;"
                             ng-hide="category.foldStatus">
 
 
-                    <div style="display:inline; float:center;">
-                      <h2  ng-style="getDirection()" style="display:inline;text-align:left;white-space: normal;">
+                    <div style="display:inline-block; float:center;padding:0px;margin:0px;">
+                      <h2  ng-style="getDirection()" style="display:inline;text-align:left;">
 
                         {{listItem.itemName}}
                         <!--{{listItem.seenFlag}}--></h2>
@@ -147,7 +147,7 @@
                         </ion-delete-button>
                       </div>
                       <div ng-show="showItemDetails">
-                        <p style="white-space: normal;">
+                        <p style="white-space: normal;paddding-buttom:3px;">
                           <i> {{listItem.quantity}} {{listItem.uom}} <span translate>FROM</span>
                             {{listItem.retailerName}} </i></p>
                         <ion-option-button class="button-assertive icon-left ion-trash-a"
@@ -161,7 +161,7 @@
                     </div>
 
 
-                    <div ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline; float:right; ">
+                    <div ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline-block; float:right; ">
 
                       <div align="right" ng-show="listItem.flag=='1'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
@@ -201,18 +201,18 @@
                   
                    <Div class="text">
  
-                     <h5 class="padding"  ng-show="entries.listCrossedEntries.length != 0" style="white-space: normal;height:40px;" ng-style="getDirection()" translate>{{'CROSSED'}}</h5>
+                     <h5 class="padding"  ng-show="entries.listCrossedEntries.length != 0" style="white-space: normal;height:40px;font-weight:bold;" ng-style="getDirection()" translate>{{'CROSSED'}}</h5>
                      </Div>
 
-                <div style="padding-right:20px;padding-left:20px;">
+                <div style="padding-right:20px;padding-left:18px;">
                   <ion-item class="my-item no-padding item-remove-animate item-icon-right"
                             ng-repeat="checkedItem in entries.listCrossedEntries"
                             ng-click=unCheckItem(checkedItem)
-                            style=" border-radius:15px;">
-
+                            style=" border-radius:15px;padding-right:10px;padding-left:10px;">
+                <div style="display:inline-block; float:center;padding:0px;margin:0px;">
                     <h2><s>{{checkedItem.itemName}}</s></h2>
-
-                   <div class="no-padding" style="display:inline; float:right; ">
+                </div>
+                   <div class="no-padding" style="display:inline-block; float:right; padding:0px !important;">
 
                       <div align="right" ng-show="checkedItem.entryCrossedFlag=='1'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->

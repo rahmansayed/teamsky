@@ -84,7 +84,9 @@ angular.module('starter.services')
         " from " +
         " ( " +
         "    (list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and eo.deleted = 0) " +
-        "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ec.deleted = 0 " +
+        /*commented by aalatief: to fix count issue 27/3/2018*/  
+        /*"     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ec.deleted = 0 " +*/
+          "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag != 0 and ec.deleted = 0 " +
         " ) " +
         " where ifnull(l.deleted, 'N') = 'N' ";
       if (listLocalId) {
