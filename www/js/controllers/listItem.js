@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover,settings) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover,settings,$ionicHistory,$window) {
 
 
     $scope.uoms = [];
@@ -469,6 +469,14 @@ angular.module('starter.controllers')
       }
 
     };
+    
+        $scope.myGoBack = function () {
+       /*alert ('Back!!!');*/
+        /*$ionicHistory.goBack();*/
+            $window.history.go(-1);
+
+    };
+      
 
     $scope.closeSuggest = function () {
 

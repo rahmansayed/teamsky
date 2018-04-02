@@ -239,6 +239,15 @@ angular.module('starter.controllers')
       }
 
       }
+      
+      
+    $scope.myGoBack = function () {
+       
+        $ionicHistory.goBack();
+
+    }
+      
+      
     /*$scope.openPopover = function($event) {
 
      alert('Popover Show: '+angular.toJson($event)   );
