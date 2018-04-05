@@ -14,10 +14,10 @@
 <div class="img-body " >
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div>
-    <ion-content>
-
-        
-    <div class="header container-fluid " ng-style= "getImgDirection()">
+      <div  scroll="false">   
+          
+    
+        <div class="header container-fluid " ng-style= "getImgDirection()">
         <div>
       	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
         <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">{{dynamicTitle}}</span>
@@ -33,6 +33,11 @@
       </div>
 
     </nav>   
+    </div>
+    <ion-content>
+
+        
+
         
             <div style="opacity=0;height:100px;">
             </div>
@@ -65,8 +70,9 @@
         <ion-list  >
 
 
-            <ion-item ng-repeat = "listUser in listUsers"
-                      style=" border-radius:15px;"
+            <ion-item class="my-item no-padding item-remove-animate item-icon-right"
+                      ng-repeat = "listUser in listUsers"
+                      style=" border-radius:15px;padding-right:10px;padding-left:10px;height:60px;padding-top:0px;"
                       ng-show="listUser.contactName">
             <img class="img-circle"
                  ng-src="{{ listUser.photo }}"
@@ -74,17 +80,17 @@
                 style="float:left;"
                 ng-style="setColor(listUser.contactStatus,'border')">
 
-                <p ng-style="setColor(listUser.contactStatus,'color')" style="float:left;padding-left:5px;padding-top:10px;">{{listUser.contactName}}</p>
+                <p ng-style="setColor(listUser.contactStatus,'color')" style="float:left;padding-left:5px;padding-top:5px;padding-buttom:5px;">{{listUser.contactName}}</p>
 
                 <ion-option-button class="button-assertive icon-left ion-trash-a" ng-click="removeListUser(list, listUser)"></ion-option-button>
             </ion-item>
 
         </ion-list>
         <div id="listError" style="color:red;"></div>
-        <div  ng-style="getDirection()">
+        <div  ng-style="getDirection()"  ng-hide="listUsers[0].contactName">
 
            <!-- <i><p class="not-shared fa fa-warning"  ng-show="!listUsers[0].contactName" translate>NOT_SHARED</p></i>-->
-            <p class="not-shared" translate><span class="fa fa-warning"  ng-show="!listUsers[0].contactName" ></span> NOT_SHARED </p>
+            <p class="not-shared" translate><span class="fa fa-warning"  ></span> NOT_SHARED </p>
             
             <!--            <div style="text-align: right;">
              <button class="button button-balanced ion-android-person-add larger padding text-center"

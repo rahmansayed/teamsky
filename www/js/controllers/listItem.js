@@ -470,6 +470,19 @@ angular.module('starter.controllers')
 
     };
     
+    
+            $scope.getCheckDirection = function () {
+//        console.log('userSetting: ' + angular.toJson(settings.userSetting));
+      $scope.language = settings.getSettingValue('language');
+//        console.log('getDirection: '+angular.toJson( $scope.language));
+      if ($scope.language == 'english') {
+        return {float:"right"};
+      }
+      else {
+        return {float:"left"};
+      }
+
+    };
         $scope.myGoBack = function () {
        /*alert ('Back!!!');*/
         /*$ionicHistory.goBack();*/

@@ -15,10 +15,9 @@
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div>
 
-  <ion-content ng-style= "getDirection();">
-
-<!--    <div class="container"  >-->
-      <div class="header container-fluid " ng-style= "getImgDirection()">
+    <div  scroll="false">   
+    
+          <div class="header container-fluid " ng-style= "getImgDirection()">
         <div>
       	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
         <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">ACCOUNT_SETTING</span>
@@ -35,6 +34,12 @@
         </div>
       </div>
     </nav>   
+    </div>
+    
+  <ion-content ng-style= "getDirection();" style="padding-buttom:0px;">
+
+<!--    <div class="container"  >-->
+
       
 
     <div style="opacity=0;height:130px;">
@@ -136,7 +141,7 @@
         
 <!--  <div class="form-group">-->
 <label style="font-weight:bold;" class = "control-label" translate>GENDER</label>
-<div class="radio-tile-group">
+<div class="radio-tile-group" style="padding-buttom:0px;">
 
     <div class="input-container">
       <input id="walk" class="radio-button" type="radio" name="radio" type="radio" ng-model="userData.gender" ng-value="'male'" />
