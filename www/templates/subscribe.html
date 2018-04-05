@@ -2,7 +2,7 @@
   <ion-nav-bar class="theme-color">
     <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
-<ion-nav-title translate style="dir: rtl" > {{'WELCOME'}}</ion-nav-title>
+<ion-nav-title translate></ion-nav-title>
   
 <div class="img-body " >
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
@@ -55,7 +55,7 @@
           <div class="col-md-4">
         <!--<input type="text" ng-model="country.dial_code"  readonly="readonly" width="6">-->
           <!--<input id="textinput" name="textinput" type="text" placeholder="54xxxxxxxx" class="form-control input-md ">-->
-        <input  class="form-control input-md "   placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber"  maxlength="11" minlenght="8" ng-required="true" style="padding-left:15px;">
+        <input  type="tel" class="form-control input-md"   placeholder="{{'REG_F_MOBILE_NO' | translate}}" ng-model="phoneNumber"  maxlength="11" minlenght="8" ng-required="true" style="padding-left:15px;color:#941540">
           </div>
         </div>
         <div id="subscribeError" style="color:red;padding-left:15x;"></div>    

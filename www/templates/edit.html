@@ -23,7 +23,16 @@
         <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">{{dynamicTitle}}</span>
         </div>     
      </div>
+    
+        <nav  class="navbar navbar-default navbar-fixed-top" role="navigation" >
+      <div class="navbar-header">
+                    <button type="button" class="navbar-toggle ion-android-done" ng-click="saveList(list);"style="alignfloat:right;width:50px;height:40px;padding-top:2px;font-size: 25px;" translate></button>
+          <div style="float:left;padding-left:12px;">
+         <button type="button" class="navbar-toggle ion-arrow-left-a" ng-click="myGoBack()" style="float:left;width:50px;height:40px;padding-top:2px;font-size: 25px;" ></button>
+        </div>
+      </div>
 
+    </nav>   
         
             <div style="opacity=0;height:100px;">
             </div>
@@ -85,6 +94,7 @@
             </div>-->
         </div>
         
+<!--
               <div class="form-group" ng-style="getDirection()">
      <label class="col-md-4 control-label" for="singlebutton"></label>
       <div class="col-md-4">
@@ -94,6 +104,7 @@
           
           </div>
     </div>
+-->
 
 
    <!--     <div class="padding button-bar">

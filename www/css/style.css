@@ -1310,12 +1310,22 @@ overflow: hidden !important;
 	padding-top:18%;
 	}
 	.navbar-default .navbar-nav>li>a{
-	background-color: #f3f8fb/*rgba(214, 156, 42, 1)*/;
+	background-color: rgba(214, 156, 42, .2);
 	margin-bottom: 1px;
 	background-image:url(../img/panel-pattern.png);
 	background-repeat: no-repeat;  
             
 	}
+
+
+.myNavBar{
+    
+    background-color: #f3f8fb;
+    /*background-image:url(../img/panel-pattern.png);*/
+    background-repeat: no-repeat; 
+    padding-right: 10px;
+    padding-left: 10px;
+}
 	.navbar-nav {
 	margin: 0px -15px;
 	padding-top: 0;

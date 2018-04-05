@@ -137,7 +137,7 @@ angular.module('starter', ['ionic',
         /* if (typeof PushNotification === "defined") {*/
         var push = PushNotification.init({
           "android": {
-             /* "senderID": "992783511835"*/
+              "senderID": "992783511835"
           },
           browser: {
             pushServiceURL: 'http://push.api.phonegap.com/v1/push'

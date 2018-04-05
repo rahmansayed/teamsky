@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler,$translate,settings) {
+  .controller('addListCtrl', function ($scope, $state, dbHandler, serverHandlerListV2, localListHandlerV2, contactHandler,$translate,settings,$window) {
     $scope.dynamicTitle = $translate.instant('CREATE_LIST');
     $scope.list = {};
 
@@ -68,6 +68,13 @@ angular.module('starter.controllers')
       }
 
       }
+      
+              $scope.myGoBack = function () {
+       /*alert ('Back!!!');*/
+        /*$ionicHistory.goBack();*/
+            $window.history.go(-1);
+
+    };
     
     $scope.saveList = function (list) {
               if    (!list.listName)  {

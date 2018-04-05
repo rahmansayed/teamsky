@@ -179,6 +179,15 @@ angular.module('starter.controllers')
       /*alert ($scope.showListDetails);*/
     };
 
+    $scope.showMenuFlag = false;
+
+    $scope.showMenu= function () {
+
+      $scope.showMenuFlag = !$scope.showMenuFlag;
+      /*alert ($scope.showListDetails);*/
+    };
+
+    
     $scope.gesture = {
       used: ''
     };

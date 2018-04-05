@@ -48,7 +48,7 @@
               
     <div  class="navbar navbar-default navbar-fixed-top" role="navigation" >
       <div class="navbar-header">
-            <button type="button" class="navbar-toggle ion-android-menu " ng-click="popover.show($event)" style="alignfloat:right;width:50px;height:40px;padding-top:2px;font-size: 25px;" >
+            <button type="button" class="navbar-toggle ion-android-menu " ng-click="showMenu();" style="alignfloat:right;width:50px;height:40px;padding-top:2px;font-size: 25px;" >
 
               </button>
           
@@ -57,8 +57,20 @@
 
               </button>
         </div>
+    </div>
+    <div  ng-show="showMenuFlag" >
+    <ul class="nav navbar-nav" style="direction: rtl">
+        <li class="myNavBar" ><a href="#account" translate> ACCOUNT</a></li>
+        <li class="myNavBar"><a ng-click = "refresh();" translate> RELOAD</a></li>
+        <li class="myNavBar"><a  ng-click="showMenu(); changeFoldAll();" translate> FOLD</a></li>
+        <li class="myNavBar"><a ng-click="showMenu();showHideItemDetails();" translate> HIDESHOW</a></li>
+    </ul>
+  
+  </div>  
+               
       </div>
-    </div>  
+    <div style="opacity=0;height:60px;">
+    </div>
 <div class="container">              
 <div class="form-group margin-top">
   <div class="col-md-4"><!-----grid bootstrab system "col-md-4 size refer to take 4 colum from 12 as simple 4/12 so this area = 25% from width screen "-->

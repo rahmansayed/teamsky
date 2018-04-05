@@ -477,6 +477,13 @@ angular.module('starter.controllers')
 
     };
       
+    $scope.showMenuFlag = false;
+
+    $scope.showMenu= function () {
+
+      $scope.showMenuFlag = !$scope.showMenuFlag;
+      /*alert ($scope.showListDetails);*/
+    };
 
     $scope.closeSuggest = function () {
 

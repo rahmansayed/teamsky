@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global,$translate,settings) {
+  .controller('editCtrl', function ($scope, $state,dbHandler,serverHandlerListV2,localListHandlerV2,$ionicPopup,contactHandler, global,$translate,settings,$window) {
 
     $scope.dynamicTitle = $translate.instant('EDIT_LIST');
     console.log('Edit List: ' + 'global.currentList' + angular.toJson(global.currentList));
@@ -168,6 +168,13 @@ angular.module('starter.controllers')
       }
 
       }
+      
+              $scope.myGoBack = function () {
+       /*alert ('Back!!!');*/
+        /*$ionicHistory.goBack();*/
+            $window.history.go(-1);
+
+    };
 
     /*-----------------------------------------------------------------------------------------*/
   });
