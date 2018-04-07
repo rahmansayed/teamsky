@@ -17,6 +17,7 @@
   "cordovaPlatforms": [],
   "dependencies": {
     "cordova-android": "7.0.0",
+    "cordova-plugin-contacts": "^3.0.1",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-sim": "git+https://github.com/pbakondy/cordova-plugin-sim.git",
     "cordova-plugin-splashscreen": "^4.0.3",
@@ -35,7 +36,8 @@
       "cordova-plugin-sim": {},
       "phonegap-plugin-push": {
         "FCM_VERSION": "11.6.2"
-      }
+      },
+      "cordova-plugin-contacts": {}
     },
     "platforms": [
       "android"
