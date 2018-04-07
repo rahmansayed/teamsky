@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover,settings) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover,settings,$ionicHistory,$window) {
 
 
     $scope.uoms = [];
@@ -468,6 +468,34 @@ angular.module('starter.controllers')
         return {direction: "rtl",fontFamily:"GessLight"};
       }
 
+    };
+    
+    
+            $scope.getCheckDirection = function () {
+//        console.log('userSetting: ' + angular.toJson(settings.userSetting));
+      $scope.language = settings.getSettingValue('language');
+//        console.log('getDirection: '+angular.toJson( $scope.language));
+      if ($scope.language == 'english') {
+        return {float:"right"};
+      }
+      else {
+        return {float:"left"};
+      }
+
+    };
+        $scope.myGoBack = function () {
+       /*alert ('Back!!!');*/
+        /*$ionicHistory.goBack();*/
+            $window.history.go(-1);
+
+    };
+      
+    $scope.showMenuFlag = false;
+
+    $scope.showMenu= function () {
+
+      $scope.showMenuFlag = !$scope.showMenuFlag;
+      /*alert ($scope.showListDetails);*/
     };
 
     $scope.closeSuggest = function () {

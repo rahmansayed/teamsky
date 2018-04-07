@@ -1,5 +1,5 @@
 {
-  "WELCOME": "Welcome to Kani & Mani",
+  "WELCOME": "Kani & Mani",
   "WELCOME_ACCOUNT":"Welcome,",
   "MOBILE": "Your mobile number",
   "NOTE": "Note: You will recieve SMS with verification code in a moment.",
@@ -37,6 +37,9 @@
   "QUANTITY":"Enter Quantity",
   "UNIT":"Select Unit",
   "RETAILER":"Search for retailer",
+  "QUANTITY_LABEL":"Quantity",
+  "UNIT_LABEL":"Unit",
+  "RETAILER_LABEL":"Retailer",
   "CROSSED":"Crossed Items",
   "QUESTION_MARK":"?",
   "FROM":"From",
@@ -58,8 +61,12 @@
   "SAVE_ACCOUNT":"Save Account",
   "LIST_NAME_LABEL":"List Name",
   "LIST_DESC_LABEL":"Description",
-  "CHANGE_IMAGE":"Change Image"    
-    
+  "CHANGE_IMAGE":"Change Image" ,  
+  "RELOAD":"Reload",
+  "REORDER":"Reorder",
+  "HIDESHOW":"Hide/Show Details",
+  "FOLD":"Fold/Unfold All",
+  "SHARED":"Shared with:"
     
 }
 

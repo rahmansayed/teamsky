@@ -9,20 +9,43 @@
   </ion-floating-button>
      
   
-<div class="img-body " >
+<div class="img-body">
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div> 
-          
-    <ion-content style="padding-bottom:100px;" ng-style="getDirection()">
-            
-      <div class="header container-fluid " ng-style= "getImgDirection()">
+    <div  scroll="false">    
+      <div class="header container-fluid" ng-style= "getImgDirection()">
         <div>
       	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
             <span translate ng-style= "getImgDirection();" style="padding-top:5%;font-weight:bold;">MY_LIST</span>
         </div>     
      </div>
+        
+    <nav  class="navbar navbar-default navbar-fixed-top" role="navigation" >
+      <div class="navbar-header">
+            <button type="button" class="navbar-toggle ion-android-menu " ng-click="showMenu();" style="alignfloat:right;width:50px;height:40px;padding-top:2px;font-size: 25px;" ></button>
+          
+          <div style="float:left;padding-left:12px;">
+         <button type="button" class="navbar-toggle ion-arrow-left-a" ng-click="myGoBack()" style="float:left;width:50px;height:40px;padding-top:2px;font-size: 25px;" ></button>
+        </div>
+      </div>
+    <div  ng-show="showMenuFlag" >
+    <ul class="nav navbar-nav" style="direction: rtl">
+        <li class="myNavBar" ><a href="#account" translate> ACCOUNT</a></li>
+        <li class="myNavBar"><a ng-click = "refresh();" translate> RELOAD</a></li>
+        <li class="myNavBar"><a  ng-click="showMenu(); data.showDelete = !data.showDelete; data.showReorder = false;" translate> DELETE</a></li>
+         <li class="myNavBar"><a ng-click="showMenu();data.showDelete = false; data.showReorder = !data.showReorder;" translate> REORDER</a></li>
+        <li class="myNavBar"><a ng-click="showMenu();showHideListDetails();" translate> HIDESHOW</a></li>
+    </ul>
 
-    <div style="opacity=0;height:70px;">
+        
+  </div>
+    </nav>               
+  
+        </div>     
+    <ion-content style="padding-bottom:100px;" ng-style="getDirection()">
+
+
+    <div style="opacity=0;height:100px;">
     </div>
             
           <ion-list class="leftReorderButton container" show-delete="data.showDelete" show-reorder="data.showReorder" >
@@ -53,17 +76,44 @@
 
                   <div align="center"
                        ng-hide="list.newCount=='0'||list.newCount==null"
-                       style="display:inline;height: 28px;width: 28px;line-height: 28px;
+                       style="display:inline-block;height: 28px;width: 28px;line-height: 28px;
                             -moz-border-radius: 10px;border-radius:20px;background-color: #09d261;
                             color: white;text-align: center;font-size: 15px;float:right;margin-right: 15px;">
                     {{list.newCount}}
-
+                   
                   </div>
+                     <div style="display:inline-block;"><h3 ng-style="getDirection()" class="title text-center" >{{list.listDescription}}</h3></div>
                 </h2>
                   <!--<div class="title"><h5>{{list.listDescription}}</h5></div>-->
-            <div ng-style="getDirection()"class="title text-center" style="padding:15px;"><!-----content u can render it ----->
-            <h3 ng-style="getDirection()">{{list.listDescription}}</h3>
-                <h4 ng-style="getDirection()" class="text-center" style="color: #FF9800;padding:0px;">مشاركة مع عبدالرحمن</h4>
+            <div ng-style="getDirection()"style="padding-left:15px;padding-right:15px;"><!-----content u can render it ----->
+
+                <h4  ng-show="list.contacts[0].contactName" ng-style="getDirection()" style="color: #FF9800;padding-right:50px;padding-right:50px;padding-top:0px;padding-buttom:0px;">
+                    <span translate ng-style="getDirection()">
+                    SHARED </span> </h4>
+                <div style="padding-top:0px;padding-buttom:0px;">
+                <h4 >
+                <div class="text-center"
+                     ng-repeat="listUser in list.contacts"
+                     style="display:inline;float:left;padding-right:10px;padding-top:0px;padding-buttom:0px;"
+                     ng-show=listUser.contactName>
+                  <div ng-style="setColor(listUser.contactStatus,'color')" style="padding-top:15px;">
+
+                    <img class="img-circle" ng-src="{{ listUser.photo}}"
+                         ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')"
+                         style="float:left;">
+
+                    <p ng-show="listUser.contactServerId!=myUserId"
+                       ng-style="setColor(listUser.contactStatus,'color' )"
+                       style="padding-left:5px;padding-top:10px;">{{listUser.contactName}}</p>
+                    <p ng-show="listUser.contactServerId==myUserId"
+                       ng-style="setColor(listUser.contactStatus,'color' )"><i style="color: #FF9800;">shared with you by: </i></p>
+           
+
+
+                  </div>
+                </div>
+                </h4>
+               </div>
 
           </div>
 
@@ -83,7 +133,7 @@
 
                             box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);"
                          ng-style=" {width: (list.totalCrossed/(list.totalOpen + list.totalCrossed))*100 +'%'}">
-                      <p style="text-align:center;color:white;;margin-top:4px">
+                      <p style="text-align:center;color:white;margin-top:4px">
                         {{list.totalCrossed}}
                       </p>
                     </div>
@@ -99,12 +149,9 @@
                         {{list.totalOpen}}
                       </p>
                     </div>
-                    <br><br>
+                        <br>
                   </div>
-                    <!--<label ng-show="list.totalOpen+list.totalCrossed==0" 
-                           
-                            translate>{{'NO_ENTRY'}} </label>
-                    -->
+
                     <div  style="padding:0px 0px 20px 0px;" ng-show="list.totalOpen+list.totalCrossed==0">
                         <!--grey-->
                         <div style=" background:grey;
@@ -120,40 +167,21 @@
                       </p>
                     </div>
                     </div>
-                   <!-- </p>
-                  </div>-->
+
                 </div>
             </div>
-                <div ng-repeat="listUser in list.contacts"
-                     style="display:inline;float:left;padding-right:10px;"
-                     ng-show=listUser.contactName>
-                  <div ng-style="setColor(listUser.contactStatus,'color')" style="padding-top:15px;">
 
-                    <img class="img-circle" ng-src="{{ listUser.photo}}"
-                         ng-show="listUser.photo" ng-style="setColor(listUser.contactStatus,'border')"
-                         style="float:left;">
-
-                    <p ng-show="listUser.contactServerId!=myUserId"
-                       ng-style="setColor(listUser.contactStatus,'color' )"
-                       style="padding-left:5px;padding-top:10px;">{{listUser.contactName}}</p>
-                    <p ng-show="listUser.contactServerId==myUserId"
-                       ng-style="setColor(listUser.contactStatus,'color' )"><i>shared with you by: </i></p>
-           
-
-
-                  </div>
-                </div>
               </div>
 
-              <div style="padding-right:2px;">
-                
-
-         <ion-delete-button class="ion-minus-circled" 
-                             ng-click="removeList(list)">
-          </ion-delete-button>
+                             
+         <div style="padding-right:50px;"> 
+         <ion-delete-button class="ion-minus-circled text-center"
+                             ng-click="removeList(list)"
+                             >
+          </ion-delete-button></div>
                 <ion-reorder-button class="ion-navicon" on-reorder="move(list, $fromIndex, $toIndex)">
                 </ion-reorder-button>
-              </div>
+
               <ion-option-button ng-show="myUserId==list.listOwnerServerId"
                                  class="button-assertive icon-left ion-trash-a"
                                  ng-click="removeList(list)"></ion-option-button>

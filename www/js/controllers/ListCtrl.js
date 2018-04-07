@@ -179,6 +179,15 @@ angular.module('starter.controllers')
       /*alert ($scope.showListDetails);*/
     };
 
+    $scope.showMenuFlag = false;
+
+    $scope.showMenu= function () {
+
+      $scope.showMenuFlag = !$scope.showMenuFlag;
+      /*alert ($scope.showListDetails);*/
+    };
+
+    
     $scope.gesture = {
       used: ''
     };
@@ -239,6 +248,15 @@ angular.module('starter.controllers')
       }
 
       }
+      
+      
+    $scope.myGoBack = function () {
+       
+        $ionicHistory.goBack();
+
+    }
+      
+      
     /*$scope.openPopover = function($event) {
 
      alert('Popover Show: '+angular.toJson($event)   );

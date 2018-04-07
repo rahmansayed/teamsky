@@ -1,5 +1,5 @@
 {
-  "WELCOME": "مرحبا بك في كاني و ماني",
+  "WELCOME": "كاني و ماني",
   "WELCOME_ACCOUNT":"اهلا ",
   "MOBILE": "رقم جوالك",
   "NOTE": "ملاحظة سوف يتم إرسال رسالة نصية إلى جوالك حالا",
@@ -37,6 +37,9 @@
   "QUANTITY":"ادخل الكمية",
   "UNIT":"اختر الوحدة",
   "RETAILER":"ابحث عن مكان الشراء",
+  "QUANTITY_LABEL":"الكمية",
+  "UNIT_LABEL":"الوحدة",
+  "RETAILER_LABEL":"مكان الشراء",
   "CROSSED":"الاصناف التي تم شراؤها",  
   "QUESTION_MARK":"؟",
   "FROM":"من",
@@ -58,5 +61,10 @@
   "SAVE_ACCOUNT":"حفظ بيانات الحساب",
   "LIST_NAME_LABEL":"اسم القائمة",
   "LIST_DESC_LABEL":"التفاصيل"  ,
-   "CHANGE_IMAGE":"تغيير الصورة"   
+   "CHANGE_IMAGE":"تغيير الصورة" ,  
+  "RELOAD":"اعادة تحميل",
+  "REORDER":"اعادة ترتيب",
+  "HIDESHOW":"اخفاء/اظهار التفاصيل" ,
+  "FOLD":"ضم / فتح الكل" ,
+  "SHARED":"مشاركة مع"
 }

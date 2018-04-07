@@ -1,0 +1,7 @@
+1- Account page scroll
+4-Search Icon Button fix borders
+5-Delete Reorder Fix Colors'
+6-Delete Message Fix Color
+7-Item (1 From Anywhere) Fix
+8-Delete Item Fix Message color and text
+

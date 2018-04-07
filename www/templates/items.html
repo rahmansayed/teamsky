@@ -6,13 +6,13 @@
   <!--<ion-nav-title> {{dynamicListTitle}}</ion-nav-title>-->
 
 
-  <ion-nav-buttons side="left">
+<!--  <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon" style="color: white;"
             ng-click="toggleLeft()"></button>
   </ion-nav-buttons>
   <ion-side-menus>
-    <ion-pane ion-side-menu-content>
-      <ion-nav-bar class="theme-color" animation="nav-title-slide-ios7" title="Setting">
+    <ion-pane ion-side-menu-content>-->
+<!--      <ion-nav-bar class="theme-color" animation="nav-title-slide-ios7" title="Setting">
         <ion-nav-back-button class="button-icon"><span class="icon ion-ios7-arrow-left"></span></ion-nav-back-button>
         <ion-nav-buttons side="right">
           <button class="theme-color button button-clear icon-left ion-android-more-vertical"
@@ -21,8 +21,8 @@
 
           </button>
         </ion-nav-buttons>
-      </ion-nav-bar>
-      <ion-nav-view animation="slide-left-right">
+      </ion-nav-bar>-->
+<!--      <ion-nav-view animation="slide-left-right">-->
 
 
         <ion-floating-button click="addMasterItem(data.search)" has-footer="false" button-color="#09d261"
@@ -35,8 +35,8 @@
  <img src="img/logo.png"  style="z-index:11;position:fixed;overflow:visible;pointer-events:none;background:none !important;">
  </div> 
           
-    <ion-content style="padding-bottom:100px;" ng-style="getDirection()">
-            
+ <div  scroll="false">  
+                 
       <div class="header container-fluid " ng-style= "getImgDirection()">
         <div>
       	<img src="img/logo.png" class=" img-responsive " ng-style= "getImgDirection()">
@@ -45,35 +45,55 @@
      </div>
 
               
-              
-<div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-click="popover.show($event)">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>    
-   
-  </div>
-<!--  <div class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;" >
-    <ul class="nav navbar-nav navbar-left" >
-        <li><a href="#"><span class="fa fa-user"></span> الحساب</a></li>
-        <li><a href="#"><span class="fa fa-bell"></span> التبيلغات</a></li>
-        <li><a href="#"><span class="fa fa-question"></span> المساعدة</a></li>
+     
+    <nav  class="navbar navbar-default navbar-fixed-top" role="navigation" style="padding-buttom:2px;">
+      <div class="navbar-header">
+            <button type="button" class="navbar-toggle ion-android-menu " ng-click="showMenu();menuClicked=!menuClicked;" style="alignfloat:right;width:50px;height:40px;padding-top:2px;font-size: 25px;" >
 
+              </button>
+          
+          <div style="float:left;padding-left:12px;">
+         <button type="button" class="navbar-toggle ion-arrow-left-a" ng-click="myGoBack()" style="float:left;width:50px;height:40px;padding-top:2px;font-size: 25px;" >
+
+              </button>
+        </div>
+    </div>
+    <div  ng-show="showMenuFlag" >
+    <ul class="nav navbar-nav" style="direction: rtl">
+        <li class="myNavBar" ><a href="#account" translate> ACCOUNT</a></li>
+        <li class="myNavBar"><a ng-click = "refresh();" translate> RELOAD</a></li>
+        <li class="myNavBar"><a  ng-click="showMenu(); changeFoldAll();" translate> FOLD</a></li>
+        <li class="myNavBar"><a ng-click="showMenu();showHideItemDetails();" translate> HIDESHOW</a></li>
     </ul>
-   
-  </div>-->
-    </div>               
-<br><br><br>
+  
+  </div>  
+ 
+        <div class="col-md-4" ng-show="!menuClicked">
+    <div class="input-group" style="padding-buttom:2px;">
+      <input  ng-style="getDirection()" class="form-control input-md" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search"><!---textBoxControl----->
+      <span class="input-group-addon" ng-style= "getImgDirection();">    
+      <i class="fa fa-search"></i></span>
+    </div>   
+     </div>
+
+   <div style="opacity=0;height:5px;">
+    </div> 
+      </nav>
+</div>     
+    
+    
+    <ion-content style="padding-bottom:100px;" ng-style="getDirection()">
+
+    <div style="opacity=0;height:80px;">
+    </div>
 <div class="container">              
 <div class="form-group margin-top">
   <div class="col-md-4"><!-----grid bootstrab system "col-md-4 size refer to take 4 colum from 12 as simple 4/12 so this area = 25% from width screen "-->
-    <div class="input-group"><!-----parent class for textBox ---->
-      <input  ng-style="getDirection()" class="form-control input-md" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search"><!---textBoxControl----->
-      <span class="input-group-addon"><!-----addon is agray area background For search icon ---->
-      <i class="fa fa-search"></i></span><!---iconsfor textbox---->
-    </div>
+<!--    <div class="input-group">
+      <input  ng-style="getDirection()" class="form-control input-md" placeholder="{{'SEARCH' | translate}}" ng-change="search()" ng-model="data.search">
+      <span class="input-group-addon" ng-style= "getImgDirection();">    
+      <i class="fa fa-search"></i></span>
+    </div>-->
 
   </div>
 </div><!-----end FormGroup----->
@@ -161,25 +181,25 @@
                     </div>
 
 
-                    <div ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline-block; float:right; ">
+                    <div  ng-style="getCheckDirection()" ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline-block;">
 
-                      <div align="right" ng-show="listItem.flag=='1'" style="display:inline;">
+                      <div ng-show="listItem.flag=='1'" style="display:inline;">
                         <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>
                         </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag==2"
+                      <div  ng-show="listItem.flag==2"
                            style="display:inline;">
                         <p style="display:inline; ">&#10004; </p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag==3"
+                      <div  ng-show="listItem.flag==3"
                            style="display:inline;">
                         <p style="display:inline;">&#10004;&#10004;</p>
                       </div>
 
-                      <div align="right" ng-show="listItem.flag==4">
+                      <div  ng-show="listItem.flag==4">
                         <p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>
                       </div>
                     </div>
@@ -245,9 +265,9 @@
 
         </ion-content>
       </ion-nav-view>
-    </ion-pane>
+<!--    </ion-pane>-->
 
-    <ion-side-menu side="left">
+<!--    <ion-side-menu side="left">
       <ion-header-bar class="theme-color"></ion-header-bar>
       <ion-content has-header="true">
         <ion-list>
@@ -261,7 +281,7 @@
 
 
       </ion-content>
-    </ion-side-menu>
+    </ion-side-menu>-->
 
 
 

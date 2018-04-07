@@ -26,6 +26,35 @@
 }
 
 
+.popover {
+    height: auto !important;
+    width: 50% !important;
+}
+.popover ion-header-bar {
+    position: relative;
+}
+.popover ion-content {
+    top: 0;
+    position: relative;
+}
+
+/*on-popover-view.fit {
+  height: auto;
+}
+
+ion-popover-view.fit ion-content {
+  position: relative;
+}
+
+.platform-android ion-popover-view.fit {
+  margin-top: 10px;
+}
+
+.platform-ios ion-popover-view.fit {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}*/
+
 /*aalatief : This part is added to override bootstrap effect on ion-option-button*/
  ion-option-button.button.button-assertive  {
     border-color: transparent;
@@ -278,7 +307,7 @@ color: #ffffff !important;}
 
 
 .img-circle {
-    border-radius:3px;
+    border-radius:50px;
     background-size:cover;
     width:40px;
     height:40px;
@@ -1281,11 +1310,22 @@ overflow: hidden !important;
 	padding-top:18%;
 	}
 	.navbar-default .navbar-nav>li>a{
-	background-color: rgba(214, 156, 42, 0.18);
+	background-color: rgba(214, 156, 42, .2);
 	margin-bottom: 1px;
 	background-image:url(../img/panel-pattern.png);
-	background-repeat: no-repeat;
+	background-repeat: no-repeat;  
+            
 	}
+
+
+.myNavBar{
+    
+    background-color: #f3f8fb;
+    /*background-image:url(../img/panel-pattern.png);*/
+    background-repeat: no-repeat; 
+    padding-right: 10px;
+    padding-left: 10px;
+}
 	.navbar-nav {
 	margin: 0px -15px;
 	padding-top: 0;
@@ -1294,6 +1334,8 @@ overflow: hidden !important;
 	float: right;
 	margin-right: 15px;
 	margin-left: auto;
+    opacity: 1 !important;
+    z-index:9990;    
 	}
 	.add-menu-first-time{
 		
