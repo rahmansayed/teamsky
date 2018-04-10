@@ -1,6 +1,6 @@
 angular.module('starter.services')
 
-  .factory('camera', function (global, $q) {
+  .factory('camera', function (global, $q, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture, $ionicPopover, $translate, settings) {
 
 
       function capture() {
@@ -9,6 +9,7 @@ angular.module('starter.services')
           'buttonLabels': ['Take Picture', 'Select From Gallery'],
           'addCancelButtonWithLabel': 'Cancel'
         };
+          document.addEventListener("deviceready", function () {     
         navigator.notification.confirm(
           "Please select photo source ", // the message
           function (index) {
@@ -28,7 +29,7 @@ angular.module('starter.services')
           "Select Photo", // a title
           ["Camera", "Gallery"]    // text of the buttons
         );
-
+          });
         return defer.promise;
       }
 

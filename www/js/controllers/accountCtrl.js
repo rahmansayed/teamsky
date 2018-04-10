@@ -1,5 +1,7 @@
 angular.module('starter.controllers')
-  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, localItemHandlerV2,$window) {
+  .controller('accountCtrl', function ($scope, $state, $q, contactHandler, camera, $translate, $ionicPopup, settings, $timeout, $http, global, localItemHandlerV2,$window,$cordovaContacts, dbHandler, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture, $ionicPopover, $translate) {
+    
+
 
     //$scope.days = ['1','2','3','4','5','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25'];
 
@@ -1087,10 +1089,13 @@ angular.module('starter.controllers')
     };
 
     $scope.openCamera = function () {
-      console.log("openCamera");
+      alert("openCamera");
+        
+      document.addEventListener("deviceready", function () {    
       camera.capture().then(function (src) {
         $scope.userData.photo = src + '?' + new Date().getTime();
         settings.addUserSetting('photo', src);
+      });
       });
     }
     ;

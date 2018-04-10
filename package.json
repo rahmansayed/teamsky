@@ -19,12 +19,13 @@
     "cordova-android": "7.0.0",
     "cordova-plugin-contacts": "^3.0.1",
     "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-dialogs": "^2.0.1",
     "cordova-plugin-sim": "git+https://github.com/pbakondy/cordova-plugin-sim.git",
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-plugin-statusbar": "^2.2.1",
     "cordova-plugin-whitelist": "^1.3.1",
     "ionic-plugin-keyboard": "^2.2.1",
-    "phonegap-plugin-push": "^2.1.3",
+    "phonegap-plugin-push": "^2.0.0",
     "whitelist": "^1.0.2"
   },
   "cordova": {
@@ -35,10 +36,9 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-sim": {},
-      "phonegap-plugin-push": {
-        "FCM_VERSION": "11.6.2"
-      },
-      "cordova-plugin-contacts": {}
+      "cordova-plugin-contacts": {},
+      "phonegap-plugin-push": {},
+      "cordova-plugin-dialogs": {}
     },
     "platforms": [
       "android"
