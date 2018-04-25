@@ -20,6 +20,7 @@
     "cordova-plugin-contacts": "^3.0.1",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-dialogs": "^2.0.1",
+    "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-sim": "git+https://github.com/pbakondy/cordova-plugin-sim.git",
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-plugin-statusbar": "^2.2.1",
@@ -38,7 +39,8 @@
       "cordova-plugin-sim": {},
       "cordova-plugin-contacts": {},
       "phonegap-plugin-push": {},
-      "cordova-plugin-dialogs": {}
+      "cordova-plugin-dialogs": {},
+      "cordova-plugin-file-transfer": {}
     },
     "platforms": [
       "android"
