@@ -1,0 +1,16 @@
+
+
+---------------------
+push changes to server:
+
+- git add .
+- git commit -m "aalaief"
+- git push
+
+-------------
+To Debug API: Ex: api/list/user
+
+1-API link check in coresponing router file in server folder.
+2-This will give function definition i controller file.
+
+3- in Controller file look for the functio in the below section, then you can look for exact name in upper section

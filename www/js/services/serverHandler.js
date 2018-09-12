@@ -74,7 +74,7 @@ angular.module('starter.services')
           defer.reject();
         });
       }, function () {
-        console.error("syncInit $q.all error");
+        console.error("syncInit $q.all error"+err);
         defer.reject();
       });
       return defer.promise;
