@@ -73,7 +73,7 @@ angular.module('starter.services')
           console.error("syncInit syncDownStreamData error = " + err);
           defer.reject();
         });
-      }, function () {
+      }, function (err) {
         console.error("syncInit $q.all error"+err);
         defer.reject();
       });
