@@ -374,6 +374,7 @@ angular.module('starter.services')
           }, function (err) {
             console.error('checkEntryExists tx error = ' + err.message);
             defer.reject(err);
+        /*  });*/
           });
         }, function (err) {
           console.error('checkEntryExists db error = ' + err.message);
@@ -623,15 +624,18 @@ angular.module('starter.services')
 
       function syncUpdatesDownstream(entryUpdate) {
         var defer = $q.defer();
-
+          
         buildPromise(entryUpdate, "UPDATE").then(function (res) {
+            
+           console.log('aalatief: syncUpdatesDownstream  entryUpdate: ' + angular.toJson(entryUpdate));
           var updateFlag;
+           console.log('aalatief: syncUpdatesDownstream global.currentList = ' + angular.toJson(global.currentList) + 'entryUpdate.listServerId' + angular.toJson(entryUpdate.listServerId)); 
           if ($state.current.name == 'item' && global.currentList.listServerId == entryUpdate.listServerId && global.status == 'foreground') {
             updateFlag = 6
           } else {
             updateFlag = 5;
           }
-
+console.log('aalatief:entryUpdate.listServerId' + angular.toJson(entryUpdate.listServerId)); 
           if (res.data.entries.length > 0) {
             console.log('syncUpdatesDownstream res.data = ' + angular.toJson(res.data));
             syncDependentDownstream(res.data.items, res.data.retailers).then(function () {

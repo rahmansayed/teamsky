@@ -491,7 +491,7 @@ angular.module('starter.services')
 
     function getEntryFromLocalDB(entryServerId) {
       var defer = $q.defer();
-
+        console.log ('aalatief - entryServerId: ' + angular.toJson(entryServerId) + 'entryServerId._id: ' + entryServerId._id);
       global.db.transaction(function (tx) {
 
         var query = "SELECT e.*, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName, ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
@@ -505,7 +505,8 @@ angular.module('starter.services')
           " INNER JOIN category_tl AS ctl ON c.categoryLocalId = ctl.categoryLocalId and ctl.language = e.language" +
           " where e.entryServerId = ? ";
 
-        tx.executeSql(query, [entryServerId], function (tx, res) {
+        tx.executeSql(query,  [entryServerId] /*[entryServerId]*/, function (tx, res) {
+          console.log('Query' +  query + 'entryServerId._id:' + entryServerId);
           if (res.rows.length > 0) {
             defer.resolve(res.rows.item(0));
           }

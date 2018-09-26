@@ -440,7 +440,7 @@ angular.module('starter.services')
               defer.reject(err);
             });
           }, function (error) {
-            console.error("serverHandlerListV2 syncListsDownstream http error =  " + error.message);
+            console.error("serverHandlerListV2 syncListsDownstream http error =  " + JSON.stringify(error));
             defer.reject(error);
           });
 

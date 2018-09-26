@@ -56,6 +56,7 @@ angular.module('starter.services')
             });
             break;
           case "CROSSED":
+            console.log("aalatief- CROSSED Case entered: "  + angular.fromJson(msg));      
             serverHandlerEntryEvents.syncEventDownstream(details.details, 'CROSS').then(function (affectedLists) {
               serverHandlerListV2.maintainGlobalLists(affectedLists[0], "CROSS ENTRY");
               console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));

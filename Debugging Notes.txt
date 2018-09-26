@@ -17,3 +17,13 @@ To Debug API: Ex: api/list/user
 2-This will give function definition i controller file.
 
 3- in Controller file look for the functio in the below section, then you can look for exact name in upper section
+
+
+------------------------------------------------------------------------
+
+1- Important : 
+Notication send and payload:
+
+some noification in the composing phase are coming without message in the JSON, so it was causing error while sending as message is not defined.
+
+I just uodates the sending part to read the tile for now, till Ifix message part in all
