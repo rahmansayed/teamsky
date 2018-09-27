@@ -624,10 +624,10 @@ angular.module('starter.services')
 
       function syncUpdatesDownstream(entryUpdate) {
         var defer = $q.defer();
-          
+          console.log('aalatief0: syncUpdatesDownstream  entryUpdate: ' + angular.toJson(entryUpdate));
         buildPromise(entryUpdate, "UPDATE").then(function (res) {
             
-           console.log('aalatief: syncUpdatesDownstream  entryUpdate: ' + angular.toJson(entryUpdate));
+           console.log('aalatief1: syncUpdatesDownstream  entryUpdate: ' + angular.toJson(entryUpdate));
           var updateFlag;
            console.log('aalatief: syncUpdatesDownstream global.currentList = ' + angular.toJson(global.currentList) + 'entryUpdate.listServerId' + angular.toJson(entryUpdate.listServerId)); 
           if ($state.current.name == 'item' && global.currentList.listServerId == entryUpdate.listServerId && global.status == 'foreground') {

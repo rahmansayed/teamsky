@@ -412,9 +412,10 @@ angular.module('starter.services')
     }
 
     function syncEventDownstream(entryUpdate, event) {
+      console.log('aalatief : syncEventDownstream called = ' + event + 'entryUpdate: '+angular.toJson(entryUpdate));    
       var defer = $q.defer();
 
-      console.error('syncEventDownstream event = ' + event);
+      console.log('syncEventDownstream event = ' + event);
 
       var data = {
         deviceServerId: global.deviceServerId,

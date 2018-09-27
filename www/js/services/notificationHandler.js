@@ -16,8 +16,14 @@ angular.module('starter.services')
       }
 
       function handleTheNotification(msg) {
-        var details = angular.fromJson(msg.additionalData);
-        switch (details.type) {
+        /*var details = angular.fromJson(msg.additionalData);*/
+        var details = msg.additionalData;  
+        console.log('aalatief - msg '+ angular.toJson(msg))  ;
+        console.log('aalatief - details '+ details)  ;
+        console.log('aalatief - details toString'+ angular.toString(details.type))  ;
+        
+        
+        switch (details.details.type) {
           case "PHOTO UPLOADED":
             contactHandler.downloadContactPhoto(details.userServerId);
             break;
