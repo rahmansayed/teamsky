@@ -25,10 +25,10 @@ angular.module('starter.services')
         
         switch (details.details.type) {
           case "PHOTO UPLOADED":
-            contactHandler.downloadContactPhoto(details.userServerId);
+            contactHandler.downloadContactPhoto(details.userId /*details.userServerId by rahman*/);
             break;
           case 'NEW LIST':
-            serverHandlerListV2.upsertServerList(details.list).then(function (res) {
+            serverHandlerListV2.upsertServerList(details.details.list/*details.list --by rahman*/).then(function (res) {
               console.log('handleNotification list added res = ' + angular.toJson(res));
               if (!details.foreground) {
                 console.log('handleNotification going to list');

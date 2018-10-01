@@ -284,6 +284,7 @@ angular.module('starter.services')
             var query = "select listLocalId, ifnull(deleted, 'N') deleted from list where listServerId = ?";
             // check if list exists
             var listLocalId;
+            console.log("aalatief upsertServerList: List : " + list);
             tx.executeSql(query, [list.list._id], function (tx, result) {
                 var myList = {
                   listName: list.list.listname,
