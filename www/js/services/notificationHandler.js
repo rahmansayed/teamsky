@@ -28,6 +28,8 @@ angular.module('starter.services')
             contactHandler.downloadContactPhoto(details.userId /*details.userServerId by rahman*/);
             break;
           case 'NEW LIST':
+            console.log('aalatief - New List'+ angular.toString(details.details.list))  ;
+            console.log('aalatief - New List'+ details.details.list)  ;
             serverHandlerListV2.upsertServerList(details.details.list/*details.list --by rahman*/).then(function (res) {
               console.log('handleNotification list added res = ' + angular.toJson(res));
               if (!details.foreground) {
