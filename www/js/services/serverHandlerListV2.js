@@ -487,7 +487,7 @@ angular.module('starter.services')
        */
       function updateList(list) {
         var defer = $q.defer();
-        consoleLog("Start updateList");
+        console.log("Start updateList");
         data = {
           listLocalId: list.listLocalId,
           listServerId: list.listServerId,
