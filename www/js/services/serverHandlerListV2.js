@@ -410,16 +410,17 @@ angular.module('starter.services')
                   //TODO create deactivate function
                   deactivatePromises.push(deactivateServerList(response.data[i].list._id));
                 }
-              }
-              else {
+              } else {
                 // determing my user index
                 for (var j = 0; j < response.data[i].list.relatedusers.length; j++) {
                   if (response.data[i].list.relatedusers[j].userid == global.userServerId) {
-                    if (response.data[i].list.relatedusers[j].status == 'Active') {
+                    if (response.data[i].list.relatedusers[j].status == 'Active' && response.data[i].list.status == 'Active') {
                       upsertPromises.push(upsertServerList(response.data[i]));
                     }
                     else {
+                      //
                       deactivatePromises.push(deactivateServerList(response.data[i].list._id));
+                      console.log('serverHandlerListV2 deactivated list found  = ' + JSON.stringify(response.data[i].list._id));
                     }
                     break;
                   }
