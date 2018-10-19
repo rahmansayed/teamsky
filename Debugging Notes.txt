@@ -1,8 +1,43 @@
+export from mongo using studio3t
+
+import to psql:
+
+\copy category(categoryname) FROM '/app/tmp mongo files/categories.csv' DELIMITER ',' CSV header
+
+
+\copy category TO '/app/tmp mongo files/categoriesTL.csv' DELIMITER ',' CSV header
+
+\copy items TO '/app/tmp mongo files/items.csv' DELIMITER ',' CSV header
+
+
+scp username@hostname:/path/to/remote/file /path/to/local/file
+
+scp ahmed_abd_ellatief@yahoo.com@secret-savannah-80432.herokuapp.com:'/app/tmp mongo files/items.csv' D:/itemsfromserver.csv
+
+scp ahmed_abd_ellatief@yahoo.com@34.197.205.214:/app/tmp mongo files/items.csv D:/itemsfromserver.csv
+
+
+\copy itemstl(itemserverid,itemname,language) FROM '/app/tmp mongo files/itemstlv1.csv' DELIMITER ',' CSV encoding 'WIN1256'
+
+------------------
+Connect to heoku database:
+
+1- heroku run bash :
+$
+2- ~ $ psql $DATABASE_URL
+
+
 Github Pasword:
 
 rahmansayed
 teamsky123
+--------------
 
+
+Heroku Password
+
+ahmed_abd_ellatief@yahoo.com
+Teamsky123
 ---------------------
 push changes to server:
 
