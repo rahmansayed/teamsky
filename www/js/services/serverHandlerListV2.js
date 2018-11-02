@@ -156,7 +156,7 @@ angular.module('starter.services')
           listDetails: {
             listLocalId: list.listLocalId,
             listName: list.listName,
-            listDesc: list.listDesc,
+            listDesc: list.listDescription,
             listColour: list.listColour,
             listOrder: list.listOrder
           }
@@ -207,7 +207,7 @@ angular.module('starter.services')
                 {
                   listLocalId: list.listLocalId,
                   listName: list.listName,
-                  listDesc: list.listDesc,
+                  listDesc: list.listDescription,
                   listColour: list.listColour,
                   listOrder: list.listOrder
                 }
@@ -492,7 +492,7 @@ angular.module('starter.services')
           listLocalId: list.listLocalId,
           listServerId: list.listServerId,
           listName: list.listName,
-          listDescription: list.listDescription,
+          listDesc: list.listDescription,
           listColour: "Red",
           listOrder: "1"
         };
