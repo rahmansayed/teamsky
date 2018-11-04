@@ -10,8 +10,8 @@ angular.module('starter.services')
     //var serverIP = 'http://192.168.100.8:4000';
     //var serverIP = 'http://127.0.0.1:4000';
     var userName;
-    var userServerId = "";
-    var deviceServerId = "";
+    var userServerId = 0;
+    var deviceServerId = 0;
     var countryCode = "+966";
     var masterItems = new Array();
     var simCountry = '';
@@ -37,7 +37,7 @@ angular.module('starter.services')
       serverIP: serverIP,
       userName: userName,
       userServerId: userServerId,
-      deviceServerId: deviceServerId,
+      deviceServerId:deviceServerId,
       countryCode: countryCode,
       initialize: initialize,
       masterItems: masterItems,
