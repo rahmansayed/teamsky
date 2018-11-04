@@ -91,18 +91,18 @@ angular.module('starter.controllers')
     };
 
 
-    $scope.getDirection = function () {
+$scope.getDirection = function () {
 //        console.log('userSetting: ' + angular.toJson(settings.userSetting));
-      $scope.language = settings.getSettingValue('language');
+  $scope.language = settings.getSettingValue('language');
 //        console.log('getDirection: '+angular.toJson( $scope.language));
-      if ($scope.language == 'english') {
-        return {direction: "ltr",fontFamily:"AndikaNewBasic"};
-      }
-      else {
-        return {direction: "rtl",fontFamily:"GessLight"};
-      }
+  if ($scope.language == 'english') {
+    return {direction: "ltr",fontFamily:"AndikaNewBasic"};
+  }
+  else {
+    return {direction: "rtl",fontFamily:"GessLight"};
+  }
 
-    }
+}
 
     $scope.countries = [
       {

@@ -9,8 +9,8 @@ angular.module('starter.services')
 
       var verificationData = {
         deviceLocalId: '',
-        userServerId: '',
-        deviceServerId: '',
+        userServerId: 0,
+        deviceServerId: 0,
         vcode: '',
         countryCode: ''
       };
@@ -33,7 +33,7 @@ angular.module('starter.services')
 ////////////////////////////////////////////////////////////////////////////
       function getUserServerId() {
         var userServerId = getSettingValue('userServerId');
-        return userServerId == '' ? 'Not Found' : userServerId;
+        return userServerId == 0 ? 'Not Found' : userServerId;
       };
 //////////////////////////////////////////////////////////////////
       function getDeviceServerId() {
