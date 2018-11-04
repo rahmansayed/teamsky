@@ -79,9 +79,9 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS listUser (listLocalId integer,contactLocalId integer,privilage text,lastUpdateDate integer,lastUpdateBy text, deleted text,  flag text, UNIQUE(listLocalId, contactLocalId))",
 
-        "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer primary key,contactName text,phoneNumber text UNIQUE,phoneType text,contactServerId text,contactStatus text,photo text,lastUpdateDate integer,lastUpdateBy text)",
+        "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer primary key,contactName text,phoneNumber text UNIQUE,phoneType text,contactServerId integer,contactStatus text,photo text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId text,itemPriority integer, genericFlag integer, lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId integer,itemPriority integer, genericFlag integer, lastUpdateDate integer,lastUpdateBy text )",
 
         "CREATE TABLE IF NOT EXISTS masterItem_tl(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
 
@@ -91,13 +91,13 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS category_tl (categoryLocalId text ,language text,categoryName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS vendor (vendorLocalId integer primary key,vendorName text,vendorServerId text,lastUpdateDate integer,lastUpdateBy text)",
+        "CREATE TABLE IF NOT EXISTS vendor (vendorLocalId integer primary key,vendorName text,vendorServerId integer,lastUpdateDate integer,lastUpdateBy text)",
 
         "CREATE TABLE IF NOT EXISTS vendor_tl (vendorLocalId integer,language text,vendorName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId text, itemLocalId integer,origin text, updatedFlag number, flag number, entryServerId text,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text, UNIQUE(entryServerId)) ",
+        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId integer, itemLocalId integer,origin text, updatedFlag number, flag number, entryServerId integer,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text, UNIQUE(entryServerId)) ",
 
-        "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text UNIQUE,retailerServerId text,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
+        "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text UNIQUE,retailerServerId integer,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
 
         "CREATE TABLE IF NOT EXISTS retailer_tl (retailerLocalId integer ,language text,retailerName text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(retailerLocalId, language))",
 

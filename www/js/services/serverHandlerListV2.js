@@ -107,7 +107,8 @@ angular.module('starter.services')
         data = {
           invitedUserServerId: invitedUserServerId,
           listServerId: listServerId,
-          deviceServerId: deviceServerId
+          deviceServerId: global.deviceServerId,/*deviceServerId*/ //updated by aalatief ,
+          userServerId:global.userServerId    //added by aalatief 1-11-2018 to know who invited the user
         };
         console.log("inviteToList  List to Be inviteToList => " + angular.toJson(data));
 
@@ -461,7 +462,8 @@ angular.module('starter.services')
 
         data = {
           listServerId: list.listServerId,
-          deviceServerId: global.deviceServerId
+          deviceServerId: global.deviceServerId,
+          userServerId:global.userServerId    
         };
 
         console.log("deleteList List to Be Deleted => " + angular.toJson(data));
@@ -494,7 +496,8 @@ angular.module('starter.services')
           listName: list.listName,
           listDesc: list.listDescription,
           listColour: "Red",
-          listOrder: "1"
+          listOrder: "1",
+          userServerId: global.userServerId
         };
         console.log(" List to Be Updated => " + angular.toJson(data));
 
