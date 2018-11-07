@@ -114,7 +114,10 @@ angular.module('starter.controllers')
                 });
             /*console.log('USER VERIFIED, User Data:'+angular.toJson($scope.verify)); */
             //TODO go to lists only after succussfull verification
-          });
+          },
+                function (error) {
+                  alert('Wrong Code, Verification code: ' + vCode);
+                });
       }
 
     $scope.getDirection = function () {

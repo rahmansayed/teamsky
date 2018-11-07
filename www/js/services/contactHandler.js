@@ -148,6 +148,7 @@ angular.module('starter.services')
             newContact.numbers = (contact.phoneNumbers || []).map(function (phoneNumber) {
               return formatPhoneNumber(phoneNumber.value);
             });
+            console.log("aalatief - newContact= " + JSON.stringify(newContact));  
             // checking if the contact in the local db
             getContactLocalId(newContact).then(function (resultContact) {
               if (resultContact.contactLocalId != -1) {
@@ -162,13 +163,14 @@ angular.module('starter.services')
               else {
                 // check the contact status from the server
                 var prospect = {
-                  name: newContact.name,
+                  name: newContact.contactName,
                   numbers: newContact.numbers
                 };
-
-                checkProspect(prospect, list.listServerId).then(function (contactServerId) {
+                console.log("aalatief - Before check prospect = " + JSON.stringify(prospect));  
+                checkProspect(prospect, list.listServerId).then(function (contactServerId,contactStaus) {
                   newContact.contactServerId = contactServerId;
-                  insertContact(newContact).then(function (resultContact2) {
+                  newContact.status = contactStaus;    
+                 insertContact(newContact).then(function (resultContact2) {
                     console.log("pickContact insertContact resultContact2 = " + angular.toJson(resultContact2));
                     // download contact photo if exists.
                     downloadContactPhoto(contactServerId);
@@ -253,6 +255,7 @@ angular.module('starter.services')
 
                 /*checkProspect(prospect, list.listServerId).then(function (contactServerId) {*/
                 //newContact.contactServerId = contactServerId;
+                newContact.status = 'Inactive';  
                 insertContact(newContact).then(function (resultContact2) {
                   console.log("chooseContact insertContact resultContact2 = " + angular.toJson(resultContact2));
                   // download contact photo if exists.
@@ -394,6 +397,7 @@ angular.module('starter.services')
               prospectLocalId: res.rows.item(i).contactLocalId
             };
             prospect.numbers = res2.rows.item(i).phoneNumber.split(';');
+            console.log("aalatief - Before check prospect2 = " + JSON.stringify(prospect));
             checkProspect(prospect);
           }
         }, function (err) {
@@ -450,7 +454,8 @@ angular.module('starter.services')
           var numberList = ';' + contact.numbers.join(';') + ';';
           var contactServerId = contact.contactServerId || '';
           var contactPhoto = contact.photos || '';
-          var contactStatus = (contact.contactServerId) ? 'S' : 'P';
+         /* var contactStatus = (contact.contactServerId) ? 'S' : 'P';*/
+          var contactStatus = (contact.status=='Active') ? 'S' : 'P';
           tx.executeSql(insertQuery, [contact.contactName, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
             console.log("insertContact res.insertId = " + res.insertId);
             contact.contactLocalId = res.insertId;
