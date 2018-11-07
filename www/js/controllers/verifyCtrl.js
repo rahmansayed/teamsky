@@ -116,7 +116,7 @@ angular.module('starter.controllers')
             //TODO go to lists only after succussfull verification
           },
                 function (error) {
-                  alert('Wrong Code, Verification code: ' + vCode);
+                  alert('Wrong Code, Verification code: ' + settings.verificationData.vcode);
                 });
       }
 
