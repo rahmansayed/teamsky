@@ -89,7 +89,9 @@ angular.module('starter.services')
         userServerId: global.userServerId,
         contactName: contact.contactName
       };
-      return $http.post(global.serverIP + "/api/list/invite", listDetail);
+      return $http.post(global.serverIP + "/api/list/invite", listDetail); //Abdurahman Code
+
+          
     }
 
     var pickContact = function (list) {
@@ -166,7 +168,7 @@ angular.module('starter.services')
                   numbers: newContact.numbers
                 };
 
-                checkProspect(prospect, list.listServerId).then(function (contactServerId) {
+                (prospect, list.listServerId).then(function (contactServerId) {
                   newContact.contactServerId = contactServerId;
                   insertContact(newContact).then(function (resultContact2) {
                     console.log("pickContact insertContact resultContact2 = " + angular.toJson(resultContact2));
@@ -359,7 +361,7 @@ angular.module('starter.services')
       return deferred.promise;
     };
 
-    function checkProspect(prospect, listServerId) {
+function checkProspect(prospect, listServerId) {
       console.log("checkProspect prospect = " + angular.toJson(prospect));
       var defer = $q.defer();
       var data = {
@@ -394,6 +396,7 @@ angular.module('starter.services')
               prospectLocalId: res.rows.item(i).contactLocalId
             };
             prospect.numbers = res2.rows.item(i).phoneNumber.split(';');
+            console.log('aalatief - Before call Check Prospect:'+JSON.stringify(prospect));  
             checkProspect(prospect);
           }
         }, function (err) {

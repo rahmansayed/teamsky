@@ -1,4 +1,4 @@
-angular.module('starter.services')
+updateangular.module('starter.services')
 
   .factory('localListHandlerV2', function ($http, global, dbHandler, $q, serverHandlerListV2) {
 

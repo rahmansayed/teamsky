@@ -70,7 +70,7 @@ angular.module('starter.services')
        * @param contactNumbers array of all the contact numbers in international format
        * @param listServerId
        */
-      function checkUser(contactNumbers, listServerId) {
+  function checkUser(contactNumbers, listServerId) {
         var defer = $q.defer();
 
         var data = {
