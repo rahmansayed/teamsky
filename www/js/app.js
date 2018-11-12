@@ -116,7 +116,7 @@ angular.module('starter', ['ionic',
       document.addEventListener("deviceready", function () {
         alert('just to wait');
 
-        /*window.plugins.socialsharing.shareViaWhatsAppToReceiver('+201147940889','Message via WhatsApp', null /!* img *!/, null /!* url *!/, function () {
+ /*       window.plugins.socialsharing.shareViaWhatsAppToReceiver('+966599572215','Message via WhatsApp', null /!* img *!/, null /!* url *!/, function () {
          console.log('share ok')
          }, function (errormsg) {
          alert(errormsg)
@@ -132,7 +132,8 @@ angular.module('starter', ['ionic',
         });
 
         global.deviceUUID = device.uuid;
-        console.log('global.deviceUUID = ' + global.deviceUUID);
+
+        console.log('global.deviceUUID = ' + global.deviceUUID + 'device.version: '+ device.version + 'device.model: '+device.model+ 'device.model: '+device.platform);
 
         /* if (typeof PushNotification === "defined") {*/
         var push = PushNotification.init({

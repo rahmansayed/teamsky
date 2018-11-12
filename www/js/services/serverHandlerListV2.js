@@ -6,7 +6,7 @@ angular.module('starter.services')
 //TODO Invited user cannot delete the list
 
 
-  .factory('serverHandlerListV2', function ($http, global, $q, contactHandler, $state) {
+  .factory('serverHandlerListV2', function ($http, global, $q, contactHandler, $state,settings) {
 
 
       var lists = {
@@ -129,7 +129,7 @@ angular.module('starter.services')
 
       function invite(listServerId, contactNumbers) {
         var defer = $q.defer();
-
+        console.log('aalatief - invite: ' + JSON.stringify(contactNumbers));   
         checkUser(contactNumbers, listServerId).then(
           function (result) {
             console.log("ServerHandlerListV2 invite userServerId = " + result.userServerId);
@@ -150,10 +150,14 @@ angular.module('starter.services')
 
         console.log("serverListHandler.createList list = " + angular.toJson(list));
         var defer = $q.defer();
+        
+        var deviceModel = device.model;
 
         data = {
-      userServerId: parseInt(global.userServerId),
+          userServerId: parseInt(global.userServerId),
           deviceServerId: parseInt(global.deviceServerId),
+            preferredLanguage: settings.getSettingValue('language').substr(0, 2),
+          deviceModel:deviceModel,
           listDetails: {
             listLocalId: list.listLocalId,
             listName: list.listName,
@@ -233,7 +237,9 @@ angular.module('starter.services')
 
       function upsertContacts(contactList, listLocalId) {
         var defer = $q.defer();
+        console.log('aalatief - Step4 - contactList: '+ JSON.stringify(contactList));   
         var promises = contactList.map(function (contact) {
+        console.log('aalatief - Step5 - contact: '+ JSON.stringify(contact));     
           return contactHandler.upsertContact(contact);
         });
 
@@ -259,7 +265,18 @@ angular.module('starter.services')
       }
 
       function upsertProspects(prospectList, listLocalId) {
-        upsertContacts(prospectList, listLocalId);
+        console.log("aalatief - step3 - prospectList:  " + JSON.stringify(prospectList)); 
+        var contactList = prospectList.map(function (prospectList) {
+          return {
+            name: prospectList.name,
+            numbers: [prospectList.username],
+            contactServerId: prospectList.userid,
+            contactStatus:'P'  
+          };
+        });
+
+        upsertContacts(contactList, listLocalId); 
+
       }
 
       function upsertRelatedUsers(relatedUsers, listLocalId) {
@@ -267,7 +284,8 @@ angular.module('starter.services')
           return {
             name: relatedUser.name,
             numbers: [relatedUser.username],
-            contactServerId: relatedUser.userid
+            contactServerId: relatedUser.userid,
+            contactStatus:'S'  
           };
         });
 
@@ -280,22 +298,23 @@ angular.module('starter.services')
        */
       function upsertServerList(list) {
         var defer = $q.defer();
-
+   
         global.db.transaction(function (tx) {
             var query = "select listLocalId, ifnull(deleted, 'N') deleted from list where listServerId = ?";
             // check if list exists
             var listLocalId;
-            console.log("aalatief upsertServerList: List : " + list);
+            console.log("aalatief - step1 - upsertServerList: List : " + JSON.stringify(list));
             tx.executeSql(query, [list.list._id], function (tx, result) {
                 var myList = {
                   listName: list.list.listname,
                   listServerId: list.list._id,
-                  listOwnerServerId: list.ownerServerId
+                  listOwnerServerId: list.ownerServerId,
+                  listDescription: list.listDescription    
                 };
                 if (result.rows.length == 0) {
                   console.log("serverHandlerListV2.upsertServer ListInserting list " + angular.toJson(list));
-                  var insertQuery = "insert into list(listLocalId,listName,listServerId, flag, origin, listOwnerServerId, newCount, crossCount) values (null,?,?, 'S', 'S', ?, 0, 0)";
-                  tx.executeSql(insertQuery, [list.list.listname, list.list._id, list.ownerServerId], function (tx, res) {
+                  var insertQuery = "insert into list(listLocalId,listName,listDescription,listServerId, flag, origin, listOwnerServerId, newCount, crossCount) values (null,?,?,?, 'S', 'S', ?, 0, 0)";
+                  tx.executeSql(insertQuery, [list.list.listname,list.list.listDescription, list.list._id, list.ownerServerId], function (tx, res) {
                     myList.listLocalId = res.insertId;
                     maintainGlobalLists(myList, "ADD");
                     upsertProspects(list.list.prospectusers, res.insertId);
@@ -320,6 +339,8 @@ angular.module('starter.services')
                       list: myList
                     });
                   }
+                  console.log("aalatief - step2 - list.list.prospectusers:  " + JSON.stringify(list.list.prospectusers));  
+                  console.log("aalatief - step2 - list.list.relatedusers:  " + JSON.stringify(list.list.relatedusers));    
                   upsertProspects(list.list.prospectusers, result.rows.item(0).listLocalId);
                   upsertRelatedUsers(list.list.relatedusers, result.rows.item(0).listLocalId);
                 }

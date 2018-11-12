@@ -150,19 +150,21 @@ angular.module('starter.services')
 
       function setSettings(updates) {
         var promises = [];
-        for (var i in updates) {
+          console.log("updates = " + JSON.stringify(updates));
+          console.log("updates.$set = " + JSON.stringify(updates.$set));
+        for (var i in updates.$set) {
           switch (i) {
             case "name" :
-              promises.push(addUserSetting("displayName", updates[i]));
+              promises.push(addUserSetting("displayName", updates.$set[i]));
               break;
             case "preferredLanguage":
-              promises.push(addUserSetting("language", updates[i]));
+              promises.push(addUserSetting("language", updates.$set[i]));
               break;
             case "currentLocation":
-              promises.push(addUserSetting("country", updates[i]));
+              promises.push(addUserSetting("country", updates.$set[i]));
               break;
             default:
-              promises.push(addUserSetting(i, updates[i]));
+              promises.push(addUserSetting(i, updates.$set[i]));
               break;
           }
         }

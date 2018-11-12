@@ -17,7 +17,7 @@
   ],
   "cordovaPlatforms": [],
   "dependencies": {
-    "cordova-android": "^7.1.1",
+    "cordova-android": "^7.1.2",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-contacts": "^3.0.1",
     "cordova-plugin-device": "^1.1.4",
@@ -54,7 +54,6 @@
       "cordova-plugin-compat": {},
       "cordova-plugin-camera": {},
       "cordova-plugin-contacts": {},
-      "cordova-plugin-splashscreen": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-console": {},
       "cordova-plugin-crop": {},
@@ -65,10 +64,9 @@
       "cordova-plugin-sms-receiver": {},
       "cordova-sqlite-storage": {},
       "cordova-support-google-services": {},
-      "phonegap-plugin-multidex": {}
+      "phonegap-plugin-multidex": {},
+      "cordova-plugin-splashscreen": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }

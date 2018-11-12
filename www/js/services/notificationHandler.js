@@ -7,6 +7,7 @@ angular.module('starter.services')
         // we need to make sure prior to handling a notification, that the user settings are already loaded
         console.log('handleNotification settings.userSetting = ' + settings.userSetting);
         if (!settings.userSetting || settings.userSetting.length == 0) {
+          console.log('case setting entered.')    
           settings.getUserSetting().then(function () {
             handleTheNotification(msg);
           });
@@ -20,16 +21,56 @@ angular.module('starter.services')
         var details = msg.additionalData;  
         console.log('aalatief - msg '+ angular.toJson(msg))  ;
         console.log('aalatief - details '+ details)  ;
-        console.log('aalatief - details toString'+ angular.toString(details.type))  ;
+        console.log('aalatief - details.type toString'+ JSON.stringify(details.type))  ;
         
         
         switch (details.details.type) {
+            
+            case "UPDATE_PROFILE":
+                console.log('aalatief - UPDATE_PROFILE Name : '+ details.details.userServerId)  ;
+                contactHandler.updateContactName(details.details.userServerId,details.details.displayName).then(function (res) {
+              console.log('handleNotification local user status updated res = ' + JSON.stringify(res));
+              if (!details.foreground) {
+                console.log('handleNotification going to list');
+                //global.currentList = res.list;
+              settings.getUserSetting().then(function () {
+                if (($state.current.name == 'account') || ($state.current.name == "lists")) {
+                  $state.reload();
+                }
+              });
+                }
+              } 
+                ,
+            function(error){
+                    console.log('handleNotification going error NEW_JOINER'); 
+                }                                                                               
+            );
+            break;    
+                
+            case "NEW_JOINER":
+                console.log('aalatief - UPDATE_PROFILE userServerId: '+ details.details.userServerId)  ;
+                contactHandler.updateContactStatus2(details.details.userServerId,'S').then(function (res) {
+              console.log('handleNotification local user update name res = ' + JSON.stringify(res));
+              if (!details.foreground) {
+                console.log('handleNotification going to list');
+                //global.currentList = res.list;
+                $state.go('lists');
+                $state.reload ();  
+              }
+                },
+            function(error){
+                    console.log('handleNotification going error NEW_JOINER'); 
+                }                                                                               
+            );
+            break;      
+                    
+                       
           case "PHOTO UPLOADED":
             contactHandler.downloadContactPhoto(details.userId /*details.userServerId by rahman*/);
             break;
           case 'NEW LIST':
             console.log('aalatief - New List'+ angular.toString(details.details.list))  ;
-            console.log('aalatief - New List'+ details.details.list)  ;
+            console.log('aalatief - New List'+ JSON.stringify(details.details.list))  ;
             serverHandlerListV2.upsertServerList(details.details.list/*details.list --by rahman*/).then(function (res) {
               console.log('handleNotification list added res = ' + angular.toJson(res));
               if (!details.foreground) {
@@ -37,6 +78,7 @@ angular.module('starter.services')
                 global.currentList = res.list;
                 $state.go('item');
               }
+            $state.reload ();
             });
             break;
           case "NEW ENTRY":
@@ -154,13 +196,30 @@ angular.module('starter.services')
             });
             break;
           case "PROFILE UPDATE":
-            settings.setSettings(details.details.update).then(function () {
+            console.log('aalatief: - details.details.userServerId '+ JSON.stringify(details.details.userServerId) + 'global.userServerId' + JSON.stringify(global.userServerId));      
+            if (Number(details.details.userServerId) == Number(global.userServerId)) {
+              settings.setSettings(details.details.update).then(function () {
+              console.log('aalatief: - Setting set: '+ JSON.stringify(details.details.update));    
               settings.getUserSetting().then(function () {
                 if (($state.current.name == 'account') || ($state.current.name == "lists")) {
                   $state.reload();
                 }
               });
-            });
+            })
+            }
+            else {
+                console.log('aalatief - UPDATE_PROFILE Name : '+ details.details.update.$set.name)  ;
+                contactHandler.updateContactName(details.details.userServerId,details.details.update.$set.name).then(function (res) {
+              console.log('handleNotification local user status updated res = ' + JSON.stringify(res));
+              /*if (!details.foreground) {*/
+                console.log('handleNotification going to list');
+                //global.currentList = res.list;
+               /* if (($state.current.name == 'account') || ($state.current.name == "lists")) {*/
+                  $state.reload();
+                /*}*/
+           /* } */
+                }
+            )}
             break;
           default:
             serverHandlerListV2.syncListsDownstream().then(function (res) {

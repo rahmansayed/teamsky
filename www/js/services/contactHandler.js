@@ -89,6 +89,7 @@ angular.module('starter.services')
         userServerId: global.userServerId,
         contactName: contact.contactName
       };
+      console.log('aalatief - addListContactUpstream - Invite API: ' + JSON.stringify(listDetail));   
       return $http.post(global.serverIP + "/api/list/invite", listDetail);
     }
 
@@ -153,6 +154,7 @@ angular.module('starter.services')
             getContactLocalId(newContact).then(function (resultContact) {
               if (resultContact.contactLocalId != -1) {
                 addListContact(list.listLocalId, resultContact.contactLocalId).then(function () {
+                  console.log("aalatief - addListContactUpstream= " + JSON.stringify(list) + 'resultContact: '+ JSON.stringify(resultContact));       
                   addListContactUpstream(list, resultContact).then(function () {
                     updateListUserStatusAfterSuccessfullServer();
                     $state.reload();
@@ -361,7 +363,53 @@ angular.module('starter.services')
       /*console.log('Master Deferred Promise: '+ angular.toJson(deferred.promise));*/
       return deferred.promise;
     };
+    
+    
+    function updateContactStatus2(contactServerId, status) {
 
+      var deferred = $q.defer();
+
+      var query = "update contact  set contactStatus=?,lastUpdateDate=?,lastUpdateby = ? where contactServerId = ?";
+
+      dbHandler.runQuery(query, [status, new Date().getTime(), 'S', contactServerId], function (response) {
+        //Success Callback
+        console.log('18/11/2018 - ContactHandler - aalatief : Success Contact Status - Server Id update' + JSON.stringify(response));
+        /*            listUserId = response;
+         console.log('contact: ' + angular.toJson(listUserId));*/
+        deferred.resolve(response);
+      }, function (error) {
+        //Error Callback
+        console.error('18/11/2018 - ContactHandler - aalatief : Fail Contact Status - Server Id update ' + error);
+        deferred.reject(error);
+      });
+      /*console.log('Master Deferred Promise: '+ angular.toJson(deferred.promise));*/
+      return deferred.promise;
+    };
+    
+    
+   function updateContactName(contactServerId, name) {
+
+      var deferred = $q.defer();
+
+      var query = "update contact  set contactName=?,lastUpdateDate=?,lastUpdateby = ? where contactServerId = ?";
+
+      dbHandler.runQuery(query, [name, new Date().getTime(), 'S', contactServerId], function (response) {
+        //Success Callback
+        console.log('18/11/2018 - ContactHandler - aalatief : Success Contact name - Server Id update' + JSON.stringify(response));
+        /*            listUserId = response;
+         console.log('contact: ' + angular.toJson(listUserId));*/
+        deferred.resolve(response);
+      }, function (error) {
+        //Error Callback
+        console.error('18/11/2018 - ContactHandler - aalatief : Fail Contact name - Server Id update ' + error);
+        deferred.reject(error);
+      });
+      /*console.log('Master Deferred Promise: '+ angular.toJson(deferred.promise));*/
+      return deferred.promise;
+    };
+    
+    
+    
     function checkProspect(prospect, listServerId) {
       console.log("checkProspect prospect = " + angular.toJson(prospect));
       var defer = $q.defer();
@@ -480,7 +528,7 @@ angular.module('starter.services')
 
     function upsertContact(contact) {
       var defer = $q.defer();
-      console.log("upsertContact contact = " + angular.toJson(contact));
+      console.log(" aalatief - step6 - upsertContact contact = " + JSON.stringify(contact));
       global.db.transaction(function (tx) {
         var query = "select contactLocalId, contactServerId, contactName from contact where ";
         query = contact.numbers.reduce(function (query, number) {
@@ -500,7 +548,7 @@ angular.module('starter.services')
             var numberList = ';' + contact.numbers.join(';') + ';';
             var contactServerId = contact.contactServerId || '';
             var contactPhoto = contact.photos || '';
-            var contactStatus = (contact.contactServerId) ? 'S' : 'P';
+            var contactStatus = contact.contactStatus/* ? 'S' : 'P'*/;
             tx.executeSql(insertQuery, [contact.name, numberList, contactStatus, contactServerId, contactPhoto], function (tx, res) {
               console.log("upsertContact res.insertId = " + res.insertId);
               contact.contactLocalId = res.insertId;
@@ -590,6 +638,8 @@ angular.module('starter.services')
       addListContactUpstream: addListContactUpstream,
       getContactLocalId: getContactLocalId,
       updateContactStatus: updateContactStatus,
+      updateContactStatus2: updateContactStatus2,
+      updateContactName:updateContactName,
       checkProspects: checkProspects,
       upsertContact: upsertContact,
       downloadContactPhoto: downloadContactPhoto,

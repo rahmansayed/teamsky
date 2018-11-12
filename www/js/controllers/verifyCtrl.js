@@ -80,7 +80,7 @@ angular.module('starter.controllers')
               /*preferredLanguage: response.data.preferredLanguage,*/
               dateOfBirth: response.data.dateOfBirth || '',
               gender: response.data.gender || '',
-              name: response.data.name || '',
+              /*name: response.data.name || '',*/
               /*currentLocation: response.data.currentLocation,*/
               verified: 'Y',
               userServerId: response.data.userServerId,
@@ -116,9 +116,21 @@ angular.module('starter.controllers')
             //TODO go to lists only after succussfull verification
           },
                 function (error) {
-                  alert('Wrong Code, Verification code: ' + settings.verificationData.vcode);
+/*                 $scope.vCode= " ";
+                 $state.reload()*/;
+                /* document.getElementById('vcode').innerHTML = "0";*/
+                  $scope.buttonEnabled = false;
+            clearInput();
+                 console.log("vcode: "+$scope.vCode);
+                  alert('Wrong Code Verification. ');
+                
+                  
                 });
       }
+      
+  clearInput= function() {
+    $scope.vcode = null;
+}  
 
     $scope.getDirection = function () {
 //        console.log('userSetting: ' + angular.toJson(settings.userSetting));
