@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture, $ionicPopover, $translate, settings) {
+  .controller('listCtrl', function ($scope, $state, $ionicPopup, $cordovaContacts, dbHandler, contactHandler, $timeout, $http, global, localListHandlerV2, $filter, $ionicHistory, $ionicSideMenuDelegate, $ionicGesture, $ionicPopover, $translate, settings,localEntryHandlerV2,$ionicModal) {
 
 
     /* $ionicHistory.nextViewOptions({
@@ -10,8 +10,23 @@ angular.module('starter.controllers')
       showDelete: false
     };
 
-    $scope.myUserId = global.userServerId;
+    $scope.myUserId = Number(global.userServerId);
+    
 
+    $scope.contactName = function(contactServerId){
+    
+    contactHandler.getContactName(contactServerId).then(function (res){
+            console.log('aalatief - getContactName: '+ JSON.stringify(res));
+            //$scope.ownerName = res.contactName;
+        },
+        
+        function(err){
+            console.log('aalatief - getContactName err: '+ JSON.stringify(err));
+        }
+            )
+    return res.contactName;
+    }
+    
     /*Retrieve all lists from localListHandlerV2*/
 
     $scope.lists = {};
@@ -186,6 +201,41 @@ angular.module('starter.controllers')
       $scope.showMenuFlag = !$scope.showMenuFlag;
       /*alert ($scope.showListDetails);*/
     };
+    
+    
+     $scope.deleteAllEntries = function () {
+      alert ('All Local Entries well be Deleted!');
+      localEntryHandlerV2.removeAllEntries ();
+         $state.reload();
+
+    };
+    $ionicModal.fromTemplateUrl('templates/query.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal = modal;
+    });
+    
+    
+    $scope.openModal = function () {
+     
+      $timeout(function () {
+        $scope.modal.show();
+      }, 0)
+    }
+    
+    $scope.closeModal = function () {
+      $scope.modal.hide();
+    }
+
+    
+    $scope.executeQuery = function (query) {
+/*      alert ('All Local Entries well be Deleted!');*/
+         dbHandler.executeQuery (query);
+         $state.reload();
+
+    };
+
 
     
     $scope.gesture = {
@@ -235,6 +285,20 @@ angular.module('starter.controllers')
       }
       else {
         return {direction: "rtl",fontFamily:"GessLight"};
+      }
+
+    }
+    
+    
+        $scope.getReverseDirection = function () {
+//        console.log('userSetting: ' + angular.toJson(settings.userSetting));
+      $scope.language = settings.getSettingValue('language');
+//        console.log('getDirection: '+angular.toJson( $scope.language));
+      if ($scope.language == 'english') {
+        return {direction: "rtl",fontFamily:"AndikaNewBasic"};
+      }
+      else {
+        return {direction: "ltr",fontFamily:"GessLight"};
       }
 
     }

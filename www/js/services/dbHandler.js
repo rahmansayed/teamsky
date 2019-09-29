@@ -69,9 +69,14 @@ angular.module('starter.services')
         /*"DROP TABLE IF EXISTS tsList"*/
 
         /* "drop table userSetting",  */
+          
 
     /*    "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId text,listColor text,listOrder integer,deleted text,origin text, flag text, newCount integer, deliverCount integer, seenCount integer, crossCount integer, updateCount integer, lastUpdateDate integer,lastUpdateBy text, listOwnerServerId text )",*/
 
+       /*   "drop table entry",*/
+          
+      
+          
        "CREATE TABLE IF NOT EXISTS list ( listLocalId integer primary key,listName text,listDescription text,listServerId integer,listColor text,listOrder integer,deleted text,origin text, flag text, newCount integer, deliverCount integer, seenCount integer, crossCount integer, updateCount integer, lastUpdateDate integer,lastUpdateBy text, listOwnerServerId integer )",
           
           
@@ -81,7 +86,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS contact (contactLocalId integer primary key,contactName text,phoneNumber text UNIQUE,phoneType text,contactServerId integer,contactStatus text,photo text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId integer,itemPriority integer, genericFlag integer, lastUpdateDate integer,lastUpdateBy text )",
+        "CREATE TABLE IF NOT EXISTS masterItem (itemLocalId integer primary key,itemName text,categoryLocalId integer,origin text, flag text,vendorLocalId integer,itemServerId integer,itemPriority integer, genericFlag integer, lastUpdateDate integer,lastUpdateBy text,UNIQUE(itemServerId) )",
 
         "CREATE TABLE IF NOT EXISTS masterItem_tl(itemLocalId integer,language text,itemName text, lowerItemName text, lastUpdateDate integer,lastUpdateBy text )",
 
@@ -95,7 +100,7 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS vendor_tl (vendorLocalId integer,language text,vendorName text,lastUpdateDate integer,lastUpdateBy text)",
 
-        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId integer, itemLocalId integer,origin text, updatedFlag number, flag number, entryServerId integer,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text, UNIQUE(entryServerId)) ",
+        "CREATE TABLE IF NOT EXISTS entry (entryLocalId integer primary key,listLocalId integer,userServerId integer, itemLocalId integer,origin text, updatedFlag number, flag number, entryServerId integer,quantity real,uom text,retailerLocalId integer,entryCrossedFlag number,deleted number,lastUpdateDate integer,lastUpdateBy text, language text,createStatus text , UNIQUE (listLocalId, itemLocalId) ON CONFLICT REPLACE)",//, UNIQUE(entryServerId) stopped by aalatief and it will not allow multiple entry if server connection not there
 
         "CREATE TABLE IF NOT EXISTS retailer (retailerLocalId integer primary key,retailerName text UNIQUE,retailerServerId integer,lastUpdateDate integer,lastUpdateBy text, origin text, flag text)",
 
@@ -103,7 +108,11 @@ angular.module('starter.services')
 
         "CREATE TABLE IF NOT EXISTS uoms (uomName text primary key)",
 
-        "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(setting))"
+        "CREATE TABLE IF NOT EXISTS userSetting(setting text,value text,lastUpdateDate integer,lastUpdateBy text, UNIQUE(setting))"/*,
+            
+          "delete from entry"     ,
+          
+          "delete from masteritem where itemLocalId= 2140"*/
       ];
 
 
@@ -122,10 +131,29 @@ angular.module('starter.services')
       return deferred.promise;
     };
 
+    ////////////////////////////////////////////////////////////////////////////////
+    function executeQuery(query) {
 
+        var deferred = $q.defer();
+     /*   var query = "DELETE FROM entry ";*/
+        runQuery(query, [], function (response) {
+          //Success Callback
+          console.log(response);
+          deferred.resolve(response);
+        }, function (error) {
+          //Error Callback
+          console.error(error);
+          deferred.reject(error);
+        });
+
+        return deferred.promise;
+      };
+    
+    ///////////////////////////////////////////////////////////////////////////////////
     return {
       initDB: initDB,
-      runQuery: runQuery
+      runQuery: runQuery,
+      executeQuery:executeQuery
 
     };
   });

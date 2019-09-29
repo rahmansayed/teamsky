@@ -20,8 +20,8 @@ angular.module('starter.services')
         /*var details = angular.fromJson(msg.additionalData);*/
         var details = msg.additionalData;  
         console.log('aalatief - msg '+ angular.toJson(msg))  ;
-        console.log('aalatief - details '+ details)  ;
-        console.log('aalatief - details.type toString'+ JSON.stringify(details.type))  ;
+        console.log('aalatief - details '+ JSON.stringify(details.details))  ;
+        console.log('aalatief - details.type toString'+ JSON.stringify(details.details.type))  ;
         
         
         switch (details.details.type) {
@@ -81,7 +81,7 @@ angular.module('starter.services')
             $state.reload ();
             });
             break;
-          case "NEW ENTRY":
+          case "NEW ENTRY1":
             global.status = details.foreground ? "foreground" : 'background';
             console.log('handleNotification global.status = ' + global.status);
 
@@ -105,6 +105,84 @@ angular.module('starter.services')
 
             });
             break;
+            //aalatief new entry    
+            case "NEW ENTRY":
+            global.status = details.foreground ? "foreground" : 'background';
+            console.log('handleNotification global.status = ' + global.status);
+
+            serverHandlerEntryV2.syncEntriesDownstream2(details.details).then(function (affectedLists) {
+              serverHandlerListV2.maintainGlobalLists(affectedLists[0], "ADD ENTRY");
+              console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
+              console.log("handleNotification  $state.params = " + angular.toJson($state.params));
+              console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
+              if (!details.foreground) {
+                console.log('handleNotification going to list');
+                localListHandlerV2.getAllLists(affectedLists[0].listLocalId).then(function (lists) {
+                  console.log('handleNotification lists = ' + angular.toJson(lists));
+                  global.currentList = lists.lists[0];
+                  if (!details.coldstart && !details.foreground)
+                    if ($state.current.name != 'item')
+                      $state.go('item');
+                    else
+                      $state.reload();
+                });
+              }
+
+            });
+            break; 
+                
+            //aalatief confirm entry receept notification sent to sender, this should reach receiver
+            case "SENDER RECEIVE":
+            //console.log("handleNotification mainEvent = " + details.details.mainEvent);
+              console.log("aalatief handleNotification mainEvent = " + details.details.entry);
+            serverHandlerEntryEvents.syncEventDownstream(details.details.entry, details.details.entry.mainEvent + '-' + 'DELIVER-CONFIRMFreceiver').then(function (affectedLists) {
+              console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
+              console.log("handleNotification  $state.params = " + angular.toJson($state.params));
+              console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
+              if ($state.current.name == "item") {
+                if (affectedLists.filter(function (list) {
+                    return list.listLocalId == $state.params.listId;
+                  }).length > 0) {
+                  $state.reload();
+                }
+              }
+            });
+            break;     
+                
+             //aalatief delivered   RECEIVER_RECEIVE   
+            case "RECEIVER RECEIVE":
+            //console.log("handleNotification mainEvent = " + details.details.mainEvent);
+              console.log("aalatief handleNotification mainEvent = " + details.details.entry);
+            serverHandlerEntryEvents.syncEventDownstream(details.details.entry, details.details.entry.mainEvent + '-' + 'DELIVER').then(function (affectedLists) {
+              console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
+              console.log("handleNotification  $state.params = " + angular.toJson($state.params));
+              console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
+              if ($state.current.name == "item") {
+                if (affectedLists.filter(function (list) {
+                    return list.listLocalId == $state.params.listId;
+                  }).length > 0) {
+                  $state.reload();
+                }
+              }
+            });
+            break;   
+            //old   RECEIVER_RECEIVE  
+            case "DELIVERED":
+            console.log("handleNotification mainEvent = " + details.details.mainEvent);
+            serverHandlerEntryEvents.syncEventDownstream(details.details, details.details.mainEvent + '-' + 'DELIVER').then(function (affectedLists) {
+              console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
+              console.log("handleNotification  $state.params = " + angular.toJson($state.params));
+              console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
+              if ($state.current.name == "item") {
+                if (affectedLists.filter(function (list) {
+                    return list.listLocalId == $state.params.listId;
+                  }).length > 0) {
+                  //$state.reload();
+                }
+              }
+            });
+            break;        
+                
           case "CROSSED":
             console.log("aalatief- CROSSED Case entered: "  + angular.fromJson(msg));      
             serverHandlerEntryEvents.syncEventDownstream(details.details, 'CROSS').then(function (affectedLists) {
@@ -143,26 +221,13 @@ angular.module('starter.services')
             break;
 
 
-          case "DELIVERED":
-            console.log("handleNotification mainEvent = " + details.details.mainEvent);
-            serverHandlerEntryEvents.syncEventDownstream(details.details, details.details.mainEvent + '-' + 'DELIVER').then(function (affectedLists) {
-              console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
-              console.log("handleNotification  $state.params = " + angular.toJson($state.params));
-              console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
-              if ($state.current.name == "item") {
-                if (affectedLists.filter(function (list) {
-                    return list.listLocalId == $state.params.listId;
-                  }).length > 0) {
-                  //$state.reload();
-                }
-              }
-            });
-            break;
+
 
           case "SEEN":
-            console.log("handleNotification mainEvent = " + details.details.mainEvent);
-            serverHandlerEntryEvents.syncEventDownstream(details.details, details.details.mainEvent + '-' + 'SEEN').then(function (affectedLists) {
-              console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
+            console.log("handleNotification mainEvent = " + details.details.entry.mainEvent);
+            serverHandlerEntryEvents.syncEventDownstream(details.details.entry, details.details.entry.mainEvent + '-' + 'SEEN').then(function (affectedLists) {
+     
+                console.log("handleNotification affectedLists = " + angular.toJson(affectedLists));
               console.log("handleNotification  $state.params = " + angular.toJson($state.params));
               console.log("handleNotification  $state.current.name = " + angular.toJson($state.current.name));
               if ($state.current.name == "item") {
@@ -189,7 +254,8 @@ angular.module('starter.services')
             });
             break;
           case "DELETE LIST":
-            serverHandlerListV2.deactivateServerList(msg.additionalData.details.listServerId).then(function () {
+            console.log('aalatief : Delete : '+ JSON.stringify(msg.additionalData.details.list.list._id));    
+            serverHandlerListV2.deactivateServerList(msg.additionalData.details.list.list._id).then(function () {
               if ($state.current.name == "lists") {
                 $state.reload();
               }

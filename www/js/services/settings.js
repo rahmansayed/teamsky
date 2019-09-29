@@ -70,11 +70,11 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
             var updateQuery = "UPDATE userSetting set value = ? where setting = ?";
-            var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,?,?)";
+            var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,datetime('now','localtime'),?)";
             settings.forEach(function (setting) {
               tx.executeSql(updateQuery, [setting.value, setting.name]);
 //            console.log("addUserSetting res1 = " + angular.toJson(res.rowsAffected));
-              tx.executeSql(insertQuery, [setting.name, setting.value, new Date().getTime(), 'S']);
+              tx.executeSql(insertQuery, [setting.name, setting.value, 'S']);
 //              console.log("addUserSetting res2 = " + angular.toJson(res2.rowsAffected));
               addUserSettingtoArray(setting.name, setting.value);
               deferred.resolve();
@@ -102,8 +102,8 @@ angular.module('starter.services')
           var updateQuery = "UPDATE userSetting set value = ? where setting = ?";
           tx.executeSql(updateQuery, [value, setting], function (tx, res) {
 //            console.log("addUserSetting res1 = " + angular.toJson(res.rowsAffected));
-            var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,?,?)";
-            tx.executeSql(insertQuery, [setting, value, new Date().getTime(), 'S'], function (tx, res2) {
+            var insertQuery = "INSERT OR IGNORE INTO userSetting(setting,value,lastUpdateDate,lastUpdateBy) VALUES (?,?,datetime('now','localtime'),?)";
+            tx.executeSql(insertQuery, [setting, value, 'S'], function (tx, res2) {
 //              console.log("addUserSetting res2 = " + angular.toJson(res2.rowsAffected));
               addUserSettingtoArray(setting, value);
               deferred.resolve();

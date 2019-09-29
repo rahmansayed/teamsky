@@ -63,7 +63,8 @@ angular.module('starter.controllers')
 
         settings.addUserSetting('country', $scope.selected.country.code);
         $http.post(global.serverIP + "/api/user/subscribe", user).then(function (response) {
-
+            
+          console.log("aalatief: 27/9/2019 subscribeUser response = " + JSON.stringify(response));    
           console.log("subscribeUser response.data.vCode = " + response.data.vCode);
           alert('Verification code: ' + angular.toJson(response.data.vCode));
 

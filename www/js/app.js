@@ -24,7 +24,7 @@ angular.module('starter', ['ionic',
 
   .run(function ($ionicPlatform, global, camera, $translate, $cordovaPreferences, localItemHandlerV2, notificationHandler, dbHandler, serverHandlerListV2, $state, serverHandlerEntryV2, $location, serverHandler, settings, $ionicLoading, $timeout) {
     $ionicPlatform.ready(function () {
-
+       
       if (window.cordova && StatusBar) {
         StatusBar.backgroundColorByHexString('#72082b');
       }
@@ -79,6 +79,7 @@ angular.module('starter', ['ionic',
                 );
               // if the device goes online, we should sync all the locally changed data
               document.addEventListener("online", function () {
+                alert('Back Online');  
                 serverHandler.syncInit();
               }, false);
 
@@ -116,11 +117,13 @@ angular.module('starter', ['ionic',
       document.addEventListener("deviceready", function () {
         alert('just to wait');
 
- /*       window.plugins.socialsharing.shareViaWhatsAppToReceiver('+966599572215','Message via WhatsApp', null /!* img *!/, null /!* url *!/, function () {
+/*
+        window.plugins.socialsharing.shareViaWhatsAppToReceiver('+966599572215','Message via WhatsApp', null /!* img *!/, null /!* url *!/, function () {
          console.log('share ok')
          }, function (errormsg) {
          alert(errormsg)
-         });*/
+         });
+*/
 
         //window.open("whatsapp://send?text=Hello&phone=+201147940889&abid=+31611111111", "_system");
 
@@ -164,6 +167,7 @@ angular.module('starter', ['ionic',
         global.dataKey = 'ZXCV';
         init();
       }
+   /*  codePush.sync();*/
     })
     ;
 

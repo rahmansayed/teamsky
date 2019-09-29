@@ -26,19 +26,36 @@ angular.module('starter.services')
 //                console.log("syncListEntries result.rows = " + angular.toJson(result.rows));
 //                console.log("syncListEntries result.rows.item(0) = " + angular.toJson(result.rows.item(0)));
 //                console.log("syncListEntries result.rows.length = " + angular.toJson(result.rows.length));
+                
+/*                {
+                    "userServerId":143,
+                    "deviceServerId":"124",
+                    "entries":[{
+                        "entryLocalId":1,
+                        "listServerId":144,
+                        "itemServerId":3444,
+                        "retailerServerId":null,
+                        "uom":null,
+                        "createStatus":"SERVER_RECEIVE"
+                    }]
+
+                }	*/ 
+
                 if (result.rows.length > 0) {
                   var entries = {
-                    listServerId: listServerId,
-                    deviceServerId: global.deviceServerId,
-                    userServerId: global.userServerId,
+                    userServerId: Number(global.userServerId),
+                    deviceServerId: Number(global.deviceServerId),
+                    listServerId: listServerId,  
                     entries: []
                   };
                   for (i = 0; i < result.rows.length; i++) {
                     entries.entries.push({
                       entryLocalId: result.rows.item(i).entryLocalId,
+                      listServerId: listServerId,    
                       qty: result.rows.item(i).qty,
                       uom: result.rows.item(i).uom,
-                      language: result.rows.item(i).language
+                      language: result.rows.item(i).language,
+                      createStatus:"SERVER_RECEIVE"    
                     });
                     if ((result.rows.item(i).itemOrigin == 'L') || (result.rows.item(i).itemOrigin == 'O' )) {
                       entries.entries[entries.entries.length - 1].userItemServerId = result.rows.item(i).itemServerId;
@@ -55,13 +72,17 @@ angular.module('starter.services')
 
                   }
 
-                  $http.post(global.serverIP + "/api/entry/addmany", entries)
+                 // $http.post(global.serverIP + "/api/entry/addmany", entries)
+                console.log("aalatief: entries to be sent to server: "+JSON.stringify(entries));    
+                    
+                $http.post(global.serverIP + "/api/entry/addmanyentry", entries)
+                        
                     .then(function (response) {
 //                      console.log("syncListEntries createEntries server Response Result => " + angular.toJson(response));
                       global.db.transaction(function (tx) {
-                          var query = "update entry set entryServerId = ?, flag = 2 where entryLocalId = ?";
+                          var query = "update entry set entryServerId = ?, flag = 2,createStatus ='SERVER_RECEIVE',lastupdatedate=datetime('now','localtime') where entryLocalId = ?";
                           for (var i = 0; i < response.data.length; i++) {
-                            tx.executeSql(query, [response.data[i].entryServerId, response.data[i].entryLocalId]);
+                            tx.executeSql(query, [response.data[i].entryServerId,response.data[i].entryLocalId]);
                             serverHandlerEntryEvents.getEntryFromLocalDB(response.data[i].entryServerId).then(function (entry) {
                               serverHandlerEntryEvents.maintainGlobalEntries(entry, 'UPLOADED');
                             });
@@ -175,7 +196,7 @@ angular.module('starter.services')
                 $http.post(global.serverIP + "/api/entry/updatemany", entries)
                   .then(function (response) {
 //                      console.log("syncListEntriesUpdates updatemany server Response Result => " + angular.toJson(response));
-                    var query = "update entry set updatedFlag = 2 where entryServerId = ?";
+                    var query = "update entry set updatedFlag = 2,lastupdatedate=datetime('now','localtime') where entryServerId = ?";
                     global.db.transaction(function (tx) {
                       for (var i = 0; i < entries.entries.length; i++) {
                         tx.executeSql(query, [entries.entries[i].entryServerId]);
@@ -300,13 +321,18 @@ angular.module('starter.services')
        * @param retailers
        */
       function syncDependentDownstream(items, retailers) {
-
+          console.log('aalatief - items: '+ JSON.stringify(items)+' retailers '+ JSON.stringify(retailers));
         var defer = $q.defer();
 
         var itemsPromise;
         var retailersPromise;
+        var items = [];
+          
+        items.push(items);   
+          
         if (items.length > 0) {
-          itemsPromise = dbHelper.insertLocalItemsDownstream(items);
+          //itemsPromise = dbHelper.insertLocalItemsDownstream(items);
+            console.log('aalatief: stop adding new items as logic is different')
         }
         else {
           itemsPromise = $q.resolve();
@@ -384,9 +410,9 @@ angular.module('starter.services')
         return defer.promise;
       }
 
-      function insertEntry(entry) {
+      function insertEntry2(entry,status) {
         var defer = $q.defer();
-
+        console.log('aalatief - insertEntry2 entry = ' + JSON.stringify(entry));  
         global.db.transaction(function (tx) {
           var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
             "listLocalId," +
@@ -394,7 +420,7 @@ angular.module('starter.services')
             "itemLocalId," +
             "entryServerId," +
             "quantity,uom,retailerLocalId," +
-            "entryCrossedFlag, origin, flag, updatedFlag, language, deleted) " +
+            "entryCrossedFlag, origin, flag, updatedFlag, language, deleted,createStatus,lastupdatedate) " +
             "VALUES (null," + //entryLocalId
             "?," +//listLocalId
             "?," + //entryOwnerServerId
@@ -408,23 +434,80 @@ angular.module('starter.services')
             " ?," + // flag
             " 0," + //updatedFlag
             " ?," + //language
-            " 0)"; //deleted
+            " 0,"+ //deleted
+            " ?," +//createstatus
+            " datetime('now','localtime' ))" //lastupdtaedate  
+              
           //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
-          tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.language], function (tx, res) {
+          tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.language,status], function (tx, res) {
             console.log('addEntry res = ' + angular.toJson(res.insertId));
             entry.entryLocalId = res.insertId;
+            console.log('aalatief: entry.entryLocalId'+ JSON.stringify(entry.entryLocalId))  ;
             serverHandlerEntryEvents.maintainGlobalEntries(entry, 'ADD');
             var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
             tx.executeSql(updateQuery, [entry.itemLocalId]);
-            var udpateQuery2 = "update entry set deleted = 'Y' where itemLocalId = ? and entryLocalId <> ? and entryCrossedFlag = 1";
+            var udpateQuery2 = "update entry set deleted = 'Y',lastupdatedate=datetime('now','localtime') where itemLocalId = ? and entryLocalId <> ? and entryCrossedFlag = 1";
             console.log('addItemToList entry.entryLocalId  = ' + entry.entryLocalId);
             tx.executeSql(udpateQuery2, [entry.itemLocalId, entry.entryLocalId]);
             defer.resolve();
           }, function (err) {
-            console.error('addItemToList insert error  = ' + err.message);
+            console.error('addItemToList insert error  = ' + JSON.stringify(err));
           });
         }, function (err) {
-          console.error('addItemToList db error  = ' + err.message);
+          console.error('addItemToList db error  = ' +  JSON.stringify(err));
+          defer.reject(err);
+        }, function () {
+        });
+
+
+        return defer.promise;
+      }    
+    
+    
+      function insertEntry(entry) {
+        var defer = $q.defer();
+        console.log('aalatief - insertEntry entry = ' + JSON.stringify(entry));  
+        global.db.transaction(function (tx) {
+          var query = "INSERT OR IGNORE INTO entry (entryLocalId," +
+            "listLocalId," +
+            "userServerId," +
+            "itemLocalId," +
+            "entryServerId," +
+            "quantity,uom,retailerLocalId," +
+            "entryCrossedFlag, origin, flag, updatedFlag, language, deleted,createStatus,lastupdatedate) " +
+            "VALUES (null," + //entryLocalId
+            "?," +//listLocalId
+            "?," + //entryOwnerServerId
+            "?," + //itemLocalId
+            "?," + //entryServerId
+            "?," + //quantity
+            "?," + //uom
+            "?," + // retailerLocalId
+            "0, " + //entryCrossedFlag
+            "?," + //origin
+            " ?," + // flag
+            " 0," + //updatedFlag
+            " ?," + //language
+            " 0,"+ //deleted
+            " ?,"+//createstatus
+            " datetime('now','localtime' ) )"//lastupdatedate  
+          //SELECT i.itemLocalId, itl.itemName, itl.lowerItemName, c.categoryName , itl.language
+          tx.executeSql(query, [entry.listLocalId, entry.userServerId, entry.itemLocalId, entry.entryServerId, entry.quantity, entry.uom, entry.retailerLocalId, entry.origin, entry.flag, entry.language, 'CREATED'], function (tx, res) {
+            console.log('addEntry res = ' + angular.toJson(res.insertId));
+            entry.entryLocalId = res.insertId;
+            console.log('aalatief: entry.entryLocalId'+ JSON.stringify(entry.entryLocalId))  ;
+            serverHandlerEntryEvents.maintainGlobalEntries(entry, 'ADD');
+            var updateQuery = "update masterItem set itemPriority = IFNULL(itemPriority,0)+1 where itemLocalId =  ?";
+            tx.executeSql(updateQuery, [entry.itemLocalId]);
+            var udpateQuery2 = "update entry set deleted = 'Y',lastupdatedate=datetime('now','localtime') where itemLocalId = ? and entryLocalId <> ? and entryCrossedFlag = 1";
+            console.log('addItemToList entry.entryLocalId  = ' + entry.entryLocalId);
+            tx.executeSql(udpateQuery2, [entry.itemLocalId, entry.entryLocalId]);
+            defer.resolve();
+          }, function (err) {
+            console.error('addItemToList insert error  = ' + JSON.stringify(err));
+          });
+        }, function (err) {
+          console.error('addItemToList db error  = ' +  JSON.stringify(err));
           defer.reject(err);
         }, function () {
         });
@@ -461,7 +544,7 @@ angular.module('starter.services')
           if (mode == 'S') {
             checkEntryExists(entry.entryServerId).then(function (exists) {
               if (!exists) {
-                insertEntry(entry).then(function (res) {
+                insertEntry2(entry,'FE_CREATED').then(function (res) {
                   defer.resolve();
                 }, function (err) {
                   console.error('addEntry insertEntry err = ' + angular.toJson(err));
@@ -480,7 +563,7 @@ angular.module('starter.services')
           else {
             entry.entryServerId = '';
             entry.userServerId = global.userServerId;
-            insertEntry(entry).then(function (res) {
+            insertEntry2(entry,'CREATED').then(function (res) {
               defer.resolve();
             }, function (err) {
               console.error('addEntry insertEntry err = ' + angular.toJson(err));
@@ -500,11 +583,13 @@ angular.module('starter.services')
 
         var myPromise;
         if (entryEvent) {
+          console.log('aalatief buildPromise Case entryEvent ');      
           myPromise = $q.resolve({
             data: {
               entries: [{
                 entryServerId: entryEvent.entry || entryEvent.entryServerId,
-                _id: entryEvent._id
+                _id: entryEvent._id,
+                itemServerId: entryEvent.entry.itemServerId
               }
               ],
               items: entryEvent.item,
@@ -513,6 +598,7 @@ angular.module('starter.services')
           })
           ;
         } else {
+            console.log('aalatief buildPromise Case Not entryEvent ');  
           var data = {
             userServerId: global.userServerId,
             deviceServerId: global.deviceServerId
@@ -524,6 +610,154 @@ angular.module('starter.services')
         return myPromise;
 
       }
+
+    
+      /*****************************************************************************************************************
+       * this function is used to retrieve new entries from the server
+       */
+      function syncEntriesDownstream2(entryDetails) {
+        var defer = $q.defer();
+        var entries = [];
+        console.log("aalatief - syncEntriesDownstream2 global.status = " + global.status);
+        console.log("aalatief - syncEntriesDownstream2 entryDetails = " + JSON.stringify(entryDetails));  
+        var promises = [];
+        var listlocalid;
+        var itemlocalid;
+         entries.push(entryDetails.entry.entry) ;
+          console.log("aalatief - entries =" + JSON.stringify(entries));
+//aalatief testing  
+          Promise.all([dbHelper.getLocalIdFromServerId(entries.listServerId,'list'),dbHelper.getLocalIdFromServerId(entries.itemServerId,'item')]) 
+          
+        .then(function (results) {  
+        console.log("aalatief - results = " +JSON.stringify(results));
+        })
+          
+        
+        //aalatief calls pending entries postponed for now
+          buildPromise(entryDetails, "CREATE").then(function (response) {
+
+          console.log("syncEntriesDownstream server response " + angular.toJson(response));
+
+     /*     syncDependentDownstream(response.data.item, response.data.retailers).then(function () {*/
+
+            dbHelper.buildLocalIds2(entries).then(function (result) {
+                console.log("serverHandlerEntryV2 localIds = " + angular.toJson(result));
+                affectedLists = result.lists;
+                var insertPromises = [];
+                for (var i = 0; i < entries.length; i++) {
+
+                  var localIds = dbHelper.getLocalIds(entries[i], result);
+                  console.log("syncEntriesDownstream entry i =" + i + " " + angular.toJson(response.data.entries[i]));
+                  console.log("syncEntriesDownstream localIds =" + angular.toJson(localIds));
+                
+                    var retailerLocalId = '';
+                    var uom;
+                  if (entries[i].uom) {
+                    uom = entries[i].uom;
+                  } else {
+                    uom = "PCS";
+                  }
+
+                  var qty;
+                  if (entries[i].qty) {
+                    qty = entries[i].qty;
+                  } else {
+                    qty = 1.0;
+                  }
+                       console.log("serverHandlerEntry.syncEntriesDownstream localValues listLocalId = " + angular.toJson(localIds));
+                  console.log("syncEntriesDownstream localValues qty = " + qty);
+                  console.log("syncEntriesDownstream localValues uom = " + uom);
+
+                  var entry = {
+            /*        listLocalId: listlocalid,
+                    itemLocalId: itemlocalid,*/
+                    /*itemName: localIds.itemName,
+                    categoryName: localIds.categoryName,*/
+                    quantity: qty,
+                    uom: uom,
+                    entryCrossedFlag: 0,
+                    deleted: 0,
+                    updatedFlag: 0,
+                    flag: 5,
+                    //seenFlag: 0,
+                    retailerLocalId: retailerLocalId,
+                    //retailerName: localIds.retailerName,
+                    language: 'EN' /*response.data.entries[i].entryServerId.language*/,
+                    entryServerId: entries[i].entryServerId,
+                    userServerId: entries[i].userServerId
+                  };    
+                    
+
+                    
+                    
+                  console.log("syncEntriesDownstream localIds =" + JSON.stringify(entryDetails));
+                    $q.all([dbHelper.getLocalIdFromServerId(entries[i].listServerId,'list'),
+                            dbHelper.getLocalIdFromServerId(entries[i].itemServerId,'item')])
+                        .then(function(localId){
+                        listlocalid = localId[0].localId;
+                        itemlocalid = localId[1].localId;
+                        
+                        entry.listLocalId = listlocalid;
+                        entry.itemLocalId = itemlocalid;
+                        
+                        console.log("aalatief - syncEntriesDownstream2 localId =" + JSON.stringify(localId));
+                        console.log("aalatief -itemlocalid: "+itemlocalid+" listlocalid "+listlocalid);
+                        console.log("aalatief - entries =" + JSON.stringify(entries[i]));
+                    
+                                      
+                    
+                  
+                  console.log("syncEntriesDownstream $state.current.name = " + $state.current.name);
+                  console.log("syncEntriesDownstream localIds.listLocalId = " + listlocalid);
+                  console.log("syncEntriesDownstream global.currentList = " + global.currentList);
+                  console.log("syncEntriesDownstream global.status = " + global.status);
+
+                  if ($state.current.name == 'item' && global.currentList.listLocalId == listlocalid && global.status == 'foreground') {
+                    entry.flag = 6;
+                    entry.createStatus = 'FE_SEEN'
+                  }
+                  console.log("aalatief - syncEntriesDownstream addEntry = " + JSON.stringify(entry)); 
+                  insertPromises.push(addEntry(entry, 'S'));
+                    
+                    
+                    
+                    },function(error){
+                        console.log("aalatief - syncEntriesDownstream2 localId error=" + JSON.stringify(error));
+                    })  ;  
+
+                 /* if (!localIds.retailerLocalId)
+                    localIds.retailerLocalId = '';*/
+                  
+
+                }
+                $q.all(insertPromises).then(function () {
+                  console.log("syncEntriesDownstream db insert success"+JSON.stringify(entries));
+                 
+                    //confirm Deleviry
+                    serverHandlerEntryEvents.syncBackEvent(entries, "CREATE");  
+                    //sync other seen entris
+                    serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN');
+                    //update new count flag in local database +1
+                    serverHandlerEntryEvents.updateListNotificationCount('newCount', affectedLists);
+                  defer.resolve(affectedLists);
+                }, function () {
+                  console.error("syncEntriesDownstream did not insert resolving affected lists " + angular.toJson(affectedLists));
+                  defer.resolve(affectedLists);
+                });
+              },
+              function (err) {
+                console.error("syncEntriesDownstream localIds errors");
+                defer.reject(err);
+              });
+        /*  });*/
+        }, function (err) {
+          console.error("syncEntriesDownstream server response error " + err.message);
+          defer.reject(err);
+        });
+        return defer.promise;
+  /*    })*/
+      }    
+    
 
       /*****************************************************************************************************************
        * this function is used to retrieve new entries from the server
@@ -549,6 +783,8 @@ angular.module('starter.services')
                   console.log("syncEntriesDownstream entry i =" + i + " " + angular.toJson(response.data.entries[i]));
                   console.log("syncEntriesDownstream localIds =" + angular.toJson(localIds));
 
+                  
+                    
 
                   if (!localIds.retailerLocalId)
                     localIds.retailerLocalId = '';
@@ -581,6 +817,7 @@ angular.module('starter.services')
                     deleted: 0,
                     updatedFlag: 0,
                     flag: 5,
+                    createStatus:'FE_CREATED',  
                     //seenFlag: 0,
                     retailerLocalId: localIds.retailerLocalId,
                     retailerName: localIds.retailerName,
@@ -595,6 +832,7 @@ angular.module('starter.services')
 
                   if ($state.current.name == 'item' && global.currentList.listLocalId == localIds.listLocalId && global.status == 'foreground') {
                     entry.flag = 6;
+                    createStatus:'FE_SEEN'; 
                   }
 
                   insertPromises.push(addEntry(entry, 'S'));
@@ -645,7 +883,7 @@ console.log('aalatief:entryUpdate.listServerId' + angular.toJson(entryUpdate.lis
                       var query = "update entry set uom = ?," +
                         " quantity = ?, " +
                         " retailerLocalId = (select retailerLocalId from retailer r where r.retailerServerId = ?)," +
-                        " updatedFlag = ? " +
+                        " updatedFlag = ? ,lastupdatedate=datetime('now','localtime')" +
                         " where entryServerId = ?";
 
                       var updatesArray = [update.entryServerId.uom,
@@ -718,6 +956,7 @@ console.log('aalatief:entryUpdate.listServerId' + angular.toJson(entryUpdate.lis
         addEntry: addEntry,
         syncEntriesUpstream: synEntriesUpstream,
         syncEntriesDownstream: syncEntriesDownstream,
+        syncEntriesDownstream2:syncEntriesDownstream2,
         crossLocalEntry: crossLocalEntry,
         deleteLocalEntry: deleteLocalEntry,
         syncUpdatesUpstream: syncUpdatesUpstream,

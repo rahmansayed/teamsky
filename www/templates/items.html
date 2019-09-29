@@ -131,9 +131,7 @@
                      style="padding-bottom:20px;">
 
                   <p>
-                  <h2 
-                      align="center"
-                      >
+                  <h2 align="center">
                       
                                      <div  ng-style="getDirection()" class="panel-heading text-center" style="color: #fff;
 	                                                          background-color: #65b043;
@@ -146,13 +144,17 @@
 
                   </p>
 
-
-                  <ion-item class="my-item "
+                  <!--background-color:#DCF8C6; ng-style="setColor(listItem.createdBy,'color')"-->
+                  <ion-item class="my-item"
+                            
                             ng-repeat="listItem in entries.listOpenEntries.entries  | filter:{categoryName: category.categoryName }"
                             ng-click="itemChecked(listItem)"
-                            style=" border-radius:15px;background-color:white;padding-top:0px;padding-buttom:0px;"
-                            ng-hide="category.foldStatus">
-
+                            style=" border-radius:15px;padding-top:0px !important;padding-buttom:0px !important;width:90%;height:90%;"
+                            ng-hide="category.foldStatus"
+                           
+                            ng-style="setColor(listItem.createdBy,'color')"
+                           >
+                       
 
                     <div style="display:inline-block; float:center;padding:0px;margin:0px;">
                       <h2  ng-style="getDirection()" style="display:inline;text-align:left;">
@@ -180,33 +182,45 @@
                       </div>
                     </div>
 
-
-                    <div  ng-style="getCheckDirection()" ng-show="showItemDetails && listItem.userServerId==myUserId" class="no-padding" style="display:inline-block;">
-
-                      <div ng-show="listItem.flag=='1'" style="display:inline;">
-                        <p style="display:inline;"><!--&#x25CB;-->
+                      
+                    <div  ng-style="getCheckDirection()" ng-show="showItemDetails && listItem.userServerId==myUserId"  style="display:inline-block;padding-top:20px;">
+                        <!--<div style="display:inline;color=grey !important;height=15px;font-size=5px;">{{listItem.lastUpdate}}</div>-->
+                      <!--<div ng-show="listItem.flag=='1'"  -->
+                      <div ng-show="listItem.createStatus=='CREATED'"         
+                           style="display:inline;">
+                       
+                          <p style="display:inline;"><!--&#x25CB;-->
                           <i class="fa fa-spinner fa-pulse"></i>
                         </p>
                       </div>
 
-                      <div  ng-show="listItem.flag==2"
-                           style="display:inline;">
-                        <p style="display:inline; ">&#10004; </p>
+                      <!--<div  ng-show="listItem.flag==2"-->
+                        <div  ng-show="listItem.createStatus=='SERVER_RECEIVE'"    
+                           style="display:inline;color:grey;">
+                        <!--<p style="display:inline; ">&#10004; </p>--> 
+                            
+                              <p style="display:inline;padding-top:50px;"><img src='img/serverReceive.png' style='height:15px;'> </p>   
                       </div>
 
-                      <div  ng-show="listItem.flag==3"
+                      <!--<div  ng-show="listItem.flag==3"-->
+                         <div  ng-show="listItem.createStatus=='RECEIVER_RECEIVE'"        
                            style="display:inline;">
-                        <p style="display:inline;">&#10004;&#10004;</p>
+                        <!--<p style="display:inline;">&#10004;&#10004;receiverReceive</p>-->
+                             
+                          <p style="display:inline;"><img src='img/receiverReceive.png' style='height:15px;'></p>   
                       </div>
 
-                      <div  ng-show="listItem.flag==4">
-                        <p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>
+                     <!-- <div  ng-show="listItem.flag==4">-->
+                         <div  ng-show="listItem.createStatus=='CREATED_SEEN'">
+                           
+                          <p style="display:inline;padding-top:50px;"><img src='img/seen.png' style='height:15px;'> </p>  
+                        <!--<p style="display:inline;color:#9EE2DC;">&#10004;&#10004;</p>-->
                       </div>
                     </div>
-
-
+                      <h5 ng-style="getCheckDirection()" style="display:inline-block;color:grey;padding-top:20px;">{{listItem.lastUpdate}}</h5>
+                       
                   </ion-item>
-
+         
                 </div>
               </ion-list>
             </div>

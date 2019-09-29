@@ -75,12 +75,19 @@ angular.module('starter.controllers')
             console.log('06/02/2017 - verifyCtrl - aalatief after Verify: User Server ID:' + global.userServerId);
             console.log('06/02/2017 - verifyCtrl - aalatief after Verify: Device Server ID:' + global.deviceServerId);
             /*console.log('aaaltief: user to be updated:'+angular.toJson(data)); */
+             console.log('aalatief - response.data: '+ JSON.stringify(response.data));
+             var contactName = '';
+             console.log('response.data.lastupdateby: '+ JSON.stringify(response.data.lastupdateby) + 'Number(global.userServerId): '+ JSON.stringify(Number(global.userServerId)));
+             if (response.data.lastupdateby == Number(global.userServerId)) {
 
+                 contactName=response.data.name;
+             }
+            
             var otherSettings = {
               /*preferredLanguage: response.data.preferredLanguage,*/
               dateOfBirth: response.data.dateOfBirth || '',
               gender: response.data.gender || '',
-              /*name: response.data.name || '',*/
+              name: contactName/*response.data.name*/ || '',
               /*currentLocation: response.data.currentLocation,*/
               verified: 'Y',
               userServerId: response.data.userServerId,

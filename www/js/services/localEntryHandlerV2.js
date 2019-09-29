@@ -13,8 +13,10 @@ angular.module('starter.services')
 
       /*Return all entries in array selectedItems*/
       function getAllEntry(listId) {
+        console.log("aalatief - localEntryHandlerV2.getAllEntry - listId = " + listId);   
         var defer = $q.defer();
-        var query = "SELECT e.entryLocalId, e.userServerId, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.retailerLocalId, e.flag, e.updatedFlag, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName" +
+        var query = "SELECT e.entryLocalId, e.userServerId, l.listLocalId,e.itemLocalId, itl.itemName, ctl.categoryName , e.quantity, e.uom, e.entryCrossedFlag ,e.deleted,e.retailerLocalId, e.flag, e.updatedFlag, e.language ,ifnull(rtl.retailerName, 'Anywhere') as retailerName,e.createStatus,e.userServerId createdBy " +
+        " ,strftime('%d/%m %H:%M', e.lastUpdateDate) as lastUpdate " +
           " FROM ( " +
           " (masterItem AS i INNER JOIN entry AS e ON i.itemLocalId = e.itemLocalId) " +
           " left join retailer as r on e.retailerLocalId = r.retailerLocalId " +
@@ -29,7 +31,7 @@ angular.module('starter.services')
 
         global.db.transaction(function (tx) {
           tx.executeSql(query, [settings.getSettingValue('language').substr(0, 2).toUpperCase(), listId], function (tx, result) {
-//          console.log("localEntryHandlerV2.getAllEntry query res = " + angular.toJson(result));
+          console.log("localEntryHandlerV2.getAllEntry query res = " + angular.toJson(result));
               var openEntryList = {
                 entries: [],
                 categories: []
@@ -43,10 +45,27 @@ angular.module('starter.services')
                   });
                 openEntryList.entries.push(result.rows.item(i));
               }
-              var query2 = "update entry set seenFlag = 1, flag='E' where origin = 'S' and seenFlag = 0 and listLocalId = ?";
+              //var query2 = "update entry set seenFlag = 1, flag='E',lastupdatedate=datetime('now','localtime') where origin = 'S' and seenFlag = 0 and listLocalId = ?";
+              var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 ,lastupdatedate = datetime('now','localtime') where listLocalId = ?";
+              console.log("localEntryHandlerV2.getAllEntry query query3 = " + query3+' listId : '+listId);
+              
+        dbHandler.runQuery(query3, [listId], function (response) {
+          //Success Callback
+          console.log(response);
+          deferred.resolve(response);
+        }, function (error) {
+          //Error Callback
+          console.error(error);
+          deferred.reject(error);
+        });
+              
+              
+              /*tx.executeSql(query3, [listId]);*/
+              
+              var query2 = "uddate entry set createStatus='FE_SEEN' lastupdatedate = datetime('now','localtime') where listLocalId = ? and createStatus in ('FE_CREATED','FE_SERVER_RECEIVE','FE_SENDER_RECEIVE_CONFIRM')";
+               console.log("localEntryHandlerV2.getAllEntry query query2 = " + query2);
               tx.executeSql(query2, [listId]);
-              var query3 = "update list set newCount =0, deliverCount = 0, seenCount = 0, crossCount = 0 , updateCount = 0 where listLocalId = ?";
-              tx.executeSql(query3, [listId]);
+              
 
               defer.resolve(openEntryList);
             }
@@ -177,6 +196,25 @@ angular.module('starter.services')
 
         return deferred.promise;
       };
+    ////////////////////////////////////////////////////////////////////////////////
+    function removeAllEntries() {
+
+        var deferred = $q.defer();
+        var query = "DELETE FROM entry ";
+        dbHandler.runQuery(query, [], function (response) {
+          //Success Callback
+          console.log(response);
+          deferred.resolve(response);
+        }, function (error) {
+          //Error Callback
+          console.error(error);
+          deferred.reject(error);
+        });
+
+        return deferred.promise;
+      };
+    
+    ///////////////////////////////////////////////////////////////////////////////////
       function buildListEntries(listLocalId) {
         var defer = $q.defer();
         $q.all([getAllEntry(listLocalId), getCheckedItem(listLocalId), getSuggestedItem()]).then(function (res) {
@@ -193,7 +231,7 @@ angular.module('starter.services')
             //var deletePromises = [];
 
             global.currentListEntries.listOpenEntries.entries.forEach(function (entry) {
-              if (entry.flag == 5) {
+              if (/*entry.flag == 5*/entry.createStatus == 'FE_CREATED') {
                 createPromies.push(serverHandlerEntryEvents.applyEvent(entry, 'CREATE-SEEN', 'local'));
               }
               if (entry.updatedFlag == 5) {
@@ -235,8 +273,8 @@ angular.module('starter.services')
         console.log('updateEntry Entry = ' + angular.toJson(entry));
         var deferred = $q.defer();
         global.db.transaction(function (tx) {
-            var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, updatedFlag = 1 where entryLocalId = ?";
-            tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId, entry.entryLocalId]);
+            var updateQuery = "update entry set quantity = ?, uom=?, retailerLocalId = ?, updatedFlag = 1,lastupdatedate=datetime('now','localtime') where entryLocalId = ?";
+            tx.executeSql(updateQuery, [entry.quantity, entry.uom, entry.retailerLocalId,entry.entryLocalId]);
           },
           function (err) {
             console.error("updateEntry  db err " + err.message);
@@ -292,7 +330,8 @@ angular.module('starter.services')
         deactivateItem: serverHandlerEntryV2.deleteLocalEntry,
         updateEntry: updateEntry,
         buildListEntries: buildListEntries,
-        getSuggestedItem: getSuggestedItem
+        getSuggestedItem: getSuggestedItem,
+        removeAllEntries:removeAllEntries
 
       };
     }

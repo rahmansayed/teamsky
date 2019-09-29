@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate, $ionicModal, $ionicPopover,settings,$ionicHistory,$window) {
+  .controller('listItem', function ($scope, $state, $ionicModal, $ionicPopup, $timeout, serverHandlerEntryV2, serverHandlerItemsV2, localItemHandlerV2, localEntryHandlerV2, localListHandlerV2, $ionicHistory, global, localRetailerHandlerV2, $ionicSideMenuDelegate, $ionicGesture, localUOMHandlerV2, $translate,  $ionicPopover,settings,$ionicHistory,$window) {
 
 
     $scope.uoms = [];
@@ -13,6 +13,8 @@ angular.module('starter.controllers')
     // $scope.checkedItems = [];
     $scope.retailers = [];
     $scope.suggestedItem = [];
+
+$scope.userServerId = Number(global.userServerId);
 
 
     localUOMHandlerV2.getAllUOMs().then(function (uoms) {
@@ -45,6 +47,43 @@ angular.module('starter.controllers')
     //   });
 
 
+    
+    
+/*----------------------------------------------------------------------------------------*/
+    /*set the color of the contact shown based on status*/
+    $scope.setColor = function (createdBy, element) {
+        //console.log('aalatief - createdBy '+createdBy+' element : '+element);
+      if (element == 'color') {
+        if (createdBy == Number(global.userServerId)) {
+            /*console.log('aalatief - case1 '+createdBy+' element : '+element);*/
+          return {backgroundColor: "#DCF8C6",marginLeft:"10%"};
+        }
+        else if (!createdBy)  {
+           /* console.log('aalatief - case2 '+createdBy+' element : '+element);*/
+            return {backgroundColor: "#DCF8C6",marginLeft:"10%"};
+        }
+        else {
+            /*console.log('aalatief - case3 '+createdBy+' element : '+element);*/
+            return {backgroundColor: "white",marginRight:"10%"};
+        }
+      }
+      else if (element == 'padding') {
+        if (createdBy == Number(global.userServerId)) {
+          return {paddingRight:"50px !important"};
+        }
+        else if (!createdBy)  {
+            return {paddingRight:"50px !important"};
+        }
+        else {
+            return {paddingLeft:"50px !important"};
+        }
+      }
+    };
+
+
+    /*-----------------------------------------------------------------------------------------*/
+    
+    
     /*------------------------------------------------------------------*/
     /*Load all Master Items*/
     if (global.masterItems) {

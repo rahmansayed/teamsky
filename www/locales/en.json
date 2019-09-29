@@ -66,7 +66,8 @@
   "REORDER":"Reorder",
   "HIDESHOW":"Hide/Show Details",
   "FOLD":"Fold/Unfold All",
-  "SHARED":"Shared with:"
+  "SHARED":"Shared with:",
+  "OWNER":"Owner "
     
 }
 

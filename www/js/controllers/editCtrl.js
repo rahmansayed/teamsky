@@ -74,11 +74,12 @@ angular.module('starter.controllers')
                 localListHandlerV2.kickContact(list.listLocalId,listUser.contactLocalId)
                   .then(function (ret) {
                     console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + angular.toJson(ret));
-                    $state.reload();
+                            $scope.myGoBack();
                   }, function (err) {
                     console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + angular.toJson(err));
                   });
                     alert('delete'+listUser.contactName);
+
                 break;
               case 2:
                 // The second button was pressed
@@ -102,6 +103,7 @@ angular.module('starter.controllers')
             localListHandlerV2.kickContact(listUser.listLocalId,list.contactLocalId)
               .then(function (ret) {
                 console.log('22/02/2017 - listCtrl - aalatief - Rows affected: ' + angular.toJson(ret));
+                $state.go('lists');
                 $state.reload();
               }, function (err) {
                 console.log('22/02/2017 - listCtrl - aalatief - ERROR Rows affected: ' + angular.toJson(err));
@@ -111,6 +113,7 @@ angular.module('starter.controllers')
         })
       }
       ;
+
     };
 
 /*Share with Contact */

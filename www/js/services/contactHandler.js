@@ -317,9 +317,9 @@ angular.module('starter.services')
           }
           else {
             var query = "insert " +
-              " into listUser (listLocalId ,contactLocalId ,privilage ,lastUpdateDate ,lastUpdateBy, flag ) values (?,?,?,?,?, 'N')";
+              " into listUser (listLocalId ,contactLocalId ,privilage ,lastUpdateDate ,lastUpdateBy, flag ) values (?,?,?,?,datetime('now','localtime'), 'N')";
 
-            tx.executeSql(query, [listLocalId, contactLocalId, null, new Date().getTime(), null], function (tx, response) {
+            tx.executeSql(query, [listLocalId, contactLocalId, null, null], function (tx, response) {
               //Success Callback
               console.log('addListContact response.insertId' + angular.toJson(response.insertId));
               listUserId = response.insertId;
@@ -347,9 +347,9 @@ angular.module('starter.services')
 
       var deferred = $q.defer();
 
-      var query = "update contact  set contactStatus=?,contactServerId=?,lastUpdateDate=?,lastUpdateby = ? where contactLocalId = ?";
+      var query = "update contact  set contactStatus=?,contactServerId=?,lastUpdateDate=datetime('now','localtime'),lastUpdateby = ? where contactLocalId = ?";
 
-      dbHandler.runQuery(query, [status, contactServerId, new Date().getTime(), 'S', contactLocalId], function (response) {
+      dbHandler.runQuery(query, [status, contactServerId , 'S', contactLocalId], function (response) {
         //Success Callback
         console.log('13/2/2017 - ContactHandler - aalatief : Success Contact Status - Server Id update' + angular.toJson(response));
         /*            listUserId = response;
@@ -369,9 +369,9 @@ angular.module('starter.services')
 
       var deferred = $q.defer();
 
-      var query = "update contact  set contactStatus=?,lastUpdateDate=?,lastUpdateby = ? where contactServerId = ?";
+      var query = "update contact  set contactStatus=?,lastUpdateDate=datetime('now','localtime'),lastUpdateby = ? where contactServerId = ?";
 
-      dbHandler.runQuery(query, [status, new Date().getTime(), 'S', contactServerId], function (response) {
+      dbHandler.runQuery(query, [status,  'S', contactServerId], function (response) {
         //Success Callback
         console.log('18/11/2018 - ContactHandler - aalatief : Success Contact Status - Server Id update' + JSON.stringify(response));
         /*            listUserId = response;
@@ -391,9 +391,9 @@ angular.module('starter.services')
 
       var deferred = $q.defer();
 
-      var query = "update contact  set contactName=?,lastUpdateDate=?,lastUpdateby = ? where contactServerId = ?";
+      var query = "update contact  set contactName=?,lastUpdateDate=datetime('now','localtime'),lastUpdateby = ? where contactServerId = ?";
 
-      dbHandler.runQuery(query, [name, new Date().getTime(), 'S', contactServerId], function (response) {
+      dbHandler.runQuery(query, [name, 'S', contactServerId], function (response) {
         //Success Callback
         console.log('18/11/2018 - ContactHandler - aalatief : Success Contact name - Server Id update' + JSON.stringify(response));
         /*            listUserId = response;
@@ -408,6 +408,38 @@ angular.module('starter.services')
       return deferred.promise;
     };
     
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+      function getContactName(contactServerId) {
+      var defer = $q.defer();
+      console.log("getContactName contact = " + angular.toJson(contactServerId));
+      global.db.transaction(function (tx) {
+        var query = "select contactName from contact where contactServerId = ?";
+ 
+
+        console.log("getContactName query = " + query);
+
+        tx.executeSql(query, [contactServerId], function (tx, res) {
+          if (res.rows.length > 0) {
+            console.log("getContactName res.rows.item(0).contactName = " + res.rows.item(0).contactName);
+            defer.resolve(res.rows.item(0).contactName);
+          } else {
+             console.error("getContactName no data found = " );
+              defer.resolve();
+            }
+          
+        }, function (err) {
+          console.error("getContactName err = " + err.message);
+          defer.reject();
+        });
+      
+
+      return defer.promise;
+       });
+                            }
+    ////////////////
     
     
     function checkProspect(prospect, listServerId) {
@@ -644,7 +676,8 @@ angular.module('starter.services')
       upsertContact: upsertContact,
       downloadContactPhoto: downloadContactPhoto,
       listContactsUpstreamer: listContactsUpstreamer,
-      downloadContactsPhotos: downloadContactsPhotos
+      downloadContactsPhotos: downloadContactsPhotos,
+      getContactName:getContactName
     };
 
 

@@ -151,7 +151,13 @@ angular.module('starter.services')
         console.log("serverListHandler.createList list = " + angular.toJson(list));
         var defer = $q.defer();
         
-        var deviceModel = device.model;
+         if (window.cordova)  {
+            var deviceModel = device.model;
+          }
+          else
+              {
+                  deviceModel = 'WEB'
+              }
 
         data = {
           userServerId: parseInt(global.userServerId),
@@ -372,7 +378,7 @@ angular.module('starter.services')
        */
       function deactivateServerList(listServerId) {
         var defer = $q.defer();
-
+       console.log("aalatief - serverHandlerListV2.deactivateServer : "+JSON.stringify(listServerId));
         global.db.transaction(function (tx) {
             // determine if the list needs update
             var query = "select listLocalId from list where listServerId = ? and ifnull(deleted,'N') = 'N'";
@@ -381,8 +387,10 @@ angular.module('starter.services')
                   var updateQuery = "update list set deleted = 'Y' where listServerId = ?";
                   tx.executeSql(updateQuery, [listServerId]);
                   defer.resolve({status: 'Y'})
+                  console.log('aalatief - Deactivate Success');
                 }
                 else {
+                    console.log('aalatief - Deactivate Fail');
                   defer.resolve({status: 'N'})
                 }
               },
@@ -426,6 +434,7 @@ angular.module('starter.services')
             for (var i = 0; i < response.data.length; i++) {
               if (response.data[i].ownerServerId == global.userServerId) {
                 if (response.data[i].list.status == 'Active') {
+                  console.log("aalatief - serverHandlerListV2.syncListsDownstream=  " + JSON.stringify(response.data[i]));   
                   upsertPromises.push(upsertServerList(response.data[i]));
                 }
                 else {
@@ -435,8 +444,9 @@ angular.module('starter.services')
               } else {
                 // determing my user index
                 for (var j = 0; j < response.data[i].list.relatedusers.length; j++) {
-                  if (response.data[i].list.relatedusers[j].userid == global.userServerId) {
+                  if (response.data[i].list.relatedusers[j].userid != global.userServerId) {
                     if (response.data[i].list.relatedusers[j].status == 'Active' && response.data[i].list.status == 'Active') {
+                      console.log("aalatief - serverHandlerListV2.syncListsDownstream - Case not created by user  " + JSON.stringify(response.data[i]));    
                       upsertPromises.push(upsertServerList(response.data[i]));
                     }
                     else {
@@ -518,7 +528,8 @@ angular.module('starter.services')
           listDesc: list.listDescription,
           listColour: "Red",
           listOrder: "1",
-          userServerId: parseInt(global.userServerId)
+          userServerId: parseInt(global.userServerId),
+          deviceServerId : Number(global.deviceServerId)    
         };
         console.log(" List to Be Updated => " + angular.toJson(data));
 

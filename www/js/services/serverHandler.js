@@ -29,6 +29,7 @@ angular.module('starter.services')
             console.log('serverHandler syncLocalItemsUpstream done');
             serverHandlerEntryV2.syncEntriesUpstream().then(function () {
               $q.all([
+                //serverHandlerEntryEvents.syncEventUpstream('CREATE'),  
                 serverHandlerEntryEvents.syncEventUpstream('CREATE-SEEN'),
                 //serverHandlerEntryEvents.syncEventUpstream('CREATE-DELIVER'),
                 serverHandlerEntryEvents.syncEventUpstream('CROSS-SEEN'),

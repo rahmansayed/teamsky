@@ -185,13 +185,13 @@ angular.module('starter.services')
           console.log('addMaserItem item = ' + angular.toJson(item));
 
           global.db.transaction(function (tx) {
-            var query_item = "INSERT INTO masterItem " +
+            var query_item = "INSERT or ignore INTO masterItem " +
               "(itemLocalId,itemName,categoryLocalId,vendorLocalId,itemServerId,itemPriority,lastUpdateDate, origin, flag, genericFlag) " +
-              "VALUES (?,?,?,?,?,?,?, 'L', 'N',0)";
+              "VALUES (?,?,?,?,?,?,datetime('now','localtime'), 'L', 'N',0)";
             var getDefaultCategoryId = "select categoryLocalId from category where categoryName = 'New Items'";
             tx.executeSql(getDefaultCategoryId, [], function (tx, res) {
               console.log('addMaserItem getDefaultCategoryId  res.rows.item(0).categoryLocalId = ' + res.rows.item(0).categoryLocalId);
-              tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, res.rows.item(0).categoryLocalId, '', '', 1, new Date().getTime()], function (tx, res2) {
+              tx.executeSql(query_item, [null/*item.itemLocalId*/, item.itemName, res.rows.item(0).categoryLocalId, '', '', 1], function (tx, res2) {
                 var query_lang = "INSERT INTO masterItem_tl (itemLocalId, language, itemName, lowerItemName) values (?,?,?, ?)";
                 var lang = isRTL(item.itemName) ? 'AR' : 'EN';
                 tx.executeSql(query_lang, [res2.insertId, lang, item.itemName, item.itemName.toLowerCase()], function (tx, res3) {

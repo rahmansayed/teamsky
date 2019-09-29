@@ -161,6 +161,35 @@ angular.module('starter.services')
         });
       }
 
+          function buildLocalIds2(entries) {
+        var result = {};
+        var items = [];
+        var retailers = [];
+        var lists = [];
+
+        for (var i = 0; i < entries.length; i++) {
+          lists.push(entries[i].listServerId);
+          if (entries[i].itemServerId) {
+            items.push(entries[i].itemServerId);
+          }
+          else {
+            items.push(entries[i].itemServerId);
+          }
+          if (entries[i].retailerServerId)
+            retailers.push(entries[i].retailerServerId);
+          else if (entries[i].retailerServerId) {
+            retailers.push(entries[i].retailerServerId);
+          }
+        }
+
+        return $q.all({
+          retailers: getRetailersLocalIds(retailers),
+          lists: getListsLocalIds(lists, entries),
+          items: getItemslocalIds(items)
+        });
+      }
+    
+    
       function insertLocalRetailerDownstream(retailers) {
         var defer = $q.defer();
 
@@ -202,7 +231,7 @@ angular.module('starter.services')
           tx.executeSql(getDefaultCategoryId, [], function (tx, res) {
             items.forEach(function (item) {
 
-              var query = "insert into masterItem " +
+              var query = "insert or ignore into masterItem " +
                 "(itemLocalId, itemName, categoryLocalId, vendorLocalId, itemServerId, origin, flag, genericFlag, itemPriority) values" +
                 "(null,?,?,'',?,'O', 'S', 0,0)";
 
@@ -350,18 +379,69 @@ angular.module('starter.services')
           }
         }
       }
+    
+    function getLocalIdFromServerId (serverId,reqReturn){
+        var defer = $q.defer();
+        var ret = {};
+        var query = " ";
+        
+        console.log('aalatief - getLocalIdFromServerId serverId: '+serverId+'reqReturn'+reqReturn );
+        
+       switch (reqReturn) {
+       case "category":
+        query = "select distinct categoryLocalId as localId " +
+                    " from category c " +
+                    " where c.categoryServerId = ?; ";
+        break;
+        case "list":
+        query = " select l.listlocalid localId "+
+                " from list l "+
+                " where l.listserverid = ? ; " ;
+        break; 
+        case "item":
+           
+         query = "select distinct i.itemlocalid localId " +
+                 " from masteritem  i " +
+                 " where i.itemserverid = ? ;"  ;
+        console.log('aalatief - case Item Entered: ' + query);         
+        break;         
+        case "retailer":
+        query = "select distinct r.retailerlocalid localId " +
+        " from retailer r " +
+        " where r.retailerserverid = ?; ";     
+        break;         
+               
+       }
+        global.db.transaction(function (tx) {
+          tx.executeSql(query, [serverId],
+          function (tx, res) {
+              console.log("dbHelper.getLocalIdFromServerId = " + JSON.stringify(res.rows));
+            ret.localId = res.rows.item(0).localId;
+            defer.resolve(ret);
+          }, function (err) {
+            console.error("dbHelper.getLocalIdFromServerId err = " + err.message);
+            defer.reject(err);
+          });},function(error){
+            
+            
+        })
+        return defer.promise;
+        
+    }
 
 
       return {
         getListsLocalIds: getListsLocalIds,
         getRetailersLocalIds: getRetailersLocalIds,
         buildLocalIds: buildLocalIds,
+        buildLocalIds2:buildLocalIds2,
         insertLocalItemsDownstream: insertLocalItemsDownstream,
         insertLocalRetailerDownstream: insertLocalRetailerDownstream,
         getLocalIds: getLocalIds,
         getCategoryLocalIdfromMap: getCategoryLocalIdfromMap,
         buildCatgegoriesMap: buildCatgegoriesMap,
-        getRetailerLocalIdfromMap: getRetailerLocalIdfromMap
+        getRetailerLocalIdfromMap: getRetailerLocalIdfromMap,
+        getLocalIdFromServerId: getLocalIdFromServerId  
       }
     }
   )

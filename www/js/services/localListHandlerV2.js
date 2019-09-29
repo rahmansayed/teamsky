@@ -41,10 +41,10 @@ angular.module('starter.services')
       console.log('aalatief - Entered List: ' + angular.toJson(list));
       var deferred = $q.defer();
       var query = "INSERT INTO list (listLocalId,listName,listDescription,listServerId,listColor,listOrder,deleted,newCount, crossCount, lastUpdateDate, lastUpdateBy, origin, flag, listOwnerServerId) " +
-        "VALUES (null,?,?,'','','','N',0,0,?,?,'L', 'N', ?)";
+        "VALUES (null,?,?,'','','','N',0,0,datetime('now','localtime'),?,'L', 'N', ?)";
 
       global.db.transaction(function (tx) {
-        tx.executeSql(query, [list.listName, list.listDescription, new Date().getTime(), 'L', global.userServerId], function (tx, response) {
+        tx.executeSql(query, [list.listName, list.listDescription, 'L', global.userServerId], function (tx, response) {
           //Success Callback
           console.log("localListHandlerV2.addNewList  res " + angular.toJson(response));
           list.listLocalId = response.insertId;
@@ -80,13 +80,14 @@ angular.module('starter.services')
        " group by l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,c.contactName,c.contactStatus,l.newCount, l.listOwnerServerId";
        */
 
-      var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount , l.listOwnerServerId, count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
+      var query = "select l.listLocalId,l.listName,l.listDescription,l.listServerId,l.deleted,l.newCount , l.listOwnerServerId,c.contactName, count(distinct eo.entryLocalId) as totalOpen, count(distinct ec.entryLocalId) as totalCrossed " +
         " from " +
         " ( " +
-        "    (list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and eo.deleted = 0) " +
+        "    list as l left join entry as eo on  eo.listLocalId = l.listLocalId and eo.entryCrossedFlag = 0 and eo.deleted = 0 " +
         /*commented by aalatief: to fix count issue 27/3/2018*/  
         /*"     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag = 1 and ec.deleted = 0 " +*/
           "     left join entry as ec on ec.listLocalId = l.listLocalId and ec.entryCrossedFlag != 0 and ec.deleted = 0 " +
+          "     left join contact as c on c.contactServerId = l.listOwnerServerId "+
         " ) " +
         " where ifnull(l.deleted, 'N') = 'N' ";
       if (listLocalId) {
@@ -227,8 +228,9 @@ angular.module('starter.services')
         tx.executeSql(query, [listLocalId, contactLocalId], function (tx, res) {
           console.log("kickContact db success");
           serverHandlerListV2.kickContact(listLocalId, contactLocalId).then(function () {
-              var reflectServerStatusQuery = "listUser set deleted = 'S' where listLocalId = ? and contactLocalId = ?";
+              var reflectServerStatusQuery = "update listUser set deleted = 'S' where listLocalId = ? and contactLocalId = ?";
               tx.executeSql(reflectServerStatusQuery, [listLocalId, contactLocalId]);
+             /* console.log("aalatief -  reflectServerStatusQuery No Idea!!");*/
             },
             function (err) {
               console.error("kickContact server error = " + err);

@@ -39,6 +39,7 @@
     position: relative;
 }
 
+
 /*on-popover-view.fit {
   height: auto;
 }
@@ -215,8 +216,23 @@ label.show {
 }*/
 
 
+.item .item-content {
+    background-color: transparent!important;
+
+}
+
+
+.item-content {
+/*        padding-top:7px!important;
+    padding-bottom: 3px!important;*/
+            padding-top:3px!important;
+    padding-bottom: 0px!important;
+    
+}
+
+
 .classS { 
-    background-color: #DCF8C6;
+    background-color:#DCF8C6;
 }
 
 .classP { 
@@ -351,6 +367,10 @@ em,i{
   /*border-color: red;*/
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
   transform: translate3d(0, 0, 0);
+      padding-top:5px!important;
+    padding-bottom: 5px!important;
+    
+
 }
 
 select:required:invalid {

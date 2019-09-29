@@ -34,11 +34,11 @@ angular.module('starter.services')
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function addItemsLocalV2(itemsList) {
-//        console.log("itemsList = " + angular.toJson(itemsList));
+        console.log("itemsList = " + angular.toJson(itemsList));
 
         var defer = $q.defer();
 
-        var query_insert_c = "insert into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) " +
+        var query_insert_c = "insert or ignore into masterItem  (itemLocalId,itemServerId,itemName, categoryLocalId, origin, flag, genericFlag, itemPriority) " +
           " values (null,?,?," +
           " ( select categoryLocalId from category where categoryName = ? ) " +
           ", 'S', 'S',?,0)";
@@ -59,7 +59,10 @@ angular.module('starter.services')
             for (var j = 0; j < item.translation.length; j++) {
               var transItemName = item.translation[j].itemName;
               var transLang = item.translation[j].lang;
+              //console.log('aaaltief - item._id: '+item._id+'transItemName: '+ transItemName);  
+              if (transItemName !== null) {   
               tx.executeSql(query_tl_insert, [item._id, transLang, transItemName, transItemName.toLowerCase()]);
+              }
             }
 
           });
@@ -93,7 +96,7 @@ angular.module('starter.services')
               console.log("serverHandlerMasterItemV2 syncMasterItemsDownstream Result JSON=> maxImteServerId " + maxItemServerId);
 
               var data = {
-                maxItemServerId: maxItemServerId,
+                maxItemServerId: Number(maxItemServerId),
                 userServerId: global.userServerId,
                 deviceServerId: global.deviceServerId,
                 countryCode: global.countryCode
@@ -102,7 +105,13 @@ angular.module('starter.services')
               console.log("syncMasterItemsDownstream data = " + angular.toJson(data));
               $http.post(global.serverIP + "/api/items/get", data)
                 .then(function (serverResponse) {
+                  
+/*                        var filteredArray = serverResponse.filter(function(item, pos){
+                          return serverResponse.indexOf(item)== pos; 
+                        });
+                  console.log("syncMasterItemsDownstream serverResponse filteredArray"+filteredArray );*/
                   console.log("syncMasterItemsDownstream serverResponse.data.length = " + angular.toJson(serverResponse.data.length));
+                  console.log("syncMasterItemsDownstream serverResponse.data"+JSON.stringify(serverResponse.data));
                   if (serverResponse.data.length > 0) {
                     addItemsLocalV2(serverResponse.data).then(function (string) {
                       localItemHandlerV2.getAllMasterItem().then(function (res) {
@@ -118,7 +127,7 @@ angular.module('starter.services')
                     defer.resolve();
                   }
                 }, function (err) {
-                  console.error("syncMasterItemsDownstream server error " + error.message);
+                  console.error("syncMasterItemsDownstream server error " + err.message);
                   defer.reject(err);
                 });
 
@@ -174,7 +183,12 @@ angular.module('starter.services')
 
         console.log("syncLocalItemsUpstream started");
 
-        var query = "SELECT  * FROM masterItem where itemServerId = ''";
+        var query = "SELECT  i.*,c.categoryserverid "+
+                    "FROM masterItem i, "+
+	                "category c "+
+                    "where 1=1 "+
+                    "and  c.categorylocalid = i.categorylocalid "+
+                    "and itemServerId = ''";
 
         global.db.transaction(function (tx) {
             tx.executeSql(query, [],
@@ -201,17 +215,17 @@ angular.module('starter.services')
                       global.db.transaction(function (tx) {
                         for (i = 0; i < serverResponse.data.length; i++) {
                           var item = serverResponse.data[i];
-                          tx.executeSql(query, [item.userItemServerId, 'S', item.itemLocalId]);
+                          tx.executeSql(query, [item.itemserverid/*userItemServerId*/, 'S', item.itemLocalId]);
                         }
                       }, function (err) {
-                        console.log("serverHandlerMasterItemV2.syncLocalItems db update error = " + err.message);
+                        console.log("serverHandlerMasterItemV2.syncLocalItems db update error = " + JSON.stringify(err.message));
                         defer.reject();
                       }, function () {
-                        console.log("serverHandlerMasterItemV2.syncLocalItems db update success = ");
+                        console.log("serverHandlerMasterItemV2.syncLocalItems db update success = "+JSON.stringify(serverResponse));
                         defer.resolve();
                       })
                     }, function (error) {
-                      console.log("serverHandlerMasterItemV2.syncLocalItems server Error = " + error.message);
+                      console.log("serverHandlerMasterItemV2.syncLocalItems server Error = " + JSON.stringify(error.message));
                       defer.reject(error);
                     });
                 }
@@ -219,13 +233,13 @@ angular.module('starter.services')
                   defer.resolve();
                 }
               }, function (err) {
-                console.log("serverHandlerMasterItemV2.syncLocalItems db select error = " + err.message);
+                console.log("serverHandlerMasterItemV2.syncLocalItems db select error = " + JSON.stringify(err.message));
                 defer.reject(err);
               });
           }
           ,
           function (error) {
-            console.log("serverHandlerMasterItemV2.syncLocalItems db select error = " + error.message);
+            console.log("serverHandlerMasterItemV2.syncLocalItems db select error = " + JSON.stringify(error.message));
             defer.reject(error);
           });
 
