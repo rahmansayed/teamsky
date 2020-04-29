@@ -44,6 +44,6 @@
   ],
   "author": "Mobify",
   "dependencies": {
-    "jquery": "2.2.2"
+    "jquery": "3.5.0"
   }
 }
