@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "description": "An Ionic project",
   "devDependencies": {
-    "@ionic/v1-toolkit": "1.0.8",
+    "@ionic/v1-toolkit": "3.2.20",
     "gulp": "^4.0.0",
     "gulp-clean-css": "^3.7.0",
     "gulp-rename": "^1.2.0",
